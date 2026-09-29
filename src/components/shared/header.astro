@@ -1,0 +1,66 @@
+---
+import Logo from "@/components/shared/logo.astro";
+import { NAV_ITEMS } from "@/data";
+import { ArrowDown } from "@/components/icons";
+import MegaMenu from "@/components/ui/mega-menu.astro";
+---
+
+<header class="px-surface-x py-3.5 bg-header text-foreground z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 delay-180 ease-[ease]">
+  <!-- logo -->
+  <a
+    href="/"
+    class="flex-1 h-6 text-white inline-flex justify-self-start items-center max-w-full"
+  >
+    <Logo />
+  </a>
+
+  <!-- nav menus -->
+  <nav class="flex w-auto justify-center my-0 gap-9 text-body-md font-[450]">
+    {NAV_ITEMS.map((item) =>
+      item.menu ? (
+        <div class="group flex items-center">
+          <a
+            class="link-underline py-1 text-white no-underline cursor-pointer"
+            href={item.href}
+          >
+            {item.label}
+            <ArrowDown
+              aria-label="Expand menu"
+              className="group-hover:rotate-180"
+            />
+          </a>
+
+          {/* mega menu */}
+          {/* <MegaMenu /> */}
+        </div>
+      ) : (
+        <a
+          class="link-underline py-1 text-white no-underline cursor-pointer"
+          href={item.href}
+        >
+          {item.label}
+        </a>
+      ),
+    )}
+  </nav>
+
+  <!-- nav right -->
+  <div class="flex flex-1 items-center justify-end gap-7">
+    <a
+      href="https://my-shop.fourthwall.com/admin/dashboard"
+      class="link-underline py-1 text-white no-underline text-body-md font-[450]"
+    >
+      Log in
+    </a>
+
+    <a
+      href="https://fourthwall.com/get-started"
+      class="link-underline inline-flex items-center gap-2.5 font-body text-body-md py-3 px-5 rounded-lg bg-background text-foreground max-w-full font-[450] group"
+    >
+      <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+        <span class="text-motion group-hover:-translate-y-full">Start now</span>
+        <span class="text-motion group-hover:-translate-y-full">Start now</span>
+      </div>
+    </a>
+  </div>
+</header>

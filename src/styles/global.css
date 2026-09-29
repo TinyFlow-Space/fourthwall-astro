@@ -3,17 +3,77 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
+  --surface-dark: #0a0a0a;
+  --header-bg: #0000;
+  --surface-x: 40px;
+  --fw-radius-lg: 12px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface-dark: var(--surface-dark);
+  --color-header: var(--header-bg);
 
   --font-body: var(--font-inter);
   --text-body-md: clamp(16px, 14px + 0.2083vw, 22px);
   --leading-relaxed: 1.65;
+  --leading-tight: 1.12;
+  --padding-surface-x: var(--surface-x);
+
+  --radius-lg: var(--fw-radius-lg);
+}
+
+@utility link-underline {
+  @apply relative inline-block transition-[background-color,color] duration-320 delay-180 ease-[ease];
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+@utility text-motion {
+  @apply block translate-y-0 transition-transform duration-280 ease-[cubic-bezier(0.65,0,0.35,1)];
+}
+
+@utility mega-menu__mask {
+  @apply mask-[linear-gradient(#000,#000)]
+    mask-no-repeat mask-size-[100%_0%] [transition:mask-size_.32s_cubic-bezier(.5,0,.75,.2)_.18s];
+
+  -webkit-mask-image: linear-gradient(#000, #000);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 0%;
+  -webkit-transition: -webkit-mask-size 0.32s cubic-bezier(0.5, 0, 0.75, 0.2)
+    0.18s;
+}
+
+@layer components {
+  .menu-menu {
+    @apply absolute invisible pointer-events-auto text-foreground top-[calc(100%-1px)] right-0 left-0
+      transition-[visibility] duration-0 delay-500 ease-linear;
+  }
 }
 
 * {
   -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+a {
+  text-underline-offset: 0.3em;
+  cursor: pointer;
 }

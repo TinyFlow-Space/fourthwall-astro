@@ -14,4 +14,8 @@ export default defineConfig({
       cssVariable: "--font-inter",
     },
   ],
+  // image: {
+  //   domains: ["fourthwall.com"],
+  //   remotePatterns: [{ protocol: "https" }],
+  // },
 });

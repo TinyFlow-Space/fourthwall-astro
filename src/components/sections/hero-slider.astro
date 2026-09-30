@@ -16,7 +16,7 @@ import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
     {HERO_SLIDERS.map((item, index) => (
       <div
         data-carousel-item
-        class="flex m-0 flex-none flex-col snap-start scatter-reveal scatter-reveal-active"
+        class="hero-track-item flex m-0 flex-none flex-col snap-start scatter-reveal scatter-reveal-active cursor-none"
         style={{
           "--stagger-index": index,
           "--rise-distance": "56px",
@@ -29,7 +29,7 @@ import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
           target="_blank"
           aria-label={item.title}
           class={cn(
-            "aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)]",
+            "aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)] cursor-none!",
             item.type === "video" &&
               "aspect-6/5 w-[calc(1.2*clamp(320px,35vw,960px))]",
           )}
@@ -108,9 +108,18 @@ import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
       </svg>
     </CarouselNavButton>
   </div>
+
+  <!-- custom cursor tracking -->
+  <div
+    data-hero-cursor
+    aria-hidden="true"
+    class="fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
+  ></div>
 </div>
 
 <script>
+  import gsap from "gsap";
+
   const root = document.querySelector("[data-hero-slider]");
 
   if (root) {
@@ -197,5 +206,66 @@ import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
 
       updateStates();
     }
+  }
+
+  // cursor tracking
+  const cursor = document.querySelector<HTMLElement>("[data-hero-cursor]");
+  const canHover = window.matchMedia(
+    "(hover: hover) and (pointer: fine)",
+  ).matches;
+
+  if (cursor && canHover) {
+    document.body.appendChild(cursor);
+
+    gsap.set(cursor, { xPercent: -50, yPercent: -50, autoAlpha: 0 });
+
+    const setX = gsap.quickTo(cursor, "x", { duration: 0.4, ease: "power3" });
+    const setY = gsap.quickTo(cursor, "y", { duration: 0.4, ease: "power3" });
+
+    let isActive = false;
+
+    const follow = (e: MouseEvent) => {
+      setX(e.clientX);
+      setY(e.clientY);
+    };
+
+    const show = (e: MouseEvent, label: string) => {
+      cursor.textContent = label;
+
+      if (!isActive) {
+        isActive = true;
+        // jump to the pointer on first enter (2nd arg = start value), no glide from 0,0
+        setX(e.clientX, e.clientX);
+        setY(e.clientY, e.clientY);
+        document.addEventListener("mousemove", follow);
+      } else {
+        follow(e);
+      }
+
+      gsap.to(cursor, {
+        autoAlpha: 1,
+        duration: 0.15,
+        ease: "none",
+        overwrite: "auto",
+      });
+    };
+
+    const hide = () => {
+      isActive = false;
+      document.removeEventListener("mousemove", follow);
+      gsap.to(cursor, {
+        autoAlpha: 0,
+        duration: 0.15,
+        ease: "none",
+        overwrite: "auto",
+      });
+    };
+
+    document.querySelectorAll<HTMLElement>(".hero-track-item").forEach((el) => {
+      el.addEventListener("mouseenter", (e) =>
+        show(e, el.dataset.cursorLabel ?? ""),
+      );
+      el.addEventListener("mouseleave", hide);
+    });
   }
 </script>

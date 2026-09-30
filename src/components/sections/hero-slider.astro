@@ -1,0 +1,102 @@
+---
+import { cn } from "@/utils";
+import { HERO_SLIDERS } from "@/data";
+---
+
+<div class="z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]">
+  <div class="flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden">
+    <!-- slider card -->
+    {HERO_SLIDERS.map((item, index) => (
+      <div
+        class="flex m-0 flex-none flex-col snap-start scatter-reveal scatter-reveal-active"
+        style={{
+          "--stagger-index": index,
+          "--rise-distance": "56px",
+        }}
+        data-cursor-label={item.title}
+      >
+        <a
+          rel="nofollow"
+          href={item.url}
+          target="_blank"
+          aria-label={item.title}
+          class={cn(
+            "aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)]",
+            item.type === "video" &&
+              "aspect-6/5 w-[calc(1.2*clamp(320px,35vw,960px))]",
+          )}
+        >
+          {item.type === "video" ? (
+            <video
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="auto"
+              poster={item.poster}
+              class="object-cover size-full block"
+            >
+              <source src={item.src} type="video/webm" />
+            </video>
+          ) : (
+            <img
+              src={item.src}
+              loading="eager"
+              fetchpriority="low"
+              alt={item.title}
+              class="object-cover size-full block"
+            />
+          )}
+        </a>
+      </div>
+    ))}
+  </div>
+
+  <!--  NEXT/PREV buttons -->
+  <div class="scatter-reveal scatter-reveal-active flex gap-3 absolute -top-19 right-10 z-3">
+    <button
+      type="button"
+      aria-label="Previous"
+      class={cn(
+        "w-13 h-13 text-white bg-[#ffffff24] inline-flex items-center justify-center rounded-full opacity-30",
+      )}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        class="w-7.5 h-7.5 block -translate-px"
+      >
+        <path
+          d="M15 6l-6 6 6 6"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+    <button
+      type="button"
+      aria-label="Previous"
+      class={cn(
+        "w-13 h-13 text-white bg-[#ffffff24] inline-flex items-center justify-center rounded-full",
+      )}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        class="w-7.5 h-7.5 block translate-px"
+      >
+        <path
+          d="M9 6l6 6-6 6"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>

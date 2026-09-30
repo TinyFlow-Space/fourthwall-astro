@@ -1,12 +1,38 @@
 ---
-
+import HeroSlider from "@/components/sections/hero-slider.astro";
 ---
 
 <section class="z-3 bg-surface-dark text-white p-0 relative overflow-hidden">
-    <!-- top content -->
-    <div class="px-surface-x pt-24 pb-6 flex items-end justify-between gap-10 min-h-[clamp(440px,35vh+15vw,820px)]">
-        
-    </div>
+  <!-- top content -->
+  <div class="px-surface-x relative pt-24 pb-6 flex items-end justify-between gap-10 min-h-[clamp(440px,35vh+15vw,820px)]">
+    <div class="relative flex flex-col items-start text-left">
+      <h1 class="rise-in max-w-[28ch] font-display text-heading-xl leading-flat text-balance normal-case my-0 p-0 tracking-[-0.02em] [animation-delay:100ms]">
+        One platform for premium products and branded shops.{" "}
+        <span class="text-muted-foreground">Easy to start. Ready to grow.</span>
+      </h1>
 
-    <!-- bottom slider -->
+      <div class="rise-in [animation-delay:300ms] mt-[clamp(36px,1.8vw,56px)] flex items-center flex-wrap gap-6">
+        <a
+          href="https://fourthwall.com/get-started"
+          class="link-underline inline-flex items-center gap-2.5 font-body text-body-md py-4.5 px-7 rounded-lg bg-background text-foreground max-w-full font-medium group"
+        >
+          <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+            <span class="text-motion group-hover:-translate-y-full">
+              Start now
+            </span>
+            <span class="text-motion group-hover:-translate-y-full">
+              Start now
+            </span>
+          </div>
+        </a>
+
+        <p class="text-muted-foreground text-body-md">
+          No upfront costs. No credit card required.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom slider -->
+  <HeroSlider />
 </section>

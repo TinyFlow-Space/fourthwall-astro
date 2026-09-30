@@ -3,8 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
+  --muted-foreground: #ffffff80;
   --surface-dark: #0a0a0a;
   --header-bg: #0000;
+  --paper-soft: #f6f6f6;
   --surface-x: 40px;
   --fw-radius-lg: 12px;
 }
@@ -12,16 +14,71 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
   --color-surface-dark: var(--surface-dark);
   --color-header: var(--header-bg);
+  --color-paper-soft: var(--paper-soft);
 
   --font-body: var(--font-inter);
+  --font-display: Saans, sans-serif;
+
   --text-body-md: clamp(16px, 14px + 0.2083vw, 22px);
+  --text-heading-xl: clamp(28px, max(4vw, min(7.5vw, 44px)), 96px);
+
   --leading-relaxed: 1.65;
   --leading-tight: 1.12;
+  --leading-flat: 1.05;
+
   --padding-surface-x: var(--surface-x);
 
   --radius-lg: var(--fw-radius-lg);
+
+  --ease-rise-in: cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes rise-in {
+    from {
+      opacity: 0.01;
+      transform: translateY(var(--rise-distance, 32px));
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* @keyframes scatter-rise {
+    0% {
+      opacity: 0.01;
+      transform: translateY(var(--scatter-rise-distance, 56px));
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  } */
+}
+
+@utility rise-in {
+  animation: rise-in 1.1s var(--ease-rise-in) backwards;
+}
+
+@utility scatter-reveal {
+  @apply translate-y-14 opacity-0;
+
+  transition:
+    opacity 1.8s var(--ease-rise-in),
+    transform 1.8s var(--ease-rise-in);
+  transition-delay: calc(var(--stagger-index, 0) * 0.15s);
+}
+
+@utility scatter-reveal-active {
+  @apply translate-y-0! opacity-100;
+
+  transition: none;
+  animation: rise-in 1.8s var(--ease-rise-in)
+    calc(var(--stagger-index, 0) * 0.15s) both;
 }
 
 @utility link-underline {
@@ -76,4 +133,25 @@
 a {
   text-underline-offset: 0.3em;
   cursor: pointer;
+}
+
+img {
+  vertical-align: middle;
+  max-width: 100%;
+  border: 0;
+}
+
+audio,
+canvas,
+progress,
+video {
+  vertical-align: baseline;
+}
+
+button,
+[type="button"],
+[type="reset"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+  border: 0;
 }

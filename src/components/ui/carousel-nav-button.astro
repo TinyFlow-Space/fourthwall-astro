@@ -1,0 +1,38 @@
+---
+import { cn } from "@/utils";
+
+const variants = {
+  default: "bg-[#ffffff24] text-white hover:bg-[#ffffff38]",
+  ghost: "bg-white/10 text-white/80 hover:bg-white/15",
+} as const;
+
+type Variant = keyof typeof variants;
+
+type CarouselNavButtonProps = {
+  class?: string;
+  variant?: Variant;
+  disabled?: boolean;
+  [key: string]: any;
+};
+
+const {
+  class: className,
+  variant = "default",
+  disabled = false,
+  ...props
+}: CarouselNavButtonProps = Astro.props;
+---
+
+<button
+  type="button"
+  {...props}
+  aria-disabled={disabled}
+  disabled={disabled}
+  class={cn(
+    "inline-flex h-13 w-13 items-center justify-center rounded-full transition-all duration-200 ease-out disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-30",
+    variants[variant],
+    className,
+  )}
+>
+  <slot />
+</button>

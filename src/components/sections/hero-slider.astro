@@ -1,13 +1,21 @@
 ---
 import { cn } from "@/utils";
 import { HERO_SLIDERS } from "@/data";
+import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
 ---
 
-<div class="z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]">
-  <div class="flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden">
+<div
+  data-hero-slider
+  class="z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]"
+>
+  <div
+    data-hero-track
+    class="flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden"
+  >
     <!-- slider card -->
     {HERO_SLIDERS.map((item, index) => (
       <div
+        data-carousel-item
         class="flex m-0 flex-none flex-col snap-start scatter-reveal scatter-reveal-active"
         style={{
           "--stagger-index": index,
@@ -54,18 +62,18 @@ import { HERO_SLIDERS } from "@/data";
 
   <!--  NEXT/PREV buttons -->
   <div class="scatter-reveal scatter-reveal-active flex gap-3 absolute -top-19 right-10 z-3">
-    <button
-      type="button"
+    <CarouselNavButton
+      data-carousel-prev
       aria-label="Previous"
-      class={cn(
-        "w-13 h-13 text-white bg-[#ffffff24] inline-flex items-center justify-center rounded-full opacity-30",
-      )}
+      variant="default"
+      disabled={true}
+      class="text-white"
     >
       <svg
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden="true"
-        class="w-7.5 h-7.5 block -translate-px"
+        class="block h-7.5 w-7.5 -translate-px"
       >
         <path
           d="M15 6l-6 6 6 6"
@@ -75,19 +83,20 @@ import { HERO_SLIDERS } from "@/data";
           stroke-linejoin="round"
         ></path>
       </svg>
-    </button>
-    <button
-      type="button"
-      aria-label="Previous"
-      class={cn(
-        "w-13 h-13 text-white bg-[#ffffff24] inline-flex items-center justify-center rounded-full",
-      )}
+    </CarouselNavButton>
+
+    <CarouselNavButton
+      data-carousel-next
+      aria-label="Next"
+      variant="default"
+      disabled={false}
+      class="text-white"
     >
       <svg
         viewBox="0 0 24 24"
         fill="none"
         aria-hidden="true"
-        class="w-7.5 h-7.5 block translate-px"
+        class="block h-7.5 w-7.5 translate-px"
       >
         <path
           d="M9 6l6 6-6 6"
@@ -97,6 +106,96 @@ import { HERO_SLIDERS } from "@/data";
           stroke-linejoin="round"
         ></path>
       </svg>
-    </button>
+    </CarouselNavButton>
   </div>
 </div>
+
+<script>
+  const root = document.querySelector("[data-hero-slider]");
+
+  if (root) {
+    const track = root.querySelector<HTMLElement>("[data-hero-track]");
+    const prevButton = root.querySelector<HTMLButtonElement>(
+      "[data-carousel-prev]",
+    );
+    const nextButton = root.querySelector<HTMLButtonElement>(
+      "[data-carousel-next]",
+    );
+
+    if (track && prevButton && nextButton) {
+      const getGap = () => {
+        const styles = window.getComputedStyle(track);
+        return Number.parseFloat(styles.gap || "0") || 0;
+      };
+
+      const getStepSize = () => {
+        const firstItem = track.querySelector<HTMLElement>(
+          "[data-carousel-item]",
+        );
+
+        if (!firstItem) return 0;
+
+        return firstItem.getBoundingClientRect().width + getGap();
+      };
+
+      const updateButtonState = (
+        button: HTMLButtonElement,
+        disabled: boolean,
+      ) => {
+        button.disabled = disabled;
+        button.setAttribute("aria-disabled", String(disabled));
+        button.classList.toggle("opacity-30", disabled);
+        button.classList.toggle("pointer-events-none", disabled);
+      };
+
+      const updateStates = () => {
+        const maxScrollLeft = Math.max(
+          track.scrollWidth - track.clientWidth,
+          0,
+        );
+        const atStart = track.scrollLeft <= 1;
+        const atEnd = track.scrollLeft >= maxScrollLeft - 1;
+
+        updateButtonState(prevButton, atStart);
+        updateButtonState(nextButton, atEnd);
+      };
+
+      const scrollByOneItem = (direction: number) => {
+        const stepSize = getStepSize();
+
+        if (!stepSize) return;
+
+        track.scrollBy({ left: direction * stepSize, behavior: "smooth" });
+        requestAnimationFrame(updateStates);
+      };
+
+      prevButton.addEventListener("click", () => {
+        if (prevButton.disabled) return;
+        scrollByOneItem(-1);
+      });
+
+      nextButton.addEventListener("click", () => {
+        if (nextButton.disabled) return;
+        scrollByOneItem(1);
+      });
+
+      track.addEventListener(
+        "scroll",
+        () => {
+          requestAnimationFrame(updateStates);
+        },
+        { passive: true },
+      );
+
+      if ("ResizeObserver" in window) {
+        const observer = new ResizeObserver(() => {
+          requestAnimationFrame(updateStates);
+        });
+
+        observer.observe(track);
+      }
+
+      updateStates();
+    }
+  }
+</script>

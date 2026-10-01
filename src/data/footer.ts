@@ -127,3 +127,18 @@ export const FOOTER_LINKS = [
     ],
   },
 ];
+
+export const FOOTER_BOTTOM_LINKS = [
+  {
+    name: "Acceptable use policy",
+    url: "/",
+  },
+  {
+    name: "Terms of service",
+    url: "/",
+  },
+  {
+    name: "Privacy policy",
+    url: "/",
+  },
+];

@@ -1,16 +1,20 @@
 ---
+import { FOOTER_BOTTOM_LINKS } from "@/data";
+import { cn } from "@/utils";
 ---
 
-<section class="py-20 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]">
-  <div class="w-full block">
-    <div>
+<section
+  data-wordmark-section
+  class="pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]"
+>
+  <div class="w-full block opacity-0 transform-[translate3d(0,120px,0)] reveal-transition footer-wordmark-wrap">
+    <div class="perspective-distant w-full block">
       <svg
-        class=""
+        class="logo block w-full h-auto text-white transform-3d origin-[center_top] transform-[rotateX(0deg)_rotateY(0deg)] transition-[transform_.25s_var(--ease-rise-in)]"
         viewBox="0 0 113 20"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         aria-hidden="true"
-        style="transform: rotateX(0deg) rotateY(0deg);"
       >
         <path
           fill-rule="evenodd"
@@ -32,4 +36,80 @@
       </svg>
     </div>
   </div>
+
+  <!-- footer bottom -->
+  <div class="w-full mt-12 pb-5 text-muted-foreground text-body-md flex justify-between">
+    <span>© Fourthwall</span>
+
+    {FOOTER_BOTTOM_LINKS.map((item) => (
+      <a
+        href={item.url}
+        aria-label={item.name}
+        class={cn(
+          "link-underline text-inherit [transition:color_0.2s] after:-bottom-0.5 hover:text-white hover:decoration-white",
+        )}
+      >
+        {item.name}
+      </a>
+    ))}
+
+    <button
+      data-scroll-to="top"
+      aria-label="Back to top"
+      class="cursor-pointer text-inherit bg-surface-dark inline-flex items-center p-0 no-underline transition-[color_.2s] hover:text-white"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        class="shrink-0 size-6"
+      >
+        <path
+          d="M12 19V5M5 12l7-7 7 7"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </button>
+  </div>
 </section>
+
+<script>
+  const section = document.querySelector<HTMLElement>(
+    "[data-wordmark-section]",
+  );
+
+  if (section) {
+    // reveal on scroll (once)
+    const wrap = section.querySelector<HTMLElement>(".footer-wordmark-wrap");
+
+    if (wrap) {
+      const revealObserver = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) {
+              entry.target.classList.remove("is-visible");
+              continue;
+            }
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        },
+        { threshold: 0.1 },
+      );
+      revealObserver.observe(wrap);
+    }
+
+    // scroll to top
+    const scrollToTopBtn = section.querySelector<HTMLElement>(
+      "[data-scroll-to='top']",
+    );
+    if (scrollToTopBtn) {
+      scrollToTopBtn.addEventListener("click", () => {
+        document.body.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  }
+</script>

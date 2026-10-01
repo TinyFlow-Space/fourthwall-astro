@@ -71,14 +71,18 @@
 @utility scatter-reveal {
   @apply translate-y-14 opacity-0;
 
-  transition:
-    opacity 1.8s var(--ease-rise-in),
-    transform 1.8s var(--ease-rise-in);
+  --reveal-duration: 1.8s;
   transition-delay: calc(var(--stagger-index, 0) * 0.15s);
 }
 
+@utility reveal-transition {
+  transition:
+    opacity var(--reveal-duration, 1.1s) var(--ease-rise-in),
+    transform var(--reveal-duration, 1.1s) var(--ease-rise-in);
+}
+
 @utility scatter-reveal-active {
-  @apply translate-y-0! opacity-100;
+  @apply translate-y-0! opacity-100 reveal-transition;
 
   transition: none;
   animation: rise-in 1.8s var(--ease-rise-in)
@@ -133,21 +137,28 @@
   }
 
   .reveal {
-    @apply translate-y-6 opacity-0;
-
-    transition:
-      opacity 1.1s var(--ease-rise-in),
-      transform 1.1s var(--ease-rise-in);
+    --reveal-duration: 1.1s;
+    @apply translate-y-6 opacity-0 reveal-transition;
   }
 
   .reveal.in {
-    @apply translate-y-0 opacity-100;
+    @apply translate-y-0! opacity-100!;
+  }
+
+  .footer-wordmark-wrap.is-visible {
+    @apply opacity-100! transform-[translateZ(0)]!;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       @apply translate-y-0 opacity-100 transition-none;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-transition {
+    transition: none;
   }
 }
 

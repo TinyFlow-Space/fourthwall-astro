@@ -5,9 +5,9 @@ import { cn } from "@/utils";
 
 <section
   data-wordmark-section
-  class="pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]"
+  class="wordmark-section pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]"
 >
-  <div class="w-full block opacity-0 transform-[translate3d(0,120px,0)] reveal-transition footer-wordmark-wrap">
+  <div class="footer-wordmark-wrap w-full block opacity-0 transform-[translate3d(0,120px,0)] reveal-transition">
     <div class="perspective-distant w-full block">
       <svg
         class="logo block w-full h-auto text-white transform-3d origin-[center_top] transform-[rotateX(0deg)_rotateY(0deg)] transition-[transform_.25s_var(--ease-rise-in)]"
@@ -77,6 +77,8 @@ import { cn } from "@/utils";
 </section>
 
 <script>
+  import gsap from "gsap";
+
   const section = document.querySelector<HTMLElement>(
     "[data-wordmark-section]",
   );
@@ -111,5 +113,29 @@ import { cn } from "@/utils";
         document.body.scrollIntoView({ behavior: "smooth" });
       });
     }
+
+    // 3d rotation on mouse move
+    gsap.set(".wordmark-section", { perspective: 1200 });
+
+    const outerRX = gsap.quickTo(".logo", "rotationX", {
+      ease: "power3",
+    });
+    const outerRY = gsap.quickTo(".logo", "rotationY", {
+      ease: "power3",
+    });
+    // const innerX = gsap.quickTo(".logo", "x", { ease: "power3" });
+    // const innerY = gsap.quickTo(".logo", "y", { ease: "power3" });
+
+    section?.addEventListener("pointermove", (e: PointerEvent) => {
+      outerRX(gsap.utils.interpolate(15, -15, e.y / window.innerHeight));
+      outerRY(gsap.utils.interpolate(-15, 15, e.x / window.innerWidth));
+    });
+
+    section?.addEventListener("pointerleave", (e) => {
+      outerRX(0);
+      outerRY(0);
+      //   innerX(0);
+      //   innerY(0);
+    });
   }
 </script>

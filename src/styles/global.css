@@ -4,10 +4,12 @@
   --background: #ffffff;
   --foreground: #0a0a0a;
   --muted-foreground: #ffffff80;
+  --secondary-foreground: #0a0a0a99;
   --surface-dark: #0a0a0a;
   --header-bg: #0000;
   --paper-soft: #f6f6f6;
   --surface-x: 40px;
+  --surface-y-sm: clamp(88px, 4.4vw, 126px);
   --fw-radius-lg: 12px;
 }
 
@@ -15,6 +17,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted-foreground: var(--muted-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-surface-dark: var(--surface-dark);
   --color-header: var(--header-bg);
   --color-paper-soft: var(--paper-soft);
@@ -30,6 +33,7 @@
   --leading-flat: 1.05;
 
   --padding-surface-x: var(--surface-x);
+  --padding-surface-y-sm: var(--surface-y-sm);
 
   --radius-lg: var(--fw-radius-lg);
 
@@ -122,6 +126,28 @@
   .menu-menu {
     @apply absolute invisible pointer-events-auto text-foreground top-[calc(100%-1px)] right-0 left-0
       transition-[visibility] duration-0 delay-500 ease-linear;
+  }
+
+  .container {
+    @apply w-full max-w-[1880px]! mx-auto;
+  }
+
+  .reveal {
+    @apply translate-y-6 opacity-0;
+
+    transition:
+      opacity 1.1s var(--ease-rise-in),
+      transform 1.1s var(--ease-rise-in);
+  }
+
+  .reveal.in {
+    @apply translate-y-0 opacity-100;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      @apply translate-y-0 opacity-100 transition-none;
+    }
   }
 }
 

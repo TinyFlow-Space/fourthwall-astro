@@ -1,0 +1,40 @@
+---
+import { BRANDS } from "@/data";
+import { cn } from "@/utils";
+---
+
+<section class="py-surface-y-sm bg-background px-surface-x">
+  <div class="container">
+    <!-- top content -->
+    <div class="max-w-[88ch] mx-auto text-center mb-[clamp(56px,2.8vw,80px)] reveal">
+      <h2 class="font-body text-secondary-foreground text-body-md leading-relaxed font-normal my-0 p-0">
+        Trusted by 500,000+ creators and companies
+      </h2>
+    </div>
+
+    <!-- brand logos -->
+    <div class="grid grid-cols-6 mx-auto gap-x-8 gap-y-14 place-items-center reveal">
+      {BRANDS.map((brand) => (
+        <a
+          href={brand.url}
+          target="_blank"
+          rel="nofollow"
+          aria-label={brand.name}
+          class="opacity-65 hover:opacity-100 inline-flex items-center justify-center max-w-full w-full h-16 no-underline transition-opacity duration-200"
+        >
+          <img
+            src={brand.logoSrc}
+            alt={brand.name}
+            loading="lazy"
+            class={cn("w-auto max-w-[130%] block object-contain", brand.height)}
+          />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initReveal } from "@/lib";
+  initReveal();
+</script>

@@ -10,7 +10,7 @@ export function initReveal() {
         observer.unobserve(entry.target); // animate once
       });
     },
-    { threshold: 0.15, rootMargin: "0px 0px -24px 0px" },
+    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
   );
 
   items.forEach((el) => observer.observe(el));

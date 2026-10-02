@@ -21,12 +21,12 @@ import { ORBIT_RINGS } from "@/data";
           "--orbit-size": `${ring.sizeAt1800}px`,
           "--orbit-height": `${ring.heightAt1800}px`,
         }}
-        data-radius-reference={ring.radiusAt1800}
-        data-radius-calibration={ring.radiusAt1920}
-        data-duration-reference={ring.durationAt1800}
-        data-duration-calibration={ring.durationAt1920}
-        data-size-reference={ring.sizeAt1800}
-        data-height-reference={ring.heightAt1800}
+        data-orbit-config={JSON.stringify({
+          radius: [ring.radiusAt1800, ring.radiusAt1920],
+          duration: [ring.durationAt1800, ring.durationAt1920],
+          size: ring.sizeAt1800,
+          height: ring.heightAt1800,
+        })}
       >
         {ring.images.map((image, index) => (
           <div
@@ -65,8 +65,25 @@ import { ORBIT_RINGS } from "@/data";
   const REFERENCE_WIDTH = 1800;
   const CALIBRATION_WIDTH = 1920;
   const widthRatioLog = Math.log(CALIBRATION_WIDTH / REFERENCE_WIDTH);
-  const rings = document.querySelectorAll<HTMLElement>(
-    ".orbit-ring[data-radius-calibration]",
+  type OrbitConfig = {
+    radius: [number, number];
+    duration: [number, number];
+    size: number;
+    height: number;
+  };
+  const rings = Array.from(
+    document.querySelectorAll<HTMLElement>(".orbit-ring[data-orbit-config]"),
+    (element) => {
+      const serializedConfig = element.dataset.orbitConfig;
+      if (!serializedConfig) {
+        throw new Error("Orbit ring is missing its configuration.");
+      }
+
+      return {
+        element,
+        config: JSON.parse(serializedConfig) as OrbitConfig,
+      };
+    },
   );
   let resizeFrame = 0;
 
@@ -91,37 +108,22 @@ import { ORBIT_RINGS } from "@/data";
   function updateOrbitRings() {
     const width = Math.max(window.innerWidth, 1);
 
-    rings.forEach((ring) => {
-      const radiusAt1800 = Number.parseFloat(
-        ring.dataset.radiusReference ?? "",
-      );
-      const durationAt1800 = Number.parseFloat(
-        ring.dataset.durationReference ?? "",
-      );
-      const sizeAt1800 = Number.parseFloat(ring.dataset.sizeReference ?? "");
-      const heightAt1800 = Number.parseFloat(
-        ring.dataset.heightReference ?? "",
-      );
-      const radiusAt1920 = Number.parseFloat(
-        ring.dataset.radiusCalibration ?? "",
-      );
-      const durationAt1920 = Number.parseFloat(
-        ring.dataset.durationCalibration ?? "",
-      );
+    rings.forEach(({ element, config }) => {
+      const [radiusAt1800, radiusAt1920] = config.radius;
       const radius = scaleValue(radiusAt1800, radiusAt1920, width);
 
-      ring.style.setProperty("--orbit-radius", `${radius}px`);
-      ring.style.setProperty(
+      element.style.setProperty("--orbit-radius", `${radius}px`);
+      element.style.setProperty(
         "--orbit-duration",
-        `${scaleValue(durationAt1800, durationAt1920, width)}s`,
+        `${scaleValue(config.duration[0], config.duration[1], width)}s`,
       );
-      ring.style.setProperty(
+      element.style.setProperty(
         "--orbit-size",
-        `${roundOrbitValue(sizeAt1800 * (radius / radiusAt1800))}px`,
+        `${roundOrbitValue(config.size * (radius / radiusAt1800))}px`,
       );
-      ring.style.setProperty(
+      element.style.setProperty(
         "--orbit-height",
-        `${roundOrbitValue(heightAt1800 * (radius / radiusAt1800))}px`,
+        `${roundOrbitValue(config.height * (radius / radiusAt1800))}px`,
       );
     });
   }

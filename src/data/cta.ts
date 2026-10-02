@@ -15,10 +15,12 @@ const orbitImages = [
 
 export const ORBIT_RINGS = [
   {
-    radius: 393,
-    duration: 39,
-    size: 65,
-    height: 78,
+    radiusAt1800: 393,
+    radiusAt1920: 418,
+    durationAt1800: 39,
+    durationAt1920: 41,
+    sizeAt1800: 65,
+    heightAt1800: 78,
     images: [
       orbitImages[0],
       orbitImages[1],
@@ -36,10 +38,12 @@ export const ORBIT_RINGS = [
     ],
   },
   {
-    radius: 638,
-    duration: 73,
-    size: 78,
-    height: 94,
+    radiusAt1800: 638,
+    radiusAt1920: 680,
+    durationAt1800: 73,
+    durationAt1920: 78,
+    sizeAt1800: 78,
+    heightAt1800: 94,
     images: [
       orbitImages[0],
       orbitImages[1],
@@ -62,10 +66,12 @@ export const ORBIT_RINGS = [
     ],
   },
   {
-    radius: 882,
-    duration: 120,
-    size: 90,
-    height: 108,
+    radiusAt1800: 882,
+    radiusAt1920: 941,
+    durationAt1800: 120,
+    durationAt1920: 129,
+    sizeAt1800: 90,
+    heightAt1800: 108,
     images: [
       orbitImages[0],
       orbitImages[1],

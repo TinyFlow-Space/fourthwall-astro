@@ -16,16 +16,22 @@ import { ORBIT_RINGS } from "@/data";
       <div
         class="orbit-ring"
         style={{
-          "--orbit-radius": `${ring.radius}px`,
-          "--orbit-duration": `${ring.duration}s`,
+          "--orbit-radius": `${ring.radiusAt1800}px`,
+          "--orbit-duration": `${ring.durationAt1800}s`,
+          "--orbit-size": `${ring.sizeAt1800}px`,
+          "--orbit-height": `${ring.heightAt1800}px`,
         }}
+        data-radius-reference={ring.radiusAt1800}
+        data-radius-calibration={ring.radiusAt1920}
+        data-duration-reference={ring.durationAt1800}
+        data-duration-calibration={ring.durationAt1920}
+        data-size-reference={ring.sizeAt1800}
+        data-height-reference={ring.heightAt1800}
       >
         {ring.images.map((image, index) => (
           <div
             class="orbit-slot"
             style={{
-              "--orbit-size": `${ring.size}px`,
-              "--orbit-height": `${ring.height}px`,
               "--orbit-angle": `${(360 / ring.images.length) * index}deg`,
             }}
           >
@@ -54,3 +60,81 @@ import { ORBIT_RINGS } from "@/data";
     </h2>
   </div>
 </section>
+
+<script>
+  const REFERENCE_WIDTH = 1800;
+  const CALIBRATION_WIDTH = 1920;
+  const widthRatioLog = Math.log(CALIBRATION_WIDTH / REFERENCE_WIDTH);
+  const rings = document.querySelectorAll<HTMLElement>(
+    ".orbit-ring[data-radius-calibration]",
+  );
+  let resizeFrame = 0;
+
+  function roundOrbitValue(value: number) {
+    const floor = Math.floor(value);
+    return value - floor >= 0.6 ? floor + 1 : floor;
+  }
+
+  function scaleValue(
+    valueAtReference: number,
+    valueAtCalibration: number,
+    width: number,
+  ) {
+    const exponent =
+      Math.log(valueAtCalibration / valueAtReference) / widthRatioLog;
+
+    return roundOrbitValue(
+      valueAtReference * (width / REFERENCE_WIDTH) ** exponent,
+    );
+  }
+
+  function updateOrbitRings() {
+    const width = Math.max(window.innerWidth, 1);
+
+    rings.forEach((ring) => {
+      const radiusAt1800 = Number.parseFloat(
+        ring.dataset.radiusReference ?? "",
+      );
+      const durationAt1800 = Number.parseFloat(
+        ring.dataset.durationReference ?? "",
+      );
+      const sizeAt1800 = Number.parseFloat(ring.dataset.sizeReference ?? "");
+      const heightAt1800 = Number.parseFloat(
+        ring.dataset.heightReference ?? "",
+      );
+      const radiusAt1920 = Number.parseFloat(
+        ring.dataset.radiusCalibration ?? "",
+      );
+      const durationAt1920 = Number.parseFloat(
+        ring.dataset.durationCalibration ?? "",
+      );
+      const radius = scaleValue(radiusAt1800, radiusAt1920, width);
+
+      ring.style.setProperty("--orbit-radius", `${radius}px`);
+      ring.style.setProperty(
+        "--orbit-duration",
+        `${scaleValue(durationAt1800, durationAt1920, width)}s`,
+      );
+      ring.style.setProperty(
+        "--orbit-size",
+        `${roundOrbitValue(sizeAt1800 * (radius / radiusAt1800))}px`,
+      );
+      ring.style.setProperty(
+        "--orbit-height",
+        `${roundOrbitValue(heightAt1800 * (radius / radiusAt1800))}px`,
+      );
+    });
+  }
+
+  function scheduleOrbitUpdate() {
+    if (resizeFrame) return;
+
+    resizeFrame = window.requestAnimationFrame(() => {
+      resizeFrame = 0;
+      updateOrbitRings();
+    });
+  }
+
+  updateOrbitRings();
+  window.addEventListener("resize", scheduleOrbitUpdate, { passive: true });
+</script>

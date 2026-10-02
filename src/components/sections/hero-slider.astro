@@ -2,6 +2,7 @@
 import { cn } from "@/utils";
 import { HERO_SLIDERS } from "@/data";
 import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
+import { Image } from "astro:assets";
 ---
 
 <div
@@ -47,10 +48,14 @@ import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
               <source src={item.src} type="video/webm" />
             </video>
           ) : (
-            <img
+            <Image
               src={item.src}
               loading="eager"
               fetchpriority="high"
+              inferSize={true}
+              widths={[320, 480, 640, 800, 960, 1120]}
+              sizes="(min-width: 2743px) 867px, (min-width: 915px) 31.6129vw, 289px"
+              format="webp"
               alt={item.title}
               class="object-cover size-full block"
             />

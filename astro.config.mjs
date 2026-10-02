@@ -14,8 +14,13 @@ export default defineConfig({
       cssVariable: "--font-inter",
     },
   ],
-  // image: {
-  //   domains: ["fourthwall.com"],
-  //   remotePatterns: [{ protocol: "https" }],
-  // },
+  image: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "fourthwall.com",
+        pathname: "/webflow-cdn/**",
+      },
+    ],
+  },
 });

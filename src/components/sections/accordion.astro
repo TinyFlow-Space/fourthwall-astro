@@ -17,7 +17,7 @@ import { FAQS } from "@/data";
         <AccordionItem title={faq.question}>
           {faq.answer.map((block) =>
             block.type === "paragraph" ? (
-              <p>
+              <p class="not-last:mb-3.5 text-wrap nt">
                 {block.content.map((part) =>
                   typeof part === "string" ? (
                     part
@@ -36,14 +36,19 @@ import { FAQS } from "@/data";
                 )}
               </p>
             ) : (
-              <ul role="list">
+              <ul role="list" class="list-disc! pl-[1.25em] not-last:mb-3.5">
                 {block.items.map((item) => (
-                  <li>
+                  <li class="mb-1">
                     {item.map((part) =>
                       typeof part === "string" ? (
                         part
                       ) : "href" in part ? (
-                        <a href={part.href} target="_blank" rel="noreferrer">
+                        <a
+                          href={part.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          class="underline"
+                        >
                           {part.text}
                         </a>
                       ) : (

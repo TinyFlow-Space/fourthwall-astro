@@ -1,0 +1,17 @@
+---
+const { creator } = Astro.props;
+---
+
+<div class="creator-item flex items-center gap-[clamp(24px,11.7px+15.444px,33.6px)] shrink-0 cursor-auto text-inherit max-w-full">
+  <span class="creator-blob bg-paper-soft relative overflow-hidden shrink-0 size-[clamp(80px,39px+2.86vw,112px)] rounded-[clamp(20px,9.75px+.715vw,28px)]">
+    <img
+      src={creator.avatarUrl}
+      alt={creator.name}
+      loading="lazy"
+      class="object-cover size-[142%] max-w-none! absolute top-[-21%] left-[-21%] block"
+    />
+  </span>
+  <span class="creator-content font-display text-foreground text-body-md leading-[1.35] font-medium shrink-0 relative before:content-[''] before:absolute before:top-1/2 before:left-[calc(var(--creator-blob-size)*-0.3)] before:right-0 before:h-(--creator-blob-size) before:[translate:0_-50%]">
+    {creator.name}
+  </span>
+</div>

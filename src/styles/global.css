@@ -9,8 +9,11 @@
   --header-bg: #0000;
   --paper-soft: #f6f6f6;
   --surface-x: 40px;
+  --surface-y-lg: clamp(140px, 7vw, 200px);
+  --surface-y-xl: clamp(180px, 9vw, 260px);
   --surface-y-sm: clamp(88px, 4.4vw, 126px);
   --fw-radius-lg: 12px;
+  --creator-blob-size: clamp(80px, 39px + 2.86vw, 112px);
 }
 
 @theme inline {
@@ -27,6 +30,7 @@
 
   --text-body-md: clamp(16px, 14px + 0.2083vw, 22px);
   --text-heading-xl: clamp(28px, max(4vw, min(7.5vw, 44px)), 96px);
+  --text-heading-lg: clamp(28px, 3vw, 72px);
 
   --leading-relaxed: 1.65;
   --leading-tight: 1.12;
@@ -34,6 +38,8 @@
 
   --padding-surface-x: var(--surface-x);
   --padding-surface-y-sm: var(--surface-y-sm);
+  --padding-surface-y-lg: var(--surface-y-lg);
+  --padding-surface-y-xl: var(--surface-y-xl);
 
   --radius-lg: var(--fw-radius-lg);
 
@@ -54,6 +60,26 @@
   @keyframes orbit-spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(var(--marquee-from, 0%));
+    }
+
+    to {
+      transform: translateX(var(--marquee-to, -50%));
+    }
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(var(--rotate-end, 360deg));
     }
   }
 }
@@ -118,6 +144,31 @@
   -webkit-mask-size: 100% 0%;
   -webkit-transition: -webkit-mask-size 0.32s cubic-bezier(0.5, 0, 0.75, 0.2)
     0.18s;
+}
+
+@utility marquee {
+  animation: marquee-scroll var(--marquee-duration, 80s) linear infinite;
+}
+
+@utility marquee-left {
+  @apply marquee;
+  --marquee-from: 0%;
+  --marquee-to: -50%;
+}
+
+@utility marquee-right {
+  @apply marquee;
+  --marquee-from: -50%;
+  --marquee-to: 0%;
+}
+
+@utility marquee-track {
+  @apply flex shrink-0 items-center w-max gap-x-[clamp(72px,35.1px+2.574vw,100.8px)] gap-y-[clamp(72px,35.1px+2.574vw,100.8px)] pr-[clamp(72px,35.1px+2.574vw,100.8px)];
+}
+
+@utility animate-rotate {
+  animation: rotate var(--rotate-duration, 16s) linear infinite;
+  animation-delay: var(--rotate-delay, 0s);
 }
 
 @layer components {
@@ -215,6 +266,52 @@
   .orbit:hover .orbit-ring:nth-child(4),
   .orbit:has(.orbit-link:focus-visible) .orbit-ring:nth-child(4) {
     transition-delay: 180ms;
+  }
+
+  .creator-blob {
+    @apply animate-rotate [transition:border-radius_.35s_cubic-bezier(.25,.46,.45,.94),scale_.35s_cubic-bezier(.25,.46,.45,.94)];
+    --rot-phase: 0;
+    --rotate-duration: 16s;
+    --rotate-delay: calc(var(--rot-phase) * -4s / 7);
+  }
+
+  .creator-blob img {
+    @apply animate-rotate [transition:scale_.35s_cubic-bezier(.25,.46,.45,.94)];
+    --rotate-duration: 16s;
+    --rotate-delay: calc(var(--rot-phase) * -4s / 7);
+    --rotate-end: -360deg;
+  }
+
+  .creator-blob:hover,
+  .creator-blob:has(+ .creator-content:hover) {
+    @apply rounded-[50%]! scale-[1.2];
+  }
+
+  .creator-blob:hover img,
+  .creator-blob:has(+ .creator-content:hover) img {
+    @apply scale-[calc(1/1.2)];
+  }
+
+  .creator-item:nth-child(7n + 1) .creator-blob {
+    --rot-phase: 0;
+  }
+  .creator-item:nth-child(7n + 2) .creator-blob {
+    --rot-phase: 3;
+  }
+  .creator-item:nth-child(7n + 3) .creator-blob {
+    --rot-phase: 6;
+  }
+  .creator-item:nth-child(7n + 4) .creator-blob {
+    --rot-phase: 2;
+  }
+  .creator-item:nth-child(7n + 5) .creator-blob {
+    --rot-phase: 5;
+  }
+  .creator-item:nth-child(7n + 6) .creator-blob {
+    --rot-phase: 1;
+  }
+  .creator-item:nth-child(7n) .creator-blob {
+    --rot-phase: 4;
   }
 
   @media (prefers-reduced-motion: reduce) {

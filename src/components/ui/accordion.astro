@@ -1,0 +1,52 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div data-accordion class:list={["flex flex-col gap-y-1", className]}>
+  <slot />
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-accordion]").forEach((root) => {
+    root.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const trigger = target.closest<HTMLButtonElement>(
+        "[data-accordion-trigger]",
+      );
+      if (!trigger || !root.contains(trigger)) return;
+
+      const item = trigger.closest<HTMLElement>("[data-accordion-item]");
+      if (!item || item.closest("[data-accordion]") !== root) return;
+
+      const shouldOpen = trigger.getAttribute("aria-expanded") !== "true";
+
+      root
+        .querySelectorAll<HTMLButtonElement>("[data-accordion-trigger]")
+        .forEach((itemTrigger) => {
+          const accordionItem = itemTrigger.closest<HTMLElement>(
+            "[data-accordion-item]",
+          );
+          if (
+            !accordionItem ||
+            accordionItem.closest("[data-accordion]") !== root
+          ) {
+            return;
+          }
+
+          itemTrigger.setAttribute("aria-expanded", "false");
+          accordionItem.setAttribute("data-open", "false");
+        });
+
+      if (!shouldOpen) return;
+
+      trigger.setAttribute("aria-expanded", "true");
+      item.setAttribute("data-open", "true");
+    });
+  });
+</script>

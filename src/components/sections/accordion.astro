@@ -1,100 +1,64 @@
 ---
-import AccordionItem from "@/components/accordion-item.astro";
+import Accordion from "@/components/ui/accordion.astro";
+import AccordionItem from "@/components/ui/accordion-item.astro";
+import { FAQS } from "@/data";
 ---
 
 <section class="py-surface-y-lg px-surface-x bg-background">
   <div class="container @container">
-    <!-- accordion header -->
     <div class="max-w-[88ch] mb-[clamp(56px,2.8vw,80px)] mx-auto text-center reveal">
       <h2 class="text-heading-lg text-foreground leading-tight font-display font-medium tracking-[-.01em] my-0 p-0 normal-case">
         Frequently asked questions
       </h2>
     </div>
 
-    <!-- accordion list -->
-    <div class="flex flex-col gap-y-1 max-w-[clamp(800px,720px,1040px)] mx-auto reveal">
-      <!-- accordion item -->
-      <AccordionItem title="How much does it cost to use Fourthwall?">
-        <div class="max-w-[60ch] text-foreground text-body-md leading-relaxed overflow-hidden">
-          <p>
-            There are no monthly fees, no upfront costs, and no contracts to use
-            Fourthwall. You set your prices and choose your own margins. Here is
-            how our pricing and splits work when you sell:
-          </p>
-          <ul role="list">
-            <li>
-              <strong>Products from our product catalog.</strong> All products
-              in our{" "}
-              <a href="https://products.fourthwall.com/all" target="_blank">
-                product catalog
-              </a>{" "}
-              have a publicly listed flat fee, which gets deducted from the
-              selling price you set. There are no extra percentages/margins. You
-              keep 100% of profits.
-            </li>
-            <li>
-              <strong>Products you self-source.</strong> No fee (0% fee)
-            </li>
-            <li>
-              <strong>Digital products.</strong> 5% flat fee
-            </li>
-            <li>
-              <strong>Memberships.</strong> 5% flat fee
-            </li>
-          </ul>
-          <p>
-            Additionally, all US-based credit card transactions have an added
-            2.9% + $0.30 payment processing fee (same as Shopify). Fees vary for
-            PayPal and other providers.{" "}
-            <a href="https://fourthwall.com/pricing" target="_blank">
-              Learn more
-            </a>
-            .
-          </p>
-        </div>
-      </AccordionItem>
-      <AccordionItem title="How does Fourthwall handle taxes?">
-        <div class="max-w-[60ch] text-foreground text-body-md leading-relaxed overflow-hidden">
-          <p>
-            There are no monthly fees, no upfront costs, and no contracts to use
-            Fourthwall. You set your prices and choose your own margins. Here is
-            how our pricing and splits work when you sell:
-          </p>
-          <ul role="list">
-            <li>
-              <strong>Products from our product catalog.</strong> All products
-              in our{" "}
-              <a href="https://products.fourthwall.com/all" target="_blank">
-                product catalog
-              </a>{" "}
-              have a publicly listed flat fee, which gets deducted from the
-              selling price you set. There are no extra percentages/margins. You
-              keep 100% of profits.
-            </li>
-            <li>
-              <strong>Products you self-source.</strong> No fee (0% fee)
-            </li>
-            <li>
-              <strong>Digital products.</strong> 5% flat fee
-            </li>
-            <li>
-              <strong>Memberships.</strong> 5% flat fee
-            </li>
-          </ul>
-          <p>
-            Additionally, all US-based credit card transactions have an added
-            2.9% + $0.30 payment processing fee (same as Shopify). Fees vary for
-            PayPal and other providers.{" "}
-            <a href="https://fourthwall.com/pricing" target="_blank">
-              Learn more
-            </a>
-            .
-          </p>
-        </div>
-      </AccordionItem>
-    </div>
+    <Accordion class="max-w-[clamp(800px,720px,1040px)] mx-auto reveal">
+      {FAQS.map((faq) => (
+        <AccordionItem title={faq.question}>
+          {faq.answer.map((block) =>
+            block.type === "paragraph" ? (
+              <p>
+                {block.content.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : "href" in part ? (
+                    <a
+                      href={part.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="underline"
+                    >
+                      {part.text}
+                    </a>
+                  ) : (
+                    <strong>{part.text}</strong>
+                  ),
+                )}
+              </p>
+            ) : (
+              <ul role="list">
+                {block.items.map((item) => (
+                  <li>
+                    {item.map((part) =>
+                      typeof part === "string" ? (
+                        part
+                      ) : "href" in part ? (
+                        <a href={part.href} target="_blank" rel="noreferrer">
+                          {part.text}
+                        </a>
+                      ) : (
+                        <strong>{part.text}</strong>
+                      ),
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ),
+          )}
+        </AccordionItem>
+      ))}
+    </Accordion>
 
-    <!-- accordion footer -->
     <div class="max-w-[clamp(800px,40vw,1040px)] mx-auto text-center mt-12 reveal">
       <p class="m-0 text-body-md leading-relaxed text-secondary-foreground">
         More questions?{" "}

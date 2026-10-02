@@ -1,0 +1,56 @@
+---
+import { ORBIT_RINGS } from "@/data";
+---
+
+<section class="orbit-section bg-surface-dark -z-5 text-white h-[clamp(380px,340px+216px,840px)] flex flex-col -mt-12 sticky bottom-0 overflow-hidden px-surface-x before:content-[''] before:absolute before:inset-0 before:bg-(--closer-bg,#ad0132) before:rounded-bl-[inherit] before:rounded-br-[inherit] before:pointer-events-none *:relative cursor-pointer">
+  <!-- gradient -->
+  <div class="static">
+    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-bl-[inherit] rounded-br-[inherit]">
+      <div class="absolute inset-0 blur-[35px]"></div>
+    </div>
+  </div>
+
+  <!-- orbit spin -->
+  <div class="orbit absolute! inset-0 top-10 bottom-0 z-1 overflow-hidden pointer-events-none">
+    {ORBIT_RINGS.map((ring) => (
+      <div
+        class="orbit-ring"
+        style={{
+          "--orbit-radius": `${ring.radius}px`,
+          "--orbit-duration": `${ring.duration}s`,
+        }}
+      >
+        {ring.images.map((image, index) => (
+          <div
+            class="orbit-slot"
+            style={{
+              "--orbit-size": `${ring.size}px`,
+              "--orbit-height": `${ring.height}px`,
+              "--orbit-angle": `${(360 / ring.images.length) * index}deg`,
+            }}
+          >
+            <img
+              src={image.src}
+              alt={image.alt}
+              loading="lazy"
+              decoding="async"
+              class="block size-full rounded-[14px] object-cover object-[50%_0]"
+            />
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  <!-- title -->
+  <div class="px-surface-x text-center will-change-transform flex flex-1 flex-col items-center justify-center">
+    <h2 class="max-w-[18ch] font-display text-heading-xl leading-flat font-medium tracking-[-.02em] my-0 mx-auto text-balance">
+      <a
+        href="https://fourthwall.com/get-started"
+        class="cursor-pointer text-inherit no-underline [transition:color_.2s_ease_text-decoration_color_.2s_ease]"
+      >
+        Make something worth buying
+      </a>
+    </h2>
+  </div>
+</section>

@@ -51,17 +51,11 @@
     }
   }
 
-  /* @keyframes scatter-rise {
-    0% {
-      opacity: 0.01;
-      transform: translateY(var(--scatter-rise-distance, 56px));
-    }
-
+  @keyframes orbit-spin {
     to {
-      opacity: 1;
-      transform: translateY(0);
+      transform: rotate(360deg);
     }
-  } */
+  }
 }
 
 @utility rise-in {
@@ -147,6 +141,80 @@
 
   .footer-wordmark-wrap.is-visible {
     @apply opacity-100! transform-[translateZ(0)]!;
+  }
+
+  .orbit-ring {
+    @apply absolute left-1/2 top-1/2 rounded-full opacity-0 scale-[1.16] w-[calc(var(--orbit-radius)*2)] h-[calc(var(--orbit-radius)*2)] ml-[calc(var(--orbit-radius)/-1)] mt-[calc(var(--orbit-radius)/-1)] [transition:opacity_.32s_ease,scale_.85s_var(--ease-rise-in)] will-change-transform animate-[orbit-spin_var(--orbit-duration)_linear_infinite];
+  }
+
+  .orbit-slot {
+    @apply absolute left-1/2 top-1/2 w-(--orbit-size) h-(--orbit-height) ml-[calc(var(--orbit-size)/-2)] mt-[calc(var(--orbit-height)/-2)] transform-[rotate(var(--orbit-angle))_translateY(calc(var(--orbit-radius)*-1))];
+  }
+
+  .orbit--auto {
+    -webkit-mask-image: radial-gradient(
+      circle at 50% 50%,
+      transparent 0%,
+      rgba(0, 0, 0, 0.03) 25%,
+      rgba(0, 0, 0, 0.12) 38%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.52) 62%,
+      rgba(0, 0, 0, 0.7) 74%,
+      rgba(0, 0, 0, 0.82) 86%,
+      rgba(0, 0, 0, 0.88) 100%
+    );
+
+    mask-image: radial-gradient(
+      circle at 50% 50%,
+      transparent 0%,
+      rgba(0, 0, 0, 0.03) 25%,
+      rgba(0, 0, 0, 0.12) 38%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.52) 62%,
+      rgba(0, 0, 0, 0.7) 74%,
+      rgba(0, 0, 0, 0.82) 86%,
+      rgba(0, 0, 0, 0.88) 100%
+    );
+  }
+
+  .orbit--auto .orbit-ring {
+    @apply opacity-100 scale-[1] transition-none delay-0;
+  }
+
+  .orbit--auto:not(.is-onscreen) .orbit-ring {
+    animation-play-state: paused;
+  }
+
+  .orbit-section:hover .orbit-ring,
+  .orbit-section:has(.orbit-link:focus-visible) .orbit-ring {
+    @apply opacity-100 scale-[1] [transition:opacity_0.5s_ease,scale_1.25s_var(--ease-rise-in)];
+  }
+
+  .orbit-ring:nth-child(2) {
+    transition-delay: 60ms;
+  }
+
+  .orbit-ring:nth-child(3) {
+    transition-delay: 120ms;
+  }
+
+  .orbit-ring:nth-child(4) {
+    transition-delay: 180ms;
+  }
+
+  .orbit:hover .orbit-ring:nth-child(2),
+  .orbit:has(.orbit-link:focus-visible) .orbit-ring:nth-child(2) {
+    transition-delay: 60ms;
+  }
+
+  .orbit:hover .orbit-ring:nth-child(3),
+  .orbit:has(.orbit-link:focus-visible) .orbit-ring:nth-child(3) {
+    transition-delay: 120ms;
+  }
+
+  .orbit:hover .orbit-ring:nth-child(4),
+  .orbit:has(.orbit-link:focus-visible) .orbit-ring:nth-child(4) {
+    transition-delay: 180ms;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -1,15 +1,20 @@
 ---
 import TestimonialItem from "@/components/testimonial-item.astro";
+import { TESTIMONIALS } from "@/data";
 
 const CLASSES = [
-  "grid-area:2/1/3/2",
+  "[grid-area:2/1/3/2]",
   "[grid-area:2/2/3/3]",
   "[grid-area:2/3/3/4]",
 ];
 ---
 
-<section class="py-surface-y-sm px-surface-x bg-white">
+<section
+  data-testimonials-section
+  class="py-surface-y-sm px-surface-x bg-white"
+>
   <div
+    data-testimonials-progress
     class="container @container grid grid-cols-3 gap-x-[clamp(20px,3.25vw,48px)] gap-y-0 items-start"
     style={{ "--tgrid-progress": "0.0000" }}
   >
@@ -22,14 +27,60 @@ const CLASSES = [
 
     <!-- testimonials -->
     <div role="list" class="contents [align-items:start] reveal">
-      <TestimonialItem className={CLASSES[0]} />
-      <TestimonialItem className={CLASSES[1]} />
-      <TestimonialItem className={CLASSES[2]} />
+      {TESTIMONIALS.map((testimonial, index) => (
+        <TestimonialItem className={CLASSES[index]} testimonial={testimonial} />
+      ))}
     </div>
   </div>
 </section>
 
 <script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
   import { initReveal } from "@/lib";
+
+  gsap.registerPlugin(ScrollTrigger);
   initReveal();
+
+  const section = document.querySelector<HTMLElement>(
+    "[data-testimonials-section]",
+  );
+  const progressTarget = section?.querySelector<HTMLElement>(
+    "[data-testimonials-progress]",
+  );
+  const triggerImage = section?.querySelector<HTMLImageElement>(
+    "[data-testimonial-image]",
+  );
+
+  if (
+    section &&
+    progressTarget &&
+    triggerImage &&
+    !section.dataset.progressInitialized
+  ) {
+    section.dataset.progressInitialized = "true";
+
+    const setProgress = (value: number) => {
+      const progress = value.toFixed(4);
+      if (
+        progressTarget.style.getPropertyValue("--tgrid-progress") !== progress
+      ) {
+        progressTarget.style.setProperty("--tgrid-progress", progress);
+      }
+    };
+
+    ScrollTrigger.create({
+      trigger: triggerImage,
+      start: "top bottom",
+      end: () =>
+        `+=${Math.min(
+          triggerImage.getBoundingClientRect().height * 0.8,
+          document.documentElement.clientHeight,
+        )}`,
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => setProgress(self.progress),
+      onRefresh: (self) => setProgress(self.progress),
+    });
+  }
 </script>

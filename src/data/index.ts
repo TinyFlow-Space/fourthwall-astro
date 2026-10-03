@@ -5,3 +5,4 @@ export * from "@/data/footer";
 export * from "@/data/cta";
 export * from "@/data/faqs";
 export * from "@/data/creators";
+export * from "@/data/testimonials";

@@ -1,0 +1,41 @@
+---
+import { cn } from "@/utils";
+
+const { index, classNames } = Astro.props;
+---
+
+<a
+  rel="nofollow noopener"
+  target="_blank"
+  href="https://products.fourthwall.com/comfort-colors-garment-dyed-heavyweight-t-shirt-dtg?selectedColor=Black"
+  class={cn(
+    "min-h-0 p-6 bg-paper-soft flex flex-col justify-end no-underline text-inherit cursor-pointer max-w-full [grid-row-gap:12px] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal scatter-reveal-active group",
+    classNames,
+  )}
+  style={{ "--stagger-index": index }}
+>
+  <div class="relative flex items-center justify-center flex-1 min-h-0">
+    <img
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a96e11c1178eccd5e25adce_scatter-tshirt-v3.webp"
+      loading="lazy"
+      sizes="100vw"
+      alt=""
+      class="object-contain w-auto max-w-full h-auto min-h-full block hover-fade"
+    />
+    <img
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b50_6a96e11c1178eccd5e25ade3_scatter-tshirt-hover-v3.webp"
+      loading="lazy"
+      alt=""
+      class={cn(
+        "absolute inset-0 pointer-events-none opacity-0 object-contain w-full max-w-full h-full min-h-full block hover-opacity group-hover:opacity-100!",
+      )}
+      aria-hidden="true"
+    />
+  </div>
+  <div class="inline-flex items-center self-start gap-x-1 rounded-full bg-background text-foreground text-xs leading-none font-medium mb-0 py-1 pr-2.5 pl-2 before:content-['★'] before:text-[0.95em] before:leading-none">
+    4.7
+  </div>
+  <h4 class="font-body text-body-md leading-[1.35] font-medium text-balance my-0 tracking-normal">
+    Comfort Colors Garment-Dyed Heavyweight T-Shirt
+  </h4>
+</a>

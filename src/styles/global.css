@@ -171,6 +171,18 @@
   animation-delay: var(--rotate-delay, 0s);
 }
 
+@utility hover-fade {
+  @media (hover: hover) and (pointer: fine) {
+    @apply transition-opacity duration-300;
+  }
+}
+
+@utility hover-opacity {
+  @media (hover: hover) and (pointer: fine) {
+    @apply transition-opacity duration-300;
+  }
+}
+
 @layer components {
   .menu-menu {
     @apply absolute invisible pointer-events-auto text-foreground top-[calc(100%-1px)] right-0 left-0

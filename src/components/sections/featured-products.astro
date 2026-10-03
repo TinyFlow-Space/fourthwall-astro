@@ -1,0 +1,66 @@
+---
+import FeaturedProductCard from "../products/featured-product-card.astro";
+
+const CLASSES = [
+  "[grid-area:5/1/12/4]",
+  "[grid-area:7/4/14/7]",
+  "[grid-area:1/7/13/12]",
+  "[grid-area:15/1/27/6]",
+  "[grid-area:17/6/24/9]",
+  "[grid-area:14/9/21/12]",
+];
+---
+
+<section class="bg-background px-surface-x pt-30 pb-surface-y-sm">
+  <div class="container @container">
+    <div class="grid grid-cols-11 gap-x-[clamp(20px,3.25vw,48px)] gap-y-[clamp(36px,4.5cqi,80px)]">
+      <!-- product section header -->
+      <div
+        class="min-w-0 self-start [grid-area:1/1/6/7] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal scatter-reveal-active"
+        style={{
+          "--stagger-index": 0,
+          "--rise-distance": "56px",
+        }}
+      >
+        <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
+          Create high-quality products.
+          <br />
+          <span class="text-secondary-foreground">No experience required.</span>
+        </h2>
+        <p class="m-0 mt-[clamp(28px,2.2vw,40px)] text-foreground text-body-md leading-relaxed text-balance">
+          Over 200 high-quality products you and your community can be proud of,
+          from t-shirts to mugs to plushies. No upfront costs.
+        </p>
+      </div>
+
+      <!--  featured products -->
+      <FeaturedProductCard index={0} classNames={CLASSES[0]} />
+      <FeaturedProductCard index={1} classNames={CLASSES[1]} />
+      <FeaturedProductCard index={2} classNames={CLASSES[2]} />
+      <FeaturedProductCard index={3} classNames={CLASSES[3]} />
+      <FeaturedProductCard index={4} classNames={CLASSES[4]} />
+      <FeaturedProductCard index={5} classNames={CLASSES[5]} />
+
+      <!-- browse all -->
+      <a
+        rel="noopener"
+        target="_blank"
+        href="https://products.fourthwall.com"
+        class="aspect-[1] w-45 max-w-full text-foreground text-body-md font-medium flex items-center justify-center text-center no-underline hover:bg-surface-dark hover:text-white rounded-full border border-surface-dark [grid-area:22/9/25/12] [place-self:start_center] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal scatter-reveal-active group"
+        style={{
+          "--stagger-index": 0,
+          "--rise-distance": "56px",
+        }}
+      >
+        <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+          <span class="text-motion group-hover:-translate-y-full">
+            Browse all
+          </span>
+          <span class="text-motion group-hover:-translate-y-full">
+            Browse all
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

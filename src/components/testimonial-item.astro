@@ -1,0 +1,40 @@
+---
+import { cn } from "@/utils";
+
+const { index, classNames } = Astro.props;
+---
+
+<div
+  role="listitem"
+  class={cn(
+    "flex flex-col-reverse [grid-row-gap:0px] lg:not-first:will-change-transform lg:not-first:[--tgrid-row:clamp(36px,4.4vw,80px)] lg:nth-[2]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*2),0)] lg:nth-[3]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*-3),0)]",
+    classNames,
+  )}
+>
+  <a
+    rel="nofollow"
+    target="_blank"
+    href="https://mkbhd.com/"
+    class="pt-[clamp(32px,1.6vw,56px)] [grid-row-gap:24px] flex flex-col grow-0 no-underline max-w-full"
+  >
+    <p class="body-fluid-md">
+      Working with Fourthwall is a fantastic experience. They handle logistics,
+      manufacturing, and most importantly, customer service, letting you focus
+      on what matters. I'd recommend it to all creators.
+    </p>
+    <p class="body-fluid-md tgrid-name">MKBHD</p>
+  </a>
+  <a
+    rel="nofollow"
+    target="_blank"
+    href="https://mkbhd.com/"
+    class="max-w-full aspect-4/5 bg-[#efeff0] no-underline block relative overflow-hidden"
+  >
+    <img
+      alt="MKBHD in an olive green tee printed with a camera graphic reading Auto Focus"
+      loading="lazy"
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a941db84cb664fa1c211be9_mkbhd-testimonial-hq.webp"
+      class="object-cover size-full block [transition:transform_.4s_ease]"
+    />
+  </a>
+</div>

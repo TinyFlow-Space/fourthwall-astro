@@ -1,0 +1,35 @@
+---
+import TestimonialItem from "@/components/testimonial-item.astro";
+
+const CLASSES = [
+  "grid-area:2/1/3/2",
+  "[grid-area:2/2/3/3]",
+  "[grid-area:2/3/3/4]",
+];
+---
+
+<section class="py-surface-y-sm px-surface-x bg-white">
+  <div
+    class="container @container grid grid-cols-3 gap-x-[clamp(20px,3.25vw,48px)] gap-y-0 items-start"
+    style={{ "--tgrid-progress": "0.0000" }}
+  >
+    <!-- testimonials top -->
+    <div class="max-w-[88ch] mb-[clamp(56px,50.4px,80px)] [grid-area:1/1/2/3] reveal">
+      <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
+        Over 500,000 creators trust Fourthwall with their products and brands
+      </h2>
+    </div>
+
+    <!-- testimonials -->
+    <div role="list" class="contents [align-items:start] reveal">
+      <TestimonialItem className={CLASSES[0]} />
+      <TestimonialItem className={CLASSES[1]} />
+      <TestimonialItem className={CLASSES[2]} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initReveal } from "@/lib";
+  initReveal();
+</script>

@@ -107,7 +107,12 @@
     calc(var(--stagger-index, 0) * 0.15s) both;
 }
 
-@utility scatter-reveal-in {
+@utility reveal {
+  @apply translate-y-6 opacity-0 reveal-transition;
+  --reveal-duration: 1.1s;
+}
+
+@utility in {
   @apply translate-y-0 opacity-100;
 }
 
@@ -193,15 +198,6 @@
 
   .container {
     @apply w-full max-w-[1880px]! mx-auto;
-  }
-
-  .reveal {
-    --reveal-duration: 1.1s;
-    @apply translate-y-6 opacity-0 reveal-transition;
-  }
-
-  .in {
-    @apply translate-y-0! opacity-100!;
   }
 
   .footer-wordmark-wrap.is-visible {
@@ -340,7 +336,7 @@
     transition: none;
   }
 
-  .scatter-reveal-in {
+  .in {
     animation: none !important;
     transition: none !important;
   }

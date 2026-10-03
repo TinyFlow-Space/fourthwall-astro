@@ -1,5 +1,5 @@
 const SECTION_SELECTOR = "[data-scatter-reveal-section]";
-const ITEM_SELECTOR = ".scatter-reveal:not(.scatter-reveal-in)";
+const ITEM_SELECTOR = ".scatter-reveal:not(.in)";
 
 export function initScatterReveal(root: ParentNode = document) {
   const sections = root.querySelectorAll<HTMLElement>(SECTION_SELECTOR);
@@ -12,7 +12,7 @@ export function initScatterReveal(root: ParentNode = document) {
     section.dataset.scatterRevealInitialized = "true";
 
     if (!("IntersectionObserver" in window)) {
-      items.forEach((item) => item.classList.add("scatter-reveal-in"));
+      items.forEach((item) => item.classList.add("in"));
       return;
     }
 
@@ -24,7 +24,7 @@ export function initScatterReveal(root: ParentNode = document) {
           const item = entry.target as HTMLElement;
           observer.unobserve(item);
           requestAnimationFrame(() => {
-            item.classList.add("scatter-reveal-in");
+            item.classList.add("in");
           });
         });
       },

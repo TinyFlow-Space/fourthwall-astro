@@ -1,5 +1,4 @@
 let observer: IntersectionObserver | undefined;
-const pendingItems = new Set<HTMLElement>();
 
 export function initReveal() {
   const items = document.querySelectorAll<HTMLElement>(".reveal:not(.in)");
@@ -14,23 +13,17 @@ export function initReveal() {
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
+        // if (!entry.isIntersecting || entry.intersectionRatio <= 0) return;
 
         const item = entry.target as HTMLElement;
-        item.classList.add("in");
-        pendingItems.delete(item);
         observer?.unobserve(item);
+        item.classList.add("in");
       });
-
-      if (pendingItems.size === 0) {
-        observer?.disconnect();
-        observer = undefined;
-      }
     },
-    { threshold: 0, rootMargin: "0px 0px -8% 0px" },
+    { threshold: 0 },
   );
 
   items.forEach((item) => {
-    pendingItems.add(item);
     observer?.observe(item);
   });
 }

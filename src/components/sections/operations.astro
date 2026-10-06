@@ -109,43 +109,10 @@ import { OPERATIONS_AI_DATA } from "@/data";
 </section>
 
 <script>
-  import gsap from "gsap";
-  import { CustomEase } from "gsap/CustomEase";
-
-  gsap.registerPlugin(CustomEase);
-
-  const transitionDuration = 0.5;
-  const tileStagger = 0.12;
-  const cyclePause = 1.5;
-  const slideEase = CustomEase.create(
-    "operationsAiSlide",
-    "M0,0 C0.65,0 0.35,1 1,1",
-  );
-  const opacityEase = CustomEase.create(
-    "operationsAiOpacity",
-    "M0,0 C0.25,0.1 0.25,1 1,1",
-  );
-  const iconEase = CustomEase.create(
-    "operationsAiIcon",
-    "M0,0 C0.34,1.56 0.64,1 1,1",
-  );
+  const transitionDuration = 500;
+  const tileStagger = 120;
+  const cyclePause = 2000;
   const instances = new Map<HTMLElement, () => void>();
-
-  const setSlideState = (
-    slides: HTMLElement[],
-    tiles: HTMLElement[][],
-    labels: HTMLElement[],
-    index: number,
-    state: "is-active" | "is-existing" | null,
-  ) => {
-    const isActive = state === "is-active";
-    [slides[index], ...tiles[index], labels[index]].forEach((element) => {
-      element.classList.toggle("is-active", isActive);
-      element.classList.toggle("is-existing", state === "is-existing");
-    });
-    slides[index].setAttribute("aria-hidden", String(!isActive));
-    labels[index].setAttribute("aria-hidden", String(!isActive));
-  };
 
   const initializeAnimations = () => {
     document
@@ -174,161 +141,73 @@ import { OPERATIONS_AI_DATA } from "@/data";
         const motionPreference = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         );
-        const maxTileCount = Math.max(
-          ...tiles.map((slideTiles) => slideTiles.length),
-        );
         const transitionSpan =
-          transitionDuration + tileStagger * Math.max(maxTileCount - 1, 0);
-        let timeline: gsap.core.Timeline | undefined;
-        let context: gsap.Context | undefined;
+          transitionDuration + tileStagger * (tiles[0].length - 1);
+        let currentIndex = 0;
+        let timer: number | undefined;
+        let iconAnimation: Animation | undefined;
 
-        const resetStates = () => {
-          slides.forEach((_, index) => {
-            setSlideState(
-              slides,
-              tiles,
-              labels,
-              index,
-              index === 0 ? "is-active" : null,
-            );
+        const setState = (
+          index: number,
+          state: "is-active" | "is-existing" | null,
+        ) => {
+          const active = state === "is-active";
+          [slides[index], ...tiles[index], labels[index]].forEach((element) => {
+            element.classList.toggle("is-active", active);
+            element.classList.toggle("is-existing", state === "is-existing");
           });
+          slides[index].setAttribute("aria-hidden", String(!active));
+          labels[index].setAttribute("aria-hidden", String(!active));
         };
 
-        const startTimeline = () => {
-          resetStates();
-          context = gsap.context(() => {
-            gsap.set(tiles.flat(), { yPercent: 100 });
-            gsap.set(tiles[0], { yPercent: 0 });
-            gsap.set(labels, { yPercent: 100, opacity: 0 });
-            gsap.set(labels[0], { yPercent: 0, opacity: 1 });
-            gsap.set(icon, { rotation: 0, transformOrigin: "50% 50%" });
+        const reset = () => {
+          if (timer !== undefined) window.clearTimeout(timer);
+          timer = undefined;
+          iconAnimation?.cancel();
+          iconAnimation = undefined;
+          slides.forEach((_, index) => {
+            setState(index, index === 0 ? "is-active" : null);
+          });
+          currentIndex = 0;
+        };
 
-            timeline = gsap.timeline({
-              repeat: -1,
-              repeatDelay: cyclePause,
-              paused: true,
-            });
-            timeline.delay(cyclePause);
+        const advance = () => {
+          if (motionPreference.matches) return;
 
-            slides.forEach((_, currentIndex) => {
-              const nextIndex = (currentIndex + 1) % slides.length;
-              const previousIndex =
-                (currentIndex - 1 + slides.length) % slides.length;
-              const transitionStart =
-                currentIndex * (transitionSpan + cyclePause);
+          const nextIndex = (currentIndex + 1) % slides.length;
+          const previousIndex =
+            (currentIndex - 1 + slides.length) % slides.length;
 
-              timeline!.set(
-                tiles[previousIndex],
-                { yPercent: 100 },
-                transitionStart,
-              );
-              timeline!.set(
-                labels[previousIndex],
-                { yPercent: 100, opacity: 0 },
-                transitionStart,
-              );
+          setState(previousIndex, null);
+          setState(currentIndex, "is-existing");
+          setState(nextIndex, "is-active");
 
-              timeline!.call(
-                () => {
-                  setSlideState(slides, tiles, labels, previousIndex, null);
-                  setSlideState(
-                    slides,
-                    tiles,
-                    labels,
-                    currentIndex,
-                    "is-existing",
-                  );
-                  setSlideState(slides, tiles, labels, nextIndex, "is-active");
-                },
-                [],
-                transitionStart,
-              );
+          iconAnimation?.cancel();
+          iconAnimation = icon.animate(
+            [{ rotate: "0deg" }, { rotate: "360deg" }],
+            {
+              duration: transitionDuration,
+              easing: "cubic-bezier(.34,1.56,.64,1)",
+            },
+          );
 
-              timeline!.to(
-                tiles[currentIndex],
-                {
-                  yPercent: -100,
-                  duration: transitionDuration,
-                  ease: slideEase,
-                  stagger: tileStagger,
-                },
-                transitionStart,
-              );
-              timeline!.to(
-                tiles[nextIndex],
-                {
-                  yPercent: 0,
-                  duration: transitionDuration,
-                  ease: slideEase,
-                  stagger: tileStagger,
-                },
-                transitionStart,
-              );
-              timeline!.to(
-                labels[currentIndex],
-                {
-                  yPercent: -100,
-                  duration: transitionDuration,
-                  ease: slideEase,
-                },
-                transitionStart,
-              );
-              timeline!.to(
-                labels[currentIndex],
-                {
-                  opacity: 0,
-                  duration: transitionDuration,
-                  ease: opacityEase,
-                },
-                transitionStart,
-              );
-              timeline!.to(
-                labels[nextIndex],
-                {
-                  yPercent: 0,
-                  duration: transitionDuration,
-                  ease: slideEase,
-                },
-                transitionStart,
-              );
-              timeline!.to(
-                labels[nextIndex],
-                {
-                  opacity: 1,
-                  duration: transitionDuration,
-                  ease: opacityEase,
-                },
-                transitionStart,
-              );
-              timeline!.to(
-                icon,
-                {
-                  rotation: (currentIndex + 1) * 360,
-                  duration: transitionDuration,
-                  ease: iconEase,
-                },
-                transitionStart,
-              );
-            });
-
-            timeline!.play();
-          }, animation);
+          currentIndex = nextIndex;
+          timer = window.setTimeout(() => {
+            setState(previousIndex, null);
+            timer = window.setTimeout(advance, cyclePause);
+          }, transitionSpan);
         };
 
         const handleMotionPreferenceChange = () => {
-          timeline?.kill();
-          context?.revert();
-          timeline = undefined;
-          context = undefined;
-          resetStates();
-
-          if (!motionPreference.matches) startTimeline();
+          reset();
+          if (!motionPreference.matches) {
+            timer = window.setTimeout(advance, cyclePause);
+          }
         };
 
+        reset();
         if (!motionPreference.matches) {
-          startTimeline();
-        } else {
-          resetStates();
+          timer = window.setTimeout(advance, cyclePause);
         }
 
         motionPreference.addEventListener(
@@ -337,12 +216,11 @@ import { OPERATIONS_AI_DATA } from "@/data";
         );
 
         instances.set(animation, () => {
+          reset();
           motionPreference.removeEventListener(
             "change",
             handleMotionPreferenceChange,
           );
-          timeline?.kill();
-          context?.revert();
         });
       });
   };
@@ -358,16 +236,65 @@ import { OPERATIONS_AI_DATA } from "@/data";
 </script>
 
 <style>
+  [data-ai-animation] .ai-tile {
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  [data-ai-animation] .ai-tile:nth-child(1) {
+    transition-delay: 0s;
+  }
+
+  [data-ai-animation] .ai-tile:nth-child(2) {
+    transition-delay: 0.12s;
+  }
+
+  [data-ai-animation] .ai-tile:nth-child(3) {
+    transition-delay: 0.24s;
+  }
+
+  [data-ai-animation] .ai-tile.is-active,
+  [data-ai-animation] .ai-label.is-active {
+    transform: translateY(0);
+  }
+
+  [data-ai-animation] .ai-tile.is-existing,
+  [data-ai-animation] .ai-label.is-existing {
+    transform: translateY(-100%);
+  }
+
+  [data-ai-animation] .ai-label {
+    opacity: 0;
+    transform: translateY(100%);
+    transition:
+      transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+      opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  [data-ai-animation] .ai-label.is-active {
+    opacity: 1;
+    z-index: 2;
+  }
+
+  [data-ai-animation] [data-ai-icon] {
+    transition: rotate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-ai-animation] .ai-tile,
+    [data-ai-animation] .ai-label,
+    [data-ai-animation] [data-ai-icon] {
+      transition: none;
+    }
+  }
+
   [data-ai-animation] .ai-slide.is-active {
     z-index: 2;
   }
 
   [data-ai-animation] .ai-slide.is-existing {
     z-index: 1;
-  }
-
-  [data-ai-animation] .ai-label.is-active {
-    z-index: 2;
   }
 
   [data-ai-animation] .ai-label.is-existing {

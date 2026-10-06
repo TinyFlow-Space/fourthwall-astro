@@ -1,0 +1,61 @@
+---
+---
+
+<div
+  data-ai-integration-box
+  class="relative size-[14.5cqi] shrink-0 rounded-[3cqi] bg-white perspective-midrange has-[.int-tile-inner]:bg-transparent"
+>
+  <div data-ai-flip class="absolute inset-0 transform-3d is-revealed">
+    <img
+      loading="lazy"
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce9cab5f62a7a49eda_int-tiktok.svg"
+      alt=""
+      class="absolute inset-0 block h-full w-full rounded-[3cqi] object-cover backface-hidden [-webkit-backface-visibility:hidden]"
+    />
+
+    <img
+      loading="lazy"
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce9cab5f62a7a49eda_int-tiktok.svg"
+      alt=""
+      class="absolute inset-0 block h-full w-full rounded-[3cqi] object-cover backface-hidden [-webkit-backface-visibility:hidden] rotate-y-180"
+    />
+  </div>
+</div>
+
+<script>
+  const initializeFlipBoxes = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-ai-integration-box]")
+      .forEach((box) => {
+        if (box.dataset.flipInitialized) return;
+
+        const face = box.querySelector<HTMLElement>("[data-ai-flip]");
+        if (!face) return;
+
+        box.dataset.flipInitialized = "true";
+        box.addEventListener("mouseenter", () => {
+          if (face.classList.contains("is-flipping")) return;
+
+          const flipped = face.dataset.flipped === "true";
+          face.style.setProperty("--flip-from", flipped ? "180deg" : "0deg");
+          face.style.setProperty("--flip-to", flipped ? "360deg" : "180deg");
+
+          face.classList.add("is-flipping");
+        });
+        face.addEventListener("animationend", (event) => {
+          if (event.animationName === "flip-x") {
+            face.classList.remove("is-flipping", "is-revealed");
+          }
+        });
+      });
+  };
+
+  document.addEventListener("astro:page-load", initializeFlipBoxes);
+  initializeFlipBoxes();
+</script>
+
+<style>
+  [data-ai-flip].is-flipping {
+    animation: flip-x 0.45s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+  }
+</style>

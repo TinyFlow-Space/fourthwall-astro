@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { OPERATIONS_AI_DATA } from "@/data";
+import AiIntegrationBox from "../ai-integration-box.astro";
 ---
 
 <section
@@ -104,15 +105,129 @@ import { OPERATIONS_AI_DATA } from "@/data";
           </span>
         </p>
       </div>
+
+      <!-- operation stats -->
+      <div
+        class="min-h-0 p-0 flex flex-col relative overflow-hidden scatter-reveal"
+        style={{ "--stagger-index": 0 }}
+      >
+        <!-- stats box -->
+        <div class="aspect-3/2 bg-[#efeff0] w-full relative overflow-hidden @container"></div>
+
+        <p class="max-w-none pt-6 font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          Understand and grow your business with confidence.
+          <span class="text-secondary-foreground">
+            {" "}
+            Our easy-to-use dashboard gives you full visibility into your daily
+            operations. Track orders, see analytics, and make changes quickly.
+          </span>
+        </p>
+      </div>
+
+      <!-- operations integrations -->
+      <div
+        class="min-h-0 p-0 flex flex-col relative overflow-hidden scatter-reveal"
+        style={{ "--stagger-index": 1 }}
+      >
+        <!-- integrations box -->
+        <div class="aspect-3/2 bg-[#efeff0] w-full relative overflow-hidden @container">
+          <!-- init track -->
+          <div class="absolute inset-0 flex flex-col justify-center gap-y-[1.5cqi]">
+            <!-- init row left -->
+            <div class="flex h-[14.5cqi] items-center overflow-hidden">
+              <div class="flex w-max shrink-0 gap-x-[1.5cqi] will-change-transform animate-scroll-x-left [--scroll-duration:64s]">
+                <!-- int box -->
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+              </div>
+            </div>
+
+            <!-- init row right -->
+            <div class="flex h-[14.5cqi] items-center overflow-hidden">
+              <div class="flex w-max shrink-0 gap-x-[1.5cqi] will-change-transform animate-scroll-x-right">
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+              </div>
+            </div>
+
+            <!-- init row left 2 -->
+            <div class="flex h-[14.5cqi] items-center overflow-hidden">
+              <div class="flex w-max shrink-0 gap-x-[1.5cqi] will-change-transform animate-scroll-x-left [--scroll-duration:60s]">
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+                <AiIntegrationBox />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="max-w-none pt-6 font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          Apps and integrations you'll love.
+          <span class="text-secondary-foreground">
+            {" "}
+            We integrate with YouTube, Instagram, TikTok, Spotify, and more.
+            Plus live gifting, on-screen notifications, and chat-driven
+            purchases for your audience.
+          </span>
+        </p>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-  const transitionDuration = 500;
+  const transitionDuration = 900;
   const tileStagger = 120;
-  const cyclePause = 2000;
-  const instances = new Map<HTMLElement, () => void>();
+  const cycleDelay = 2000;
+  const iconDuration = 500;
+  const instances = new WeakMap<HTMLElement, () => void>();
 
   const initializeAnimations = () => {
     document
@@ -127,9 +242,6 @@ import { OPERATIONS_AI_DATA } from "@/data";
           animation.querySelectorAll<HTMLElement>("[data-ai-label]"),
         );
         const icon = animation.querySelector<SVGElement>("[data-ai-icon]");
-        const tiles = slides.map((slide) =>
-          Array.from(slide.querySelectorAll<HTMLElement>(".ai-tile")),
-        );
 
         if (!slides.length || slides.length !== labels.length || !icon) {
           console.error(
@@ -141,30 +253,53 @@ import { OPERATIONS_AI_DATA } from "@/data";
         const motionPreference = window.matchMedia(
           "(prefers-reduced-motion: reduce)",
         );
+        const tileCount = slides[0].querySelectorAll(".ai-tile").length;
         const transitionSpan =
-          transitionDuration + tileStagger * (tiles[0].length - 1);
+          transitionDuration + tileStagger * Math.max(tileCount - 1, 0);
         let currentIndex = 0;
         let timer: number | undefined;
-        let iconAnimation: Animation | undefined;
+        let iconAnimation: Animation | null = null;
 
         const setState = (
           index: number,
           state: "is-active" | "is-existing" | null,
         ) => {
+          const slide = slides[index];
+          const label = labels[index];
+          const tiles = slide
+            ? Array.from(slide.querySelectorAll<HTMLElement>(".ai-tile"))
+            : [];
+
           const active = state === "is-active";
-          [slides[index], ...tiles[index], labels[index]].forEach((element) => {
+          const existing = state === "is-existing";
+
+          [slide, ...tiles, label].forEach((element) => {
+            if (!element) return;
             element.classList.toggle("is-active", active);
-            element.classList.toggle("is-existing", state === "is-existing");
+            element.classList.toggle("is-existing", existing);
           });
-          slides[index].setAttribute("aria-hidden", String(!active));
-          labels[index].setAttribute("aria-hidden", String(!active));
+
+          if (slide) {
+            slide.setAttribute("aria-hidden", String(!active));
+          }
+          if (label) {
+            label.setAttribute("aria-hidden", String(!active));
+          }
+        };
+
+        const stopIconAnimation = () => {
+          if (iconAnimation) {
+            iconAnimation.cancel();
+            iconAnimation = null;
+          }
         };
 
         const reset = () => {
-          if (timer !== undefined) window.clearTimeout(timer);
-          timer = undefined;
-          iconAnimation?.cancel();
-          iconAnimation = undefined;
+          if (timer !== undefined) {
+            window.clearTimeout(timer);
+            timer = undefined;
+          }
+          stopIconAnimation();
           slides.forEach((_, index) => {
             setState(index, index === 0 ? "is-active" : null);
           });
@@ -174,40 +309,39 @@ import { OPERATIONS_AI_DATA } from "@/data";
         const advance = () => {
           if (motionPreference.matches) return;
 
+          const previousIndex = currentIndex;
           const nextIndex = (currentIndex + 1) % slides.length;
-          const previousIndex =
-            (currentIndex - 1 + slides.length) % slides.length;
 
-          setState(previousIndex, null);
-          setState(currentIndex, "is-existing");
+          setState(previousIndex, "is-existing");
           setState(nextIndex, "is-active");
 
-          iconAnimation?.cancel();
+          stopIconAnimation();
           iconAnimation = icon.animate(
-            [{ rotate: "0deg" }, { rotate: "360deg" }],
+            [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
             {
-              duration: transitionDuration,
-              easing: "cubic-bezier(.34,1.56,.64,1)",
+              duration: iconDuration,
+              easing: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+              fill: "forwards",
             },
           );
 
           currentIndex = nextIndex;
           timer = window.setTimeout(() => {
             setState(previousIndex, null);
-            timer = window.setTimeout(advance, cyclePause);
+            timer = window.setTimeout(advance, cycleDelay);
           }, transitionSpan);
         };
 
         const handleMotionPreferenceChange = () => {
           reset();
           if (!motionPreference.matches) {
-            timer = window.setTimeout(advance, cyclePause);
+            timer = window.setTimeout(advance, cycleDelay);
           }
         };
 
         reset();
         if (!motionPreference.matches) {
-          timer = window.setTimeout(advance, cyclePause);
+          timer = window.setTimeout(advance, cycleDelay);
         }
 
         motionPreference.addEventListener(
@@ -216,6 +350,11 @@ import { OPERATIONS_AI_DATA } from "@/data";
         );
 
         instances.set(animation, () => {
+          if (timer !== undefined) {
+            window.clearTimeout(timer);
+            timer = undefined;
+          }
+          stopIconAnimation();
           reset();
           motionPreference.removeEventListener(
             "change",
@@ -226,8 +365,15 @@ import { OPERATIONS_AI_DATA } from "@/data";
   };
 
   const disposeAnimations = () => {
-    instances.forEach((cleanup) => cleanup());
-    instances.clear();
+    document
+      .querySelectorAll<HTMLElement>("[data-ai-animation]")
+      .forEach((animation) => {
+        const cleanup = instances.get(animation);
+        if (cleanup) {
+          cleanup();
+          instances.delete(animation);
+        }
+      });
   };
 
   document.addEventListener("astro:page-load", initializeAnimations);
@@ -236,21 +382,37 @@ import { OPERATIONS_AI_DATA } from "@/data";
 </script>
 
 <style>
+  [data-ai-animation] .ai-slide {
+    z-index: 0;
+  }
+
+  [data-ai-animation] .ai-slide.is-active {
+    z-index: 2;
+  }
+
+  [data-ai-animation] .ai-slide.is-existing {
+    z-index: 1;
+  }
+
   [data-ai-animation] .ai-tile {
+    opacity: 1;
     transform: translateY(100%);
-    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    transition:
+      opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--tile-delay, 0s);
   }
 
   [data-ai-animation] .ai-tile:nth-child(1) {
-    transition-delay: 0s;
+    --tile-delay: 0s;
   }
 
   [data-ai-animation] .ai-tile:nth-child(2) {
-    transition-delay: 0.12s;
+    --tile-delay: 0.12s;
   }
 
   [data-ai-animation] .ai-tile:nth-child(3) {
-    transition-delay: 0.24s;
+    --tile-delay: 0.24s;
   }
 
   [data-ai-animation] .ai-tile.is-active,
@@ -268,16 +430,20 @@ import { OPERATIONS_AI_DATA } from "@/data";
     transform: translateY(100%);
     transition:
       transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-      opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+      opacity 0.5s;
   }
 
   [data-ai-animation] .ai-label.is-active {
     opacity: 1;
-    z-index: 2;
+    transform: translateY(0);
+  }
+
+  [data-ai-animation] .ai-label.is-existing {
+    opacity: 0;
+    transform: translateY(-100%);
   }
 
   [data-ai-animation] [data-ai-icon] {
-    transition: rotate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-origin: center;
   }
 
@@ -287,17 +453,5 @@ import { OPERATIONS_AI_DATA } from "@/data";
     [data-ai-animation] [data-ai-icon] {
       transition: none;
     }
-  }
-
-  [data-ai-animation] .ai-slide.is-active {
-    z-index: 2;
-  }
-
-  [data-ai-animation] .ai-slide.is-existing {
-    z-index: 1;
-  }
-
-  [data-ai-animation] .ai-label.is-existing {
-    z-index: 1;
   }
 </style>

@@ -1,0 +1,138 @@
+---
+import { cn } from "@/utils";
+import ProductCard from "@/components/products/product-card.astro";
+
+const FILTERS = [
+  "Bestsellers",
+  "Apparel",
+  "Accessories",
+  "Drinkware",
+  "Home & Living",
+];
+---
+
+<section class="px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background">
+  <div class="container @container">
+    <div class="mb-10 max-w-[88ch] reveal">
+      <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
+        Hundreds of products.
+        <span class="text-secondary-foreground"> No minimums.</span>
+      </h2>
+    </div>
+
+    <!-- products filter -->
+    <div class="flex items-center gap-14 mb-12">
+      <div class="mb-0 flex-[1_1_0%] min-w-0 relative">
+        <div
+          data-filter-nav
+          class="scrollbar-none flex flex-nowrap gap-2 relative overflow-auto"
+        >
+          <!-- hover pill -->
+          <div
+            data-hover-pill
+            class="z-0 bg-[#0a0a0a0f] absolute top-0 left-0 bottom-0 rounded-lg transition-[transform_0.28s_cubic-bezier(0.2,0.7,0.2,1),width_0.28s_cubic-bezier(0.2,0.7,0.2,1)]"
+          ></div>
+
+          <!-- filter buttons -->
+          {FILTERS.map((item) => (
+            <button
+              class={
+                "z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-4.5 px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none"
+              }
+              data-filter-item
+              aria-pressed={item === "Bestsellers"}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="flex-none ml-auto">
+        <a
+          href="https://products.fourthwall.com"
+          class="btn-secondary z-0 max-w-full py-4.5 px-7 inline-flex items-center gap-2.5 rounded-lg text-foreground text-body-md font-medium transition-[background-color_.2s,border-color_.2s] no-underline group"
+        >
+          <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+            <span class="text-motion group-hover:-translate-y-full">
+              Browse all
+            </span>
+            <span class="text-motion group-hover:-translate-y-full">
+              Browse all
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- products lists -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-1 gap-y-10 row-auto">
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initReveal } from "@/lib";
+
+  initReveal();
+
+  document.querySelectorAll<HTMLElement>("[data-filter-nav]").forEach((nav) => {
+    const pill = nav.querySelector<HTMLElement>("[data-hover-pill]");
+    const buttons = Array.from(
+      nav.querySelectorAll<HTMLButtonElement>("[data-filter-item]"),
+    );
+    const initialSelectedButton = buttons.find(
+      (button) => button.getAttribute("aria-pressed") === "true",
+    );
+    let hoveredButton: HTMLButtonElement | null = null;
+
+    if (!pill || !initialSelectedButton) return;
+    let selectedButton = initialSelectedButton;
+
+    selectedButton.classList.toggle("text-foreground!");
+
+    const positionPill = (button: HTMLButtonElement) => {
+      const { offsetWidth, offsetLeft } = button;
+      pill.style.width = `${offsetWidth}px`;
+      pill.style.transform = `translateX(${offsetLeft}px)`;
+    };
+
+    const positionCurrentButton = () => {
+      positionPill(hoveredButton ?? selectedButton);
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("pointerenter", () => {
+        hoveredButton = button;
+        positionPill(button);
+      });
+
+      button.addEventListener("click", () => {
+        selectedButton = button;
+        buttons.forEach((item) => {
+          const isSelected = item === selectedButton;
+          item.setAttribute("aria-pressed", String(isSelected));
+          item.classList.toggle("text-foreground!", isSelected);
+        });
+        positionPill(button);
+      });
+    });
+
+    nav.addEventListener("pointerleave", () => {
+      hoveredButton = null;
+      positionPill(selectedButton);
+    });
+
+    positionCurrentButton();
+    const resizeObserver = new ResizeObserver(positionCurrentButton);
+    resizeObserver.observe(nav);
+    buttons.forEach((button) => resizeObserver.observe(button));
+  });
+</script>

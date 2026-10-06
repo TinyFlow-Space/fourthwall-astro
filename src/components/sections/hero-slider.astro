@@ -123,7 +123,7 @@ import { Image } from "astro:assets";
 </div>
 
 <script>
-  import gsap from "gsap";
+  import { initCursorTracking } from "@/lib/cursor-tracking";
 
   const root = document.querySelector("[data-hero-slider]");
 
@@ -213,64 +213,31 @@ import { Image } from "astro:assets";
     }
   }
 
-  // cursor tracking
-  const cursor = document.querySelector<HTMLElement>("[data-hero-cursor]");
-  const canHover = window.matchMedia(
-    "(hover: hover) and (pointer: fine)",
-  ).matches;
+  const cursorCleanups = new WeakMap<HTMLElement, () => void>();
 
-  if (cursor && canHover) {
-    document.body.appendChild(cursor);
+  const initializeCursor = () => {
+    const root = document.querySelector<HTMLElement>("[data-hero-slider]");
+    const cursor = root?.querySelector<HTMLElement>("[data-hero-cursor]");
 
-    gsap.set(cursor, { xPercent: -50, yPercent: -50, autoAlpha: 0 });
+    if (!root || !cursor || cursorCleanups.has(root)) return;
+    cursorCleanups.set(
+      root,
+      initCursorTracking(root, ".hero-track-item", cursor, "data-cursor-label"),
+    );
+  };
 
-    const setX = gsap.quickTo(cursor, "x", { duration: 0.4, ease: "power3" });
-    const setY = gsap.quickTo(cursor, "y", { duration: 0.4, ease: "power3" });
+  const disposeCursor = () => {
+    const root = document.querySelector<HTMLElement>("[data-hero-slider]");
+    if (!root) return;
 
-    let isActive = false;
+    const cleanup = cursorCleanups.get(root);
+    if (cleanup) {
+      cleanup();
+      cursorCleanups.delete(root);
+    }
+  };
 
-    const follow = (e: MouseEvent) => {
-      setX(e.clientX);
-      setY(e.clientY);
-    };
-
-    const show = (e: MouseEvent, label: string) => {
-      cursor.textContent = label;
-
-      if (!isActive) {
-        isActive = true;
-        // jump to the pointer on first enter (2nd arg = start value), no glide from 0,0
-        setX(e.clientX, e.clientX);
-        setY(e.clientY, e.clientY);
-        document.addEventListener("mousemove", follow);
-      } else {
-        follow(e);
-      }
-
-      gsap.to(cursor, {
-        autoAlpha: 1,
-        duration: 0.15,
-        ease: "none",
-        overwrite: "auto",
-      });
-    };
-
-    const hide = () => {
-      isActive = false;
-      document.removeEventListener("mousemove", follow);
-      gsap.to(cursor, {
-        autoAlpha: 0,
-        duration: 0.15,
-        ease: "none",
-        overwrite: "auto",
-      });
-    };
-
-    document.querySelectorAll<HTMLElement>(".hero-track-item").forEach((el) => {
-      el.addEventListener("mouseenter", (e) =>
-        show(e, el.dataset.cursorLabel ?? ""),
-      );
-      el.addEventListener("mouseleave", hide);
-    });
-  }
+  document.addEventListener("astro:page-load", initializeCursor);
+  document.addEventListener("astro:before-swap", disposeCursor);
+  initializeCursor();
 </script>

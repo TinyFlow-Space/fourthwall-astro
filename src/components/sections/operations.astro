@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import { OPERATIONS_AI_DATA } from "@/data";
+---
+
+<section
+  data-scatter-reveal-section
+  class="px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background"
+>
+  <div class="container @container">
+    <div class="mb-10 max-w-[88ch] reveal">
+      <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
+        The whole operation.
+        <span class="text-secondary-foreground"> One dashboard.</span>
+      </h2>
+    </div>
+
+    <!-- operations  -->
+    <div class="grid grid-cols-2 gap-x-[clamp(32px,1.6vw,56px)] gap-y-[clamp(64px,3.2vw,96px)]">
+      <!-- operation ai  -->
+      <div
+        class="min-h-0 p-0 col-span-full flex flex-col relative overflow-hidden scatter-reveal"
+        style={{ "--stagger-index": 0 }}
+      >
+        <!-- ai box -->
+        <div class="aspect-40/13 w-full relative overflow-hidden @container">
+          {OPERATIONS_AI_DATA.map((item) => (
+            <div
+              data-text={item.title}
+              class="absolute inset-0 grid grid-cols-3 pointer-events-none"
+            >
+              {/* <!-- ai tile --> */}
+              {item.images.map((img) => (
+                <div class="flex items-center justify-center bg-[#efeff0] transform-[translateY(100%)] transition-[transform_.5s_cubic-bezier(.65,0,.35,1)] nth-[1]:delay-[0s] nth-[2]:delay-[.12s] nth-[3]:delay-[.24s]">
+                  <Image
+                    src={img.src}
+                    loading="lazy"
+                    fetchpriority="high"
+                    inferSize={true}
+                    format="webp"
+                    alt={img.alt}
+                    class="object-cover size-full block"
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+
+          <!-- title overlap -->
+          <div
+            aria-hidden="true"
+            tabindex="-1"
+            class="max-w-full contents pointer-events-none text-inherit cursor-auto"
+          >
+            <div class="absolute top-1/2 left-1/2 z-2 inline-flex min-w-[46cqi] -translate-x-1/2 -translate-y-1/2 cursor-text items-center justify-start gap-x-[1cqi] whitespace-nowrap rounded-[1.4cqi] bg-[#3c3c3c66] px-[1.8cqi] py-[1.5cqi] font-display text-[1.7cqi] font-medium tracking-[-.01em] text-white backdrop-blur-lg backdrop-saturate-[1.8]">
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                class="shrink-0 size-[1.9cqi] transition-[transform_.5s_cubic-bezier(.34,1.56,.64,1)]"
+                style="transform: rotate(385920deg);"
+              >
+                <path
+                  d="M11.2003 0.575117C11.4577 -0.191706 12.5423 -0.191706 12.7997 0.575117C14.4817 5.58555 18.4144 9.51827 23.4249 11.2003C24.1917 11.4577 24.1917 12.5423 23.4249 12.7997C18.4144 14.4817 14.4817 18.4144 12.7997 23.4249C12.5423 24.1917 11.4577 24.1917 11.2003 23.4249C9.51827 18.4144 5.58555 14.4817 0.575117 12.7997C-0.191706 12.5423 -0.191706 11.4577 0.575117 11.2003C5.58555 9.51827 9.51827 5.58555 11.2003 0.575117Z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+              <span class="relative grid h-[1.25em] flex-1 grid-cols-1 overflow-hidden leading-[125%]">
+                <span
+                  class="col-start-1 row-start-1 text-center opacity-0 transform-[translateY(100%)] transition-[transform_.5s_cubic-bezier(.65,0,.35,1),opacity_.5s_ease]"
+                  style=""
+                >
+                  Prototype new design ideas
+                </span>
+                <span
+                  class="col-start-1 row-start-1 text-center opacity-0 transform-[translateY(100%)] transition-[transform_.5s_cubic-bezier(.65,0,.35,1),opacity_.5s_ease]"
+                  style=""
+                >
+                  Customize my shop for upcoming drop
+                </span>
+                <span
+                  class="col-start-1 row-start-1 text-center opacity-0 transform-[translateY(100%)] transition-[transform_.5s_cubic-bezier(.65,0,.35,1),opacity_.5s_ease]"
+                  style=""
+                >
+                  What products should I launch this season?
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- bottom content -->
+        <p class="max-w-none pt-6 font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          Expert, personalized advice from your own AI assistant.
+          <span class="text-secondary-foreground">
+            {" "}
+            Our team has helped creators sell billions of dollars of products.
+            We put everything we've learned into Eli, an AI assistant who can
+            help you achieve your goals.
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

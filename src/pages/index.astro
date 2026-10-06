@@ -8,6 +8,7 @@ import Creators from "@/components/sections/creators.astro";
 import FeaturedProducts from "@/components/sections/featured-products.astro";
 import Testimonials from "@/components/sections/testimonials.astro";
 import Products from "@/components/sections/products.astro";
+import Operations from "@/components/sections/operations.astro";
 ---
 
 <BaseLayout
@@ -17,9 +18,16 @@ import Products from "@/components/sections/products.astro";
   <Hero />
   <FeaturedProducts />
   <TrustedBrands />
+  <Operations />
   <Testimonials />
   <Products />
   <Creators />
   <Accordion />
   <Cta />
 </BaseLayout>
+
+<script>
+  import { initReveal, initScatterReveal } from "@/lib";
+  initReveal();
+  initScatterReveal();
+</script>

@@ -30,6 +30,7 @@
 
   --text-body-md: clamp(16px, 14px + 0.2083vw, 22px);
   --text-body-sm: clamp(14px, 13px + 0.1042vw, 16px);
+  --text-body-lg: clamp(18px, 18px + 0.2083vw, 26px);
   --text-heading-xl: clamp(28px, max(4vw, min(7.5vw, 44px)), 96px);
   --text-heading-lg: clamp(28px, 3vw, 72px);
 

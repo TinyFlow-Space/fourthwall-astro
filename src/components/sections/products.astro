@@ -79,10 +79,6 @@ const FILTERS = [
 </section>
 
 <script>
-  import { initReveal } from "@/lib";
-
-  initReveal();
-
   document.querySelectorAll<HTMLElement>("[data-filter-nav]").forEach((nav) => {
     const pill = nav.querySelector<HTMLElement>("[data-hover-pill]");
     const buttons = Array.from(

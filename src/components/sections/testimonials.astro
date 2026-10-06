@@ -37,10 +37,8 @@ const CLASSES = [
 <script>
   import gsap from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { initReveal } from "@/lib";
 
   gsap.registerPlugin(ScrollTrigger);
-  initReveal();
 
   const section = document.querySelector<HTMLElement>(
     "[data-testimonials-section]",

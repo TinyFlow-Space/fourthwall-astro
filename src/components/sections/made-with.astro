@@ -2,115 +2,117 @@
 import MadeWallItem from "@/components/made-wall-item.astro";
 ---
 
-<section
-  data-made-wall-section
-  class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] select-none touch-pan-y [-webkit-user-select:none] pt-surface-y-lg bg-surface-dark text-white cursor-grab mx-auto pb-0 overflow-hidden"
-  style={{ "--expand-progress": "0.000" }}
->
-  <div class="max-w-[1880px] px-surface-x text-center mx-auto">
-    <h2 class="font-display text-white text-heading-xl leading-flat font-medium tracking-[-.02em] mb-0 p-0 text-balance reveal">
-      Made with Fourthwall
-    </h2>
-  </div>
-
-  <!-- stage -->
+<section class="bg-background">
   <div
-    data-made-wall-stage
-    class="relative mt-[clamp(24px,3.8vw,96px)] [--stage-default-h:clamp(440px,calc(310px+25vw),1120px)] [--stage-expanded-h:clamp(560px,calc(380px+30vw),1400px)] h-[calc(var(--stage-default-h)+var(--expand-progress)*(var(--stage-expanded-h)-var(--stage-default-h)))] perspective-[clamp(1500px,calc(1275px+37.5vw),3200px)] mask-none [-webkit-mask-image:none] touch-pan-y [-webkit-user-select:none] w-full perspective-origin-[50%_center] isolate overflow-hidden mb-0 mx-0"
+    data-made-wall-section
+    class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] select-none touch-pan-y [-webkit-user-select:none] pt-surface-y-lg bg-surface-dark text-white cursor-grab mx-auto pb-0 overflow-hidden"
+    style={{ "--expand-progress": "0.0000" }}
   >
-    <!-- stage frame -->
+    <div class="max-w-[1880px] px-surface-x text-center mx-auto">
+      <h2 class="font-display text-white text-heading-xl leading-flat font-medium tracking-[-.02em] mb-0 p-0 text-balance reveal">
+        Made with Fourthwall
+      </h2>
+    </div>
+
+    <!-- stage -->
     <div
-      data-made-wall-frame
-      class="stage-frame absolute top-1/2 left-1/2 h-0 w-0 transform-3d will-change-transform"
-      style="transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);"
+      data-made-wall-stage
+      class="relative mt-[clamp(24px,3.8vw,96px)] [--stage-default-h:clamp(440px,calc(310px+25vw),1120px)] [--stage-expanded-h:clamp(560px,calc(380px+30vw),1400px)] h-[calc(var(--stage-default-h)+var(--expand-progress)*(var(--stage-expanded-h)-var(--stage-default-h)))] perspective-[clamp(1500px,calc(1275px+37.5vw),3200px)] mask-none [-webkit-mask-image:none] touch-pan-y [-webkit-user-select:none] w-full perspective-origin-[50%_center] isolate overflow-hidden mb-0 mx-0"
     >
-      <!-- stage wall -->
+      <!-- stage frame -->
       <div
-        data-made-wall-items
-        class="absolute top-0 left-0 h-0 w-0 transform-3d"
+        data-made-wall-frame
+        class="stage-frame absolute top-1/2 left-1/2 h-0 w-0 transform-3d will-change-transform"
+        style="transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);"
       >
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
-        <MadeWallItem />
+        <!-- stage wall -->
+        <div
+          data-made-wall-items
+          class="absolute top-0 left-0 h-0 w-0 transform-3d"
+        >
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+          <MadeWallItem />
+        </div>
       </div>
     </div>
-  </div>
 
-  <div
-    data-made-wall-cursor
-    aria-hidden="true"
-    class="fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
-  ></div>
+    <div
+      data-made-wall-cursor
+      aria-hidden="true"
+      class="fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
+    ></div>
+  </div>
 </section>
 
 <script>

@@ -7,3 +7,4 @@ export * from "@/data/faqs";
 export * from "@/data/creators";
 export * from "@/data/testimonials";
 export * from "@/data/operations-ai";
+export * from "@/data/design-mockups";

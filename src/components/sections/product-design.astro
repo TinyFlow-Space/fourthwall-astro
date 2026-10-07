@@ -1,0 +1,219 @@
+---
+import { CropIcon } from "@/components/icons";
+import { cn } from "@/utils";
+import { preview } from "astro";
+
+const DESIGN_MOCKUPS = [
+  {
+    key: "b",
+    mockupSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073896825926d544e72a9_design-product-b-p-1600.webp",
+    artworkSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073896c96d9b5281d8407_design-artwork-b.svg",
+    previewSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907388222ba19d17f86299_design-preview-b-p-1600.webp",
+  },
+  {
+    key: "a",
+    mockupSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907389b5a50ce5c8f66b5c_design-product-a.webp",
+    artworkSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073892b777e8f57eb17a8_design-artwork-a.svg",
+    previewSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073884ca8d0a18e6d9dab_design-preview-a-p-1080.webp",
+  },
+  {
+    key: "c",
+    mockupSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907389e012a16183179f69_design-product-c.webp",
+    artworkSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073886825926d544e7249_design-artwork-c.svg",
+    previewSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907388222ba19d17f86284_design-preview-c.webp",
+  },
+];
+---
+
+<section
+  class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] py-surface-y-lg bg-surface-dark text-white cursor-grab mx-auto pb-0 overflow-hidden"
+  style={{ "--expand-progress": "0.000" }}
+>
+  <!-- design dot field -->
+  <canvas
+    aria-hidden="true"
+    class="absolute w-full h-ful z-0 inset-0"
+    width="3600"
+    height="3215"
+  ></canvas>
+
+  <div class="container @container">
+    <div class="mb-10 max-w-[88ch] text-center mx-auto reveal">
+      <h2 class="font-display text-white text-heading-xl leading-flat tracking-[-.02em] font-medium normal-case my-0 p-0">
+        Design your products. <br />
+        <span class="text-muted-foreground"> All you need is an idea.</span>
+      </h2>
+      <p class="max-w-[60ch] m-[clamp(28px,2.2vw,40px)_auto_0] text-muted-foreground text-balance text-body-md leading-relaxed">
+        Describe an idea, upload your own art, or commission an artist. Then
+        build a full collection. Money-back guarantee.
+      </p>
+    </div>
+
+    <!-- current slider -->
+    <div
+      data-current-slide="a"
+      class="flex items-start flex-wrap gap-[clamp(24px,4vw,56px)] mt-30 px-[clamp(16px,10cqi,140px)] select-none"
+      style={{
+        "--progress-duration": "5200ms",
+        "--scroll-progress": "0.3609",
+      }}
+    >
+      <!-- design slider strip-->
+      <div class="contents">
+        <!-- design mockup column-->
+        <div
+          class="flex flex-1 flex-col min-w-0 scatter-reveal"
+          style={{ "--stagger-index": 0 }}
+        >
+          <!-- design mockup -->
+          <div class="aspect-5/6 w-full relative overflow-hidden @container will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*-80px),0)]">
+            <!-- mockup viewport -->
+            <div class="absolute inset-0 overflow-hidden">
+              <!-- mockup track -->
+              <div class="isolate absolute inset-0">
+                <!-- design mockup slide -->
+                {DESIGN_MOCKUPS.map((mockup) => (
+                  <div
+                    data-slide-key={mockup.key}
+                    class="absolute top-0 -left-px flex h-full w-[calc(100%+2px)] items-center justify-center bg-background"
+                    style="z-index: 361; transition: filter 1150ms cubic-bezier(0.65, 0, 0.35, 1) 80ms; filter: brightness(0.2); clip-path: inset(0px);"
+                  >
+                    <img
+                      src={mockup.mockupSrc}
+                      loading="lazy"
+                      alt=""
+                      class="object-contain size-full block pointer-events-none"
+                    />
+                    <img
+                      src={mockup.artworkSrc}
+                      loading="lazy"
+                      alt=""
+                      class="w-1/2 absolute top-[45%] left-1/2 transform-[translate(-50%,-50%)] pointer-events-none"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- design canvas -->
+            <div
+              aria-hidden="true"
+              class="absolute top-[45%] left-1/2 aspect-5/3 w-[54%] -translate-x-1/2 -translate-y-1/2 pointer-events-none bg-[repeating-linear-gradient(90deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(90deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(0deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(0deg,#fff_0_5px,#0000_5px_11px)] bg-position-[0_0,0_100%,0_0,100%_0] bg-no-repeat bg-size-[100%_2px,100%_2px,2px_100%,2px_100%]"
+            >
+              <CropIcon className="-top-1 -left-1" />
+              <CropIcon className="-top-1 -right-1" />
+              <CropIcon className="-bottom-1 -left-1" />
+              <CropIcon className="-bottom-1 -right-1" />
+              <CropIcon className="hidden" />
+              <CropIcon className="hidden" />
+              <CropIcon className="hidden" />
+              <CropIcon className="hidden" />
+
+              <!-- design toolbar -->
+              <div
+                aria-hidden="true"
+                class="absolute top-[calc(100%+3cqi)] left-1/2 flex items-stretch gap-x-[2.5cqi] -translate-x-1/2 whitespace-nowrap font-body"
+              >
+                <div class="inline-flex items-center gap-x-[2.15cqi] rounded-[3.05cqi] bg-white px-[3.05cqi] py-[2.15cqi] text-[2.9cqi] font-medium leading-[100%] tracking-[-.01em] text-[#0c0c0c]">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    class="size-[2.85cqi] shrink-0 text-[#0c0c0c]"
+                  >
+                    <path
+                      d="M11.2003 0.575117C11.4577 -0.191706 12.5423 -0.191706 12.7997 0.575117C14.4817 5.58555 18.4144 9.51827 23.4249 11.2003C24.1917 11.4577 24.1917 12.5423 23.4249 12.7997C18.4144 14.4817 14.4817 18.4144 12.7997 23.4249C12.5423 24.1917 11.4577 24.1917 11.2003 23.4249C9.51827 18.4144 5.58555 14.4817 0.575117 12.7997C-0.191706 12.5423 -0.191706 11.4577 0.575117 11.2003C5.58555 9.51827 9.51827 5.58555 11.2003 0.575117Z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                  <span>Ask</span>
+                </div>
+
+                <div class="inline-flex items-center gap-x-[2.85cqi] rounded-[3.05cqi] bg-white px-[3.05cqi] py-[2.15cqi] text-[#0c0c0c]">
+                  <span class="relative overflow-hidden size-[3.05cqi] shrink-0 rounded-full">
+                    <span class="absolute inset-0 opacity-1 transition-[opacity_.6s] bg-[#8d5846]"></span>
+                    <span class="absolute inset-0 opacity-0 transition-[opacity_.6s] bg-[linear-gradient(135deg,#be24bc_0%,#3f9ebd_100%)]"></span>
+                    <span class="absolute inset-0 opacity-0 transition-[opacity_.6s] bg-[#cd3960]"></span>
+                  </span>
+                  <span class="inline-flex h-[2.85cqi] w-[2.85cqi] shrink-0 items-center justify-center text-[#0c0c0c]">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path
+                        d="M1.50018 7.9912V13.4393L5.96655 8.97776L7.02625 10.0416L2.56379 14.4982H8.01367V16H1.75021C0.783732 15.9999 7.52404e-05 15.2154 0 14.2479V7.9912H1.50018Z"
+                        fill="currentColor"
+                      ></path>
+                      <path
+                        d="M14.2498 0C15.2163 0.00011005 16 0.784528 16 1.75214V8.0088H14.4998V2.55977L10.0335 7.02127L8.97375 5.95845L13.4352 1.50183H7.98633V0H14.2498Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </span>
+                  <span class="inline-flex h-[2.85cqi] w-[2.85cqi] shrink-0 items-center justify-center text-[#0c0c0c]">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M6.1 1.5C5.96193 1.5 5.85 1.61193 5.85 1.75V2.16667C5.85 2.30474 5.96193 2.41667 6.1 2.41667H9.9C10.0381 2.41667 10.15 2.30474 10.15 2.16667V1.75C10.15 1.61193 10.0381 1.5 9.9 1.5H6.1ZM11.6323 2.41667C11.644 2.33502 11.65 2.25155 11.65 2.16667V1.75C11.65 0.783502 10.8665 0 9.9 0H6.1C5.1335 0 4.35 0.783502 4.35 1.75V2.16667C4.35 2.25155 4.35604 2.33502 4.36772 2.41667H0.75V3.91667H1.46772C1.45604 3.99832 1.45 4.08179 1.45 4.16667V14.25C1.45 15.2165 2.2335 16 3.2 16H12.8C13.7665 16 14.55 15.2165 14.55 14.25V4.16667C14.55 4.08179 14.544 3.99832 14.5323 3.91667H15.25V2.41667H11.6323ZM12.8 3.91667H3.2C3.06193 3.91667 2.95 4.02859 2.95 4.16667V14.25C2.95 14.3881 3.06193 14.5 3.2 14.5H12.8C12.9381 14.5 13.05 14.3881 13.05 14.25V4.16667C13.05 4.0286 12.9381 3.91667 12.8 3.91667ZM5.35 12.8333V6.06667H6.85V12.8333H5.35ZM9.15 12.8333V6.06667H10.65V12.8333H9.15Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- design preview column-->
+        <div
+          class="flex flex-1 flex-col min-w-0 scatter-reveal"
+          style={{ "--stagger-index": 1 }}
+        >
+          <!-- design preview -->
+          <div class="aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*-80px),0)]">
+            <!--design preview viewport -->
+            <div class="flex-1 relative overflow-hidden w-full min-h-0">
+              <div class="isolate absolute inset-0">
+                {DESIGN_MOCKUPS.map((preview) => (
+                  <img
+                    src={preview.previewSrc}
+                    loading="lazy"
+                    alt=""
+                    class="absolute top-0 -left-px object-contain w-[calc(100%+2px)] h-full block pointer-events-none will-change-[clip-path]"
+                    style="z-index: 361; transition: filter 1150ms cubic-bezier(0.65, 0, 0.35, 1) 80ms; filter: brightness(0.2); clip-path: inset(0px);"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- design slider dots -->
+      <div
+        aria-label="Design slides"
+        role="tablist"
+        class="flex justify-center gap-x-2 mt-16 flex-[0_0_100%]"
+      >
+        {Array.from({ length: 3 }).map((_, index) => (
+          <button
+            aria-label={`Slide ${index + 1}`}
+            data-design-dot={index}
+            class={cn(
+              "relative w-2 h-2 transition-[width_.4s] border-none p-0 bg-[#ffffff4d] cursor-pointer rounded-full text-white leading-[inherit] inline-block before:content-[''] before:absolute before:-inset-2",
+              index == 0 &&
+                'after:content-[""] after:absolute after:inset-0 after:rounded-full after:bg-white after:[clip-path:inset(0_100%_0_0)] after:animate-[dot-progress_var(--progress-duration,5.2s)_linear_forwards] w-9',
+            )}
+          ></button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

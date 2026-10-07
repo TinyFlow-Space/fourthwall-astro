@@ -122,6 +122,15 @@
       opacity: 1;
     }
   }
+
+  @keyframes dot-progress {
+    0% {
+      clip-path: inset(0px 100% 0px 0px);
+    }
+    100% {
+      clip-path: inset(0px);
+    }
+  }
 }
 
 @utility rise-in {

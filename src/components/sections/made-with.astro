@@ -101,6 +101,7 @@ import MadeWallItem from "@/components/made-wall-item.astro";
         <MadeWallItem />
         <MadeWallItem />
         <MadeWallItem />
+        <MadeWallItem />
       </div>
     </div>
   </div>
@@ -155,13 +156,13 @@ import MadeWallItem from "@/components/made-wall-item.astro";
     let gestureAxis: "horizontal" | "vertical" | null = null;
     let didDrag = false;
     let suppressClickUntil = 0;
-    const autoSpeed = 3.75;
+    const autoSpeed = 0.5;
     const dragSensitivity = 0.15;
     const firstAngle = 44.17;
     const angleStep = 15;
 
     const setProgress = (value: number) => {
-      const progress = Math.min(1, Math.max(0, value)).toFixed(3);
+      const progress = Math.min(1, Math.max(0, value)).toFixed(4);
       if (section.style.getPropertyValue("--expand-progress") !== progress) {
         section.style.setProperty("--expand-progress", progress);
       }

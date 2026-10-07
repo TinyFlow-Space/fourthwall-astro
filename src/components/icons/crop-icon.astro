@@ -1,0 +1,17 @@
+---
+import { cn } from "@/utils";
+
+const { className, ...props } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 10 10"
+  aria-hidden="true"
+  {...props}
+  class={cn(
+    "absolute transition-colors duration-[0.6s] size-2.25 text-white rounded-full",
+    className,
+  )}
+>
+  <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
+</svg>

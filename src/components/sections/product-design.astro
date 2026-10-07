@@ -166,7 +166,7 @@ const ACTIVE_DESIGN_KEY = "a";
             <!-- design preview -->
             <div
               data-design-preview-wrap
-              class="aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*-80px),0)]"
+              class="aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*80px),0)]"
             >
               <!--design preview viewport -->
               <div class="flex-1 relative overflow-hidden w-full min-h-0">
@@ -238,6 +238,10 @@ const ACTIVE_DESIGN_KEY = "a";
     const dots = [
       ...slider.querySelectorAll<HTMLButtonElement>("[data-design-dot]"),
     ];
+
+    const designPreviewWrap = slider.querySelector(
+      "[data-design-preview-wrap]",
+    );
 
     const zIndexSequence = [...slides]
       .map((slide) => slide.dataset.slideKey)
@@ -403,15 +407,19 @@ const ACTIVE_DESIGN_KEY = "a";
     }
 
     // section expand
-    const setProgress = (value: number) => {
+    const setProgress = (
+      value: number,
+      variable: string,
+      target: HTMLElement = section,
+    ) => {
       const progress = Math.min(1, Math.max(0, value)).toFixed(4);
-      if (section.style.getPropertyValue("--expand-progress") !== progress) {
-        section.style.setProperty("--expand-progress", progress);
+      if (target.style.getPropertyValue(variable) !== progress) {
+        target.style.setProperty(variable, progress);
       }
     };
 
     const updateExpandProgress = (self: ScrollTrigger) => {
-      setProgress(self.progress);
+      setProgress(self.progress, "--expand-progress");
     };
 
     ScrollTrigger.create({
@@ -426,6 +434,18 @@ const ACTIVE_DESIGN_KEY = "a";
       invalidateOnRefresh: true,
       onUpdate: updateExpandProgress,
       onRefresh: updateExpandProgress,
+    });
+
+    ScrollTrigger.create({
+      trigger: designPreviewWrap,
+      start: "top bottom",
+      end: "bottom 0%",
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: (self) =>
+        setProgress(self.progress, "--scroll-progress", designPreviewWrap),
+      onRefresh: (self) =>
+        setProgress(self.progress, "--scroll-progress", designPreviewWrap),
     });
   }
 </script>

@@ -1,0 +1,81 @@
+---
+import { BRAND_MARQUEE_DATA } from "@/data";
+import { cn } from "@/utils";
+---
+
+<div
+  aria-hidden="true"
+  class="w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y [--shop-step:51cqi] [-webkit-user-select:none] cursor-grab"
+>
+  {BRAND_MARQUEE_DATA.map((item, index) => (
+    <div
+      class={cn(
+        "shop-slide absolute top-[8.5cqi] left-1/2 w-[47.5cqi] aspect-900/1260 overflow-hidden rounded-[3cqi_3cqi_0_0] will-change-transform",
+        `shop-slide-pos--${index + 1}`,
+      )}
+      style="transform: translateX(calc(-50% + 2.334607611951423 * var(--shop-step)))"
+    >
+      {item.type === "video" ? (
+        <>
+          <img
+            src={item.bgSrc}
+            alt={item.alt}
+            class="block size-full object-cover"
+            loading="lazy"
+            sizes="100vw"
+          />
+
+          <div class="static">
+            <video
+              class="absolute top-[16.27%] left-[5.333%] h-[83.33%] w-[89.333%] rounded-t-[3.2cqi] object-cover opacity-100 transition-opacity duration-600"
+              src={item.src}
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="none"
+            ></video>
+          </div>
+
+          <img
+            src={item.actionImgSrc}
+            alt={item.alt}
+            class="absolute top-[84.762%] left-[9.222%] h-auto w-[81.556%] rounded-[1.3cqi]"
+            loading="lazy"
+            sizes="100vw"
+          />
+        </>
+      ) : (
+        <img
+          src={item.src}
+          alt={item.alt}
+          class="block size-full object-cover"
+          loading="lazy"
+          sizes="100vw"
+        />
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  .shop-slide.shop-slide--pos-3 {
+    transform: translate(calc(102cqi - 50%));
+  }
+
+  .shop-slide.shop-slide--pos-5 {
+    transform: translate(calc(-50% - 51cqi));
+  }
+
+  .shop-slide.shop-slide--pos-1 {
+    transform: translate(-50%);
+  }
+
+  .shop-slide.shop-slide--pos-2 {
+    transform: translate(calc(51cqi - 50%));
+  }
+
+  .shop-slide.shop-slide--pos-4 {
+    transform: translate(calc(-50% - 102cqi));
+  }
+</style>

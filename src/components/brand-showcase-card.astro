@@ -1,0 +1,15 @@
+---
+import { cn } from "@/utils";
+
+const { className, index } = Astro.props;
+---
+
+<div
+  class={cn(
+    "flex flex-col gap-y-6 [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform] scatter-reveal group",
+    className,
+  )}
+  style={{ "--stagger-index": index }}
+>
+  <slot />
+</div>

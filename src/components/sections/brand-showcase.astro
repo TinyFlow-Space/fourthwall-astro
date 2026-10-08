@@ -1,0 +1,126 @@
+---
+import BrandShowcaseCard from "../brand-showcase-card.astro";
+import BrandShopSlider from "@/components/brand-shop-slider.astro";
+---
+
+<section class="bg-background px-surface-x pb-surface-y-lg pt-surface-y-sm">
+  <div class="container @container">
+    <div class="mb-10 max-w-[94ch] reveal">
+      <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
+        You bring the ideas.
+        <span class="text-secondary-foreground"> We'll handle the rest.</span>
+      </h2>
+    </div>
+
+    <!-- brand showcase grid -->
+    <div
+      data-scatter-reveal-section
+      class="grid grid-cols-[repeat(13,1fr)] gap-x-[clamp(32px,1.6vw,56px)] gap-y-[clamp(64px,57.6px,96px)]"
+    >
+      <BrandShowcaseCard className="col-[span_7]" index={0}>
+        <div>box</div>
+
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          Design your product, we make it real.
+          <span class="text-secondary-foreground">
+            {" "}
+            Sourcing, samples, production, quality control — handled by partners
+            we vet. No upfront costs, quality guaranteed.
+          </span>
+        </p>
+      </BrandShowcaseCard>
+
+      <BrandShowcaseCard className="col-[span_6]" index={1}>
+        <!-- brand showcase marquee -->
+        <BrandShopSlider />
+
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          Build a branded shop in minutes.
+          <span class="text-secondary-foreground">
+            {" "}
+            Start with a template and customize every part until it's truly
+            yours. Don't need a storefront? Skip it and order your products
+            immediately.
+          </span>
+        </p>
+      </BrandShowcaseCard>
+
+      <BrandShowcaseCard className="col-[span_6]" index={0}>
+        <div>box</div>
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          Fast, global shipping.
+          <span class="text-secondary-foreground">
+            {" "}
+            We work with top manufacturers all over the world to ensure that
+            products ship fast and for a fair price.
+          </span>
+        </p>
+      </BrandShowcaseCard>
+
+      <BrandShowcaseCard className="col-[span_7]" index={1}>
+        <div class="bg-paper-soft w-full relative overflow-hidden [-webkit-user-select:none] flex items-center justify-center @container bg-[radial-gradient(272.72%_140.48%_at_1.33%_0,#ac244b_0%,#cc4975_50%,#b0cb74_100%)] aspect-8/5">
+          <div
+            class="z-1 bg-background rounded-[2.5cqi] w-[63cqi] p-[4cqi] pt-[5cqi] relative shadow-[0_.6cqi_2.5cqi_#0000000a] [transition:transform_.9s_var(--ease-rise-in)] group-hover:transform-[perspective(900px)_scale(var(--support-zoom,1))_rotateX(var(--tilt-x,0deg))_rotateY(var(--tilt-y,0deg))] group-hover:[transition:transform_.25s_var(--ease-rise-in)]"
+            style="--tilt-y: 0deg; --tilt-x: 0deg;"
+          >
+            <p class="text-secondary-foreground font-medium m-[0_0_2.5cqi] text-[2.5cqi]">
+              Customer support for order 2FX43PL
+            </p>
+
+            <div class="flex flex-col gap-y-[2.5cqi]">
+              <!-- customer bubble -->
+              <div class="flex items-end justify-start gap-x-[1.4cqi]">
+                <div class="text-foreground bg-[#ededed] text-[2.5cqi] leading-[135%] font-medium rounded-[1.9cqi] p-[2cqi_2.8cqi]">
+                  I entered the wrong shipping address on my order. Can you
+                  change it?
+                </div>
+
+                <div class="flex h-[4.4cqi] w-[4.4cqi] shrink-0 items-center justify-center rounded-[1.4cqi] bg-[#ededed] text-[2cqi] font-bold tracking-[-.02em] text-[#979696]">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    class="size-[3cqi] translate-y-[.12cqi]"
+                  >
+                    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 0c-3.866 0-7 2.239-7 5v1h14v-1c0-2.761-3.134-5-7-5Z"></path>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- agent bubble -->
+              <div class="flex items-end justify-start gap-x-[1.4cqi]">
+                <div class="text-white bg-surface-dark text-[2.5cqi] leading-[135%] font-medium rounded-[1.9cqi] p-[2cqi_2.8cqi]">
+                  Updated. Your order hasn't been dispatched yet, so it'll ship
+                  to the new address.
+                </div>
+
+                <div class="flex h-[4.4cqi] w-[4.4cqi] shrink-0 items-center justify-center rounded-[1.4cqi] text-white bg-surface-dark text-[2cqi] font-bold tracking-[-.02em]">
+                  <svg
+                    viewBox="0 0 19.3333 12"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    class="w-[2.4cqi] h-auto translate-y-[-.1cqi]"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M9.34739 3.09514L10.5176 9.1366L11.5555 3.09514H14.3568L15.3784 9.1366L16.5486 3.09514H19.3333L17.2901 12H14.1426L12.9563 5.42886L11.7698 12H8.60592L6.56267 3.09514H9.34739ZM7.2178 0L6.80578 1.92014H6.03131C5.05912 1.92014 4.84496 1.96978 4.6801 2.64818L4.59766 3.09518H6.55862L6.14646 5.03168H4.18564L2.719 12H0L1.46665 5.03168H0.247297L0.659318 3.09518H1.86224L1.9941 2.53227C2.42255 0.430365 3.44418 0 5.81701 0H7.2178Z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+          World-class support for you and your customers.
+          <span class="text-secondary-foreground">
+            {" "}
+            Whenever you or your customers need help, we'll be there with fast,
+            human support.
+          </span>
+        </p>
+      </BrandShowcaseCard>
+    </div>
+  </div>
+</section>

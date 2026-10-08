@@ -32,3 +32,35 @@ export const HERO_SLIDERS = [
     title: "VIVA+'s memberships and shop",
   },
 ];
+
+export const BRAND_MARQUEE_DATA = [
+  {
+    type: "image",
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90731061c2955811eee545_shop-site-orchid.webp",
+    alt: "",
+  },
+  {
+    type: "image",
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310aca6dd42e1dddd83_shop-site-signal.webp",
+    alt: "",
+  },
+  {
+    type: "image",
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310aca6dd42e1dddd35_shop-site-dagger.webp",
+    alt: "",
+  },
+  {
+    type: "image",
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310e012a16183176a0d_shop-site-bl.webp",
+    alt: "",
+  },
+  {
+    type: "video",
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f6825926d544e2af9_shop-storywide-loop.mp4",
+    alt: "",
+    bgSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f294d5fa8d2b843b0_shop-site-storywide.webp",
+    actionImgSrc:
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddcba_shop-storywide-btn.webp",
+  },
+];

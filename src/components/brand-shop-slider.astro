@@ -1,81 +1,330 @@
 ---
 import { BRAND_MARQUEE_DATA } from "@/data";
 import { cn } from "@/utils";
+
+interface Props {
+  /** Auto-scroll speed in px/second, right → left. Use 0 to disable auto-scroll. */
+  speed?: number;
+  /** ms to ease the auto-scroll back in after a drag ends (0 = instantly). */
+  resume?: number;
+  /** Turn auto-scroll off when the OS has "Reduce motion" enabled. */
+  respectReducedMotion?: boolean;
+}
+
+const { speed = 40, resume = 150, respectReducedMotion = false } = Astro.props;
+
+// Repeat the data so the loop always has enough slides to stay seamless.
+const MIN_SLIDES = 5;
+const items = Array.from(
+  { length: Math.max(BRAND_MARQUEE_DATA.length, MIN_SLIDES) },
+  (_, i) => BRAND_MARQUEE_DATA[i % BRAND_MARQUEE_DATA.length],
+);
+
+const getPosition = (index: number) => {
+  const midpoint = Math.floor(items.length / 2);
+  return index - (index > midpoint ? items.length : 0);
+};
 ---
 
 <div
+  data-brand-shop-slider
+  data-speed={speed}
+  data-resume={resume}
+  data-respect-reduced-motion={respectReducedMotion}
   aria-hidden="true"
-  class="w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y [--shop-step:51cqi] [-webkit-user-select:none] cursor-grab"
+  class="w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y [--shop-step:51cqi] [-webkit-user-select:none] select-none aspect-8/5"
 >
-  {BRAND_MARQUEE_DATA.map((item, index) => (
-    <div
-      class={cn(
-        "shop-slide absolute top-[8.5cqi] left-1/2 w-[47.5cqi] aspect-900/1260 overflow-hidden rounded-[3cqi_3cqi_0_0] will-change-transform",
-        `shop-slide-pos--${index + 1}`,
-      )}
-      style="transform: translateX(calc(-50% + 2.334607611951423 * var(--shop-step)))"
-    >
-      {item.type === "video" ? (
-        <>
+  <!-- Zero-height probe: lets JS read the real pixel value of --shop-step -->
+  <i
+    data-shop-step
+    aria-hidden="true"
+    class="pointer-events-none invisible absolute top-0 left-0 h-0 w-[var(--shop-step)]"
+  ></i>
+
+  {items.map((item, index) => {
+    const position = getPosition(index);
+
+    return (
+      <div
+        data-shop-slide
+        data-position={position}
+        class={cn(
+          "shop-slide absolute top-[8.5cqi] left-1/2 w-[47.5cqi] aspect-900/1260 overflow-hidden rounded-[3cqi_3cqi_0_0] will-change-transform",
+        )}
+        style={`--shop-position: ${position}`}
+      >
+        {item.type === "video" ? (
+          <>
+            <img
+              src={item.bgSrc}
+              alt={item.alt}
+              class="block size-full object-cover"
+              loading="lazy"
+              sizes="100vw"
+              draggable="false"
+            />
+
+            <div class="static">
+              <video
+                class="absolute top-[16.27%] left-[5.333%] h-[83.33%] w-[89.333%] rounded-t-[3.2cqi] object-cover opacity-100 transition-opacity duration-600"
+                src={item.src}
+                muted
+                loop
+                playsinline
+                autoplay
+                preload="none"
+              ></video>
+            </div>
+
+            <img
+              src={item.actionImgSrc}
+              alt={item.alt}
+              class="absolute top-[84.762%] left-[9.222%] h-auto w-[81.556%] rounded-[1.3cqi]"
+              loading="lazy"
+              sizes="100vw"
+              draggable="false"
+            />
+          </>
+        ) : (
           <img
-            src={item.bgSrc}
+            src={item.src}
             alt={item.alt}
             class="block size-full object-cover"
             loading="lazy"
             sizes="100vw"
+            draggable="false"
           />
-
-          <div class="static">
-            <video
-              class="absolute top-[16.27%] left-[5.333%] h-[83.33%] w-[89.333%] rounded-t-[3.2cqi] object-cover opacity-100 transition-opacity duration-600"
-              src={item.src}
-              muted
-              loop
-              playsinline
-              autoplay
-              preload="none"
-            ></video>
-          </div>
-
-          <img
-            src={item.actionImgSrc}
-            alt={item.alt}
-            class="absolute top-[84.762%] left-[9.222%] h-auto w-[81.556%] rounded-[1.3cqi]"
-            loading="lazy"
-            sizes="100vw"
-          />
-        </>
-      ) : (
-        <img
-          src={item.src}
-          alt={item.alt}
-          class="block size-full object-cover"
-          loading="lazy"
-          sizes="100vw"
-        />
-      )}
-    </div>
-  ))}
+        )}
+      </div>
+    );
+  })}
 </div>
 
+<script>
+  const DRAG_THRESHOLD = 4; // px of movement before a press counts as a drag
+
+  const num = (value: string | undefined, fallback: number) => {
+    const n = Number(value);
+    return value !== undefined && value !== "" && Number.isFinite(n)
+      ? n
+      : fallback;
+  };
+
+  function initBrandShopSlider(slider: HTMLElement): () => void {
+    const slides = Array.from(
+      slider.querySelectorAll<HTMLElement>("[data-shop-slide]"),
+    );
+    const probe = slider.querySelector<HTMLElement>("[data-shop-step]");
+    const count = slides.length;
+    if (!count || !probe) return () => {};
+
+    const speed = num(slider.dataset.speed, 40); // px / second
+    const resumeMs = num(slider.dataset.resume, 150);
+    const respectReducedMotion = slider.dataset.respectReducedMotion === "true";
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const autoEnabled = () =>
+      speed !== 0 && !(respectReducedMotion && motionQuery.matches);
+
+    const base = slides.map((s) => Number(s.dataset.position) || 0);
+    const half = count / 2;
+
+    // ── The ONE piece of state. Unit = "steps" (1 step = slide width + gap).
+    // Auto-scroll and dragging both write it; every slide derives from it.
+    let offset = 0;
+    let step = 0; // px per step, measured from the real --shop-step value
+    let autoFactor = 1; // 0 → 1 ramp after a drag ends
+    let rafId = 0;
+    let lastTime = 0;
+    let visible = true;
+
+    let pointerId: number | null = null;
+    let startX = 0;
+    let startOffset = 0;
+    let dragging = false;
+
+    const ac = new AbortController();
+    const { signal } = ac;
+
+    // Wrap into [-count/2, count/2): a slide leaving one side re-enters the
+    // other while it's still far outside the viewport, so the loop never jumps.
+    const wrap = (v: number) => ((((v + half) % count) + count) % count) - half;
+
+    const render = () => {
+      for (let i = 0; i < count; i++) {
+        slides[i].style.transform =
+          `translateX(calc(-50% + ${wrap(base[i] + offset).toFixed(5)} * var(--shop-step)))`;
+      }
+    };
+
+    // Layout is read here only (mount + resize), never per frame.
+    const measure = () => {
+      const w = probe.getBoundingClientRect().width;
+      if (w > 0) step = w;
+
+      if (import.meta.env.DEV && step > 0) {
+        const needed = (slider.clientWidth + slides[0].offsetWidth) / 2;
+        if ((count / 2) * step < needed) {
+          console.warn(
+            "[BrandShopSlider] Not enough slides for a seamless loop at this width. Add more items.",
+          );
+        }
+      }
+      render();
+    };
+
+    const tick = (now: number) => {
+      const dt = Math.min(Math.max(now - lastTime, 0), 100) / 1000; // clamp long stalls
+      lastTime = now;
+
+      // Auto-scroll is paused for the whole press (before and during a drag),
+      // so the slide under the finger never drifts away from it.
+      if (pointerId === null && step > 0 && autoEnabled()) {
+        autoFactor =
+          resumeMs > 0 ? Math.min(1, autoFactor + (dt * 1000) / resumeMs) : 1;
+        offset = (offset - (speed / step) * autoFactor * dt) % count;
+        render();
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (rafId || !visible || document.hidden) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const stop = () => {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    };
+
+    // ── Pointer / touch drag ─────────────────────────────────────────────
+    slider.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (!e.isPrimary || (e.pointerType === "mouse" && e.button !== 0))
+          return;
+        pointerId = e.pointerId;
+        startX = e.clientX;
+        startOffset = offset;
+        dragging = false;
+        autoFactor = 0; // ease back in once the press ends
+      },
+      { signal },
+    );
+
+    slider.addEventListener(
+      "pointermove",
+      (e) => {
+        if (e.pointerId !== pointerId || step <= 0) return;
+        const dx = e.clientX - startX;
+
+        if (!dragging) {
+          if (Math.abs(dx) < DRAG_THRESHOLD) return;
+          dragging = true;
+          try {
+            slider.setPointerCapture(e.pointerId);
+          } catch {
+            /* pointer already gone: keep dragging without capture */
+          }
+          slider.dataset.dragging = "true"; // CSS shows `grabbing` on hover-capable pointers
+        }
+
+        // 1:1 with the pointer. Drag right → content moves right.
+        offset = (startOffset + (e.clientX - startX) / step) % count;
+        render();
+      },
+      { signal },
+    );
+
+    const endDrag = (e: PointerEvent) => {
+      if (e.pointerId !== pointerId) return;
+      pointerId = null;
+      lastTime = performance.now(); // no dt spike on resume; offset stays where the user left it
+      if (!dragging) return;
+
+      dragging = false;
+      delete slider.dataset.dragging;
+      try {
+        slider.releasePointerCapture(e.pointerId);
+      } catch {
+        /* already released */
+      }
+    };
+
+    slider.addEventListener("pointerup", endDrag, { signal });
+    slider.addEventListener("pointercancel", endDrag, { signal });
+    slider.addEventListener("dragstart", (e) => e.preventDefault(), { signal });
+
+    // ── Lifecycle ────────────────────────────────────────────────────────
+    const ro = new ResizeObserver(measure);
+    ro.observe(slider);
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        visible ? start() : stop();
+      },
+      { rootMargin: "100px" },
+    );
+    io.observe(slider);
+
+    document.addEventListener(
+      "visibilitychange",
+      () => (document.hidden ? stop() : start()),
+      { signal },
+    );
+
+    measure();
+    start();
+    slider.dataset.sliderReady = "true"; // handy DevTools check that the script ran
+
+    return () => {
+      stop();
+      ro.disconnect();
+      io.disconnect();
+      ac.abort();
+      delete slider.dataset.sliderReady;
+      delete slider.dataset.dragging;
+    };
+  }
+
+  // Works with and without Astro view transitions (<ClientRouter />).
+  const instances = new Map<HTMLElement, () => void>();
+
+  const mountAll = () => {
+    document
+      .querySelectorAll<HTMLElement>("[data-brand-shop-slider]")
+      .forEach((el) => {
+        if (!instances.has(el)) instances.set(el, initBrandShopSlider(el));
+      });
+  };
+
+  const unmountAll = () => {
+    instances.forEach((destroy) => destroy());
+    instances.clear();
+  };
+
+  mountAll();
+  document.addEventListener("astro:page-load", mountAll);
+  document.addEventListener("astro:before-swap", unmountAll);
+</script>
+
 <style>
-  .shop-slide.shop-slide--pos-3 {
-    transform: translate(calc(102cqi - 50%));
+  .shop-slide {
+    /* SSR / no-JS fallback. JS overrides it inline with the same formula. */
+    transform: translateX(calc(-50% + var(--shop-position) * var(--shop-step)));
+    /* Slides never intercept the pointer, so drags always start on the slider */
+    pointer-events: none;
   }
 
-  .shop-slide.shop-slide--pos-5 {
-    transform: translate(calc(-50% - 51cqi));
-  }
+  @media (hover: hover) and (pointer: fine) {
+    [data-brand-shop-slider] {
+      cursor: grab;
+    }
 
-  .shop-slide.shop-slide--pos-1 {
-    transform: translate(-50%);
-  }
-
-  .shop-slide.shop-slide--pos-2 {
-    transform: translate(calc(51cqi - 50%));
-  }
-
-  .shop-slide.shop-slide--pos-4 {
-    transform: translate(calc(-50% - 102cqi));
+    [data-brand-shop-slider][data-dragging="true"] {
+      cursor: grabbing;
+    }
   }
 </style>

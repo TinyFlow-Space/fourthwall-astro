@@ -1,0 +1,252 @@
+---
+import { BRAND_MARQUEE_DATA } from "@/data";
+
+const getPosition = (index: number) => {
+  const midpoint = Math.floor(BRAND_MARQUEE_DATA.length / 2);
+  return index - (index > midpoint ? BRAND_MARQUEE_DATA.length : 0);
+};
+---
+
+<div
+  data-brand-shop-slider
+  data-speed="40"
+  aria-hidden="true"
+  class="w-full flex-1 aspect-4/3 min-h-0 relative overflow-hidden @container bg-[#ebebec] [touch-action:pan-y] [--shop-step:51cqi] [--shop-translate-x:0px]"
+>
+  {BRAND_MARQUEE_DATA.map((item, index) => {
+    const position = getPosition(index);
+
+    return (
+      <div
+        class="shop-slide absolute top-[8.5cqi] left-1/2 w-[47.5cqi] aspect-900/1260 overflow-hidden rounded-[3cqi_3cqi_0_0] will-change-transform"
+        style={`--shop-position: ${position * 51}cqi`}
+      >
+        {item.type === "video" ? (
+          <>
+            <img
+              src={item.bgSrc}
+              alt={item.alt}
+              class="block size-full object-cover"
+              loading="lazy"
+              sizes="100vw"
+            />
+
+            <div class="static">
+              <video
+                class="absolute top-[16.27%] left-[5.333%] h-[83.33%] w-[89.333%] rounded-t-[3.2cqi] object-cover opacity-100 transition-opacity duration-600"
+                src={item.src}
+                muted
+                loop
+                playsinline
+                autoplay
+                preload="none"
+              ></video>
+            </div>
+
+            <img
+              src={item.actionImgSrc}
+              alt={item.alt}
+              class="absolute top-[84.762%] left-[9.222%] h-auto w-[81.556%] rounded-[1.3cqi]"
+              loading="lazy"
+              sizes="100vw"
+            />
+          </>
+        ) : (
+          <img
+            src={item.src}
+            alt={item.alt}
+            class="block size-full object-cover"
+            loading="lazy"
+            sizes="100vw"
+          />
+        )}
+      </div>
+    );
+  })}
+</div>
+
+<style>
+  .shop-slide {
+    pointer-events: none;
+    transform: translateX(
+      calc(-50% + var(--shop-position) + var(--shop-translate-x))
+    );
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    [data-brand-shop-slider] {
+      cursor: grab;
+    }
+
+    [data-brand-shop-slider][data-dragging="true"] {
+      cursor: grabbing;
+    }
+  }
+</style>
+
+<script>
+  const sliders = document.querySelectorAll<HTMLElement>(
+    "[data-brand-shop-slider]",
+  );
+
+  sliders.forEach((slider) => {
+    const originalSlides = Array.from(
+      slider.querySelectorAll<HTMLElement>(".shop-slide"),
+    );
+
+    if (originalSlides.length < 2) return;
+
+    const itemCount = originalSlides.length;
+    const basePositions = originalSlides.map((_, index) =>
+      index <= Math.floor(itemCount / 2) ? index : index - itemCount,
+    );
+    const speed = Number(slider.dataset.speed);
+    const pixelsPerSecond = Number.isFinite(speed) && speed > 0 ? speed : 18;
+    let translateX = 0;
+    let step = 0;
+    let cycleLength = 0;
+    let cloneCycles = 0;
+    let clones: HTMLElement[] = [];
+    let pointerId: number | null = null;
+    let previousPointerX = 0;
+    let previousFrameTime = 0;
+
+    const updateTranslateX = () => {
+      slider.style.setProperty("--shop-translate-x", `${translateX}px`);
+    };
+
+    const normalizePosition = () => {
+      if (!cycleLength) return;
+
+      if (translateX <= -cycleLength) {
+        translateX += Math.ceil(-translateX / cycleLength) * cycleLength;
+      } else if (translateX > 0) {
+        translateX -= Math.ceil(translateX / cycleLength) * cycleLength;
+      }
+    };
+
+    const rebuildClones = (cycles: number) => {
+      if (cycles === cloneCycles) return;
+
+      clones.forEach((clone) => clone.remove());
+      clones = [];
+      cloneCycles = cycles;
+
+      for (let cycle = -cycles; cycle <= cycles; cycle += 1) {
+        if (cycle === 0) continue;
+
+        originalSlides.forEach((original, index) => {
+          const clone = original.cloneNode(true) as HTMLElement;
+          const position = basePositions[index] + cycle * itemCount;
+
+          clone.dataset.shopCycle = String(cycle);
+          clone.dataset.shopIndex = String(index);
+          clone.style.setProperty("--shop-position", `${position * step}px`);
+          clone.dataset.shopClone = "true";
+          slider.append(clone);
+          clones.push(clone);
+        });
+      }
+    };
+
+    const measure = () => {
+      const firstRect = originalSlides[0].getBoundingClientRect();
+      const secondRect = originalSlides[1].getBoundingClientRect();
+      const measuredStep = Math.abs(secondRect.left - firstRect.left);
+
+      if (!measuredStep || !slider.clientWidth) return;
+
+      step = measuredStep;
+      cycleLength = step * itemCount;
+      slider.style.setProperty("--shop-step", `${step}px`);
+      originalSlides.forEach((slide, index) => {
+        slide.style.setProperty(
+          "--shop-position",
+          `${basePositions[index] * step}px`,
+        );
+      });
+
+      const cycles =
+        Math.ceil(
+          (slider.clientWidth / 2 + firstRect.width / 2 + cycleLength) /
+            cycleLength,
+        ) + 1;
+      rebuildClones(cycles);
+      clones.forEach((clone) => {
+        const cycle = Number(clone.dataset.shopCycle);
+        const index = Number(clone.dataset.shopIndex);
+        const position = basePositions[index] + cycle * itemCount;
+
+        clone.style.setProperty("--shop-position", `${position * step}px`);
+      });
+      normalizePosition();
+      updateTranslateX();
+    };
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(slider);
+    measure();
+
+    const animate = (time: number) => {
+      if (cycleLength && previousFrameTime && pointerId === null) {
+        const elapsedSeconds = Math.min(
+          (time - previousFrameTime) / 1000,
+          0.05,
+        );
+        translateX -= pixelsPerSecond * elapsedSeconds;
+        normalizePosition();
+        updateTranslateX();
+      }
+
+      previousFrameTime = time;
+      window.requestAnimationFrame(animate);
+    };
+
+    const finishDrag = () => {
+      if (pointerId === null) return;
+
+      if (slider.hasPointerCapture(pointerId)) {
+        slider.releasePointerCapture(pointerId);
+      }
+
+      pointerId = null;
+      slider.removeAttribute("data-dragging");
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (
+        !event.isPrimary ||
+        (event.pointerType === "mouse" && event.button !== 0) ||
+        pointerId !== null
+      ) {
+        return;
+      }
+
+      pointerId = event.pointerId;
+      previousPointerX = event.clientX;
+      slider.setPointerCapture(pointerId);
+      slider.dataset.dragging = "true";
+      event.preventDefault();
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+
+      translateX += event.clientX - previousPointerX;
+      previousPointerX = event.clientX;
+      normalizePosition();
+      updateTranslateX();
+    };
+
+    const onPointerUp = (event: PointerEvent) => {
+      if (event.pointerId === pointerId) finishDrag();
+    };
+
+    slider.addEventListener("pointerdown", onPointerDown);
+    slider.addEventListener("pointermove", onPointerMove);
+    slider.addEventListener("pointerup", onPointerUp);
+    slider.addEventListener("pointercancel", onPointerUp);
+    slider.addEventListener("lostpointercapture", onPointerUp);
+    window.requestAnimationFrame(animate);
+  });
+</script>

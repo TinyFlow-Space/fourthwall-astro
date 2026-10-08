@@ -1,5 +1,6 @@
 ---
-import BrandShowcaseCard from "../brand-showcase-card.astro";
+import BrandManufactureSlider from "@/components/brand-manufacture-slider.astro";
+import BrandShowcaseCard from "@/components/brand-showcase-card.astro";
 import BrandShopSlider from "@/components/brand-shop-slider.astro";
 ---
 
@@ -18,7 +19,7 @@ import BrandShopSlider from "@/components/brand-shop-slider.astro";
       class="grid grid-cols-[repeat(13,1fr)] gap-x-[clamp(32px,1.6vw,56px)] gap-y-[clamp(64px,57.6px,96px)]"
     >
       <BrandShowcaseCard className="col-[span_7]" index={0}>
-        <div>box</div>
+        <BrandManufactureSlider />
 
         <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
           Design your product, we make it real.

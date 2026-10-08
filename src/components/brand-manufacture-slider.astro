@@ -3,28 +3,31 @@ import { cn } from "@/utils";
 import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
 ---
 
-<div class="w-full relative overflow-hidden select-none bg-surface-dark @container aspect-8/5 group">
-  <!-- manufacture bg images -->
+<div
+  data-brand-manufacture-slider
+  data-current-slide="a"
+  data-autoplay-delay="5200"
+  class="w-full relative overflow-hidden select-none bg-surface-dark @container aspect-8/5 group"
+>
   <div class="z-0 absolute inset-0 isolate">
-    {MGF_IMAGES.map((image) => (
+    {MGF_IMAGES.map((image, index) => (
       <div
-        class={cn(
-          `bg-position-[50%] bg-cover absolute inset-0 [clip-path:inset(0px)] [transition:clip-path_1150ms_var(--ease-rise-in)]`,
-        )}
+        data-manufacture-background={String.fromCharCode(97 + index)}
+        class="bg-position-[50%] bg-cover absolute inset-0 [clip-path:inset(0px)]"
         style={{ "background-image": `url(${image})` }}
-      ></div>
+      />
     ))}
   </div>
 
-  <!-- manufacture panels -->
   <div
     class="z-1 absolute inset-0 isolate [transition:transform_0.9s_var(--ease-rise-in)] group-hover:transform-[perspective(900px)_scale(var(--support-zoom,1))_rotateX(var(--tilt-x,0deg))_rotateY(var(--tilt-y,0deg))] group-hover:[transition:transform_.25s_var(--ease-rise-in)]"
     style="--tilt-y: 0deg; --tilt-x: 0deg;"
   >
-    {MGF_PRODUCTS.map((product) => (
-      //  <!-- panel item -->
-      <div class="absolute top-1/2 left-1/2 flex w-[84cqi] -translate-x-1/2 -translate-y-1/2 items-center gap-x-[4.5cqi] rounded-[2.4cqi] bg-white p-[2.8cqi] [clip-path:inset(0px)] [transition:clip-path_1600ms_var(--ease-rise-in)_200ms]">
-        {/* <!-- mfg product --> */}
+    {MGF_PRODUCTS.map((product, index) => (
+      <div
+        data-manufacture-panel={String.fromCharCode(97 + index)}
+        class="absolute top-1/2 left-1/2 flex w-[84cqi] -translate-x-1/2 -translate-y-1/2 items-center gap-x-[4.5cqi] rounded-[2.4cqi] bg-white p-[2.8cqi] [clip-path:inset(0px)]"
+      >
         <div class="aspect-[1] bg-[#f4f4f4] flex-[0_0_37cqi] overflow-hidden">
           <img
             src={product.src}
@@ -34,13 +37,11 @@ import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
           />
         </div>
 
-        {/* <!-- product info --> */}
         <div class="flex-1 min-w-0">
           <h4 class="font-body text-[#14110f] leading-[112%] font-medium tracking-[-.01em] text-balance m-[0_0_2.7cqi] text-[2.9cqi]">
             {product.name}
           </h4>
 
-          {/* <!-- mfg product stats --> */}
           <div class="grid grid-cols-2 gap-x-[2cqi] gap-y-[2.3cqi]">
             {product.stats.map((stat) => (
               <div class="flex flex-col gap-y-[.6cqi]">
@@ -58,11 +59,7 @@ import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
 
             <div class="flex flex-col gap-y-[.6cqi]">
               <span class="text-[#9a9a9a] text-[1.7cqi]">Status</span>
-              <span
-                class={cn(
-                  "inline-flex flex-row items-center gap-x-[1cqi] text-[2.5cqi] font-medium text-[#14110f]",
-                )}
-              >
+              <span class="inline-flex flex-row items-center gap-x-[1cqi] text-[2.5cqi] font-medium text-[#14110f]">
                 <svg
                   viewBox="0 0 10 10"
                   aria-hidden="true"
@@ -72,7 +69,7 @@ import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
                     product.status === "Awaiting" && "text-[#e8a93b]",
                   )}
                 >
-                  <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
+                  <circle cx="5" cy="5" r="5" fill="currentColor" />
                 </svg>
                 {product.status}
               </span>
@@ -83,3 +80,9 @@ import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
     ))}
   </div>
 </div>
+
+<script>
+  import { initBrandManufactureSliders } from "@/lib/brand-manufacture-slider";
+
+  initBrandManufactureSliders();
+</script>

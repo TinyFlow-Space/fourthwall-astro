@@ -20,6 +20,7 @@ const items = Array.from(
   (_, i) => BRAND_MARQUEE_DATA[i % BRAND_MARQUEE_DATA.length],
 );
 
+// Initial layout (also the no-JS fallback): 0, 1, 2, -2, -1 …
 const getPosition = (index: number) => {
   const midpoint = Math.floor(items.length / 2);
   return index - (index > midpoint ? items.length : 0);
@@ -32,7 +33,7 @@ const getPosition = (index: number) => {
   data-resume={resume}
   data-respect-reduced-motion={respectReducedMotion}
   aria-hidden="true"
-  class="w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y [--shop-step:51cqi] [-webkit-user-select:none] select-none aspect-8/5"
+  class="w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y overscroll-x-contain [--shop-step:51cqi] [-webkit-user-select:none] select-none aspect-8/5"
 >
   <!-- Zero-height probe: lets JS read the real pixel value of --shop-step -->
   <i
@@ -137,6 +138,9 @@ const getPosition = (index: number) => {
     let lastTime = 0;
     let visible = true;
 
+    let pressed = false;
+    let wheeling = false; // true while a trackpad/wheel gesture is active
+    let wheelTimer = 0;
     let pointerId: number | null = null;
     let startX = 0;
     let startOffset = 0;
@@ -178,7 +182,7 @@ const getPosition = (index: number) => {
 
       // Auto-scroll is paused for the whole press (before and during a drag),
       // so the slide under the finger never drifts away from it.
-      if (pointerId === null && step > 0 && autoEnabled()) {
+      if (!pressed && !wheeling && step > 0 && autoEnabled()) {
         autoFactor =
           resumeMs > 0 ? Math.min(1, autoFactor + (dt * 1000) / resumeMs) : 1;
         offset = (offset - (speed / step) * autoFactor * dt) % count;
@@ -198,17 +202,41 @@ const getPosition = (index: number) => {
       rafId = 0;
     };
 
-    // ── Pointer / touch drag ─────────────────────────────────────────────
+    // ── Drag (shared by mouse/pen pointer events and touch events) ───────
+    const press = (x: number) => {
+      pressed = true;
+      startX = x;
+      startOffset = offset;
+      dragging = false;
+      autoFactor = 0; // ease back in once the press ends
+    };
+
+    const beginDrag = () => {
+      dragging = true;
+      slider.dataset.dragging = "true"; // CSS shows `grabbing` on hover-capable pointers
+    };
+
+    const moveTo = (x: number) => {
+      // 1:1 with the pointer/finger. Drag right → content moves right.
+      offset = (startOffset + (x - startX) / step) % count;
+      render();
+    };
+
+    const release = () => {
+      if (!pressed) return;
+      pressed = false;
+      dragging = false;
+      lastTime = performance.now(); // no dt spike; offset stays where the user left it
+      delete slider.dataset.dragging;
+    };
+
+    // Mouse / pen / touch screen (touch-action: pan-y keeps vertical page scroll)
     slider.addEventListener(
       "pointerdown",
       (e) => {
-        if (!e.isPrimary || (e.pointerType === "mouse" && e.button !== 0))
-          return;
+        if (!e.isPrimary || e.button !== 0) return;
         pointerId = e.pointerId;
-        startX = e.clientX;
-        startOffset = offset;
-        dragging = false;
-        autoFactor = 0; // ease back in once the press ends
+        press(e.clientX);
       },
       { signal },
     );
@@ -216,45 +244,66 @@ const getPosition = (index: number) => {
     slider.addEventListener(
       "pointermove",
       (e) => {
-        if (e.pointerId !== pointerId || step <= 0) return;
-        const dx = e.clientX - startX;
-
+        if (e.pointerId !== pointerId || !pressed || step <= 0) return;
         if (!dragging) {
-          if (Math.abs(dx) < DRAG_THRESHOLD) return;
-          dragging = true;
+          if (Math.abs(e.clientX - startX) < DRAG_THRESHOLD) return;
+          beginDrag();
           try {
             slider.setPointerCapture(e.pointerId);
           } catch {
             /* pointer already gone: keep dragging without capture */
           }
-          slider.dataset.dragging = "true"; // CSS shows `grabbing` on hover-capable pointers
         }
-
-        // 1:1 with the pointer. Drag right → content moves right.
-        offset = (startOffset + (e.clientX - startX) / step) % count;
-        render();
+        moveTo(e.clientX);
       },
       { signal },
     );
 
-    const endDrag = (e: PointerEvent) => {
+    const endPointer = (e: PointerEvent) => {
       if (e.pointerId !== pointerId) return;
       pointerId = null;
-      lastTime = performance.now(); // no dt spike on resume; offset stays where the user left it
-      if (!dragging) return;
-
-      dragging = false;
-      delete slider.dataset.dragging;
       try {
         slider.releasePointerCapture(e.pointerId);
       } catch {
         /* already released */
       }
+      release();
     };
 
-    slider.addEventListener("pointerup", endDrag, { signal });
-    slider.addEventListener("pointercancel", endDrag, { signal });
+    slider.addEventListener("pointerup", endPointer, { signal });
+    slider.addEventListener("pointercancel", endPointer, { signal });
     slider.addEventListener("dragstart", (e) => e.preventDefault(), { signal });
+
+    // Two-finger trackpad / horizontal wheel: arrives as `wheel` events with
+    // deltaX. Same `offset`, so it behaves exactly like a drag. The OS supplies
+    // the momentum as trailing wheel events, so no inertia code is needed.
+    const WHEEL_IDLE_MS = 140; // gesture counts as finished after this much silence
+    slider.addEventListener(
+      "wheel",
+      (e) => {
+        if (step <= 0) return;
+        // Lock the axis for the whole gesture so stray deltaY noise from a
+        // horizontal swipe can't scroll the page; clearly vertical gestures pass through.
+        if (!wheeling && Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+
+        if (e.cancelable) e.preventDefault(); // also blocks browser back/forward swipe
+
+        const unit =
+          e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? slider.clientWidth : 1;
+        // Swipe left (deltaX > 0) → content moves left, like a drag to the left.
+        offset = (offset - (e.deltaX * unit) / step) % count;
+        render();
+
+        wheeling = true;
+        autoFactor = 0; // ease back in after the gesture ends
+        clearTimeout(wheelTimer);
+        wheelTimer = window.setTimeout(() => {
+          wheeling = false;
+          lastTime = performance.now();
+        }, WHEEL_IDLE_MS);
+      },
+      { signal, passive: false },
+    );
 
     // ── Lifecycle ────────────────────────────────────────────────────────
     const ro = new ResizeObserver(measure);
@@ -281,6 +330,7 @@ const getPosition = (index: number) => {
 
     return () => {
       stop();
+      clearTimeout(wheelTimer);
       ro.disconnect();
       io.disconnect();
       ac.abort();

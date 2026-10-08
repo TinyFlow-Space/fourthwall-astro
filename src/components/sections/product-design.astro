@@ -9,7 +9,6 @@ const ACTIVE_DESIGN_KEY = "a";
 <section class="bg-background">
   <div
     data-product-design-section
-
     class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] py-surface-y-lg bg-surface-dark mx-auto relative overflow-hidden"
     style={{ "--expand-progress": "0.0000" }}
   >
@@ -260,7 +259,6 @@ const ACTIVE_DESIGN_KEY = "a";
     let activeKey: string | undefined;
     const previewViewport = previews[0]?.parentElement?.parentElement;
     const previewFrame = previewViewport?.parentElement;
-    const mockupFrame = slides[0]?.parentElement?.parentElement?.parentElement;
     const transitionDuration = 1150;
     const slideTransition =
       "clip-path 1150ms cubic-bezier(0.65, 0, 0.35, 1), opacity 1150ms cubic-bezier(0.65, 0, 0.35, 1), filter 1150ms cubic-bezier(0.65, 0, 0.35, 1)";
@@ -451,9 +449,19 @@ const ACTIVE_DESIGN_KEY = "a";
 </script>
 
 <style>
+  @keyframes dot-progress {
+    0% {
+      clip-path: inset(0px 100% 0px 0px);
+    }
+    100% {
+      clip-path: inset(0px);
+    }
+  }
+
   .design-slide-dot.is-active {
     width: 36px !important;
   }
+
   .design-slide-dot.is-active::after {
     content: "";
     position: absolute;

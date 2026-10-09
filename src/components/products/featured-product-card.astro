@@ -1,5 +1,6 @@
 ---
 import { cn } from "@/utils";
+import { Image } from "astro:assets";
 
 const { index, classNames } = Astro.props;
 ---
@@ -15,14 +16,16 @@ const { index, classNames } = Astro.props;
   style={{ "--stagger-index": index }}
 >
   <div class="relative flex items-center justify-center flex-1 min-h-0">
-    <img
+    <Image
+      inferSize={true}
       src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a96e11c1178eccd5e25adce_scatter-tshirt-v3.webp"
       loading="lazy"
       sizes="100vw"
       alt=""
       class="object-contain w-auto max-w-full h-auto min-h-full block hover-fade"
     />
-    <img
+    <Image
+      inferSize={true}
       src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b50_6a96e11c1178eccd5e25ade3_scatter-tshirt-hover-v3.webp"
       loading="lazy"
       alt=""

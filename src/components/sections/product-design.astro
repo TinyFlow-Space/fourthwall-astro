@@ -191,11 +191,12 @@ const ACTIVE_DESIGN_KEY = "a";
         <!-- design slider dots -->
         <div
           aria-label="Design slides"
-          role="tablist"
+          role="group"
           class="flex justify-center gap-x-2 mt-16 flex-[0_0_100%]"
         >
           {DESIGN_MOCKUPS.map((mockup, index) => (
             <button
+              type="button"
               aria-label={`Slide ${index + 1}`}
               data-design-dot={mockup.key}
               aria-pressed={mockup.key === ACTIVE_DESIGN_KEY ? "true" : "false"}

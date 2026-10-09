@@ -1,6 +1,7 @@
 ---
 import { BRAND_MARQUEE_DATA } from "@/data";
 import { cn } from "@/utils";
+import { Image } from "astro:assets";
 
 interface Props {
   /** Auto-scroll speed in px/second, right → left. Use 0 to disable auto-scroll. */
@@ -39,7 +40,7 @@ const getPosition = (index: number) => {
   <i
     data-shop-step
     aria-hidden="true"
-    class="pointer-events-none invisible absolute top-0 left-0 h-0 w-[var(--shop-step)]"
+    class="pointer-events-none invisible absolute top-0 left-0 h-0 w-(--shop-step)"
   ></i>
 
   {items.map((item, index) => {
@@ -56,8 +57,9 @@ const getPosition = (index: number) => {
       >
         {item.type === "video" ? (
           <>
-            <img
-              src={item.bgSrc}
+            <Image
+              inferSize={true}
+              src={item.bgSrc!}
               alt={item.alt}
               class="block size-full object-cover"
               loading="lazy"
@@ -77,8 +79,9 @@ const getPosition = (index: number) => {
               ></video>
             </div>
 
-            <img
-              src={item.actionImgSrc}
+            <Image
+              inferSize={true}
+              src={item.actionImgSrc!}
               alt={item.alt}
               class="absolute top-[84.762%] left-[9.222%] h-auto w-[81.556%] rounded-[1.3cqi]"
               loading="lazy"
@@ -87,7 +90,8 @@ const getPosition = (index: number) => {
             />
           </>
         ) : (
-          <img
+          <Image
+            inferSize={true}
             src={item.src}
             alt={item.alt}
             class="block size-full object-cover"

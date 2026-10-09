@@ -1,6 +1,7 @@
 ---
 import { cn } from "@/utils";
 import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
+import { Image } from "astro:assets";
 ---
 
 <div
@@ -29,7 +30,8 @@ import { MGF_IMAGES, MGF_PRODUCTS } from "@/data";
         class="absolute top-1/2 left-1/2 flex w-[84cqi] -translate-x-1/2 -translate-y-1/2 items-center gap-x-[4.5cqi] rounded-[2.4cqi] bg-white p-[2.8cqi] [clip-path:inset(0px)]"
       >
         <div class="aspect-[1] bg-[#f4f4f4] flex-[0_0_37cqi] overflow-hidden">
-          <img
+          <Image
+            inferSize={true}
             src={product.src}
             sizes="100vw"
             alt=""

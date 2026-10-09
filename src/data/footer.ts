@@ -20,7 +20,7 @@ export const FOOTER_LINKS = [
       },
       {
         name: "Pricing",
-        url: "/",
+        url: "#",
       },
     ],
   },

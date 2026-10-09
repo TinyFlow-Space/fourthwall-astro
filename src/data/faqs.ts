@@ -44,7 +44,10 @@ export const FAQS: {
         type: "paragraph",
         content: [
           "Additionally, all US-based credit card transactions have an added 2.9% + $0.30 payment processing fee (same as Shopify). Fees vary for PayPal and other providers. ",
-          { text: "Learn more", href: "https://fourthwall.com/pricing" },
+          {
+            text: "See full pricing details",
+            href: "https://fourthwall.com/pricing",
+          },
           ".",
         ],
       },
@@ -84,7 +87,10 @@ export const FAQS: {
         type: "paragraph",
         content: [
           "Additionally, all US-based credit card transactions have an added 2.9% + $0.30 payment processing fee (same as Shopify). Fees vary for PayPal and other providers. ",
-          { text: "Learn more", href: "https://fourthwall.com/pricing" },
+          {
+            text: "See full pricing details",
+            href: "https://fourthwall.com/pricing",
+          },
           ".",
         ],
       },

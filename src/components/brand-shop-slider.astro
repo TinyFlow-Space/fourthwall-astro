@@ -63,7 +63,8 @@ const getPosition = (index: number) => {
               alt={item.alt}
               class="block size-full object-cover"
               loading="lazy"
-              sizes="100vw"
+              widths={[270, 400, 540, 720, 900]}
+              sizes="(min-width: 1880px) 408px, 21vw"
               draggable="false"
             />
 
@@ -85,7 +86,8 @@ const getPosition = (index: number) => {
               alt={item.alt}
               class="absolute top-[84.762%] left-[9.222%] h-auto w-[81.556%] rounded-[1.3cqi]"
               loading="lazy"
-              sizes="100vw"
+              widths={[270, 400, 540, 720, 900]}
+              sizes="(min-width: 1880px) 408px, 21vw"
               draggable="false"
             />
           </>
@@ -96,7 +98,8 @@ const getPosition = (index: number) => {
             alt={item.alt}
             class="block size-full object-cover"
             loading="lazy"
-            sizes="100vw"
+            widths={[270, 400, 540, 720, 900]}
+            sizes="(min-width: 1880px) 408px, 21vw"
             draggable="false"
           />
         )}

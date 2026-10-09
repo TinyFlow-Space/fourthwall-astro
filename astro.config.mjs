@@ -21,6 +21,11 @@ export default defineConfig({
         hostname: "fourthwall.com",
         pathname: "/webflow-cdn/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.fourthwall.com",
+        pathname: "/product-catalog/**",
+      },
     ],
   },
 });

@@ -20,7 +20,8 @@ const { index, classNames } = Astro.props;
       inferSize={true}
       src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a96e11c1178eccd5e25adce_scatter-tshirt-v3.webp"
       loading="lazy"
-      sizes="100vw"
+      widths={[320, 480, 640, 800, 960, 1200]}
+      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 42vw"
       alt=""
       class="object-contain w-auto max-w-full h-auto min-h-full block hover-fade"
     />
@@ -28,6 +29,8 @@ const { index, classNames } = Astro.props;
       inferSize={true}
       src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b50_6a96e11c1178eccd5e25ade3_scatter-tshirt-hover-v3.webp"
       loading="lazy"
+      widths={[320, 480, 640, 800, 960, 1200]}
+      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 42vw"
       alt=""
       class={cn(
         "absolute inset-0 pointer-events-none opacity-0 object-contain w-full max-w-full h-full min-h-full block hover-opacity group-hover:opacity-100!",

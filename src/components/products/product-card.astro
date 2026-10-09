@@ -1,5 +1,6 @@
 ---
 import { cn } from "@/utils";
+import { Image } from "astro:assets";
 ---
 
 <a
@@ -10,7 +11,10 @@ import { cn } from "@/utils";
 >
   <!-- product media -->
   <div class="mb-1.5 aspect-3/4 bg-[#efeff0] block relative overflow-hidden">
-    <img
+    <Image
+      inferSize
+      widths={[320, 480, 640, 800, 1200]}
+      sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
       alt="Comfort Colors Garment-Dyed Heavyweight T-Shirt"
       loading="lazy"
       src="https://cdn.fourthwall.com/product-catalog/pro_8be1acca2fe7403f89/ce527243-4847-4e46-a693-b5f1384d147c.jpeg"

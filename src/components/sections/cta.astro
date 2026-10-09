@@ -1,13 +1,80 @@
 ---
 import { ORBIT_RINGS } from "@/data";
+
+const GRADIENTS = [
+  {
+    color: "232 70 120",
+    duration: "17s",
+    startX: "-12%",
+    endX: "12%",
+    startY: "-10%",
+    endY: "10%",
+  },
+  {
+    color: "150 0 55",
+    duration: "21s",
+    startX: "-16%",
+    endX: "16%",
+    startY: "-12%",
+    endY: "12%",
+  },
+  {
+    color: "198 28 78",
+    duration: "19s",
+    startX: "-14%",
+    endX: "14%",
+    startY: "-15%",
+    endY: "15%",
+  },
+  {
+    color: "70 4 30",
+    duration: "24s",
+    startX: "-8%",
+    endX: "8%",
+    startY: "-8%",
+    endY: "8%",
+  },
+  {
+    color: "230 106 148",
+    duration: "27s",
+    startX: "-18%",
+    endX: "18%",
+    startY: "-12%",
+    endY: "12%",
+  },
+  {
+    color: "185 218 152",
+    duration: "23s",
+    startX: "-13%",
+    endX: "13%",
+    startY: "-16%",
+    endY: "16%",
+  },
+];
 ---
 
-<section class="orbit-section bg-surface-dark -z-5 text-white h-[clamp(380px,340px+216px,840px)] flex flex-col -mt-12 sticky bottom-0 overflow-hidden px-surface-x before:content-[''] before:absolute before:inset-0 before:bg-(--closer-bg,#ad0132) before:rounded-bl-[inherit] before:rounded-br-[inherit] before:pointer-events-none *:relative cursor-pointer">
+<section class="orbit-section bg-surface-dark -z-5 text-white h-[clamp(380px,340px+216px,840px)] flex flex-col -mt-12 sticky bottom-0 overflow-hidden px-surface-x before:content-[''] before:absolute before:inset-0 before:bg-(--closer-bg,#ad0132) before:rounded-bl-[inherit] before:rounded-br-[inherit] before:pointer-events-none *:relative cursor-pointer group">
   <!-- gradient -->
-  <div class="static">
-    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-bl-[inherit] rounded-br-[inherit]">
-      <div class="absolute inset-0 blur-[35px]"></div>
-    </div>
+  <div
+    class="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-bl-[inherit] rounded-br-[inherit] blur-[35px]"
+    style="position: absolute; inset: 0; z-index: 0;"
+  >
+    {GRADIENTS.map((gradient, index) => (
+      <div
+        class="cta-gradient"
+        data-gradient-index={index + 1}
+        aria-hidden="true"
+        style={{
+          "--gradient-color": gradient.color,
+          "--gradient-duration": gradient.duration,
+          "--gradient-start-x": gradient.startX,
+          "--gradient-end-x": gradient.endX,
+          "--gradient-start-y": gradient.startY,
+          "--gradient-end-y": gradient.endY,
+          "--gradient-delay": `${-index * 1.8}s`,
+        }}
+      />
+    ))}
   </div>
 
   <!-- orbit spin -->
@@ -50,7 +117,10 @@ import { ORBIT_RINGS } from "@/data";
 
   <!-- title -->
   <div class="px-surface-x text-center will-change-transform flex flex-1 flex-col items-center justify-center">
-    <h2 class="max-w-[18ch] font-display text-heading-xl leading-flat font-medium tracking-[-.02em] my-0 mx-auto text-balance">
+    <h2
+      class="max-w-[18ch] font-display text-heading-xl leading-flat font-medium tracking-[-.02em] my-0 mx-auto text-balance group-hover:transform-[perspective(900px)_scale(var(--support-zoom,1))_rotateX(var(--tilt-x,0deg))_rotateY(var(--tilt-y,0deg))] group-hover:[transition:transform_.25s_var(--ease-rise-in)]"
+      style="--tilt-y: 0deg; --tilt-x: 0deg;"
+    >
       <a
         href="https://fourthwall.com/get-started"
         class="cursor-pointer text-inherit no-underline [transition:color_.2s_ease_text-decoration_color_.2s_ease]"
@@ -140,3 +210,73 @@ import { ORBIT_RINGS } from "@/data";
   updateOrbitRings();
   window.addEventListener("resize", scheduleOrbitUpdate, { passive: true });
 </script>
+
+<style>
+  .cta-gradient {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 70%;
+    height: 70%;
+    transform-origin: center;
+    background: radial-gradient(
+      circle,
+      rgb(var(--gradient-color) / 0.8) 0,
+      rgb(var(--gradient-color) / 0) 50%
+    );
+    mix-blend-mode: hard-light;
+    will-change: transform;
+    animation: cta-gradient-drift var(--gradient-duration) ease-in-out
+      var(--gradient-delay) infinite alternate;
+  }
+
+  .cta-gradient[data-gradient-index="3"] {
+    top: calc(15% + 90px);
+    left: calc(15% - 240px);
+  }
+
+  .cta-gradient[data-gradient-index="4"] {
+    top: -2.5%;
+    left: -2.5%;
+    width: 105%;
+    height: 105%;
+    opacity: 0.7;
+  }
+
+  .cta-gradient[data-gradient-index="5"] {
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+  }
+
+  .cta-gradient[data-gradient-index="6"] {
+    top: -6%;
+    left: -6%;
+    width: 112%;
+    height: 112%;
+    opacity: 0.6;
+  }
+
+  @keyframes cta-gradient-drift {
+    from {
+      transform: translate3d(
+          var(--gradient-start-x),
+          var(--gradient-start-y),
+          0
+        )
+        scale(0.86);
+    }
+
+    to {
+      transform: translate3d(var(--gradient-end-x), var(--gradient-end-y), 0)
+        scale(1.14);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-gradient {
+      animation: none;
+    }
+  }
+</style>

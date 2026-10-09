@@ -37,12 +37,9 @@ const CLASSES = [
       </div>
 
       <!--  featured products -->
-      <FeaturedProductCard index={0} classNames={CLASSES[0]} />
-      <FeaturedProductCard index={1} classNames={CLASSES[1]} />
-      <FeaturedProductCard index={2} classNames={CLASSES[2]} />
-      <FeaturedProductCard index={3} classNames={CLASSES[3]} />
-      <FeaturedProductCard index={4} classNames={CLASSES[4]} />
-      <FeaturedProductCard index={5} classNames={CLASSES[5]} />
+      {Array.from({ length: 6 }).map((_, index) => (
+        <FeaturedProductCard index={index} classNames={CLASSES[index]} />
+      ))}
 
       <!-- browse all -->
       <a

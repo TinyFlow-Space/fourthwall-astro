@@ -66,14 +66,9 @@ const FILTERS = [
 
     <!-- products lists -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-1 gap-y-10 row-auto">
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+      {Array.from({ length: 8 }).map(() => (
+        <ProductCard />
+      ))}
     </div>
   </div>
 </section>

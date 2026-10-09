@@ -1,11 +1,25 @@
 ---
 import MadeWallItem from "@/components/made-wall-item.astro";
+
+interface Props {
+  /** Auto-rotate speed in degrees/second. Positive = left → right, 0 = off. */
+  speed?: number;
+  /** ms to ease auto-rotate back in after a drag / wheel gesture (0 = instantly). */
+  resume?: number;
+  /** Turn auto-rotate off when the OS has "Reduce motion" enabled. */
+  respectReducedMotion?: boolean;
+}
+
+const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
 ---
 
 <section class="bg-background">
   <div
     data-made-wall-section
-    class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] select-none touch-pan-y [-webkit-user-select:none] pt-surface-y-lg bg-surface-dark text-white cursor-grab mx-auto pb-0 overflow-hidden"
+    data-speed={speed}
+    data-resume={resume}
+    data-respect-reduced-motion={respectReducedMotion}
+    class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] select-none touch-pan-y overscroll-x-contain [-webkit-user-select:none] pt-surface-y-lg bg-surface-dark text-white cursor-grab mx-auto pb-0 overflow-hidden"
     style={{ "--expand-progress": "0.0000" }}
   >
     <div class="max-w-[1880px] px-surface-x text-center mx-auto">
@@ -25,84 +39,14 @@ import MadeWallItem from "@/components/made-wall-item.astro";
         class="stage-frame absolute top-1/2 left-1/2 h-0 w-0 transform-3d will-change-transform"
         style="transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);"
       >
-        <!-- stage wall -->
+        <!-- stage wall: 3 rows × 24 tiles -->
         <div
           data-made-wall-items
           class="absolute top-0 left-0 h-0 w-0 transform-3d"
         >
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
-          <MadeWallItem />
+          {Array.from({ length: 72 }).map(() => (
+            <MadeWallItem />
+          ))}
         </div>
       </div>
     </div>
@@ -122,6 +66,370 @@ import MadeWallItem from "@/components/made-wall-item.astro";
 
   gsap.registerPlugin(ScrollTrigger);
 
+  // ───────────────────────────────────────────────────────────────────────
+  //  Wall geometry (all sizes are ratios of the viewport width, measured
+  //  from the reference: 1920px viewport → 489.6 × 309.6 tiles, R ≈ 2023px)
+  // ───────────────────────────────────────────────────────────────────────
+  const TILE_W = 0.255; // tile width  = 25.5% of viewport width
+  const TILE_ASPECT = 68 / 43; // 1360 × 860 screenshots → h = 309.6 @ 1920
+  const GAP = 0.02; // gap between tiles (horizontal and vertical)
+  const TOP_PAD = 1 / 60; // space between stage top and first row (≈32px @ 1920)
+  const COLUMNS = 24; // tiles per ring → 15° apart
+  const CULL_MARGIN = 0.1; // keep tiles this far (× viewport width) off-screen "visible"
+  const MAX_VELOCITY = 600; // deg/s clamp for flings
+  const FRICTION_TAU = 0.19; // s, fling momentum decays like e^(-t/τ)
+  const DRAG_THRESHOLD = 4; // px before a press counts as a drag
+  const WHEEL_IDLE_MS = 140; // a wheel/trackpad gesture ends after this much silence
+  const RAD = Math.PI / 180;
+
+  const num = (value: string | undefined, fallback: number) => {
+    const n = Number(value);
+    return value !== undefined && value !== "" && Number.isFinite(n)
+      ? n
+      : fallback;
+  };
+
+  // Keep angles in [-180, 180) like the reference (167.08° → -177.92°)
+  const wrap180 = (a: number) => ((((a + 180) % 360) + 360) % 360) - 180;
+
+  function initWallMotion(
+    section: HTMLElement,
+    stage: HTMLElement,
+    wall: HTMLElement,
+    items: HTMLElement[],
+  ): () => void {
+    const count = items.length;
+    const speed = num(section.dataset.speed, 0.4); // deg / s
+    const resumeMs = num(section.dataset.resume, 150);
+    const respectReducedMotion =
+      section.dataset.respectReducedMotion === "true";
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const autoEnabled = () =>
+      speed !== 0 && !(respectReducedMotion && motionQuery.matches);
+
+    const stepDeg = 360 / COLUMNS;
+
+    // Per-tile constants: angular position on the ring + row
+    const row = items.map((_, i) => Math.floor(i / COLUMNS));
+    const baseDeg = items.map(
+      (_, i) => (i % COLUMNS) * stepDeg + (row[i] % 2) * (stepDeg / 2),
+    ); // brick stagger
+
+    // ── Geometry: only recomputed on resize, never per frame ──
+    let vw = 0;
+    let tileW = 0;
+    let tileH = 0;
+    let radius = 1; // ring radius (px)
+    let persp = 1500; // CSS perspective of the stage (px)
+    let stageW = 0;
+    let stageH = 0;
+    let rowY: number[] = []; // y of each tile's row centre
+    let degPerPx = 0; // drag: front tile follows the pointer 1:1
+
+    const layout = () => {
+      // y of the first row: anchored to the top of the stage so growing the
+      // stage (expand-progress) reveals more rows instead of shifting them.
+      const tileGap = vw * GAP;
+      const y0 = -stageH / 2 + vw * TOP_PAD + tileH / 2;
+      rowY = items.map((_, i) => y0 + row[i] * (tileH + tileGap));
+    };
+
+    const measureViewport = () => {
+      vw = document.documentElement.clientWidth;
+      tileW = vw * TILE_W;
+      tileH = tileW / TILE_ASPECT;
+      const pitch = tileW + vw * GAP;
+      radius = pitch / (2 * Math.sin((stepDeg * RAD) / 2));
+      degPerPx = 1 / (radius * RAD);
+      persp = parseFloat(getComputedStyle(stage).perspective) || 1500;
+      wall.style.setProperty("--w", `${tileW}px`);
+      wall.style.setProperty("--h", `${tileH}px`);
+      layout();
+      render(true);
+    };
+
+    // ── State: one angle (degrees) for autoplay, drag, fling and wheel ──
+    let angle = 0;
+    let velocity = 0; // deg/s fling momentum
+    let autoFactor = 1;
+    let rafId = 0;
+    let lastTime = 0;
+    let visible = true;
+    let pressed = false;
+    let wheeling = false;
+    let wheelTimer = 0;
+    let dragging = false;
+    let suppressClick = false;
+    let pointerId: number | null = null;
+    let startX = 0;
+    let startAngle = 0;
+    let samples: { t: number; a: number }[] = [];
+
+    const isVisible = new Array<boolean>(count).fill(false);
+    const ac = new AbortController();
+    const { signal } = ac;
+
+    // Is this tile worth rendering? Back-facing or fully off-stage → no.
+    const shouldShow = (
+      i: number,
+      s: number,
+      c: number,
+      X: number,
+      Z: number,
+    ) => {
+      // back-face: normal (s,0,c) must point towards the camera at (0,0,persp)
+      if (-X * s + (persp - Z) * c <= 0) return false;
+
+      // horizontal: projected left/right edge vs stage
+      const hw = tileW / 2;
+      const margin = vw * CULL_MARGIN;
+      const halfW = stageW / 2 + margin;
+      const zl = Z + hw * s;
+      const zr = Z - hw * s;
+      const xl = ((X - hw * c) * persp) / (persp - zl);
+      const xr = ((X + hw * c) * persp) / (persp - zr);
+      if (Math.max(xl, xr) < -halfW || Math.min(xl, xr) > halfW) return false;
+
+      // vertical: whole row outside the stage
+      const k = persp / (persp - Z);
+      const top = (rowY[i] - tileH / 2) * k;
+      const bottom = (rowY[i] + tileH / 2) * k;
+      const halfH = stageH / 2 + margin;
+      return !(bottom < -halfH || top > halfH);
+    };
+
+    let dirty = true;
+    const render = (force = false) => {
+      if (!force && !dirty) return;
+      dirty = false;
+      for (let i = 0; i < count; i++) {
+        const deg = wrap180(baseDeg[i] + angle);
+        const th = deg * RAD;
+        const s = Math.sin(th);
+        const c = Math.cos(th);
+        const X = radius * s;
+        const Z = radius * c - radius;
+        const show = shouldShow(i, s, c, X, Z);
+
+        if (show) {
+          items[i].style.transform =
+            `translate3d(${X.toFixed(1)}px, ${rowY[i].toFixed(1)}px, ${Z.toFixed(1)}px) rotateY(${deg.toFixed(2)}deg)`;
+        }
+        if (show !== isVisible[i]) {
+          isVisible[i] = show;
+          items[i].style.visibility = show ? "visible" : "hidden";
+        }
+      }
+    };
+
+    const setAngle = (a: number) => {
+      angle = a % 360;
+      dirty = true;
+    };
+
+    const tick = (now: number) => {
+      const dt = Math.min(Math.max(now - lastTime, 0), 100) / 1000;
+      lastTime = now;
+
+      if (!pressed && !wheeling) {
+        let delta = 0;
+
+        // fling momentum
+        if (velocity !== 0) {
+          delta += velocity * dt;
+          velocity *= Math.exp(-dt / FRICTION_TAU);
+          if (Math.abs(velocity) < 0.02) velocity = 0;
+        }
+
+        // auto-rotate left → right
+        if (autoEnabled()) {
+          autoFactor =
+            resumeMs > 0 ? Math.min(1, autoFactor + (dt * 1000) / resumeMs) : 1;
+          delta += speed * autoFactor * dt;
+        }
+
+        if (delta !== 0) setAngle(angle + delta);
+      }
+
+      render();
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (rafId || !visible || document.hidden) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    };
+
+    // ── Drag (mouse / pen / touch) ───────────────────────────────────────
+    const flingVelocity = () => {
+      const now = performance.now();
+      const last = samples[samples.length - 1];
+      if (!last || now - last.t > 80 || samples.length < 2) return 0; // held still → no fling
+      const first = samples[0];
+      const dt = (last.t - first.t) / 1000;
+      if (dt <= 0) return 0;
+      const v = (last.a - first.a) / dt;
+      return Math.max(-MAX_VELOCITY, Math.min(MAX_VELOCITY, v));
+    };
+
+    section.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (!e.isPrimary || e.button !== 0) return;
+        pointerId = e.pointerId;
+        pressed = true;
+        dragging = false;
+        suppressClick = false;
+        startX = e.clientX;
+        startAngle = angle;
+        velocity = 0; // catching the wall stops any fling
+        autoFactor = 0; // ease back in after release
+        samples = [];
+      },
+      { signal },
+    );
+
+    section.addEventListener(
+      "pointermove",
+      (e) => {
+        if (e.pointerId !== pointerId || !pressed || degPerPx <= 0) return;
+        const dx = e.clientX - startX;
+
+        if (!dragging) {
+          if (Math.abs(dx) < DRAG_THRESHOLD) return;
+          dragging = true;
+          section.dataset.dragging = "true";
+          try {
+            section.setPointerCapture(e.pointerId);
+          } catch {
+            /* pointer already gone: keep dragging without capture */
+          }
+        }
+
+        // Drag right → wall rotates so the front tile moves right (angle ↑)
+        setAngle(startAngle + dx * degPerPx);
+        const now = performance.now();
+        samples.push({ t: now, a: angle });
+        while (samples.length > 2 && now - samples[0].t > 100) samples.shift();
+      },
+      { signal },
+    );
+
+    const endPointer = (e: PointerEvent) => {
+      if (e.pointerId !== pointerId) return;
+      pointerId = null;
+      try {
+        section.releasePointerCapture(e.pointerId);
+      } catch {
+        /* already released */
+      }
+      if (!pressed) return;
+      pressed = false;
+      lastTime = performance.now();
+      if (dragging) {
+        velocity = flingVelocity();
+        dragging = false;
+        suppressClick = true; // don't open the tile link after a drag
+        window.setTimeout(() => (suppressClick = false), 350);
+        delete section.dataset.dragging;
+      }
+      samples = [];
+    };
+
+    section.addEventListener("pointerup", endPointer, { signal });
+    section.addEventListener("pointercancel", endPointer, { signal });
+    section.addEventListener("dragstart", (e) => e.preventDefault(), {
+      signal,
+    });
+    section.addEventListener(
+      "click",
+      (e) => {
+        if (!suppressClick) return;
+        e.preventDefault();
+        e.stopPropagation();
+        suppressClick = false;
+      },
+      { signal, capture: true },
+    );
+
+    // ── Two-finger trackpad / horizontal wheel ───────────────────────────
+    // The OS supplies the momentum as trailing wheel events, so none is added here.
+    section.addEventListener(
+      "wheel",
+      (e) => {
+        if (degPerPx <= 0) return;
+        // Lock the axis for the whole gesture; clearly vertical scrolls pass through.
+        if (!wheeling && Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+        if (e.cancelable) e.preventDefault(); // also blocks browser back/forward swipe
+
+        const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? vw : 1;
+        // Swipe left (deltaX > 0) → wall moves left (angle ↓), like a drag to the left
+        setAngle(angle - e.deltaX * unit * degPerPx);
+
+        wheeling = true;
+        velocity = 0;
+        autoFactor = 0;
+        clearTimeout(wheelTimer);
+        wheelTimer = window.setTimeout(() => {
+          wheeling = false;
+          lastTime = performance.now();
+        }, WHEEL_IDLE_MS);
+      },
+      { signal, passive: false },
+    );
+
+    // ── Lifecycle ────────────────────────────────────────────────────────
+    const ro = new ResizeObserver(([entry]) => {
+      // stage width/height change with --expand-progress; no layout reads needed
+      stageW = entry.contentRect.width;
+      stageH = entry.contentRect.height;
+      layout();
+      dirty = true;
+      if (!rafId) render();
+    });
+    ro.observe(stage);
+
+    const onResize = () => measureViewport();
+    window.addEventListener("resize", onResize, { signal });
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        visible ? start() : stop();
+      },
+      { rootMargin: "100px" },
+    );
+    io.observe(section);
+
+    document.addEventListener(
+      "visibilitychange",
+      () => (document.hidden ? stop() : start()),
+      { signal },
+    );
+
+    stageW = stage.clientWidth;
+    stageH = stage.clientHeight;
+    measureViewport();
+    start();
+    section.dataset.wallReady = "true"; // handy DevTools check that the script ran
+
+    return () => {
+      stop();
+      clearTimeout(wheelTimer);
+      ro.disconnect();
+      io.disconnect();
+      ac.abort();
+      delete section.dataset.wallReady;
+      delete section.dataset.dragging;
+    };
+  }
+
+  // ───────────────────────────────────────────────────────────────────────
   const cleanups = new WeakMap<HTMLElement, () => void>();
 
   const initializeMadeWall = () => {
@@ -141,183 +449,12 @@ import MadeWallItem from "@/components/made-wall-item.astro";
 
     if (!stage || !wall || !cursor || !items.length) return;
 
-    let frameId = 0;
-    let isVisible = false;
-    let lastFrameTime = 0;
-    let radius = 0;
-    let itemWidth = 0;
-    let itemHeight = 0;
-    let angleOffset = 0;
-    let dragVelocity = 0;
-    let pointerId: number | null = null;
-    let pointerStartX = 0;
-    let pointerStartY = 0;
-    let previousPointerX = 0;
-    let previousPointerY = 0;
-    let previousPointerTime = 0;
-    let gestureAxis: "horizontal" | "vertical" | null = null;
-    let didDrag = false;
-    let suppressClickUntil = 0;
-    const autoSpeed = 0.5;
-    const dragSensitivity = 0.15;
-    const firstAngle = 44.17;
-    const angleStep = 15;
-
     const setProgress = (value: number) => {
       const progress = Math.min(1, Math.max(0, value)).toFixed(4);
       if (section.style.getPropertyValue("--expand-progress") !== progress) {
         section.style.setProperty("--expand-progress", progress);
       }
     };
-
-    const resize = () => {
-      itemWidth = Math.min(489.6, Math.max(180, window.innerWidth * 0.34));
-      itemHeight = itemWidth * (309.6 / 489.6);
-      radius = itemWidth * 4.137;
-
-      items.forEach((item) => {
-        item.style.setProperty("--w", `${itemWidth.toFixed(1)}px`);
-        item.style.setProperty("--h", `${itemHeight.toFixed(1)}px`);
-      });
-
-      updateItems();
-    };
-
-    const updateItems = () => {
-      const normalizedOffset = ((angleOffset % 360) + 360) % 360;
-
-      items.forEach((item, index) => {
-        const column = index % 24;
-        const row = Math.floor(index / 24);
-        const angle = firstAngle + column * angleStep + normalizedOffset;
-        const radians = (angle * Math.PI) / 180;
-        const x = Math.sin(radians) * radius;
-        const z = (Math.cos(radians) - 1) * radius;
-        const y =
-          (row === 0 ? (index === 0 ? -29.1 : -291.2) : (row - 1) * 291.2) *
-          (itemHeight / 309.6);
-        const visibleAngle = ((angle % 360) + 360) % 360;
-        const rotation = ((((angle + 180) % 360) + 360) % 360) - 180;
-        const visible = visibleAngle <= 60 || visibleAngle >= 300;
-
-        item.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, ${z.toFixed(1)}px) rotateY(${rotation.toFixed(2)}deg)`;
-        const visibility = visible ? "visible" : "hidden";
-        if (item.style.visibility !== visibility) {
-          item.style.visibility = visibility;
-        }
-      });
-    };
-
-    const animate = (time: number) => {
-      if (!isVisible || document.visibilityState === "hidden") {
-        frameId = 0;
-        lastFrameTime = 0;
-        return;
-      }
-
-      const delta = lastFrameTime
-        ? Math.min((time - lastFrameTime) / 1000, 0.05)
-        : 0;
-      lastFrameTime = time;
-
-      if (pointerId === null) {
-        angleOffset += (autoSpeed + dragVelocity) * delta;
-        dragVelocity *= Math.exp(-4 * delta);
-      }
-
-      updateItems();
-      frameId = window.requestAnimationFrame(animate);
-    };
-
-    const startAnimation = () => {
-      if (!isVisible || frameId || document.visibilityState === "hidden")
-        return;
-      frameId = window.requestAnimationFrame(animate);
-    };
-
-    const onPointerDown = (event: PointerEvent) => {
-      if (
-        !event.isPrimary ||
-        (event.pointerType === "mouse" && event.button !== 0)
-      ) {
-        return;
-      }
-
-      pointerId = event.pointerId;
-      pointerStartX = previousPointerX = event.clientX;
-      pointerStartY = previousPointerY = event.clientY;
-      previousPointerTime = performance.now();
-      gestureAxis = null;
-      didDrag = false;
-      dragVelocity = 0;
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (pointerId !== event.pointerId) return;
-
-      const deltaX = event.clientX - previousPointerX;
-      const deltaY = event.clientY - previousPointerY;
-      const now = performance.now();
-      const elapsed = Math.max((now - previousPointerTime) / 1000, 0.008);
-
-      if (!gestureAxis) {
-        const totalX = event.clientX - pointerStartX;
-        const totalY = event.clientY - pointerStartY;
-        if (Math.hypot(totalX, totalY) > 6) {
-          gestureAxis =
-            Math.abs(totalX) > Math.abs(totalY) ? "horizontal" : "vertical";
-        }
-      }
-
-      if (gestureAxis === "horizontal" && !didDrag) {
-        didDrag = true;
-        section.classList.add("is-dragging", "cursor-grabbing");
-        stage.setPointerCapture(event.pointerId);
-      }
-
-      if (didDrag) {
-        if (event.cancelable) event.preventDefault();
-        angleOffset += deltaX * dragSensitivity;
-        dragVelocity = Math.max(
-          -120,
-          Math.min(120, (deltaX / elapsed) * dragSensitivity - autoSpeed),
-        );
-        updateItems();
-      }
-
-      previousPointerX = event.clientX;
-      previousPointerY = event.clientY;
-      previousPointerTime = now;
-    };
-
-    const finishPointer = (event: PointerEvent) => {
-      if (pointerId !== event.pointerId) return;
-
-      pointerId = null;
-      gestureAxis = null;
-      section.classList.remove("is-dragging", "cursor-grabbing");
-      if (didDrag) suppressClickUntil = performance.now() + 350;
-      didDrag = false;
-    };
-
-    const onClick = (event: MouseEvent) => {
-      if (performance.now() >= suppressClickUntil) return;
-      event.preventDefault();
-      event.stopPropagation();
-    };
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "hidden" && frameId) {
-        window.cancelAnimationFrame(frameId);
-        frameId = 0;
-        lastFrameTime = 0;
-      } else {
-        startAnimation();
-      }
-    };
-
-    resize();
-    window.addEventListener("resize", resize, { passive: true });
 
     const scrollTrigger = ScrollTrigger.create({
       trigger: stage,
@@ -330,28 +467,6 @@ import MadeWallItem from "@/components/made-wall-item.astro";
       onRefresh: (self) => setProgress(self.progress),
     });
 
-    const visibilityObserver = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-        if (isVisible) startAnimation();
-        else if (frameId) {
-          window.cancelAnimationFrame(frameId);
-          frameId = 0;
-          lastFrameTime = 0;
-        }
-      },
-      { threshold: 0 },
-    );
-    visibilityObserver.observe(stage);
-
-    stage.addEventListener("pointerdown", onPointerDown, true);
-    window.addEventListener("pointermove", onPointerMove, { passive: false });
-    window.addEventListener("pointerup", finishPointer);
-    window.addEventListener("pointercancel", finishPointer);
-    stage.addEventListener("lostpointercapture", finishPointer);
-    stage.addEventListener("click", onClick, true);
-    document.addEventListener("visibilitychange", onVisibilityChange);
-
     const cursorCleanup = initCursorTracking(
       section,
       ".made-wall-item",
@@ -359,23 +474,12 @@ import MadeWallItem from "@/components/made-wall-item.astro";
       "data-name",
     );
 
+    const wallCleanup = initWallMotion(section, stage, wall, items);
+
     const cleanup = () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
-      section.classList.remove("is-dragging", "cursor-grabbing");
-      stage.removeEventListener("pointerdown", onPointerDown, true);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", finishPointer);
-      window.removeEventListener("pointercancel", finishPointer);
-      stage.removeEventListener("lostpointercapture", finishPointer);
-      stage.removeEventListener("click", onClick, true);
-      window.removeEventListener("resize", resize);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      if (pointerId !== null && stage.hasPointerCapture(pointerId)) {
-        stage.releasePointerCapture(pointerId);
-      }
-      visibilityObserver.disconnect();
       scrollTrigger.kill();
       cursorCleanup();
+      wallCleanup();
     };
 
     cleanups.set(section, cleanup);
@@ -395,3 +499,12 @@ import MadeWallItem from "@/components/made-wall-item.astro";
   document.addEventListener("astro:before-swap", disposeMadeWall);
   initializeMadeWall();
 </script>
+
+<style>
+  @media (hover: hover) and (pointer: fine) {
+    [data-made-wall-section][data-dragging="true"],
+    [data-made-wall-section][data-dragging="true"] :global(*) {
+      cursor: grabbing !important;
+    }
+  }
+</style>

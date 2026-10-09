@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import { OPERATIONS_AI_DATA } from "@/data";
+import { OPERATIONS_AI_DATA, TOP_PRODUCTS_IMAGES } from "@/data";
 import AiIntegrationBox from "../ai-integration-box.astro";
+import { ChartIcon } from "@/components/icons";
 ---
 
 <section
@@ -112,7 +113,99 @@ import AiIntegrationBox from "../ai-integration-box.astro";
         style={{ "--stagger-index": 0 }}
       >
         <!-- stats box -->
-        <div class="aspect-3/2 bg-[#efeff0] w-full relative overflow-hidden @container"></div>
+        <div class="aspect-3/2 bg-[#efeff0] w-full relative overflow-hidden @container group">
+          <!-- stats mockup -->
+          <div
+            class="absolute inset-[10cqi] grid grid-cols-[1.35fr_1fr] grid-rows-[auto] gap-x-[2cqi] gap-y-[2cqi] [transition:transform_.9s_var(--ease-rise-in)] group-hover:transform-[perspective(900px)_scale(var(--support-zoom,1))_rotateX(var(--tilt-x,0deg))_rotateY(var(--tilt-y,0deg))] group-hover:[transition:transform_.25s_var(--ease-rise-in)]"
+            style="--tilt-x: 0deg; --tilt-y: 0deg;"
+          >
+            <!-- stat profit card -->
+            <div class="flex flex-col bg-background overflow-hidden min-w-0 rounded-[3cqi] p-[2.2cqi_3.2cqi_0]">
+              <div class="font-display text-foreground font-medium tracking-[-.01em] my-0 text-[2.5cqi]">
+                Your profit
+              </div>
+
+              <div class="flex items-center gap-x-[2.6cqi] mt-[1.4cqi]">
+                <div class="font-display text-foreground font-medium tracking-[-.02em] text-[4.5cqi] leading-[100%]">
+                  $26,896.10
+                </div>
+                <div class="inline-flex gap-x-[.8cqi] font-display text-[#14d7a1] font-medium tracking-[-.01em] text-[2.5cqi]">
+                  <svg
+                    viewBox="0 0 9 7"
+                    aria-hidden="true"
+                    class="shrink-0 block h-auto w-[1.8cqi]"
+                  >
+                    <path
+                      d="M4.5 0 L9 7 L0 7 Z"
+                      fill="currentColor"
+                      stroke="currentColor"
+                      stroke-width="1"
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                    ></path>
+                  </svg>
+                  <span>41</span>
+                  <span>%</span>
+                </div>
+              </div>
+
+              <!-- stat chart -->
+              <div class="flex-1 min-h-0 mt-[3cqi] mx-[-3.2cqi] relative overflow-hidden">
+                <ChartIcon />
+              </div>
+            </div>
+
+            <!-- stat card info -->
+            <div class="grid min-w-0 grid-cols-1 grid-rows-2 gap-x-[2cqi] gap-y-[2cqi]">
+              <div class="flex flex-col gap-y-[1.2cqi] px-[3.2cqi] py-[2.2cqi] min-w-0 overflow-hidden rounded-[3cqi] bg-background">
+                <div class="font-display text-foreground font-medium tracking-[-.01em] my-0 text-[2.5cqi]">
+                  Top products
+                </div>
+                <div class="flex flex-1 items-center min-h-0">
+                  {TOP_PRODUCTS_IMAGES.map((img) => (
+                    <div class="relative flex aspect-4/5 w-[10cqi] flex-none items-center justify-center border-[0.4cqi] border-white bg-[#efeff0] nth-[1]:z-4 nth-[2]:z-3 nth-[3]:z-2 nth-[4]:z-1 not-first:ml-[-4.4cqi]">
+                      <img
+                        src={img.src}
+                        alt=""
+                        loading="lazy"
+                        class="block size-full object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div class="flex flex-col gap-y-[2.6cqi] px-[3.2cqi] py-[2.2cqi] min-w-0 overflow-hidden rounded-[3cqi] bg-background">
+                <div class="font-display text-foreground font-medium tracking-[-.01em] my-0 text-[2.5cqi]">
+                  Sales by country
+                </div>
+
+                <div class="grid grid-cols-[auto_1fr_auto] grid-rows-[auto] items-center gap-x-[2.2cqi] gap-y-[2.2cqi]">
+                  <img
+                    src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90738d84dd5e7e02ae237e_stats-flag-us.svg"
+                    loading="lazy"
+                    alt=""
+                    class="block h-auto w-[5cqi] rounded-[0.7cqi]"
+                  />
+                  <div class="font-display text-foreground leading-[100%] font-normal tracking-[-.02em] text-[2.9cqi]">
+                    $21,495.04
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-[auto_1fr_auto] grid-rows-[auto] items-center gap-x-[2.2cqi] gap-y-[2.2cqi]">
+                  <img
+                    src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90738c36d8b0bfe90f3cd5_stats-flag-gb.svg"
+                    loading="lazy"
+                    alt=""
+                    class="block h-auto w-[5cqi] rounded-[0.7cqi]"
+                  />
+                  <div class="font-display text-foreground leading-[100%] font-normal tracking-[-.02em] text-[2.9cqi]">
+                    $9,524.95
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <p class="max-w-none pt-6 font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
           Understand and grow your business with confidence.

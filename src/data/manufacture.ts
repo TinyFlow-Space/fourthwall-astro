@@ -75,3 +75,18 @@ export const MGF_PRODUCTS = [
     status: "Awaiting",
   },
 ];
+
+export const TOP_PRODUCTS_IMAGES = [
+  {
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce7a1d0e256f0886b6_stats-top-product-1.webp",
+  },
+  {
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce30b303e378d52dce_stats-top-product-2.webp",
+  },
+  {
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce30b303e378d52db9_stats-top-product-3.webp",
+  },
+  {
+    src: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce4ca8d0a18e6db6da_stats-top-product-4.webp",
+  },
+];

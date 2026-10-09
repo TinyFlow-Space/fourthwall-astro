@@ -86,23 +86,30 @@ const FILTERS = [
 
     if (!pill || !initialSelectedButton) return;
     let selectedButton = initialSelectedButton;
-
     selectedButton.classList.toggle("text-foreground!");
 
-    const positionPill = (button: HTMLButtonElement) => {
-      const { offsetWidth, offsetLeft } = button;
-      pill.style.width = `${offsetWidth}px`;
-      pill.style.transform = `translateX(${offsetLeft}px)`;
+    let positionFrame = 0;
+    const schedulePillPosition = () => {
+      if (positionFrame) return;
+
+      positionFrame = window.requestAnimationFrame(() => {
+        positionFrame = 0;
+        const button = hoveredButton ?? selectedButton;
+        const { offsetWidth, offsetLeft } = button;
+
+        pill.style.width = `${offsetWidth}px`;
+        pill.style.transform = `translateX(${offsetLeft}px)`;
+      });
     };
 
     const positionCurrentButton = () => {
-      positionPill(hoveredButton ?? selectedButton);
+      schedulePillPosition();
     };
 
     buttons.forEach((button) => {
       button.addEventListener("pointerenter", () => {
         hoveredButton = button;
-        positionPill(button);
+        schedulePillPosition();
       });
 
       button.addEventListener("click", () => {
@@ -112,13 +119,13 @@ const FILTERS = [
           item.setAttribute("aria-pressed", String(isSelected));
           item.classList.toggle("text-foreground!", isSelected);
         });
-        positionPill(button);
+        schedulePillPosition();
       });
     });
 
     nav.addEventListener("pointerleave", () => {
       hoveredButton = null;
-      positionPill(selectedButton);
+      schedulePillPosition();
     });
 
     positionCurrentButton();

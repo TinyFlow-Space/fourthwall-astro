@@ -53,7 +53,7 @@ import { Image } from "astro:assets";
             <Image
               src={item.src}
               loading="eager"
-              fetchpriority={index === 0 ? "high" : "low"}
+              fetchpriority="high"
               inferSize={true}
               widths={[320, 480, 640, 800, 960]}
               sizes="(min-width: 2743px) 867px, (min-width: 915px) 31.6129vw, 289px"

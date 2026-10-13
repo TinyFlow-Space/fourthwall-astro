@@ -41,12 +41,16 @@ const { class: className = "" } = Astro.props;
 
           itemTrigger.setAttribute("aria-expanded", "false");
           accordionItem.setAttribute("data-open", "false");
+          accordionItem.querySelector<HTMLElement>(
+            "[data-accordion-panel]",
+          )!.inert = true;
         });
 
       if (!shouldOpen) return;
 
       trigger.setAttribute("aria-expanded", "true");
       item.setAttribute("data-open", "true");
+      item.querySelector<HTMLElement>("[data-accordion-panel]")!.inert = false;
     });
   });
 </script>

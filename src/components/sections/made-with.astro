@@ -1,4 +1,5 @@
 ---
+import { WALL_SHOPS } from "@/data/wall-shops";
 import MadeWallItem from "@/components/made-wall-item.astro";
 
 interface Props {
@@ -44,8 +45,8 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
           data-made-wall-items
           class="absolute top-0 left-0 h-0 w-0 transform-3d"
         >
-          {Array.from({ length: 72 }).map(() => (
-            <MadeWallItem />
+          {Array.from({ length: 72 }).map((_, index) => (
+            <MadeWallItem shop={WALL_SHOPS[index % WALL_SHOPS.length]} />
           ))}
         </div>
       </div>
@@ -136,7 +137,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
 
     const measureViewport = () => {
       vw = document.documentElement.clientWidth;
-      tileW = vw * TILE_W;
+      tileW = vw * (vw < 992 ? 0.64 : TILE_W);
       tileH = tileW / TILE_ASPECT;
       const pitch = tileW + vw * GAP;
       radius = pitch / (2 * Math.sin((stepDeg * RAD) / 2));

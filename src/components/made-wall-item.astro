@@ -1,19 +1,24 @@
 ---
+import type { WALL_SHOPS } from "@/data/wall-shops";
+interface Props {
+  shop: (typeof WALL_SHOPS)[number];
+}
+const { shop } = Astro.props;
 ---
 
 <a
   class="made-wall-item absolute left-0 top-0 ml-[calc(var(--w)/-2)] mt-[calc(var(--h)/-2)] w-(--w,220px) h-(--h,150px) will-change-transform no-underline invisible backface-hidden hover:z-10 group cursor-none!"
-  href="https://shop.nymag.com/"
+  href={shop.href}
   target="_blank"
   rel="noopener noreferrer"
   draggable="false"
-  data-name="NYMag"
+  data-name={shop.name}
 >
   <div class="absolute inset-0 overflow-hidden bg-[#141414] transform-[scale(1)] origin-center transition-transform duration-350 ease-rise-in backface-hidden group-hover:transform-[scale(1.12)]">
     <img
       class="block h-full w-full object-cover object-top opacity-100 pointer-events-none transition-[opacity_.25s_ease] [-webkit-user-drag:none] backface-hidden group-hover:opacity-100"
-      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a4fd_6a6dbf09291ad17ff6d809d7_6a6dbdee183fbba14fae9b5c_site-vivaplus.webp"
-      alt="Shop — NYMag"
+      src={shop.src}
+      alt={`Shop — ${shop.name}`}
       draggable="false"
       loading="lazy"
       decoding="async"

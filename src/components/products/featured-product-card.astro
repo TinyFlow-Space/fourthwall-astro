@@ -1,47 +1,135 @@
 ---
 import { cn } from "@/utils";
+import type { FeaturedProduct } from "@/data/featured-products";
 import { Image } from "astro:assets";
 
-const { index, classNames } = Astro.props;
+interface Props {
+  product: FeaturedProduct;
+  index: number;
+  classNames?: string;
+}
+
+const { product, index, classNames } = Astro.props;
 ---
 
 <a
   rel="nofollow noopener"
   target="_blank"
-  href="https://products.fourthwall.com/comfort-colors-garment-dyed-heavyweight-t-shirt-dtg?selectedColor=Black"
+  href={product.href}
+  data-mobile-photo={index === 0 || index === 5}
   class={cn(
-    "min-h-0 p-6 bg-paper-soft flex flex-col justify-end no-underline text-inherit cursor-pointer max-w-full [grid-row-gap:12px] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group",
+    "featured-card min-h-0 p-6 bg-paper-soft flex flex-col justify-end no-underline text-inherit cursor-pointer max-w-full [grid-row-gap:12px] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group",
     classNames,
   )}
   style={{ "--stagger-index": index }}
 >
+  <img
+    class="mobile-featured-image"
+    src={product.src}
+    alt=""
+    loading="lazy"
+    width="400"
+    height="650"
+  />
+  <div class="mobile-featured-copy">
+    <span>★ {product.rating}</span>
+    <h3>{product.name}</h3>
+  </div>
   <div class="relative flex items-center justify-center flex-1 min-h-0">
     <Image
       inferSize={true}
-      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a96e11c1178eccd5e25adce_scatter-tshirt-v3.webp"
+      src={product.src}
       loading="lazy"
       widths={[320, 480, 640, 800, 960, 1200]}
       sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 42vw"
       alt=""
       class="object-contain w-auto max-w-full h-auto min-h-full block hover-fade"
     />
-    <Image
-      inferSize={true}
-      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b50_6a96e11c1178eccd5e25ade3_scatter-tshirt-hover-v3.webp"
-      loading="lazy"
-      widths={[320, 480, 640, 800, 960, 1200]}
-      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 42vw"
-      alt=""
-      class={cn(
-        "absolute inset-0 pointer-events-none opacity-0 object-contain w-full max-w-full h-full min-h-full block hover-opacity group-hover:opacity-100!",
-      )}
-      aria-hidden="true"
-    />
+    {product.hoverSrc && (
+      <Image
+        inferSize={true}
+        src={product.hoverSrc}
+        loading="lazy"
+        widths={[320, 480, 640, 800, 960, 1200]}
+        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 42vw"
+        alt=""
+        class={cn(
+          "absolute inset-0 pointer-events-none opacity-0 object-contain w-full max-w-full h-full min-h-full block hover-opacity group-hover:opacity-100!",
+        )}
+        aria-hidden="true"
+      />
+    )}
   </div>
   <div class="inline-flex items-center self-start gap-x-1 rounded-full bg-background text-foreground text-xs leading-none font-medium mb-0 py-1 pr-2.5 pl-2 before:content-['★'] before:text-[0.95em] before:leading-none">
-    4.7
+    {product.rating}
   </div>
   <h3 class="font-body text-body-md leading-[1.35] font-medium text-balance my-0 tracking-normal">
-    Comfort Colors Garment-Dyed Heavyweight T-Shirt
+    {product.name}
   </h3>
 </a>
+
+<style>
+  .mobile-featured-image,
+  .mobile-featured-copy {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    .featured-card {
+      position: relative;
+      padding: 14px;
+      min-width: 0;
+      min-height: 0;
+      gap: 12px;
+      justify-content: end;
+    }
+    .featured-card > :not(.mobile-featured-image):not(.mobile-featured-copy) {
+      display: none;
+    }
+    .mobile-featured-image {
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .featured-card:not([data-mobile-photo="true"]) .mobile-featured-image {
+      position: relative;
+      inset: auto;
+      height: 120px;
+      width: 100%;
+      object-fit: contain;
+      margin-bottom: auto;
+    }
+    .featured-card[data-mobile-photo="true"]::after {
+      content: "";
+      position: absolute;
+      inset: 45% 0 0;
+      background: linear-gradient(transparent, #0005);
+    }
+    .mobile-featured-copy {
+      display: block;
+      position: relative;
+      z-index: 1;
+      line-height: 1;
+    }
+    .mobile-featured-copy span {
+      background: white;
+      color: var(--foreground);
+      border-radius: 20px;
+      padding: 3px 7px;
+      display: inline-block;
+      font-size: 12px;
+    }
+    .mobile-featured-copy h3 {
+      font-size: 15px;
+      line-height: 1.35;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+    .featured-card:nth-of-type(1),
+    .featured-card:nth-of-type(6) {
+      color: white;
+    }
+  }
+</style>

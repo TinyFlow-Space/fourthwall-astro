@@ -1,277 +1,142 @@
 ---
-import { cn } from "@/utils";
 import { Image } from "astro:assets";
+import type { CATALOG_PRODUCTS } from "@/data/catalog-products";
+interface Props {
+  product: (typeof CATALOG_PRODUCTS)[number];
+}
+const { product } = Astro.props;
 ---
 
 <a
   rel="noopener"
   target="_blank"
-  href="https://products.fourthwall.com/comfort-colors-garment-dyed-heavyweight-t-shirt-dtg"
-  class="flex flex-col gap-y-2 no-underline relative max-w-full reveal group"
+  href={product.href}
+  class="catalog-card flex flex-col gap-y-2 no-underline relative max-w-full reveal group"
 >
-  <!-- product media -->
-  <div class="mb-1.5 aspect-3/4 bg-[#efeff0] block relative overflow-hidden">
+  <div class="catalog-media mb-1.5 aspect-3/4 bg-[#efeff0] block relative overflow-hidden">
     <Image
+      src={product.src}
       inferSize
-      widths={[320, 480, 640, 800, 1200]}
-      sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
-      alt="Comfort Colors Garment-Dyed Heavyweight T-Shirt"
+      widths={[200, 400, 640, 800]}
+      sizes="(max-width: 991px) calc((100vw - 44px) / 2), (max-width: 1023px) 50vw, 25vw"
+      alt={product.name}
       loading="lazy"
-      src="https://cdn.fourthwall.com/product-catalog/pro_8be1acca2fe7403f89/ce527243-4847-4e46-a693-b5f1384d147c.jpeg"
-      class="object-contain size-full absolute inset-0"
+      class="object-cover size-full absolute inset-0"
     />
-
-    <!-- product badges -->
-    <div class="absolute flex z-2 top-3 left-3 gap-x-1.5">
-      <div class="py-0.5 px-2 rounded-md bg-background font-body text-foreground text-xs leading-snug font-medium whitespace-nowrap">
-        <p class="my-0 text-inherit font-[inherit] [font-size:inherit] leading-[inherit] [font-weight:inherit]">
-          Best seller
-        </p>
+    <div class="catalog-badges absolute flex z-2 top-3 left-3 gap-x-1.5">
+      {product.badges.map((badge) => (
+        <span class="py-0.5 px-2 rounded-md bg-background text-foreground text-xs leading-snug font-medium whitespace-nowrap">
+          {badge}
+        </span>
+      ))}
+    </div>
+    {product.colors.length > 0 && (
+      <div
+        class="catalog-colors absolute left-3 right-3 bottom-3 z-2 flex items-center gap-x-1"
+        aria-label={`${product.colorCount} colors available`}
+      >
+        {product.colors.map((color) => (
+          <span
+            title={color.name}
+            class="size-2.5 rounded-full border border-[#0a0a0a2e] shrink-0"
+            style={{ background: color.hex }}
+          />
+        ))}
+        {product.colorCount > 4 && (
+          <span class="text-secondary-foreground text-xs leading-none">
+            +{product.colorCount - 4}
+          </span>
+        )}
       </div>
-    </div>
-
-    <!-- color switches -->
-    <div class="absolute left-3 right-3 bottom-3 z-2 flex items-center gap-x-1 transition-[column-gap_.2s_ease]">
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Black"
-        aria-label="Black"
-        style="background: rgb(8, 8, 8);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="True Navy"
-        aria-label="True Navy"
-        style="background: rgb(30, 43, 68);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Midnight"
-        aria-label="Midnight"
-        style="background: rgb(58, 78, 99);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Graphite"
-        aria-label="Graphite"
-        style="background: rgb(62, 55, 55);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Navy"
-        aria-label="Navy"
-        style="background: rgb(66, 65, 84);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Sage"
-        aria-label="Sage"
-        style="background: rgb(73, 72, 46);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Blue Spruce"
-        aria-label="Blue Spruce"
-        style="background: rgb(76, 97, 81);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Hemp"
-        aria-label="Hemp"
-        style="background: rgb(79, 82, 50);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Mystic Blue"
-        aria-label="Mystic Blue"
-        style="background: rgb(80, 104, 171);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Pepper"
-        aria-label="Pepper"
-        style="background: rgb(81, 79, 76);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Denim"
-        aria-label="Denim"
-        style="background: rgb(86, 90, 103);"
-      ></button>
-      <button
-        type="button"
-        class={cn(
-          "size-2.5 cursor-pointer outline-offset-2 flex-[0_0_auto] p-0 border border-[#0a0a0a2e] rounded-full outline-transparent outline-1 outline-solid transition-[width_.2s_ease,height_.2s_ease,outline_color_.18s_ease] group-hover:size-4.5",
-        )}
-        title="Flo Blue"
-        aria-label="Flo Blue"
-        style="background: rgb(86, 105, 190);"
-      ></button>
-      <span class="text-secondary-foreground text-xs leading-none whitespace-nowrap">
-        +33
-      </span>
-    </div>
+    )}
   </div>
-
-  <!-- product info -->
   <p class="pr-4 text-foreground font-body text-body-md leading-relaxed font-normal my-0">
-    Comfort Colors Garment-Dyed Heavyweight T-Shirt
+    {product.name}
   </p>
-  <div class="flex items-center pr-4 gap-x-2 -mt-0.5 [&>p:not(:first-child)]:before:content-['|'] [&>p:not(:first-child)]:before:mr-[0.5em] [&>p:not(:first-child)]:before:opacity-40">
-    <p class="text-secondary-foreground font-body text-body-sm leading-normal font-normal my-0">
-      Printed
-    </p>
-    <p class="text-secondary-foreground font-body text-body-sm leading-normal font-normal my-0">
-      Embroidered
-    </p>
+  <div class="catalog-tech flex items-center pr-4 gap-x-2 -mt-0.5 text-secondary-foreground text-body-sm leading-normal">
+    {product.tech.map((tech) => (
+      <span>{tech}</span>
+    ))}
   </div>
-
   <div
-    class="pr-4 flex items-center gap-x-2"
-    aria-label="Rated 4.7 out of 5 from 254 reviews"
+    class="flex items-center gap-x-2"
+    aria-label={`Rated ${product.rating} out of 5, ${product.reviews} reviews`}
   >
-    <div class="relative inline-flex flex-[0_0_auto]" style="--pg-fill: 94%;">
-      <div class="text-[#0a0a0a2e] flex gap-0.5">
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-      </div>
-      <div class="absolute inset-0 overflow-hidden w-(--pg-fill,0%) text-foreground">
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-        <svg
-          viewBox="0 0 20 19"
-          aria-hidden="true"
-          class="size-3.25 flex-[0_0_auto]"
-        >
-          <path
-            fill="currentColor"
-            d="M10 0l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L10 14.3 4.2 17.8l1.6-6.6L.6 6.8l6.8-.5z"
-          ></path>
-        </svg>
-      </div>
-    </div>
-    <span class="text-[13px] text-secondary-foreground">254</span>
+    <span
+      aria-hidden="true"
+      class="catalog-stars"
+      style={{ "--rating-fill": `${(product.rating / 5) * 100}%` }}
+    >
+      ★★★★★
+    </span>
+    <span class="text-[13px] text-secondary-foreground">{product.reviews}</span>
   </div>
-  <p class="pr-4 text-secondary-foreground font-body text-body-sm leading-normal font-normal my-0">
-    From $15.45
+  <p class="pr-4 text-secondary-foreground font-body text-body-sm leading-normal my-0">
+    {product.price}
   </p>
 </a>
+
+<style>
+  .catalog-tech > span + span::before {
+    content: "|";
+    opacity: 0.4;
+    margin-right: 0.5em;
+  }
+  .catalog-stars {
+    font-size: 15px;
+    letter-spacing: 1px;
+    background: linear-gradient(
+      to right,
+      #0a0a0a var(--rating-fill),
+      #0a0a0a2e var(--rating-fill)
+    );
+    color: transparent;
+    background-clip: text;
+  }
+  @media (max-width: 991px) {
+    .catalog-badges {
+      top: 12px;
+      left: 12px;
+      gap: 4px;
+    }
+    .catalog-badges span {
+      font-size: 12px;
+      padding: 2px 7px;
+    }
+    .catalog-tech {
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 16px;
+    }
+  }
+  @media (max-width: 359px) {
+    .catalog-badges {
+      left: 6px;
+      gap: 3px;
+    }
+    .catalog-badges span {
+      font-size: 10px;
+      padding-inline: 5px;
+    }
+  }
+</style>
+
+<style>
+  @media (hover: hover) and (pointer: fine) {
+    .catalog-colors {
+      transition: gap 0.2s ease;
+    }
+    .catalog-colors span[title] {
+      transition:
+        width 0.2s ease,
+        height 0.2s ease;
+    }
+    .catalog-card:hover .catalog-colors {
+      gap: 6px;
+    }
+    .catalog-card:hover .catalog-colors span[title] {
+      width: 18px;
+      height: 18px;
+    }
+  }
+</style>

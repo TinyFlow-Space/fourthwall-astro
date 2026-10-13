@@ -6,9 +6,12 @@ import { cn } from "@/utils";
 <footer class="z-1 py-14 px-surface-x shadow-[0_4px_0_var(--text-foreground)] bg-surface-dark flex flex-col sticky bottom-0">
   <div class="grid grid-cols-6 gap-8 w-full origin-[50%] reveal">
     {FOOTER_LINKS.map((link) => (
-      <div>
+      <div class="footer-group">
         <h3 class="mt-0 mb-4.5 text-white font-[inherit] [font-size:inherit] leading-[inherit] [font-weight:inherit]">
-          {link.title}
+          <button class="footer-toggle" type="button" aria-expanded="true">
+            {link.title}
+            <span aria-hidden="true">+</span>
+          </button>
         </h3>
         <ul class="my-0 pl-0 list-none">
           {link.links.map((item) => (
@@ -72,3 +75,108 @@ import { cn } from "@/utils";
   import { initReveal } from "@/lib";
   initReveal();
 </script>
+
+<script>
+  const mobileFooter = matchMedia("(max-width: 991px)");
+  const groups = Array.from(
+    document.querySelectorAll<HTMLElement>(".footer-group"),
+  );
+  function resetFooter() {
+    groups.forEach((group) => {
+      const button = group.querySelector<HTMLButtonElement>(".footer-toggle")!;
+      const links = group.querySelector<HTMLElement>("ul")!;
+      button.disabled = !mobileFooter.matches;
+      button.setAttribute("aria-expanded", String(!mobileFooter.matches));
+      links.inert = mobileFooter.matches;
+      group.dataset.open = String(!mobileFooter.matches);
+    });
+  }
+  groups.forEach((group, index) => {
+    const button = group.querySelector<HTMLButtonElement>(".footer-toggle")!;
+    const links = group.querySelector<HTMLElement>("ul")!;
+    links.id = `footer-links-${index}`;
+    button.setAttribute("aria-controls", links.id);
+    button.addEventListener("click", () => {
+      const open = button.getAttribute("aria-expanded") !== "true";
+      button.setAttribute("aria-expanded", String(open));
+      links.inert = !open;
+      group.dataset.open = String(open);
+    });
+  });
+  mobileFooter.addEventListener("change", resetFooter);
+  resetFooter();
+</script>
+<style>
+  .footer-toggle {
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+  }
+  .footer-toggle span {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    footer {
+      position: relative;
+      padding-block: 12px 0;
+    }
+    footer > div {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .footer-group {
+      border-bottom: 1px solid #ffffff14;
+    }
+    .footer-group h3 {
+      margin: 0;
+    }
+    .footer-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-block: 22px;
+    }
+    .footer-toggle span {
+      display: block;
+      color: var(--muted-foreground);
+      transition: transform 0.3s;
+    }
+    .footer-toggle[aria-expanded="true"] span {
+      transform: rotate(45deg);
+    }
+    .footer-group ul {
+      max-height: 0;
+      overflow: hidden;
+      margin: 0;
+      visibility: hidden;
+      transition:
+        max-height 0.5s var(--ease-rise-in),
+        visibility 0s 0.5s;
+    }
+    .footer-group[data-open="true"] ul {
+      max-height: 350px;
+      padding-bottom: 16px;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    footer > div > div:last-child {
+      padding-top: 28px;
+    }
+    footer > div > div:last-child h3 {
+      display: none;
+    }
+    footer > div > div:last-child > div {
+      flex-direction: row;
+      gap: 16px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .footer-group ul,
+    .footer-toggle span {
+      transition: none;
+    }
+  }
+</style>

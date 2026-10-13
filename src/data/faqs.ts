@@ -55,7 +55,7 @@ export const FAQS: {
   },
   {
     id: "taxes",
-    question: "How does Fourthwall handle taxes?",
+    question: "Does Fourthwall handle taxes?",
     answer: [
       {
         type: "paragraph",
@@ -97,3 +97,50 @@ export const FAQS: {
     ],
   },
 ];
+
+const ADDITIONAL_FAQS = [
+  [
+    "payments",
+    "Does Fourthwall handle payment processing?",
+    "Fourthwall handles checkout and payment processing for your shop. Your supporters can use the payment methods available at checkout.",
+  ],
+  [
+    "design",
+    "Does Fourthwall offer design support?",
+    "You can use your own artwork or find an independent designer through Fourthwall’s designer directory.",
+  ],
+  [
+    "profit",
+    "How much money do I make on sales from the Fourthwall product catalog?",
+    "You set the retail price. Your earnings depend on that price, the listed product cost, and applicable processing fees. See the pricing page for details.",
+  ],
+  [
+    "shipping",
+    "Do you ship worldwide?",
+    "Products can ship to many countries. Availability, delivery estimates, and shipping costs depend on the product and destination and are shown at checkout.",
+  ],
+  [
+    "ai",
+    "Does Fourthwall use AI?",
+    "Fourthwall includes optional AI tools for product ideas, shop customization, and help with running your business.",
+  ],
+  [
+    "support",
+    "Does Fourthwall provide customer support for my orders?",
+    "Fourthwall provides customer support for orders fulfilled through its product catalog. Visit the help center for support with an order.",
+  ],
+  [
+    "domain",
+    "Can I move my domain to a Fourthwall website?",
+    "You can connect your own domain to your Fourthwall shop. The help center explains how to update your domain settings.",
+  ],
+];
+for (const [id, question, answer] of ADDITIONAL_FAQS) {
+  const entry = {
+    id,
+    question,
+    answer: [{ type: "paragraph" as const, content: [answer] }],
+  };
+  if (id === "payments") FAQS.splice(1, 0, entry);
+  else FAQS.push(entry);
+}

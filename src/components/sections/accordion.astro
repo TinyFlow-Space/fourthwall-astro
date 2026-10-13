@@ -4,7 +4,11 @@ import AccordionItem from "@/components/ui/accordion-item.astro";
 import { FAQS } from "@/data";
 ---
 
-<section class="py-surface-y-lg px-surface-x bg-background">
+<section
+  id="learn"
+  data-section="accordion"
+  class="py-surface-y-lg px-surface-x bg-background"
+>
   <div class="container @container">
     <div class="max-w-[88ch] mb-[clamp(56px,2.8vw,80px)] mx-auto text-center reveal">
       <h2 class="text-heading-lg text-foreground leading-tight font-display font-medium tracking-[-.01em] my-0 p-0 normal-case">
@@ -14,7 +18,7 @@ import { FAQS } from "@/data";
 
     <Accordion class="max-w-[clamp(800px,720px,1040px)] mx-auto reveal">
       {FAQS.map((faq) => (
-        <AccordionItem title={faq.question}>
+        <AccordionItem id={faq.id} title={faq.question}>
           {faq.answer.map((block) =>
             block.type === "paragraph" ? (
               <p class="not-last:mb-3.5 text-wrap nt">

@@ -1,4 +1,5 @@
 ---
+import { FEATURED_PRODUCTS } from "@/data/featured-products";
 import FeaturedProductCard from "../products/featured-product-card.astro";
 
 const CLASSES = [
@@ -12,6 +13,7 @@ const CLASSES = [
 ---
 
 <section
+  data-section="featured-products"
   data-scatter-reveal-section
   class="bg-background px-surface-x pt-30 pb-surface-y-sm"
 >
@@ -37,8 +39,12 @@ const CLASSES = [
       </div>
 
       <!--  featured products -->
-      {Array.from({ length: 6 }).map((_, index) => (
-        <FeaturedProductCard index={index} classNames={CLASSES[index]} />
+      {FEATURED_PRODUCTS.map((product, index) => (
+        <FeaturedProductCard
+          product={product}
+          index={index}
+          classNames={CLASSES[index]}
+        />
       ))}
 
       <!-- browse all -->

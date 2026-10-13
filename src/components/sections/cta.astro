@@ -178,22 +178,25 @@ const GRADIENTS = [
   function updateOrbitRings() {
     const width = Math.max(window.innerWidth, 1);
 
-    rings.forEach(({ element, config }) => {
+    rings.forEach(({ element, config }, ringIndex) => {
       const [radiusAt1800, radiusAt1920] = config.radius;
-      const radius = scaleValue(radiusAt1800, radiusAt1920, width);
+      const mobile = width < 992;
+      const radius = mobile
+        ? (145 + ringIndex * 85) * Math.min(width / 375, 1.5)
+        : scaleValue(radiusAt1800, radiusAt1920, width);
 
       element.style.setProperty("--orbit-radius", `${radius}px`);
       element.style.setProperty(
         "--orbit-duration",
-        `${scaleValue(config.duration[0], config.duration[1], width)}s`,
+        `${mobile ? config.duration[0] : scaleValue(config.duration[0], config.duration[1], width)}s`,
       );
       element.style.setProperty(
         "--orbit-size",
-        `${roundOrbitValue(config.size * (radius / radiusAt1800))}px`,
+        `${mobile ? 40 + ringIndex * 12 : roundOrbitValue(config.size * (radius / radiusAt1800))}px`,
       );
       element.style.setProperty(
         "--orbit-height",
-        `${roundOrbitValue(config.height * (radius / radiusAt1800))}px`,
+        `${mobile ? 48 + ringIndex * 14 : roundOrbitValue(config.height * (radius / radiusAt1800))}px`,
       );
     });
   }

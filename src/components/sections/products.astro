@@ -1,5 +1,5 @@
 ---
-import { cn } from "@/utils";
+import { CATALOG_PRODUCTS } from "@/data/catalog-products";
 import ProductCard from "@/components/products/product-card.astro";
 
 const FILTERS = [
@@ -11,7 +11,10 @@ const FILTERS = [
 ];
 ---
 
-<section class="px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background">
+<section
+  data-section="products"
+  class="px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background"
+>
   <div class="container @container">
     <div class="mb-10 max-w-[88ch] reveal">
       <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
@@ -66,10 +69,16 @@ const FILTERS = [
 
     <!-- products lists -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-1 gap-y-10 row-auto">
-      {Array.from({ length: 8 }).map(() => (
-        <ProductCard />
+      {CATALOG_PRODUCTS.map((product) => (
+        <ProductCard product={product} />
       ))}
     </div>
+    <a
+      class="mobile-catalog-browse btn-secondary"
+      href="https://products.fourthwall.com"
+    >
+      Browse all
+    </a>
   </div>
 </section>
 
@@ -134,3 +143,21 @@ const FILTERS = [
     buttons.forEach((button) => resizeObserver.observe(button));
   });
 </script>
+
+<style>
+  .mobile-catalog-browse {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    .mobile-catalog-browse {
+      display: flex;
+      position: relative;
+      z-index: 0;
+      justify-content: center;
+      border-radius: var(--fw-radius-lg);
+      padding: 12px 20px;
+      margin-top: 48px;
+      font-weight: 500;
+    }
+  }
+</style>

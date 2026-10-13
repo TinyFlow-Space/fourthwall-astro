@@ -2,10 +2,12 @@
 import Logo from "@/components/shared/logo.astro";
 import { NAV_ITEMS } from "@/data";
 import { ArrowDown } from "@/components/icons";
-import MegaMenu from "@/components/ui/mega-menu.astro";
 ---
 
-<header class="px-surface-x py-3.5 bg-surface-dark text-foreground z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 delay-180 ease-[ease]">
+<header
+  data-site-header
+  class="px-surface-x py-3.5 bg-surface-dark text-foreground z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 delay-180 ease-[ease]"
+>
   <!-- logo -->
   <a
     href="/"
@@ -17,7 +19,10 @@ import MegaMenu from "@/components/ui/mega-menu.astro";
   </a>
 
   <!-- nav menus -->
-  <nav class="flex w-auto justify-center my-0 gap-9 text-body-md font-medium">
+  <nav
+    aria-label="Main navigation"
+    class="desktop-nav flex w-auto justify-center my-0 gap-9 text-body-md font-medium"
+  >
     {NAV_ITEMS.map((item) =>
       item.menu ? (
         <div class="group flex items-center">
@@ -47,7 +52,7 @@ import MegaMenu from "@/components/ui/mega-menu.astro";
   </nav>
 
   <!-- nav right -->
-  <div class="flex flex-1 items-center justify-end gap-7">
+  <div class="desktop-actions flex flex-1 items-center justify-end gap-7">
     <a
       href="https://my-shop.fourthwall.com/admin/dashboard"
       class="link-underline py-1 text-white no-underline text-body-md font-medium"
@@ -65,4 +70,192 @@ import MegaMenu from "@/components/ui/mega-menu.astro";
       </div>
     </a>
   </div>
+  <button
+    class="mobile-menu-toggle"
+    type="button"
+    aria-label="Open navigation"
+    aria-expanded="false"
+    aria-controls="mobile-navigation"
+  >
+    <span></span>
+    <span></span>
+  </button>
+  <nav
+    id="mobile-navigation"
+    class="mobile-navigation"
+    aria-label="Mobile navigation"
+    inert
+  >
+    <div class="mobile-navigation-inner">
+      {NAV_ITEMS.map((item) => (
+        <a href={item.href}>
+          {item.label}
+          {item.menu && <ArrowDown />}
+        </a>
+      ))}
+      <a href="https://my-shop.fourthwall.com/admin/dashboard">Log in</a>
+      <a class="mobile-start" href="https://fourthwall.com/get-started">
+        Start now
+      </a>
+    </div>
+  </nav>
 </header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-site-header]")!;
+  const toggle = header.querySelector<HTMLButtonElement>(
+    ".mobile-menu-toggle",
+  )!;
+  const menu = header.querySelector<HTMLElement>(".mobile-navigation")!;
+  const mobile = window.matchMedia("(max-width: 991px)");
+  let open = false;
+  const background = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      "body > main, body > footer, body > section",
+    ),
+  );
+  function setOpen(value: boolean, restoreFocus = false) {
+    open = value;
+    header.dataset.menuOpen = String(value);
+    toggle.setAttribute("aria-expanded", String(value));
+    toggle.setAttribute(
+      "aria-label",
+      value ? "Close navigation" : "Open navigation",
+    );
+    menu.inert = !value;
+    document.documentElement.classList.toggle("mobile-menu-open", value);
+    background.forEach((element) => {
+      element.inert = value;
+    });
+    if (restoreFocus) toggle.focus();
+  }
+  toggle.addEventListener("click", () => setOpen(!open));
+  menu.addEventListener("click", (event) => {
+    if ((event.target as Element).closest("a")) setOpen(false, true);
+  });
+  header.addEventListener("keydown", (event) => {
+    if (!open) return;
+    if (event.key === "Escape") {
+      setOpen(false, true);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const controls = [
+      header.querySelector<HTMLAnchorElement>("a")!,
+      toggle,
+      ...menu.querySelectorAll<HTMLAnchorElement>("a[href]"),
+    ];
+    const first = controls[0],
+      last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+  mobile.addEventListener("change", () => {
+    if (!mobile.matches) {
+      const focusWasInMenu = menu.contains(document.activeElement);
+      setOpen(false);
+      if (focusWasInMenu) header.querySelector<HTMLAnchorElement>("a")?.focus();
+    }
+  });
+</script>
+
+<style>
+  .mobile-menu-toggle,
+  .mobile-navigation {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    header {
+      height: 64px;
+      padding-block: 10px;
+    }
+    header > a {
+      flex: none;
+      width: 113px;
+      height: 24px;
+    }
+    .desktop-nav,
+    .desktop-actions {
+      display: none;
+    }
+    .mobile-menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 44px;
+      height: 44px;
+      margin-right: -12px;
+      background: transparent;
+      color: white;
+    }
+    .mobile-menu-toggle span {
+      width: 22px;
+      height: 1px;
+      background: currentColor;
+      margin-inline: auto;
+      transition: transform 0.4s var(--ease-rise-in);
+    }
+    [data-menu-open="true"] .mobile-menu-toggle span:first-child {
+      transform: translateY(3.5px) rotate(45deg);
+    }
+    [data-menu-open="true"] .mobile-menu-toggle span:last-child {
+      transform: translateY(-3.5px) rotate(-45deg);
+    }
+    .mobile-navigation {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: calc(100dvh - 64px);
+      background: var(--surface-dark);
+      color: white;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      visibility: hidden;
+      clip-path: inset(0 0 100%);
+      transition:
+        clip-path 0.5s var(--ease-rise-in),
+        visibility 0s 0.5s;
+    }
+    [data-menu-open="true"] .mobile-navigation {
+      visibility: visible;
+      clip-path: inset(0);
+      transition-delay: 0s;
+    }
+    .mobile-navigation-inner {
+      padding: 32px var(--surface-x) max(32px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mobile-navigation a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 16px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+    .mobile-navigation .mobile-start {
+      justify-content: center;
+      background: white;
+      color: var(--foreground);
+      border-radius: var(--fw-radius-lg);
+      font-size: 16px;
+      margin-top: 24px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-navigation,
+    .mobile-menu-toggle span {
+      transition: none;
+    }
+  }
+</style>

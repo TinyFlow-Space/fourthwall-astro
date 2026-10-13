@@ -4,7 +4,11 @@ import BrandShowcaseCard from "@/components/brand-showcase-card.astro";
 import BrandShopSlider from "@/components/brand-shop-slider.astro";
 ---
 
-<section class="bg-background px-surface-x pb-surface-y-lg pt-surface-y-sm">
+<section
+  id="features"
+  data-section="brand-showcase"
+  class="bg-background px-surface-x pb-surface-y-lg pt-surface-y-sm"
+>
   <div class="container @container">
     <div class="mb-10 max-w-[94ch] reveal">
       <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
@@ -47,7 +51,19 @@ import BrandShopSlider from "@/components/brand-shop-slider.astro";
       </BrandShowcaseCard>
 
       <BrandShowcaseCard className="col-[span_6]" index={0}>
-        <div>box</div>
+        <div class="shipping-globe relative aspect-8/5 overflow-hidden bg-black">
+          <img
+            src="/images/shipping-globe.svg"
+            width="335"
+            height="210"
+            alt=""
+            loading="lazy"
+            class="size-full object-cover"
+          />
+          <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-sm text-foreground">
+            17 manufacturers worldwide
+          </span>
+        </div>
         <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
           Fast, global shipping.
           <span class="text-secondary-foreground">

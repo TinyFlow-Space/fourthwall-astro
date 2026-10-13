@@ -1,145 +1,78 @@
-export const CREATORS_LEFT = [
+const LEFT = [
   {
-    name: "something",
+    name: "Artists",
     avatarUrl:
       "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
   },
   {
-    name: "something",
+    name: "Creators",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f36d8b0bfe90efc55_audience-creators.webp",
   },
   {
-    name: "something",
+    name: "YouTubers",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e36d8b0bfe90efc33_audience-youtubers.webp",
   },
   {
-    name: "something",
+    name: "Musicians",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e9dd71310024bfca4_audience-musicians.webp",
   },
   {
-    name: "something",
+    name: "Streamers",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e61c2955811eee478_audience-streamers.webp",
   },
   {
-    name: "something",
+    name: "Comedians",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730ee012a161831768f5_audience-comedians.webp",
   },
   {
-    name: "something",
+    name: "Businesses",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e2a466a079fa7e508_audience-businesses.webp",
   },
 ];
 
-export const CREATORS_RIGHT = [
+const RIGHT = [
   {
-    name: "something",
+    name: "Podcasters",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e7ae69840e3d71643_audience-podcasters.webp",
   },
   {
-    name: "something",
+    name: "Agencies",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730ef970019c245b2006_audience-agencies.webp",
   },
   {
-    name: "something",
+    name: "Influencers",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d36b65d65ec004628_audience-influencers.webp",
   },
   {
-    name: "something",
+    name: "Educators",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730db23dd5cfdf9f1e57_audience-educators.webp",
   },
   {
-    name: "something",
+    name: "Authors",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d3353c92912793437_audience-authors.webp",
   },
   {
-    name: "something",
+    name: "Cosplayers",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d2b777e8f57eaec30_audience-cosplayers.webp",
   },
   {
-    name: "something",
+    name: "Athletes",
     avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
-  },
-  {
-    name: "something",
-    avatarUrl:
-      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp",
+      "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730dec75f2fe3ac035bf_audience-athletes.webp",
   },
 ];
+
+export const CREATORS_LEFT = [...LEFT, ...LEFT];
+export const CREATORS_RIGHT = [...RIGHT, ...RIGHT];

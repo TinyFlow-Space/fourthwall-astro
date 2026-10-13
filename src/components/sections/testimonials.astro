@@ -9,13 +9,9 @@ const CLASSES = [
 ];
 ---
 
-<section
-  data-testimonials-section
-  class="py-surface-y-sm px-surface-x bg-white"
->
+<section class="testimonials-section py-surface-y-sm px-surface-x bg-white">
   <div
-    data-testimonials-progress
-    class="container @container grid grid-cols-3 gap-x-[clamp(20px,3.25vw,48px)] gap-y-0 items-start"
+    class="testimonials-progress container @container grid grid-cols-3 gap-x-[clamp(20px,3.25vw,48px)] gap-y-0 items-start"
     style={{ "--tgrid-progress": "0.0000" }}
   >
     <!-- testimonials top -->
@@ -40,45 +36,46 @@ const CLASSES = [
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const section = document.querySelector<HTMLElement>(
-    "[data-testimonials-section]",
-  );
-  const progressTarget = section?.querySelector<HTMLElement>(
-    "[data-testimonials-progress]",
-  );
-  const triggerImage = section?.querySelector<HTMLImageElement>(
-    "[data-testimonial-image]",
-  );
+  document
+    .querySelectorAll<HTMLElement>(".testimonials-section")
+    .forEach((section) => {
+      const progressTarget = section?.querySelector<HTMLElement>(
+        ".testimonials-progress",
+      );
+      const triggerImage =
+        section?.querySelector<HTMLImageElement>(".testimonial-image");
 
-  if (
-    section &&
-    progressTarget &&
-    triggerImage &&
-    !section.dataset.progressInitialized
-  ) {
-    section.dataset.progressInitialized = "true";
-
-    const setProgress = (value: number) => {
-      const progress = value.toFixed(4);
       if (
-        progressTarget.style.getPropertyValue("--tgrid-progress") !== progress
+        section &&
+        progressTarget &&
+        triggerImage &&
+        !section.dataset.progressInitialized
       ) {
-        progressTarget.style.setProperty("--tgrid-progress", progress);
-      }
-    };
+        section.dataset.progressInitialized = "true";
 
-    ScrollTrigger.create({
-      trigger: triggerImage,
-      start: "top bottom",
-      end: () =>
-        `+=${Math.min(
-          triggerImage.getBoundingClientRect().height * 0.8,
-          document.documentElement.clientHeight,
-        )}`,
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => setProgress(self.progress),
-      onRefresh: (self) => setProgress(self.progress),
+        const setProgress = (value: number) => {
+          const progress = value.toFixed(4);
+          if (
+            progressTarget.style.getPropertyValue("--tgrid-progress") !==
+            progress
+          ) {
+            progressTarget.style.setProperty("--tgrid-progress", progress);
+          }
+        };
+
+        ScrollTrigger.create({
+          trigger: triggerImage,
+          start: "top bottom",
+          end: () =>
+            `+=${Math.min(
+              triggerImage.getBoundingClientRect().height * 0.8,
+              document.documentElement.clientHeight,
+            )}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => setProgress(self.progress),
+          onRefresh: (self) => setProgress(self.progress),
+        });
+      }
     });
-  }
 </script>

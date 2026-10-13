@@ -29,18 +29,16 @@ const getPosition = (index: number) => {
 ---
 
 <div
-  data-brand-shop-slider
   data-speed={speed}
   data-resume={resume}
   data-respect-reduced-motion={respectReducedMotion}
   aria-hidden="true"
-  class="w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y overscroll-x-contain [--shop-step:51cqi] [-webkit-user-select:none] select-none aspect-8/5"
+  class="brand-shop-slider w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y overscroll-x-contain [--shop-step:51cqi] [-webkit-user-select:none] select-none aspect-8/5"
 >
   <!-- Zero-height probe: lets JS read the real pixel value of --shop-step -->
   <i
-    data-shop-step
     aria-hidden="true"
-    class="pointer-events-none invisible absolute top-0 left-0 h-0 w-(--shop-step)"
+    class="shop-step pointer-events-none invisible absolute top-0 left-0 h-0 w-(--shop-step)"
   ></i>
 
   {items.map((item, index) => {
@@ -48,7 +46,6 @@ const getPosition = (index: number) => {
 
     return (
       <div
-        data-shop-slide
         data-position={position}
         class={cn(
           "shop-slide absolute top-[8.5cqi] left-1/2 w-[47.5cqi] aspect-900/1260 overflow-hidden rounded-[3cqi_3cqi_0_0] will-change-transform",
@@ -120,9 +117,9 @@ const getPosition = (index: number) => {
 
   function initBrandShopSlider(slider: HTMLElement): () => void {
     const slides = Array.from(
-      slider.querySelectorAll<HTMLElement>("[data-shop-slide]"),
+      slider.querySelectorAll<HTMLElement>(".shop-slide"),
     );
-    const probe = slider.querySelector<HTMLElement>("[data-shop-step]");
+    const probe = slider.querySelector<HTMLElement>(".shop-step");
     const count = slides.length;
     if (!count || !probe) return () => {};
 
@@ -351,7 +348,7 @@ const getPosition = (index: number) => {
 
   const mountAll = () => {
     document
-      .querySelectorAll<HTMLElement>("[data-brand-shop-slider]")
+      .querySelectorAll<HTMLElement>(".brand-shop-slider")
       .forEach((el) => {
         if (!instances.has(el)) instances.set(el, initBrandShopSlider(el));
       });
@@ -376,11 +373,11 @@ const getPosition = (index: number) => {
   }
 
   @media (hover: hover) and (pointer: fine) {
-    [data-brand-shop-slider] {
+    .brand-shop-slider {
       cursor: grab;
     }
 
-    [data-brand-shop-slider][data-dragging="true"] {
+    .brand-shop-slider[data-dragging="true"] {
       cursor: grabbing;
     }
   }

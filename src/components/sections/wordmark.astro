@@ -3,10 +3,7 @@ import { FOOTER_BOTTOM_LINKS } from "@/data";
 import { cn } from "@/utils";
 ---
 
-<section
-  data-wordmark-section
-  class="wordmark-section pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]"
->
+<section class="wordmark-section pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]">
   <div class="footer-wordmark-wrap w-full block opacity-0 transform-[translate3d(0,120px,0)] reveal-transition">
     <div class="perspective-distant w-full block">
       <svg
@@ -54,9 +51,8 @@ import { cn } from "@/utils";
     ))}
 
     <button
-      data-scroll-to="top"
       aria-label="Back to top"
-      class="cursor-pointer text-inherit bg-surface-dark inline-flex items-center p-0 no-underline transition-[color_.2s] hover:text-white"
+      class="scroll-to-top cursor-pointer text-inherit bg-surface-dark inline-flex items-center p-0 no-underline transition-[color_.2s] hover:text-white"
     >
       <svg
         viewBox="0 0 24 24"
@@ -79,61 +75,66 @@ import { cn } from "@/utils";
 <script>
   import gsap from "gsap";
 
-  const section = document.querySelector<HTMLElement>(
-    "[data-wordmark-section]",
-  );
+  document
+    .querySelectorAll<HTMLElement>(".wordmark-section")
+    .forEach((section) => {
+      // reveal on scroll (once)
+      const wrap = section.querySelector<HTMLElement>(".footer-wordmark-wrap");
 
-  if (section) {
-    // reveal on scroll (once)
-    const wrap = section.querySelector<HTMLElement>(".footer-wordmark-wrap");
+      if (wrap) {
+        const revealObserver = new IntersectionObserver(
+          (entries, obs) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
 
-    if (wrap) {
-      const revealObserver = new IntersectionObserver(
-        (entries, obs) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
+              entry.target.classList.add("is-visible");
+              obs.unobserve(entry.target);
+            }
+          },
+          { threshold: 0.1 },
+        );
+        revealObserver.observe(wrap);
+      }
 
-            entry.target.classList.add("is-visible");
-            obs.unobserve(entry.target);
-          }
+      // scroll to top
+      const scrollToTopBtn =
+        section.querySelector<HTMLElement>(".scroll-to-top");
+      if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener("click", () => {
+          document.body.scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
+      // 3d rotation on mouse move
+      gsap.set(section, { perspective: 1200 });
+
+      const outerRX = gsap.quickTo(
+        section.querySelector(".logo"),
+        "rotationX",
+        {
+          ease: "power3",
         },
-        { threshold: 0.1 },
       );
-      revealObserver.observe(wrap);
-    }
+      const outerRY = gsap.quickTo(
+        section.querySelector(".logo"),
+        "rotationY",
+        {
+          ease: "power3",
+        },
+      );
+      // const innerX = gsap.quickTo(section.querySelector(".logo"), "x", { ease: "power3" });
+      // const innerY = gsap.quickTo(section.querySelector(".logo"), "y", { ease: "power3" });
 
-    // scroll to top
-    const scrollToTopBtn = section.querySelector<HTMLElement>(
-      "[data-scroll-to='top']",
-    );
-    if (scrollToTopBtn) {
-      scrollToTopBtn.addEventListener("click", () => {
-        document.body.scrollIntoView({ behavior: "smooth" });
+      section?.addEventListener("pointermove", (e: PointerEvent) => {
+        outerRX(gsap.utils.interpolate(15, -15, e.y / window.innerHeight));
+        outerRY(gsap.utils.interpolate(-15, 15, e.x / window.innerWidth));
       });
-    }
 
-    // 3d rotation on mouse move
-    gsap.set(".wordmark-section", { perspective: 1200 });
-
-    const outerRX = gsap.quickTo(".logo", "rotationX", {
-      ease: "power3",
+      section?.addEventListener("pointerleave", (e) => {
+        outerRX(0);
+        outerRY(0);
+        //   innerX(0);
+        //   innerY(0);
+      });
     });
-    const outerRY = gsap.quickTo(".logo", "rotationY", {
-      ease: "power3",
-    });
-    // const innerX = gsap.quickTo(".logo", "x", { ease: "power3" });
-    // const innerY = gsap.quickTo(".logo", "y", { ease: "power3" });
-
-    section?.addEventListener("pointermove", (e: PointerEvent) => {
-      outerRX(gsap.utils.interpolate(15, -15, e.y / window.innerHeight));
-      outerRY(gsap.utils.interpolate(-15, 15, e.x / window.innerWidth));
-    });
-
-    section?.addEventListener("pointerleave", (e) => {
-      outerRX(0);
-      outerRY(0);
-      //   innerX(0);
-      //   innerY(0);
-    });
-  }
 </script>

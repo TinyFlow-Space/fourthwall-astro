@@ -5,10 +5,7 @@ import { NAV_ITEMS } from "@/data";
 import { ArrowDown } from "@/components/icons";
 ---
 
-<header
-  data-site-header
-  class="px-surface-x py-3.5 bg-surface-dark text-foreground z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 delay-180 ease-[ease]"
->
+<header class="site-header px-surface-x py-3.5 bg-surface-dark text-foreground z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 delay-180 ease-[ease]">
   <!-- logo -->
   <a
     href="/"
@@ -26,7 +23,7 @@ import { ArrowDown } from "@/components/icons";
   >
     {NAV_ITEMS.map((item) =>
       item.menu ? (
-        <div class="desktop-menu-group" data-desktop-menu>
+        <div class="desktop-menu-group">
           <button
             type="button"
             class="desktop-menu-trigger link-underline py-1 text-white"
@@ -76,6 +73,12 @@ import { ArrowDown } from "@/components/icons";
       </div>
     </a>
   </div>
+  <a
+    href="https://fourthwall.com/get-started"
+    class="mobile-header-start hidden ml-auto mr-5 rounded-xl bg-white px-4 py-2 text-base font-medium text-foreground"
+  >
+    Start now
+  </a>
   <button
     class="mobile-menu-toggle"
     type="button"
@@ -141,13 +144,34 @@ import { ArrowDown } from "@/components/icons";
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>("[data-site-header]")!;
+  const header = document.querySelector<HTMLElement>(".site-header")!;
   const toggle = header.querySelector<HTMLButtonElement>(
     ".mobile-menu-toggle",
   )!;
   const menu = header.querySelector<HTMLElement>(".mobile-navigation")!;
   const mobile = window.matchMedia("(max-width: 991px)");
   let open = false;
+  const heroAction = document.querySelector<HTMLElement>(
+    ".hero-section a[href*=get-started]",
+  );
+  if (heroAction) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        header.classList.toggle(
+          "is-past-hero-action",
+          entry.boundingClientRect.bottom < 64,
+        );
+      },
+      { rootMargin: "-64px 0px 0px" },
+    );
+    observer.observe(heroAction);
+    document.addEventListener(
+      "astro:before-swap",
+      () => observer.disconnect(),
+      { once: true },
+    );
+  }
+
   const background = Array.from(
     document.querySelectorAll<HTMLElement>(
       "body > main, body > footer, body > section",
@@ -166,7 +190,7 @@ import { ArrowDown } from "@/components/icons";
     background.forEach((element) => {
       element.inert = value;
     });
-    if (restoreFocus) toggle.focus();
+    if (value || restoreFocus) toggle.focus({ preventScroll: true });
   }
   toggle.addEventListener("click", () => setOpen(!open));
   menu.addEventListener("click", (event) => {
@@ -197,7 +221,7 @@ import { ArrowDown } from "@/components/icons";
     }
   });
   const desktopGroups = Array.from(
-    header.querySelectorAll<HTMLElement>("[data-desktop-menu]"),
+    header.querySelectorAll<HTMLElement>(".desktop-menu-group"),
   );
   let closeTimer: ReturnType<typeof setTimeout>;
   function closeDesktop() {
@@ -311,12 +335,12 @@ import { ArrowDown } from "@/components/icons";
   .desktop-mega-inner {
     padding: 32px var(--surface-x) 48px;
   }
-  [data-desktop-menu][data-open="true"] .desktop-mega {
+  .desktop-menu-group[data-open="true"] .desktop-mega {
     visibility: visible;
     clip-path: inset(0);
     transition-delay: 0s;
   }
-  [data-desktop-menu][data-open="true"] :global(.desktop-menu-trigger svg),
+  .desktop-menu-group[data-open="true"] :global(.desktop-menu-trigger svg),
   .mobile-menu-group[data-open="true"] :global(.mobile-submenu-toggle svg) {
     transform: rotate(180deg);
   }
@@ -326,11 +350,15 @@ import { ArrowDown } from "@/components/icons";
     display: none;
   }
   @media (max-width: 991px) {
+    .is-past-hero-action:not([data-menu-open="true"]) .mobile-header-start {
+      display: inline-flex;
+    }
+
     header {
       height: 64px;
       padding-block: 10px;
     }
-    header > a {
+    header > a:first-child {
       flex: none;
       width: 113px;
       height: 24px;
@@ -473,6 +501,16 @@ import { ArrowDown } from "@/components/icons";
     .mobile-start {
       background: white;
       color: #090909;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .mobile-navigation-inner {
+      padding-top: 64px;
+    }
+    .mobile-primary-link,
+    .mobile-submenu-toggle {
+      font-size: 44px;
+      line-height: 56px;
     }
   }
   @media (prefers-reduced-motion: reduce) {

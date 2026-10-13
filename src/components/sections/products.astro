@@ -11,10 +11,7 @@ const FILTERS = [
 ];
 ---
 
-<section
-  data-section="products"
-  class="px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background"
->
+<section class="products-section px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background">
   <div class="container @container">
     <div class="mb-10 max-w-[88ch] reveal">
       <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
@@ -26,23 +23,17 @@ const FILTERS = [
     <!-- products filter -->
     <div class="flex items-center gap-14 mb-12">
       <div class="mb-0 flex-[1_1_0%] min-w-0 relative">
-        <div
-          data-filter-nav
-          class="scrollbar-none flex flex-nowrap gap-2 relative overflow-auto"
-        >
+        <div class="filter-nav scrollbar-none flex flex-nowrap gap-2 relative overflow-auto">
           <!-- hover pill -->
-          <div
-            data-hover-pill
-            class="z-0 bg-[#0a0a0a0f] absolute top-0 left-0 bottom-0 rounded-lg transition-[transform_0.28s_cubic-bezier(0.2,0.7,0.2,1),width_0.28s_cubic-bezier(0.2,0.7,0.2,1)]"
-          ></div>
+          <div class="hover-pill z-0 bg-[#0a0a0a0f] absolute top-0 left-0 bottom-0 rounded-lg transition-[transform_0.28s_cubic-bezier(0.2,0.7,0.2,1),width_0.28s_cubic-bezier(0.2,0.7,0.2,1)]"></div>
 
           <!-- filter buttons -->
           {FILTERS.map((item) => (
             <button
               class={
-                "z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-4.5 px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none"
+                "filter-item z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-4.5 px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none"
               }
-              data-filter-item
+
               aria-pressed={item === "Bestsellers"}
             >
               {item}
@@ -74,7 +65,7 @@ const FILTERS = [
       ))}
     </div>
     <a
-      class="mobile-catalog-browse btn-secondary"
+      class="mobile-catalog-browse btn-secondary min-[768px]:max-[992px]:w-fit min-[768px]:max-[992px]:mx-auto"
       href="https://products.fourthwall.com"
     >
       Browse all
@@ -83,10 +74,10 @@ const FILTERS = [
 </section>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-filter-nav]").forEach((nav) => {
-    const pill = nav.querySelector<HTMLElement>("[data-hover-pill]");
+  document.querySelectorAll<HTMLElement>(".filter-nav").forEach((nav) => {
+    const pill = nav.querySelector<HTMLElement>(".hover-pill");
     const buttons = Array.from(
-      nav.querySelectorAll<HTMLButtonElement>("[data-filter-item]"),
+      nav.querySelectorAll<HTMLButtonElement>(".filter-item"),
     );
     const initialSelectedButton = buttons.find(
       (button) => button.getAttribute("aria-pressed") === "true",

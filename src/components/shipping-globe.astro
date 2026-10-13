@@ -1,0 +1,62 @@
+<div
+  class="shipping-globe relative aspect-8/5 overflow-hidden bg-black select-none touch-pan-y"
+  role="img"
+  aria-label="Worldwide shipping globe. Drag horizontally or use the arrow keys to rotate."
+>
+  <img
+    src="/images/shipping-globe.svg"
+    width="335"
+    height="210"
+    alt=""
+    loading="lazy"
+    class="globe-fallback size-full object-cover"
+  />
+  <canvas
+    class="globe-canvas absolute inset-0 size-full opacity-0"
+    aria-hidden="true"
+  ></canvas>
+  <span class="globe-fallback-label absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-sm text-foreground">
+    17 manufacturers worldwide
+  </span>
+  <div
+    class="globe-labels pointer-events-none absolute inset-0 overflow-hidden opacity-0"
+    aria-hidden="true"
+  >
+    <span class="globe-label absolute left-0 top-0 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-xs text-foreground">
+      17 manufacturers worldwide
+    </span>
+    <span class="globe-label absolute left-0 top-0 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-xs text-foreground">
+      4 days avg. ship time
+    </span>
+    <span class="globe-label absolute left-0 top-0 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-xs text-foreground">
+      $4.80 avg. ship cost
+    </span>
+  </div>
+</div>
+<script>
+  import { initShippingGlobes } from "@/lib/shipping-globe";
+  initShippingGlobes();
+  document.addEventListener("astro:page-load", () => initShippingGlobes());
+</script>
+<style>
+  @media (max-width: 991px) {
+    .shipping-globe.is-interactive {
+      cursor: grab;
+    }
+    .shipping-globe.is-dragging {
+      cursor: grabbing;
+    }
+    .is-interactive .globe-fallback,
+    .is-interactive .globe-fallback-label {
+      visibility: hidden;
+    }
+    .is-interactive .globe-canvas,
+    .is-interactive .globe-labels {
+      opacity: 1;
+    }
+    .shipping-globe:focus-visible {
+      outline: 2px solid white;
+      outline-offset: -4px;
+    }
+  }
+</style>

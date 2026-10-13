@@ -5,10 +5,9 @@ import { Image } from "astro:assets";
 ---
 
 <div
-  data-brand-manufacture-slider
   data-current-slide="a"
   data-autoplay-delay="5200"
-  class="w-full relative overflow-hidden select-none bg-surface-dark @container aspect-8/5 group"
+  class="brand-manufacture-slider w-full relative overflow-hidden select-none bg-surface-dark @container aspect-8/5 group"
 >
   <div class="z-0 absolute inset-0 isolate">
     {MGF_IMAGES.map((image, index) => (

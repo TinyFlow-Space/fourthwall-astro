@@ -1,4 +1,5 @@
 ---
+import ShippingGlobe from "@/components/shipping-globe.astro";
 import BrandManufactureSlider from "@/components/brand-manufacture-slider.astro";
 import BrandShowcaseCard from "@/components/brand-showcase-card.astro";
 import BrandShopSlider from "@/components/brand-shop-slider.astro";
@@ -6,8 +7,8 @@ import BrandShopSlider from "@/components/brand-shop-slider.astro";
 
 <section
   id="features"
-  data-section="brand-showcase"
-  class="bg-background px-surface-x pb-surface-y-lg pt-surface-y-sm"
+
+  class="brand-showcase-section bg-background px-surface-x pb-surface-y-lg pt-surface-y-sm"
 >
   <div class="container @container">
     <div class="mb-10 max-w-[94ch] reveal">
@@ -18,10 +19,7 @@ import BrandShopSlider from "@/components/brand-shop-slider.astro";
     </div>
 
     <!-- brand showcase grid -->
-    <div
-      data-scatter-reveal-section
-      class="grid grid-cols-[repeat(13,1fr)] gap-x-[clamp(32px,1.6vw,56px)] gap-y-[clamp(64px,57.6px,96px)]"
-    >
+    <div class="scatter-reveal-section grid grid-cols-[repeat(13,1fr)] gap-x-[clamp(32px,1.6vw,56px)] gap-y-[clamp(64px,57.6px,96px)]">
       <BrandShowcaseCard className="col-[span_7]" index={0}>
         <BrandManufactureSlider />
 
@@ -51,19 +49,7 @@ import BrandShopSlider from "@/components/brand-shop-slider.astro";
       </BrandShowcaseCard>
 
       <BrandShowcaseCard className="col-[span_6]" index={0}>
-        <div class="shipping-globe relative aspect-8/5 overflow-hidden bg-black">
-          <img
-            src="/images/shipping-globe.svg"
-            width="335"
-            height="210"
-            alt=""
-            loading="lazy"
-            class="size-full object-cover"
-          />
-          <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-3 py-1.5 text-sm text-foreground">
-            17 manufacturers worldwide
-          </span>
-        </div>
+        <ShippingGlobe />
         <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
           Fast, global shipping.
           <span class="text-secondary-foreground">

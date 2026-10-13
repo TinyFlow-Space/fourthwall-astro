@@ -6,10 +6,9 @@ import { cn } from "@/utils";
 const ACTIVE_DESIGN_KEY = "a";
 ---
 
-<section data-section="product-design" class="bg-background">
+<section class="product-design-root bg-background">
   <div
-    data-product-design-section
-    class="[--gutter:80px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] py-surface-y-lg bg-surface-dark mx-auto relative overflow-hidden"
+    class="product-design-section [--gutter:80px] max-[992px]:[--gutter:40px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] py-surface-y-lg bg-surface-dark mx-auto relative overflow-hidden"
     style={{ "--expand-progress": "0.0000" }}
   >
     <!-- design dot field -->
@@ -35,13 +34,12 @@ const ACTIVE_DESIGN_KEY = "a";
       <!-- current slider -->
       <div
         data-current-slide={ACTIVE_DESIGN_KEY}
-        class="flex items-start flex-wrap gap-[clamp(24px,4vw,56px)] mt-30 px-[clamp(16px,10cqi,140px)] select-none"
+        class="product-design-slider scatter-reveal-section flex items-start flex-wrap gap-[clamp(24px,4vw,56px)] mt-30 px-[clamp(16px,10cqi,140px)] select-none"
         style={{
           "--progress-duration": "5200ms",
           "--scroll-progress": "0.0000",
         }}
         data-autoplay-delay="5200"
-        data-scatter-reveal-section
       >
         <!-- design slider strip-->
         <div class="contents">
@@ -163,10 +161,7 @@ const ACTIVE_DESIGN_KEY = "a";
             style={{ "--stagger-index": 1 }}
           >
             <!-- design preview -->
-            <div
-              data-design-preview-wrap
-              class="aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*80px),0)]"
-            >
+            <div class="design-preview-wrap aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*80px),0)]">
               <!--design preview viewport -->
               <div class="flex-1 relative overflow-hidden w-full min-h-0">
                 <div class="isolate absolute inset-0">
@@ -214,239 +209,241 @@ const ACTIVE_DESIGN_KEY = "a";
 
 <script>
   import gsap from "gsap";
+  import { initSectionExpansion } from "@/lib/section-expansion";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const section = document.querySelector<HTMLElement>(
-    "[data-product-design-section]",
-  );
-  const slider = section?.querySelector<HTMLElement>("[data-current-slide]");
-
-  if (section && slider && !section.dataset.initialized) {
-    section.dataset.initialized = "true";
-
-    const slides = [
-      ...slider.querySelectorAll<HTMLElement>("[data-slide-key]"),
-    ];
-    const previews = [
-      ...slider.querySelectorAll<HTMLElement>("[data-design-preview]"),
-    ];
-    const swatches = [
-      ...slider.querySelectorAll<HTMLElement>("[data-design-swatch]"),
-    ];
-    const dots = [
-      ...slider.querySelectorAll<HTMLButtonElement>("[data-design-dot]"),
-    ];
-
-    const designPreviewWrap = slider.querySelector(
-      "[data-design-preview-wrap]",
-    );
-
-    const zIndexSequence = [...slides]
-      .map((slide) => slide.dataset.slideKey)
-      .filter((key): key is string => Boolean(key))
-      .sort((first, second) =>
-        first.localeCompare(second, undefined, { numeric: true }),
-      );
-
-    const slideKeys = slides
-      .map((slide) => slide.dataset.slideKey)
-      .filter((key): key is string => Boolean(key));
-
-    const autoplayDelay = Number(slider.dataset.autoplayDelay) || 5200;
-    let autoplayTimer: number | undefined;
-    let transitionCleanupTimer: number | undefined;
-    let activeKey: string | undefined;
-    const previewViewport = previews[0]?.parentElement?.parentElement;
-    const previewFrame = previewViewport?.parentElement;
-    const transitionDuration = 1150;
-    const slideTransition =
-      "clip-path 1150ms cubic-bezier(0.65, 0, 0.35, 1), opacity 1150ms cubic-bezier(0.65, 0, 0.35, 1), filter 1150ms cubic-bezier(0.65, 0, 0.35, 1)";
-
-    if (previewFrame && previewViewport) {
-      previewViewport.style.height = "100%";
-    }
-
-    const setSlideStacking = (activeKey: string) => {
-      const activeIndex = zIndexSequence.indexOf(activeKey);
-      if (activeIndex < 0 || zIndexSequence.length < 2) {
-        slides.forEach((slide) => {
-          slide.style.zIndex = slide.dataset.slideKey === activeKey ? "1" : "0";
-        });
-        previews.forEach((preview) => {
-          preview.style.zIndex =
-            preview.dataset.designPreview === activeKey ? "1" : "0";
-        });
-        return;
-      }
-
-      const slideCount = zIndexSequence.length;
-      const isFirstInSequence = activeIndex === 0;
-      const zIndexes = new Map<string, number>();
-      zIndexSequence.forEach((key, index) => {
-        const relativePosition =
-          (index - activeIndex + slideCount) % slideCount;
-        const zIndex =
-          relativePosition === 0
-            ? slideCount
-            : isFirstInSequence
-              ? relativePosition
-              : slideCount - relativePosition;
-        zIndexes.set(key, zIndex);
-      });
-
-      slides.forEach((slide) => {
-        slide.style.zIndex = String(
-          zIndexes.get(slide.dataset.slideKey ?? "") ?? 0,
+  const instances = new Map<HTMLElement, () => void>();
+  function initializeDesignSections() {
+    document
+      .querySelectorAll<HTMLElement>(".product-design-section")
+      .forEach((section) => {
+        const slider = section.querySelector<HTMLElement>(
+          ".product-design-slider",
         );
-      });
-      previews.forEach((preview) => {
-        preview.style.zIndex = String(
-          zIndexes.get(preview.dataset.designPreview ?? "") ?? 0,
-        );
-      });
-    };
+        if (!slider || instances.has(section)) return;
+        const slides = [
+          ...slider.querySelectorAll<HTMLElement>("[data-slide-key]"),
+        ];
+        const previews = [
+          ...slider.querySelectorAll<HTMLElement>("[data-design-preview]"),
+        ];
+        const swatches = [
+          ...slider.querySelectorAll<HTMLElement>("[data-design-swatch]"),
+        ];
+        const dots = [
+          ...slider.querySelectorAll<HTMLButtonElement>("[data-design-dot]"),
+        ];
 
-    const scheduleAutoplay = (activeKey: string) => {
-      window.clearTimeout(autoplayTimer);
-      autoplayTimer = window.setTimeout(() => {
-        const activeIndex = slideKeys.indexOf(activeKey);
-        const nextKey = slideKeys[(activeIndex + 1) % slideKeys.length];
-        if (nextKey) activateSlide(nextKey);
-      }, autoplayDelay);
-    };
+        const designPreviewWrap = slider.querySelector(".design-preview-wrap");
 
-    const setSlideVisualState = (
-      elements: HTMLElement[],
-      key: string,
-      previousKey: string | undefined,
-      immediate: boolean,
-      isPreview: boolean,
-    ) => {
-      elements.forEach((element) => {
-        const elementKey = isPreview
-          ? element.dataset.designPreview
-          : element.dataset.slideKey;
-        const isActive = elementKey === key;
-        const isPrevious = Boolean(previousKey && elementKey === previousKey);
+        const zIndexSequence = [...slides]
+          .map((slide) => slide.dataset.slideKey)
+          .filter((key): key is string => Boolean(key))
+          .sort((first, second) =>
+            first.localeCompare(second, undefined, { numeric: true }),
+          );
 
-        element.style.transition =
-          immediate || (!isActive && !isPrevious) ? "none" : slideTransition;
+        const slideKeys = slides
+          .map((slide) => slide.dataset.slideKey)
+          .filter((key): key is string => Boolean(key));
 
-        if (isActive) {
-          element.style.clipPath = "inset(0px)";
-          element.style.opacity = "1";
-          element.style.filter = "brightness(1)";
-        } else if (isPrevious && !immediate) {
-          element.style.clipPath = "inset(0px)";
-          element.style.opacity = "0";
-          element.style.filter = "brightness(0.2)";
-        } else {
-          element.style.clipPath = "inset(0 100% 0 0)";
-          element.style.opacity = "0";
-          element.style.filter = "brightness(0.2)";
+        const autoplayDelay = Number(slider.dataset.autoplayDelay) || 5200;
+        let autoplayTimer: number | undefined;
+        let transitionCleanupTimer: number | undefined;
+        let activeKey: string | undefined;
+        const previewViewport = previews[0]?.parentElement?.parentElement;
+        const previewFrame = previewViewport?.parentElement;
+        const transitionDuration = 1150;
+        const slideTransition =
+          "clip-path 1150ms cubic-bezier(0.65, 0, 0.35, 1), opacity 1150ms cubic-bezier(0.65, 0, 0.35, 1), filter 1150ms cubic-bezier(0.65, 0, 0.35, 1)";
+
+        if (previewFrame && previewViewport) {
+          previewViewport.style.height = "100%";
         }
-      });
-    };
 
-    const activateSlide = (key: string, immediate = false) => {
-      if (!slideKeys.includes(key)) return;
-      const previousKey = activeKey;
-      window.clearTimeout(transitionCleanupTimer);
-
-      setSlideStacking(key);
-      setSlideVisualState(slides, key, previousKey, immediate, false);
-      setSlideVisualState(previews, key, previousKey, immediate, true);
-
-      activeKey = key;
-      slider.dataset.currentSlide = key;
-
-      swatches.forEach((swatch) => {
-        const isActive = swatch.dataset.designSwatch === key;
-        swatch.style.opacity = isActive ? "1" : "0";
-      });
-
-      dots.forEach((dot) => {
-        const isActive = dot.dataset.designDot === key;
-        dot.classList.toggle("is-active", isActive);
-        dot.setAttribute("aria-pressed", String(isActive));
-      });
-
-      if (previousKey && previousKey !== key && !immediate) {
-        transitionCleanupTimer = window.setTimeout(() => {
-          if (activeKey !== key) return;
-          for (const elements of [slides, previews]) {
-            const previous = elements.find(
-              (element) =>
-                (element.dataset.slideKey ?? element.dataset.designPreview) ===
-                previousKey,
-            );
-            if (previous) {
-              previous.style.transition = "none";
-              previous.style.clipPath = "inset(0 100% 0 0)";
-            }
+        const setSlideStacking = (activeKey: string) => {
+          const activeIndex = zIndexSequence.indexOf(activeKey);
+          if (activeIndex < 0 || zIndexSequence.length < 2) {
+            slides.forEach((slide) => {
+              slide.style.zIndex =
+                slide.dataset.slideKey === activeKey ? "1" : "0";
+            });
+            previews.forEach((preview) => {
+              preview.style.zIndex =
+                preview.dataset.designPreview === activeKey ? "1" : "0";
+            });
+            return;
           }
-        }, transitionDuration);
-      }
 
-      scheduleAutoplay(key);
-    };
+          const slideCount = zIndexSequence.length;
+          const isFirstInSequence = activeIndex === 0;
+          const zIndexes = new Map<string, number>();
+          zIndexSequence.forEach((key, index) => {
+            const relativePosition =
+              (index - activeIndex + slideCount) % slideCount;
+            const zIndex =
+              relativePosition === 0
+                ? slideCount
+                : isFirstInSequence
+                  ? relativePosition
+                  : slideCount - relativePosition;
+            zIndexes.set(key, zIndex);
+          });
 
-    dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const key = dot.dataset.designDot;
-        if (key) activateSlide(key);
+          slides.forEach((slide) => {
+            slide.style.zIndex = String(
+              zIndexes.get(slide.dataset.slideKey ?? "") ?? 0,
+            );
+          });
+          previews.forEach((preview) => {
+            preview.style.zIndex = String(
+              zIndexes.get(preview.dataset.designPreview ?? "") ?? 0,
+            );
+          });
+        };
+
+        const scheduleAutoplay = (activeKey: string) => {
+          window.clearTimeout(autoplayTimer);
+          autoplayTimer = window.setTimeout(() => {
+            const activeIndex = slideKeys.indexOf(activeKey);
+            const nextKey = slideKeys[(activeIndex + 1) % slideKeys.length];
+            if (nextKey) activateSlide(nextKey);
+          }, autoplayDelay);
+        };
+
+        const setSlideVisualState = (
+          elements: HTMLElement[],
+          key: string,
+          previousKey: string | undefined,
+          immediate: boolean,
+          isPreview: boolean,
+        ) => {
+          elements.forEach((element) => {
+            const elementKey = isPreview
+              ? element.dataset.designPreview
+              : element.dataset.slideKey;
+            const isActive = elementKey === key;
+            const isPrevious = Boolean(
+              previousKey && elementKey === previousKey,
+            );
+
+            element.style.transition =
+              immediate || (!isActive && !isPrevious)
+                ? "none"
+                : slideTransition;
+
+            if (isActive) {
+              element.style.clipPath = "inset(0px)";
+              element.style.opacity = "1";
+              element.style.filter = "brightness(1)";
+            } else if (isPrevious && !immediate) {
+              element.style.clipPath = "inset(0px)";
+              element.style.opacity = "0";
+              element.style.filter = "brightness(0.2)";
+            } else {
+              element.style.clipPath = "inset(0 100% 0 0)";
+              element.style.opacity = "0";
+              element.style.filter = "brightness(0.2)";
+            }
+          });
+        };
+
+        const activateSlide = (key: string, immediate = false) => {
+          if (!slideKeys.includes(key)) return;
+          const previousKey = activeKey;
+          window.clearTimeout(transitionCleanupTimer);
+
+          setSlideStacking(key);
+          setSlideVisualState(slides, key, previousKey, immediate, false);
+          setSlideVisualState(previews, key, previousKey, immediate, true);
+
+          activeKey = key;
+          slider.dataset.currentSlide = key;
+
+          swatches.forEach((swatch) => {
+            const isActive = swatch.dataset.designSwatch === key;
+            swatch.style.opacity = isActive ? "1" : "0";
+          });
+
+          dots.forEach((dot) => {
+            const isActive = dot.dataset.designDot === key;
+            dot.classList.toggle("is-active", isActive);
+            dot.setAttribute("aria-pressed", String(isActive));
+          });
+
+          if (previousKey && previousKey !== key && !immediate) {
+            transitionCleanupTimer = window.setTimeout(() => {
+              if (activeKey !== key) return;
+              for (const elements of [slides, previews]) {
+                const previous = elements.find(
+                  (element) =>
+                    (element.dataset.slideKey ??
+                      element.dataset.designPreview) === previousKey,
+                );
+                if (previous) {
+                  previous.style.transition = "none";
+                  previous.style.clipPath = "inset(0 100% 0 0)";
+                }
+              }
+            }, transitionDuration);
+          }
+
+          scheduleAutoplay(key);
+        };
+
+        dots.forEach((dot) => {
+          dot.addEventListener("click", () => {
+            const key = dot.dataset.designDot;
+            if (key) activateSlide(key);
+          });
+        });
+
+        const initialKey = slider.dataset.currentSlide ?? slideKeys[0];
+        if (initialKey && slideKeys.includes(initialKey)) {
+          activateSlide(initialKey, true);
+        }
+
+        // section expand
+        const setProgress = (
+          value: number,
+          variable: string,
+          target: HTMLElement = section,
+        ) => {
+          const progress = Math.min(1, Math.max(0, value)).toFixed(4);
+          if (target.style.getPropertyValue(variable) !== progress) {
+            target.style.setProperty(variable, progress);
+          }
+        };
+
+        const disposeExpansion = initSectionExpansion(section, slider, 0.5);
+
+        const previewScroll = ScrollTrigger.create({
+          trigger: designPreviewWrap,
+          start: "top bottom",
+          end: "bottom 0%",
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) =>
+            setProgress(self.progress, "--scroll-progress", slider),
+          onRefresh: (self) =>
+            setProgress(self.progress, "--scroll-progress", slider),
+        });
+        instances.set(section, () => {
+          window.clearTimeout(autoplayTimer);
+          window.clearTimeout(transitionCleanupTimer);
+          disposeExpansion();
+          previewScroll.kill();
+        });
       });
-    });
-
-    const initialKey = slider.dataset.currentSlide ?? slideKeys[0];
-    if (initialKey && slideKeys.includes(initialKey)) {
-      activateSlide(initialKey, true);
-    }
-
-    // section expand
-    const setProgress = (
-      value: number,
-      variable: string,
-      target: HTMLElement = section,
-    ) => {
-      const progress = Math.min(1, Math.max(0, value)).toFixed(4);
-      if (target.style.getPropertyValue(variable) !== progress) {
-        target.style.setProperty(variable, progress);
-      }
-    };
-
-    const updateExpandProgress = (self: ScrollTrigger) => {
-      setProgress(self.progress, "--expand-progress");
-    };
-
-    ScrollTrigger.create({
-      trigger: slider,
-      start: "top bottom",
-      end: () =>
-        `+=${Math.min(
-          slider.clientHeight * 0.5,
-          document.documentElement.clientHeight,
-        )}`,
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: updateExpandProgress,
-      onRefresh: updateExpandProgress,
-    });
-
-    ScrollTrigger.create({
-      trigger: designPreviewWrap,
-      start: "top bottom",
-      end: "bottom 0%",
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: (self) =>
-        setProgress(self.progress, "--scroll-progress", slider),
-      onRefresh: (self) =>
-        setProgress(self.progress, "--scroll-progress", slider),
-    });
   }
+  initializeDesignSections();
+  document.addEventListener("astro:page-load", initializeDesignSections);
+  document.addEventListener("astro:before-swap", () => {
+    instances.forEach((dispose) => dispose());
+    instances.clear();
+  });
 </script>
 
 <style>

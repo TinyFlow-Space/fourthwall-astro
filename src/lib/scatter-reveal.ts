@@ -1,4 +1,4 @@
-const SECTION_SELECTOR = "[data-scatter-reveal-section]";
+const SECTION_SELECTOR = ".scatter-reveal-section";
 const ITEM_SELECTOR = ".scatter-reveal:not(.in)";
 
 export function initScatterReveal(root: ParentNode = document) {

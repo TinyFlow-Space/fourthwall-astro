@@ -5,18 +5,11 @@ import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
 import { Image } from "astro:assets";
 ---
 
-<div
-  data-hero-slider
-  class="z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]"
->
-  <div
-    data-hero-track
-    class="flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden"
-  >
+<div class="hero-slider z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]">
+  <div class="hero-track flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden">
     <!-- slider card -->
     {HERO_SLIDERS.map((item, index) => (
       <div
-        data-carousel-item
         class={cn(
           "hero-track-item flex m-0 flex-none flex-col snap-start scatter-reveal scatter-reveal-rise cursor-none",
         )}
@@ -32,7 +25,7 @@ import { Image } from "astro:assets";
           target="_blank"
           aria-label={item.title}
           class={cn(
-            "aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)] cursor-none!",
+            "max-[992px]:w-[calc(75vw-1px)] max-[992px]:h-auto max-[992px]:aspect-1120/1240 aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)] cursor-none!",
             item.type === "video" &&
               "aspect-6/5 w-[calc(1.2*clamp(320px,35vw,960px))]",
           )}
@@ -70,11 +63,10 @@ import { Image } from "astro:assets";
   <!--  NEXT/PREV buttons -->
   <div class="scatter-reveal scatter-reveal-rise flex gap-3 absolute -top-19 right-10 z-3">
     <CarouselNavButton
-      data-carousel-prev
       aria-label="Previous"
       variant="default"
       disabled={true}
-      class="text-white"
+      class="carousel-prev text-white"
     >
       <svg
         viewBox="0 0 24 24"
@@ -93,11 +85,10 @@ import { Image } from "astro:assets";
     </CarouselNavButton>
 
     <CarouselNavButton
-      data-carousel-next
       aria-label="Next"
       variant="default"
       disabled={false}
-      class="text-white"
+      class="carousel-next text-white"
     >
       <svg
         viewBox="0 0 24 24"
@@ -118,125 +109,148 @@ import { Image } from "astro:assets";
 
   <!-- custom cursor tracking -->
   <div
-    data-hero-cursor
     aria-hidden="true"
-    class="fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
+    class="hero-cursor fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
   ></div>
 </div>
 
 <script>
   import { initCursorTracking } from "@/lib/cursor-tracking";
 
-  const root = document.querySelector("[data-hero-slider]");
+  const sliderCleanups = new Map<HTMLElement, () => void>();
+  const initializeSliders = () => {
+    document.querySelectorAll<HTMLElement>(".hero-slider").forEach((root) => {
+      if (sliderCleanups.has(root)) return;
+      const events = new AbortController();
+      let observer: ResizeObserver | undefined;
+      const track = root.querySelector<HTMLElement>(".hero-track");
+      const prevButton =
+        root.querySelector<HTMLButtonElement>(".carousel-prev");
+      const nextButton =
+        root.querySelector<HTMLButtonElement>(".carousel-next");
 
-  if (root) {
-    const track = root.querySelector<HTMLElement>("[data-hero-track]");
-    const prevButton = root.querySelector<HTMLButtonElement>(
-      "[data-carousel-prev]",
-    );
-    const nextButton = root.querySelector<HTMLButtonElement>(
-      "[data-carousel-next]",
-    );
+      if (track && prevButton && nextButton) {
+        const getGap = () => {
+          const styles = window.getComputedStyle(track);
+          return Number.parseFloat(styles.gap || "0") || 0;
+        };
 
-    if (track && prevButton && nextButton) {
-      const getGap = () => {
-        const styles = window.getComputedStyle(track);
-        return Number.parseFloat(styles.gap || "0") || 0;
-      };
+        const getStepSize = () => {
+          const firstItem =
+            track.querySelector<HTMLElement>(".hero-track-item");
 
-      const getStepSize = () => {
-        const firstItem = track.querySelector<HTMLElement>(
-          "[data-carousel-item]",
+          if (!firstItem) return 0;
+
+          return firstItem.getBoundingClientRect().width + getGap();
+        };
+
+        const updateButtonState = (
+          button: HTMLButtonElement,
+          disabled: boolean,
+        ) => {
+          button.disabled = disabled;
+          button.setAttribute("aria-disabled", String(disabled));
+          button.classList.toggle("opacity-30", disabled);
+          button.classList.toggle("pointer-events-none", disabled);
+        };
+
+        const updateStates = () => {
+          const maxScrollLeft = Math.max(
+            track.scrollWidth - track.clientWidth,
+            0,
+          );
+          const atStart = track.scrollLeft <= 1;
+          const atEnd = track.scrollLeft >= maxScrollLeft - 1;
+
+          updateButtonState(prevButton, atStart);
+          updateButtonState(nextButton, atEnd);
+        };
+
+        const scrollByOneItem = (direction: number) => {
+          const stepSize = getStepSize();
+
+          if (!stepSize) return;
+
+          track.scrollBy({ left: direction * stepSize, behavior: "smooth" });
+          requestAnimationFrame(updateStates);
+        };
+
+        prevButton.addEventListener(
+          "click",
+          () => {
+            if (prevButton.disabled) return;
+            scrollByOneItem(-1);
+          },
+          { signal: events.signal },
         );
 
-        if (!firstItem) return 0;
-
-        return firstItem.getBoundingClientRect().width + getGap();
-      };
-
-      const updateButtonState = (
-        button: HTMLButtonElement,
-        disabled: boolean,
-      ) => {
-        button.disabled = disabled;
-        button.setAttribute("aria-disabled", String(disabled));
-        button.classList.toggle("opacity-30", disabled);
-        button.classList.toggle("pointer-events-none", disabled);
-      };
-
-      const updateStates = () => {
-        const maxScrollLeft = Math.max(
-          track.scrollWidth - track.clientWidth,
-          0,
+        nextButton.addEventListener(
+          "click",
+          () => {
+            if (nextButton.disabled) return;
+            scrollByOneItem(1);
+          },
+          { signal: events.signal },
         );
-        const atStart = track.scrollLeft <= 1;
-        const atEnd = track.scrollLeft >= maxScrollLeft - 1;
 
-        updateButtonState(prevButton, atStart);
-        updateButtonState(nextButton, atEnd);
-      };
+        track.addEventListener(
+          "scroll",
+          () => {
+            requestAnimationFrame(updateStates);
+          },
+          { passive: true, signal: events.signal },
+        );
 
-      const scrollByOneItem = (direction: number) => {
-        const stepSize = getStepSize();
+        if ("ResizeObserver" in window) {
+          observer = new ResizeObserver(() => {
+            requestAnimationFrame(updateStates);
+          });
 
-        if (!stepSize) return;
+          observer.observe(track);
+        }
 
-        track.scrollBy({ left: direction * stepSize, behavior: "smooth" });
-        requestAnimationFrame(updateStates);
-      };
-
-      prevButton.addEventListener("click", () => {
-        if (prevButton.disabled) return;
-        scrollByOneItem(-1);
-      });
-
-      nextButton.addEventListener("click", () => {
-        if (nextButton.disabled) return;
-        scrollByOneItem(1);
-      });
-
-      track.addEventListener(
-        "scroll",
-        () => {
-          requestAnimationFrame(updateStates);
-        },
-        { passive: true },
-      );
-
-      if ("ResizeObserver" in window) {
-        const observer = new ResizeObserver(() => {
-          requestAnimationFrame(updateStates);
-        });
-
-        observer.observe(track);
+        updateStates();
       }
-
-      updateStates();
-    }
-  }
+      sliderCleanups.set(root, () => {
+        events.abort();
+        observer?.disconnect();
+      });
+    });
+  };
+  initializeSliders();
+  document.addEventListener("astro:page-load", initializeSliders);
+  document.addEventListener("astro:before-swap", () => {
+    sliderCleanups.forEach((dispose) => dispose());
+    sliderCleanups.clear();
+  });
 
   const cursorCleanups = new WeakMap<HTMLElement, () => void>();
 
   const initializeCursor = () => {
-    const root = document.querySelector<HTMLElement>("[data-hero-slider]");
-    const cursor = root?.querySelector<HTMLElement>("[data-hero-cursor]");
+    document.querySelectorAll<HTMLElement>(".hero-slider").forEach((root) => {
+      const cursor = root.querySelector<HTMLElement>(".hero-cursor");
 
-    if (!root || !cursor || cursorCleanups.has(root)) return;
-    cursorCleanups.set(
-      root,
-      initCursorTracking(root, ".hero-track-item", cursor, "data-cursor-label"),
-    );
+      if (!root || !cursor || cursorCleanups.has(root)) return;
+      cursorCleanups.set(
+        root,
+        initCursorTracking(
+          root,
+          ".hero-track-item",
+          cursor,
+          "data-cursor-label",
+        ),
+      );
+    });
   };
 
   const disposeCursor = () => {
-    const root = document.querySelector<HTMLElement>("[data-hero-slider]");
-    if (!root) return;
-
-    const cleanup = cursorCleanups.get(root);
-    if (cleanup) {
-      cleanup();
-      cursorCleanups.delete(root);
-    }
+    document.querySelectorAll<HTMLElement>(".hero-slider").forEach((root) => {
+      const cleanup = cursorCleanups.get(root);
+      if (cleanup) {
+        cleanup();
+        cursorCleanups.delete(root);
+      }
+    });
   };
 
   document.addEventListener("astro:page-load", initializeCursor);

@@ -1,6 +1,6 @@
 export const initBrandManufactureSliders = () => {
   const sliders = document.querySelectorAll<HTMLElement>(
-    "[data-brand-manufacture-slider]",
+    ".brand-manufacture-slider",
   );
 
   sliders.forEach((slider) => {

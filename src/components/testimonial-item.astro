@@ -31,11 +31,10 @@ const { className, testimonial } = Astro.props;
     class="max-w-full aspect-4/5 bg-[#efeff0] no-underline block relative overflow-hidden"
   >
     <img
-      data-testimonial-image
       alt={testimonial.alt}
       loading="lazy"
       src={testimonial.avatarUrl}
-      class="object-cover size-full block [transition:transform_.4s_ease] [@media(hover:hover)_and_(pointer:fine)]:group-hover:transform-[scale(1.04)]"
+      class="testimonial-image object-cover size-full block [transition:transform_.4s_ease] [@media(hover:hover)_and_(pointer:fine)]:group-hover:transform-[scale(1.04)]"
     />
   </a>
 </div>

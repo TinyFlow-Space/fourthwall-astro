@@ -18,7 +18,7 @@ const { product, index, classNames } = Astro.props;
   href={product.href}
   data-mobile-photo={index === 0 || index === 5}
   class={cn(
-    "featured-card min-h-0 p-6 bg-paper-soft flex flex-col justify-end no-underline text-inherit cursor-pointer max-w-full [grid-row-gap:12px] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group",
+    "featured-card max-[992px]:aspect-5/6 max-[992px]:min-h-70 min-h-0 p-6 bg-paper-soft flex flex-col justify-end no-underline text-inherit cursor-pointer max-w-full [grid-row-gap:12px] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group",
     classNames,
   )}
   style={{ "--stagger-index": index }}
@@ -78,7 +78,7 @@ const { product, index, classNames } = Astro.props;
       position: relative;
       padding: 14px;
       min-width: 0;
-      min-height: 0;
+
       gap: 12px;
       justify-content: end;
     }
@@ -96,7 +96,9 @@ const { product, index, classNames } = Astro.props;
     .featured-card:not([data-mobile-photo="true"]) .mobile-featured-image {
       position: relative;
       inset: auto;
-      height: 120px;
+      height: 0;
+      min-height: 100px;
+      flex: 1;
       width: 100%;
       object-fit: contain;
       margin-bottom: auto;

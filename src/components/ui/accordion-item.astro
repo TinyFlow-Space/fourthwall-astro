@@ -9,7 +9,7 @@ const { title, id } = Astro.props;
 
 <div
   class="accordion-item bg-paper-soft [transition:background_0.2s] hover:bg-[#efeff0]"
-  data-accordion-item
+
   data-open="false"
 >
   <button
@@ -18,7 +18,6 @@ const { title, id } = Astro.props;
     aria-expanded="false"
     aria-controls={`faq-panel-${id}`}
     id={`faq-trigger-${id}`}
-    data-accordion-trigger
   >
     {title}
     <svg
@@ -37,7 +36,6 @@ const { title, id } = Astro.props;
     id={`faq-panel-${id}`}
     aria-labelledby={`faq-trigger-${id}`}
     inert
-    data-accordion-panel
   >
     <div class="max-w-[60ch] text-foreground text-body-md leading-relaxed overflow-hidden">
       <slot />

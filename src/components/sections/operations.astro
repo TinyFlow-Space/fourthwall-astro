@@ -5,11 +5,7 @@ import AiIntegrationBox from "../ai-integration-box.astro";
 import { ChartIcon } from "@/components/icons";
 ---
 
-<section
-  data-section="operations"
-  data-scatter-reveal-section
-  class="px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background"
->
+<section class="scatter-reveal-section operations-section px-surface-x pt-surface-y-sm pb-surface-y-lg bg-background">
   <div class="container @container">
     <div class="mb-10 max-w-[88ch] reveal">
       <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
@@ -26,13 +22,9 @@ import { ChartIcon } from "@/components/icons";
         style={{ "--stagger-index": 0 }}
       >
         <!-- ai box -->
-        <div
-          data-ai-animation
-          class="aspect-40/13 w-full relative overflow-hidden @container"
-        >
+        <div class="ai-animation aspect-40/13 w-full relative overflow-hidden @container">
           {OPERATIONS_AI_DATA.map((item, index) => (
             <div
-              data-ai-slide
               aria-hidden={index === 0 ? "false" : "true"}
               class:list={[
                 "ai-slide absolute inset-0 grid grid-cols-3 pointer-events-none",
@@ -68,10 +60,9 @@ import { ChartIcon } from "@/components/icons";
           >
             <div class="absolute top-1/2 left-1/2 z-2 inline-flex min-w-[46cqi] -translate-x-1/2 -translate-y-1/2 cursor-text items-center justify-start gap-x-[1cqi] whitespace-nowrap rounded-[1.4cqi] bg-[#3c3c3c66] px-[1.8cqi] py-[1.5cqi] font-display text-[1.7cqi] font-medium tracking-[-.01em] text-white backdrop-blur-lg backdrop-saturate-[1.8]">
               <svg
-                data-ai-icon
                 viewBox="0 0 24 24"
                 aria-hidden="true"
-                class="shrink-0 size-[1.9cqi]"
+                class="ai-icon shrink-0 size-[1.9cqi]"
               >
                 <path
                   d="M11.2003 0.575117C11.4577 -0.191706 12.5423 -0.191706 12.7997 0.575117C14.4817 5.58555 18.4144 9.51827 23.4249 11.2003C24.1917 11.4577 24.1917 12.5423 23.4249 12.7997C18.4144 14.4817 14.4817 18.4144 12.7997 23.4249C12.5423 24.1917 11.4577 24.1917 11.2003 23.4249C9.51827 18.4144 5.58555 14.4817 0.575117 12.7997C-0.191706 12.5423 -0.191706 11.4577 0.575117 11.2003C5.58555 9.51827 9.51827 5.58555 11.2003 0.575117Z"
@@ -81,7 +72,6 @@ import { ChartIcon } from "@/components/icons";
               <span class="relative grid h-[1.25em] flex-1 grid-cols-1 overflow-hidden leading-[125%]">
                 {OPERATIONS_AI_DATA.map((item, index) => (
                   <span
-                    data-ai-label
                     aria-hidden={index === 0 ? "false" : "true"}
                     class:list={[
                       "ai-label col-start-1 row-start-1 text-center",
@@ -280,17 +270,17 @@ import { ChartIcon } from "@/components/icons";
 
   const initializeAnimations = () => {
     document
-      .querySelectorAll<HTMLElement>("[data-ai-animation]")
+      .querySelectorAll<HTMLElement>(".ai-animation")
       .forEach((animation) => {
         if (instances.has(animation)) return;
 
         const slides = Array.from(
-          animation.querySelectorAll<HTMLElement>("[data-ai-slide]"),
+          animation.querySelectorAll<HTMLElement>(".ai-slide"),
         );
         const labels = Array.from(
-          animation.querySelectorAll<HTMLElement>("[data-ai-label]"),
+          animation.querySelectorAll<HTMLElement>(".ai-label"),
         );
-        const icon = animation.querySelector<SVGElement>("[data-ai-icon]");
+        const icon = animation.querySelector<SVGElement>(".ai-icon");
 
         if (!slides.length || slides.length !== labels.length || !icon) {
           console.error(
@@ -415,7 +405,7 @@ import { ChartIcon } from "@/components/icons";
 
   const disposeAnimations = () => {
     document
-      .querySelectorAll<HTMLElement>("[data-ai-animation]")
+      .querySelectorAll<HTMLElement>(".ai-animation")
       .forEach((animation) => {
         const cleanup = instances.get(animation);
         if (cleanup) {
@@ -431,19 +421,19 @@ import { ChartIcon } from "@/components/icons";
 </script>
 
 <style>
-  [data-ai-animation] .ai-slide {
+  .ai-animation .ai-slide {
     z-index: 0;
   }
 
-  [data-ai-animation] .ai-slide.is-active {
+  .ai-animation .ai-slide.is-active {
     z-index: 2;
   }
 
-  [data-ai-animation] .ai-slide.is-existing {
+  .ai-animation .ai-slide.is-existing {
     z-index: 1;
   }
 
-  [data-ai-animation] .ai-tile {
+  .ai-animation .ai-tile {
     opacity: 1;
     transform: translateY(100%);
     transition:
@@ -452,29 +442,29 @@ import { ChartIcon } from "@/components/icons";
     transition-delay: var(--tile-delay, 0s);
   }
 
-  [data-ai-animation] .ai-tile:nth-child(1) {
+  .ai-animation .ai-tile:nth-child(1) {
     --tile-delay: 0s;
   }
 
-  [data-ai-animation] .ai-tile:nth-child(2) {
+  .ai-animation .ai-tile:nth-child(2) {
     --tile-delay: 0.12s;
   }
 
-  [data-ai-animation] .ai-tile:nth-child(3) {
+  .ai-animation .ai-tile:nth-child(3) {
     --tile-delay: 0.24s;
   }
 
-  [data-ai-animation] .ai-tile.is-active,
-  [data-ai-animation] .ai-label.is-active {
+  .ai-animation .ai-tile.is-active,
+  .ai-animation .ai-label.is-active {
     transform: translateY(0);
   }
 
-  [data-ai-animation] .ai-tile.is-existing,
-  [data-ai-animation] .ai-label.is-existing {
+  .ai-animation .ai-tile.is-existing,
+  .ai-animation .ai-label.is-existing {
     transform: translateY(-100%);
   }
 
-  [data-ai-animation] .ai-label {
+  .ai-animation .ai-label {
     opacity: 0;
     transform: translateY(100%);
     transition:
@@ -482,24 +472,24 @@ import { ChartIcon } from "@/components/icons";
       opacity 0.5s;
   }
 
-  [data-ai-animation] .ai-label.is-active {
+  .ai-animation .ai-label.is-active {
     opacity: 1;
     transform: translateY(0);
   }
 
-  [data-ai-animation] .ai-label.is-existing {
+  .ai-animation .ai-label.is-existing {
     opacity: 0;
     transform: translateY(-100%);
   }
 
-  [data-ai-animation] [data-ai-icon] {
+  .ai-animation .ai-icon {
     transform-origin: center;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    [data-ai-animation] .ai-tile,
-    [data-ai-animation] .ai-label,
-    [data-ai-animation] [data-ai-icon] {
+    .ai-animation .ai-tile,
+    .ai-animation .ai-label,
+    .ai-animation .ai-icon {
       transition: none;
     }
   }

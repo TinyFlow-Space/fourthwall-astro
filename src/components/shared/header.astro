@@ -1,4 +1,5 @@
 ---
+import MegaMenuContent from "./mega-menu-content.astro";
 import Logo from "@/components/shared/logo.astro";
 import { NAV_ITEMS } from "@/data";
 import { ArrowDown } from "@/components/icons";
@@ -25,20 +26,25 @@ import { ArrowDown } from "@/components/icons";
   >
     {NAV_ITEMS.map((item) =>
       item.menu ? (
-        <div class="group flex items-center">
-          <a
-            class="link-underline py-1 text-white no-underline cursor-pointer"
-            href={item.href}
+        <div class="desktop-menu-group" data-desktop-menu>
+          <button
+            type="button"
+            class="desktop-menu-trigger link-underline py-1 text-white"
+            aria-expanded="false"
+            aria-controls={`desktop-${item.label.toLowerCase()}`}
           >
             {item.label}
-            <ArrowDown
-              aria-label="Expand menu"
-              className="group-hover:rotate-180"
-            />
-          </a>
-
-          {/* mega menu */}
-          {/* <MegaMenu /> */}
+            <ArrowDown />
+          </button>
+          <div
+            class="desktop-mega"
+            id={`desktop-${item.label.toLowerCase()}`}
+            inert
+          >
+            <div class="desktop-mega-inner">
+              <MegaMenuContent kind={item.label} />
+            </div>
+          </div>
         </div>
       ) : (
         <a
@@ -87,16 +93,49 @@ import { ArrowDown } from "@/components/icons";
     inert
   >
     <div class="mobile-navigation-inner">
-      {NAV_ITEMS.map((item) => (
-        <a href={item.href}>
-          {item.label}
-          {item.menu && <ArrowDown />}
+      <div class="mobile-primary-links">
+        {NAV_ITEMS.map((item) =>
+          item.menu ? (
+            <div class="mobile-menu-group">
+              <button
+                class="mobile-submenu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`mobile-${item.label.toLowerCase()}`}
+              >
+                {item.label}
+                <ArrowDown />
+              </button>
+              <div
+                class="mobile-submenu"
+                id={`mobile-${item.label.toLowerCase()}`}
+                inert
+              >
+                <div class="mobile-submenu-clip">
+                  <div class="mobile-submenu-content">
+                    <MegaMenuContent kind={item.label} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a class="mobile-primary-link" href={item.href}>
+              {item.label}
+            </a>
+          ),
+        )}
+      </div>
+      <div class="mobile-account-actions">
+        <a
+          class="mobile-login"
+          href="https://my-shop.fourthwall.com/admin/dashboard"
+        >
+          Log in
         </a>
-      ))}
-      <a href="https://my-shop.fourthwall.com/admin/dashboard">Log in</a>
-      <a class="mobile-start" href="https://fourthwall.com/get-started">
-        Start now
-      </a>
+        <a class="mobile-start" href="https://fourthwall.com/get-started">
+          Start now
+        </a>
+      </div>
     </div>
   </nav>
 </header>
@@ -143,7 +182,9 @@ import { ArrowDown } from "@/components/icons";
     const controls = [
       header.querySelector<HTMLAnchorElement>("a")!,
       toggle,
-      ...menu.querySelectorAll<HTMLAnchorElement>("a[href]"),
+      ...Array.from(
+        menu.querySelectorAll<HTMLElement>("a[href], button"),
+      ).filter((element) => !element.closest("[inert]")),
     ];
     const first = controls[0],
       last = controls[controls.length - 1];
@@ -155,7 +196,80 @@ import { ArrowDown } from "@/components/icons";
       first.focus();
     }
   });
+  const desktopGroups = Array.from(
+    header.querySelectorAll<HTMLElement>("[data-desktop-menu]"),
+  );
+  let closeTimer: ReturnType<typeof setTimeout>;
+  function closeDesktop() {
+    clearTimeout(closeTimer);
+    desktopGroups.forEach((group) => {
+      group.dataset.open = "false";
+      group.querySelector("button")!.setAttribute("aria-expanded", "false");
+      group.querySelector<HTMLElement>(".desktop-mega")!.inert = true;
+    });
+  }
+  function openDesktop(group: HTMLElement) {
+    if (mobile.matches) return;
+    closeDesktop();
+    group.dataset.open = "true";
+    group.querySelector("button")!.setAttribute("aria-expanded", "true");
+    group.querySelector<HTMLElement>(".desktop-mega")!.inert = false;
+  }
+  desktopGroups.forEach((group) => {
+    const trigger = group.querySelector<HTMLButtonElement>("button")!;
+    group.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "touch") openDesktop(group);
+    });
+    group.addEventListener("pointerleave", () => {
+      closeTimer = setTimeout(closeDesktop, 120);
+    });
+    trigger.addEventListener("click", () =>
+      group.dataset.open === "true" ? closeDesktop() : openDesktop(group),
+    );
+    group.addEventListener("focusout", () => {
+      queueMicrotask(() => {
+        if (
+          group.dataset.open === "true" &&
+          !group.contains(document.activeElement)
+        )
+          closeDesktop();
+      });
+    });
+    group.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDesktop();
+        trigger.focus();
+      }
+      if (event.key === "ArrowDown" && event.target === trigger) {
+        event.preventDefault();
+        openDesktop(group);
+        group.querySelector<HTMLAnchorElement>(".desktop-mega a")?.focus();
+      }
+    });
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (!header.contains(event.target as Node)) closeDesktop();
+  });
+  const submenus = Array.from(
+    menu.querySelectorAll<HTMLButtonElement>(".mobile-submenu-toggle"),
+  );
+  function setSubmenu(button: HTMLButtonElement, expanded: boolean) {
+    button.setAttribute("aria-expanded", String(expanded));
+    button.parentElement!.dataset.open = String(expanded);
+    document.getElementById(button.getAttribute("aria-controls")!)!.inert =
+      !expanded;
+  }
+  submenus.forEach((button) =>
+    button.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") !== "true";
+      submenus.forEach((other) =>
+        setSubmenu(other, other === button && expanded),
+      );
+    }),
+  );
   mobile.addEventListener("change", () => {
+    closeDesktop();
+    submenus.forEach((button) => setSubmenu(button, false));
     if (!mobile.matches) {
       const focusWasInMenu = menu.contains(document.activeElement);
       setOpen(false);
@@ -165,6 +279,48 @@ import { ArrowDown } from "@/components/icons";
 </script>
 
 <style>
+  .desktop-menu-trigger {
+    background: none;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+  .desktop-menu-trigger:focus-visible,
+  .mobile-submenu-toggle:focus-visible,
+  .mobile-menu-toggle:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 5px;
+  }
+  .desktop-mega {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--surface-dark);
+    color: white;
+    visibility: hidden;
+    clip-path: inset(0 0 100%);
+    transition:
+      clip-path 0.4s var(--ease-rise-in),
+      visibility 0s 0.4s;
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .desktop-mega-inner {
+    padding: 32px var(--surface-x) 48px;
+  }
+  [data-desktop-menu][data-open="true"] .desktop-mega {
+    visibility: visible;
+    clip-path: inset(0);
+    transition-delay: 0s;
+  }
+  [data-desktop-menu][data-open="true"] :global(.desktop-menu-trigger svg),
+  .mobile-menu-group[data-open="true"] :global(.mobile-submenu-toggle svg) {
+    transform: rotate(180deg);
+  }
+
   .mobile-menu-toggle,
   .mobile-navigation {
     display: none;
@@ -196,16 +352,16 @@ import { ArrowDown } from "@/components/icons";
     }
     .mobile-menu-toggle span {
       width: 22px;
-      height: 1px;
+      height: 2px;
       background: currentColor;
       margin-inline: auto;
       transition: transform 0.4s var(--ease-rise-in);
     }
     [data-menu-open="true"] .mobile-menu-toggle span:first-child {
-      transform: translateY(3.5px) rotate(45deg);
+      transform: translateY(4px) rotate(45deg);
     }
     [data-menu-open="true"] .mobile-menu-toggle span:last-child {
-      transform: translateY(-3.5px) rotate(-45deg);
+      transform: translateY(-4px) rotate(-45deg);
     }
     .mobile-navigation {
       display: block;
@@ -229,30 +385,99 @@ import { ArrowDown } from "@/components/icons";
       clip-path: inset(0);
       transition-delay: 0s;
     }
+    [data-menu-open="true"] {
+      padding-inline: 20px;
+      background: #090909;
+    }
+    [data-menu-open="true"] .mobile-menu-toggle {
+      margin-right: -11px;
+    }
+    .mobile-navigation {
+      background: #090909;
+    }
     .mobile-navigation-inner {
-      padding: 32px var(--surface-x) max(32px, env(safe-area-inset-bottom));
+      padding: 36px 20px max(28px, env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      min-height: 100%;
     }
-    .mobile-navigation a {
+    .mobile-primary-links {
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-primary-link,
+    .mobile-submenu-toggle {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-block: 16px;
-      font-size: 24px;
-      line-height: 1.2;
+      width: 100%;
+      text-align: left;
+      padding: 5px 0 9px;
+      font: inherit;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      line-height: 36px;
+      color: white;
+      background: none;
+      border: 0;
+      text-decoration: none;
+      cursor: pointer;
     }
-    .mobile-navigation .mobile-start {
+    .mobile-submenu-toggle :global(svg) {
+      width: 20px;
+      height: 14px;
+      margin-right: 0;
+    }
+    .mobile-submenu {
+      display: grid;
+      grid-template-rows: 0fr;
+      visibility: hidden;
+      transition:
+        grid-template-rows 0.4s var(--ease-rise-in),
+        visibility 0s 0.4s;
+    }
+    .mobile-submenu-clip {
+      overflow: hidden;
+      min-height: 0;
+    }
+    .mobile-submenu-content {
+      padding: 12px 0 32px;
+    }
+    .mobile-menu-group[data-open="true"] .mobile-submenu {
+      grid-template-rows: 1fr;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    .mobile-account-actions {
+      margin-top: auto;
+      padding-top: 36px;
+      display: grid;
+      gap: 12px;
+    }
+    .mobile-account-actions a {
+      display: flex;
+      align-items: center;
       justify-content: center;
-      background: white;
-      color: var(--foreground);
-      border-radius: var(--fw-radius-lg);
+      height: 52px;
+      border-radius: 12px;
       font-size: 16px;
-      margin-top: 24px;
+      line-height: 1.2;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .mobile-login {
+      background: #242424;
+      color: white;
+    }
+    .mobile-start {
+      background: white;
+      color: #090909;
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .desktop-mega,
+    .mobile-submenu,
     .mobile-navigation,
     .mobile-menu-toggle span {
       transition: none;

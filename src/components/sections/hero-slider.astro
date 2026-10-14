@@ -27,7 +27,7 @@ import { Image } from "astro:assets";
           class={cn(
             "max-[992px]:w-[calc(74.9677vw)] max-[992px]:h-[83vw] aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline 2md:w-[calc(clamp(320px,35vw,960px)/1.10714)] 2md:h-[clamp(320px,35vw,960px)] cursor-none!",
             item.type === "video" &&
-              "aspect-6/5 max-2md:w-[99.6vw] 2md:w-[calc(1.2*clamp(320px,35vw,960px))]",
+              "aspect-6/5 max-2md:w-[99.6vw]! 2md:w-[calc(1.2*clamp(320px,35vw,960px))]",
           )}
         >
           {item.type === "video" ? (

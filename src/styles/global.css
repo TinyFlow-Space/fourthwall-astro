@@ -1063,3 +1063,15 @@ button,
     aspect-ratio: 40 / 13;
   }
 }
+
+@media (max-width: 767px) {
+  .trusted-brands-section .trusted-brands-track {
+    grid-template-columns: repeat(12, 128px);
+    /* Include the trailing gap so half the track is exactly one logo set. */
+    padding-right: 32px;
+  }
+  .trusted-brands-track:hover,
+  .trusted-brands-track:focus-within {
+    animation-play-state: paused;
+  }
+}

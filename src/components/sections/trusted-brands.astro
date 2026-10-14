@@ -13,23 +13,33 @@ import { cn } from "@/utils";
     </div>
 
     <!-- brand logos -->
-    <div class="grid grid-cols-6 mx-auto gap-x-8 gap-y-14 place-items-center reveal">
-      {BRANDS.map((brand) => (
-        <a
-          href={brand.url}
-          target="_blank"
-          rel="nofollow"
-          aria-label={brand.name}
-          class="opacity-65 hover:opacity-100 inline-flex items-center justify-center max-w-full w-full h-16 no-underline transition-opacity duration-200"
-        >
-          <img
-            src={brand.logoSrc}
-            alt={brand.name}
-            loading="lazy"
-            class={cn("w-auto max-w-[130%] block object-contain", brand.height)}
-          />
-        </a>
-      ))}
+    <div class="reveal">
+      <div class="trusted-brands-track grid grid-cols-6 mx-auto gap-x-8 gap-y-14 place-items-center max-[768px]:marquee-left max-[768px]:[--marquee-duration:40s] max-[768px]:motion-reduce:animate-none">
+        {[...BRANDS, ...BRANDS].map((brand, index) => (
+          <a
+            href={brand.url}
+            target="_blank"
+            rel="nofollow"
+            aria-label={brand.name}
+            aria-hidden={index >= BRANDS.length ? "true" : undefined}
+            tabindex={index >= BRANDS.length ? -1 : undefined}
+            class:list={[
+              "opacity-65 hover:opacity-100 inline-flex items-center justify-center max-w-full w-full h-16 no-underline transition-opacity duration-200",
+              { "min-[768px]:hidden": index >= BRANDS.length },
+            ]}
+          >
+            <img
+              src={brand.logoSrc}
+              alt={brand.name}
+              loading="lazy"
+              class={cn(
+                "w-auto max-w-[130%] block object-contain",
+                brand.height,
+              )}
+            />
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </section>

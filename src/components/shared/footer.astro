@@ -81,14 +81,18 @@ import { cn } from "@/utils";
   const groups = Array.from(
     document.querySelectorAll<HTMLElement>(".footer-group"),
   );
+  function setGroupOpen(group: HTMLElement, open: boolean) {
+    const button = group.querySelector<HTMLButtonElement>(".footer-toggle")!;
+    button.setAttribute("aria-expanded", String(open));
+    button.querySelector("span")!.textContent = open ? "−" : "+";
+    group.querySelector<HTMLElement>("ul")!.inert = !open;
+    group.dataset.open = String(open);
+  }
   function resetFooter() {
     groups.forEach((group) => {
       const button = group.querySelector<HTMLButtonElement>(".footer-toggle")!;
-      const links = group.querySelector<HTMLElement>("ul")!;
       button.disabled = !mobileFooter.matches;
-      button.setAttribute("aria-expanded", String(!mobileFooter.matches));
-      links.inert = mobileFooter.matches;
-      group.dataset.open = String(!mobileFooter.matches);
+      setGroupOpen(group, !mobileFooter.matches);
     });
   }
   groups.forEach((group, index) => {
@@ -97,10 +101,13 @@ import { cn } from "@/utils";
     links.id = `footer-links-${index}`;
     button.setAttribute("aria-controls", links.id);
     button.addEventListener("click", () => {
+      if (!mobileFooter.matches) return;
       const open = button.getAttribute("aria-expanded") !== "true";
-      button.setAttribute("aria-expanded", String(open));
-      links.inert = !open;
-      group.dataset.open = String(open);
+      groups.forEach((other) => {
+        if (other.parentElement === group.parentElement) {
+          setGroupOpen(other, other === group && open);
+        }
+      });
     });
   });
   mobileFooter.addEventListener("change", resetFooter);
@@ -138,10 +145,6 @@ import { cn } from "@/utils";
     .footer-toggle span {
       display: block;
       color: var(--muted-foreground);
-      transition: transform 0.3s;
-    }
-    .footer-toggle[aria-expanded="true"] span {
-      transform: rotate(45deg);
     }
     .footer-group ul {
       max-height: 0;

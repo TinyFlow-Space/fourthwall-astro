@@ -46,7 +46,7 @@
   --radius-lg: var(--fw-radius-lg);
 
   --ease-rise-in: cubic-bezier(0.16, 1, 0.3, 1);
-  --breakpoint-2md: 991px;
+  --breakpoint-2md: 992px;
 
   @keyframes rise-in {
     from {
@@ -88,7 +88,7 @@
 
   @keyframes scroll-x-left {
     from {
-      transform: translateZ(var(--scroll-from, 0));
+      transform: translate3d(var(--scroll-from, 0), 0, 0);
     }
     to {
       transform: translate3d(var(--scroll-to, -144cqi), 0, 0);
@@ -97,10 +97,10 @@
 
   @keyframes scroll-x-right {
     from {
-      transform: translate3d(var(--scroll-from, 0), 0, 0);
+      transform: translate3d(var(--scroll-from, -144cqi), 0, 0);
     }
     to {
-      transform: translateZ(var(--scroll-to, 0));
+      transform: translate3d(var(--scroll-to, 0), 0, 0);
     }
   }
 
@@ -859,7 +859,7 @@ button,
     padding-bottom: 48px;
   }
   .products-section .catalog-card > p:last-child {
-    font-size: 16px;
+    font-size: clamp(14px, 13px + 0.1042vw, 16px);
   }
   .products-section .catalog-card > .catalog-media > .catalog-colors {
     left: 12px;
@@ -880,7 +880,7 @@ button,
     margin-bottom: 36px;
   }
   .products-section .catalog-card .catalog-stars {
-    font-size: 15px;
+    font-size: 13px;
   }
   .products-section .container > .grid {
     row-gap: 28px;
@@ -896,7 +896,7 @@ button,
 
 @media (max-width: 991px) {
   .catalog-card .catalog-tech {
-    font-size: 15px;
+    font-size: clamp(14px, 13px + 0.1042vw, 16px);
     flex-wrap: nowrap;
     gap: 6px;
     white-space: nowrap;
@@ -926,7 +926,7 @@ button,
     gap: 4px;
   }
   .products-section .catalog-card > p {
-    font-size: 15px;
+    font-size: clamp(14px, 13px + 0.1042vw, 16px);
   }
 }
 

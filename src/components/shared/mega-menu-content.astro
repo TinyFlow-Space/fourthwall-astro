@@ -99,10 +99,7 @@ const { kind } = Astro.props;
     color: white;
     text-decoration: none;
   }
-  a:hover {
-    text-decoration: underline;
-    text-underline-offset: 6px;
-  }
+
   a:focus-visible {
     outline: 2px solid white;
     outline-offset: 5px;
@@ -162,6 +159,11 @@ const { kind } = Astro.props;
     max-width: 29ch;
     margin-top: 10px;
   }
+
+  .learn-card:hover p {
+    color: var(--color-white);
+  }
+
   .learn-bottom {
     border-top: 1px solid #242424;
     margin-top: 40px;

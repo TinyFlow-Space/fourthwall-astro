@@ -676,8 +676,8 @@ button,
   }
   .ai-animation .ai-slide {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 150%;
-    left: -25%;
+    width: 100%;
+    left: 0;
   }
   .ai-animation > div:last-child > div {
     font-size: 12px;
@@ -1044,5 +1044,22 @@ button,
   }
   .wordmark-section > div:last-child {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .design-scroll-track > div {
+    scroll-snap-align: start;
+  }
+  .ai-animation .ai-slide {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ai-animation .ai-tile:nth-child(n + 3) {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ai-animation {
+    aspect-ratio: 40 / 13;
   }
 }

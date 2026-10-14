@@ -42,7 +42,12 @@ const ACTIVE_DESIGN_KEY = "a";
         data-autoplay-delay="5200"
       >
         <!-- design slider strip-->
-        <div class="contents">
+        <div
+          class="design-scroll-track contents max-[768px]:flex max-[768px]:flex-none max-[768px]:w-[calc(100%+40px)] max-[768px]:min-w-0 max-[768px]:gap-3 max-[768px]:overflow-x-auto max-[768px]:-mx-5 max-[768px]:px-5 max-[768px]:scroll-px-5 max-[768px]:snap-x max-[768px]:snap-proximity scrollbar-none"
+          tabindex="0"
+          role="region"
+          aria-label="Product design previews, scroll horizontally"
+        >
           <!-- design mockup column-->
           <div
             class="flex flex-1 flex-col min-w-0 scatter-reveal"

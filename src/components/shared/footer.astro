@@ -3,7 +3,7 @@ import { FOOTER_LINKS } from "@/data";
 import { cn } from "@/utils";
 ---
 
-<footer class="z-1 py-14 px-surface-x shadow-[0_4px_0_var(--text-foreground)] bg-surface-dark flex flex-col sticky bottom-0">
+<footer class="z-1 pt-3.5 pb-8 2md:py-14 px-surface-x shadow-[0_4px_0_var(--text-foreground)] bg-surface-dark flex flex-col sticky bottom-0">
   <div class="grid grid-cols-6 min-[768px]:max-[992px]:grid-cols-3 gap-8 w-full origin-[50%] reveal">
     {FOOTER_LINKS.map((link) => (
       <div class="footer-group">
@@ -118,10 +118,6 @@ import { cn } from "@/utils";
     display: none;
   }
   @media (max-width: 767px) {
-    footer {
-      /* position: relative; */
-      padding-block: 12px 0;
-    }
     footer > div {
       grid-template-columns: 1fr;
       gap: 0;

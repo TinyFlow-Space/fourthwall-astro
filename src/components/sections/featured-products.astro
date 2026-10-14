@@ -5,8 +5,8 @@ import FeaturedProductCard from "../products/featured-product-card.astro";
 const CLASSES = [
   "[grid-area:5/1/12/4]",
   "[grid-area:7/4/14/7]",
-  "[grid-area:1/7/13/12]",
-  "[grid-area:15/1/27/6]",
+  "[grid-area:1/7/13/12] max-[992px]:-order-1",
+  "[grid-area:15/1/27/6] max-[992px]:order-1",
   "[grid-area:17/6/24/9]",
   "[grid-area:14/9/21/12]",
 ];
@@ -17,7 +17,7 @@ const CLASSES = [
     <div class="grid grid-cols-11 gap-x-[clamp(20px,3.25vw,48px)] gap-y-[clamp(36px,4.5cqi,80px)]">
       <!-- product section header -->
       <div
-        class="min-w-0 self-start [grid-area:1/1/6/7] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform] scatter-reveal"
+        class="max-[992px]:-order-2 min-w-0 self-start [grid-area:1/1/6/7] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform] scatter-reveal"
         style={{
           "--stagger-index": 0,
           "--rise-distance": "56px",
@@ -48,7 +48,7 @@ const CLASSES = [
         rel="noopener"
         target="_blank"
         href="https://products.fourthwall.com"
-        class="aspect-[1] w-45 max-w-full text-foreground text-body-md font-medium flex items-center justify-center text-center no-underline hover:bg-surface-dark hover:text-white rounded-full border border-surface-dark [grid-area:22/9/25/12] [place-self:start_center] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group"
+        class="max-[992px]:order-2 aspect-[1] w-45 max-w-full text-foreground text-body-md font-medium flex items-center justify-center text-center no-underline hover:bg-surface-dark hover:text-white rounded-full border border-surface-dark [grid-area:22/9/25/12] [place-self:start_center] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group"
         style={{
           "--stagger-index": 0,
           "--rise-distance": "56px",

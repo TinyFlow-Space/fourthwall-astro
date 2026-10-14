@@ -3,7 +3,7 @@ import { FOOTER_BOTTOM_LINKS } from "@/data";
 import { cn } from "@/utils";
 ---
 
-<section class="wordmark-section pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]">
+<section class="wordmark-section pt-5 2md:pt-20 pb-10 px-surface-x bg-surface-dark text-white -mt-px overflow-hidden block shadow-[0_-4px_0_var(--surface-dark)]">
   <div class="footer-wordmark-wrap w-full block opacity-0 transform-[translate3d(0,120px,0)] reveal-transition">
     <div class="perspective-distant w-full block">
       <svg
@@ -35,7 +35,7 @@ import { cn } from "@/utils";
   </div>
 
   <!-- footer bottom -->
-  <div class="w-full mt-12 pb-5 text-muted-foreground text-body-md flex justify-between">
+  <div class="w-full mt-12 pb-0 2md:pb-5 text-muted-foreground text-body-md flex flex-col gap-3 2md:gap-0 md:flex-row justify-between">
     <span>© Fourthwall</span>
 
     {FOOTER_BOTTOM_LINKS.map((item) => (

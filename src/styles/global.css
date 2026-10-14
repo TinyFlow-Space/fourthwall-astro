@@ -597,18 +597,18 @@ button,
   .brand-showcase-section {
     padding-top: 40px;
   }
-  .brand-showcase-section .grid {
+  .brand-showcase-section .container > .grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 48px;
   }
-  .brand-showcase-section .grid > div {
+  .brand-showcase-section .container > .grid > div {
     grid-column: auto;
     gap: 24px;
   }
   .brand-showcase-section h2 {
     max-width: 300px;
   }
-  .brand-showcase-section .grid > div > p,
+  .brand-showcase-section .container > .grid > div > p,
   .operations-section .container > .grid > div > p {
     font-size: 20px;
     line-height: 1.45;
@@ -832,34 +832,21 @@ button,
   .orbit-section .orbit-slot:nth-child(even) {
     display: none;
   }
-  .wordmark-section {
-    padding-top: 64px;
-    padding-bottom: 32px;
-  }
-  .wordmark-section > div:last-child {
-    margin-top: 40px;
-    padding-bottom: 0;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .wordmark-section > div:last-child > a,
-  .wordmark-section > div:last-child > button {
-    display: none;
-  }
 }
 
 @media (max-width: 991px) {
   .brand-shop-slider {
     aspect-ratio: 7 / 5;
   }
-  .brand-showcase-section .grid > div:nth-child(4) > div > div {
+  .brand-showcase-section .container > .grid > div:nth-child(4) > div > div {
     width: 73cqi;
   }
-  .brand-showcase-section .grid > div:nth-child(4) > div > div p {
+  .brand-showcase-section .container > .grid > div:nth-child(4) > div > div p {
     font-size: 2.9cqi;
   }
   .brand-showcase-section
-    .grid
+    .container
+    > .grid
     > div:nth-child(4)
     > div
     > div

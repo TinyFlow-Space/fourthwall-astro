@@ -25,9 +25,9 @@ import { Image } from "astro:assets";
           target="_blank"
           aria-label={item.title}
           class={cn(
-            "max-[992px]:w-[calc(75vw-1px)] max-[992px]:h-auto max-[992px]:aspect-1120/1240 aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)] cursor-none!",
+            "max-[992px]:w-[calc(74.9677vw)] max-[992px]:h-[83vw] aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline w-[calc(clamp(320px,35vw,960px)/1.10714)] h-[clamp(320px,35vw,960px)] cursor-none!",
             item.type === "video" &&
-              "aspect-6/5 w-[calc(1.2*clamp(320px,35vw,960px))]",
+              "aspect-6/5 max-2md:w-[99.6vw] w-[calc(1.2*clamp(320px,35vw,960px))]",
           )}
         >
           {item.type === "video" ? (

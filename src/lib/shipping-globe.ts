@@ -32,9 +32,9 @@ const hubs = [
   [37.9, 23.7],
 ].map(([lat, lon]) => spherePoint(lat, lon));
 const labelPoints = [
-  spherePoint(40, -74),
-  spherePoint(35, 130),
-  spherePoint(45, 10),
+  spherePoint(8, 15),
+  spherePoint(8, 135),
+  spherePoint(8, -105),
 ];
 const instances = new Map<HTMLElement, () => void>();
 
@@ -43,12 +43,11 @@ function initialize(root: HTMLElement): () => void {
   const ctx = canvas.getContext("2d", { alpha: false });
   if (!ctx) return () => {};
   const labels = Array.from(root.querySelectorAll<HTMLElement>(".globe-label"));
-  const responsive = matchMedia("(max-width: 991px)");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const events = new AbortController();
   let width = 0,
     height = 0,
-    yaw = -1.8,
+    yaw = -0.25,
     pitch = 0.12,
     velocity = 0;
   let visible = false,
@@ -72,7 +71,7 @@ function initialize(root: HTMLElement): () => void {
     const rz = z * cosYaw - x * sinYaw;
     const ry = y * cosPitch - rz * sinPitch;
     const depth = y * sinPitch + rz * cosPitch;
-    const radius = width / 3;
+    const radius = width * 0.39;
     return [
       width / 2 + rx * radius * elevation,
       height / 2 - ry * radius * elevation,
@@ -85,7 +84,7 @@ function initialize(root: HTMLElement): () => void {
     cosYaw = Math.cos(yaw);
     sinPitch = Math.sin(pitch);
     cosPitch = Math.cos(pitch);
-    const radius = width / 3;
+    const radius = width * 0.39;
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, width, height);
     const shading = ctx.createRadialGradient(
@@ -96,9 +95,10 @@ function initialize(root: HTMLElement): () => void {
       height / 2,
       radius,
     );
-    shading.addColorStop(0, "#252525");
-    shading.addColorStop(0.82, "#202020");
-    shading.addColorStop(1, "#101010");
+    shading.addColorStop(0, "#030303");
+    shading.addColorStop(0.82, "#090909");
+    shading.addColorStop(0.97, "#161616");
+    shading.addColorStop(1, "#333333");
     ctx.fillStyle = shading;
     ctx.beginPath();
     ctx.arc(width / 2, height / 2, radius, 0, Math.PI * 2);
@@ -107,12 +107,12 @@ function initialize(root: HTMLElement): () => void {
     for (const point of land) {
       const [x, y, z] = project(point);
       if (z <= 0.02) continue;
-      ctx.fillStyle = `rgba(173,173,173,${0.15 + z * 0.52})`;
+      ctx.fillStyle = `rgba(173,173,173,${0.28 + z * 0.45})`;
       ctx.beginPath();
       ctx.arc(
         x,
         y,
-        Math.max(0.55, width / 720) * (0.55 + z * 0.45),
+        Math.max(0.8, width / 400) * (0.55 + z * 0.45),
         0,
         Math.PI * 2,
       );
@@ -156,7 +156,7 @@ function initialize(root: HTMLElement): () => void {
         Math.min(width - labelWidths[index] - 8, x - labelWidths[index] / 2),
       );
       label.style.transform = `translate(${left.toFixed(1)}px,${(y - 12).toFixed(1)}px)`;
-      label.style.opacity = String(Math.max(0, Math.min(1, z * 3)));
+      label.style.opacity = String(Math.max(0, Math.min(1, (z - 0.5) * 3)));
     });
   }
   function tick(time: number) {
@@ -171,14 +171,13 @@ function initialize(root: HTMLElement): () => void {
     draw();
     if (
       visible &&
-      responsive.matches &&
       !document.hidden &&
       (!reduced.matches || Math.abs(velocity) > 0.001)
     )
       frame = requestAnimationFrame(tick);
   }
   function requestDraw() {
-    if (!frame && visible && responsive.matches && !document.hidden)
+    if (!frame && visible && !document.hidden)
       frame = requestAnimationFrame(tick);
   }
   function resize() {
@@ -200,18 +199,18 @@ function initialize(root: HTMLElement): () => void {
     root.classList.remove("is-dragging");
   }
   function updateMode() {
-    root.classList.toggle("is-interactive", responsive.matches);
-    root.tabIndex = responsive.matches ? 0 : -1;
+    root.classList.add("is-interactive");
+    root.tabIndex = 0;
     resetPointer();
     cancelAnimationFrame(frame);
     frame = 0;
     previousTime = 0;
-    if (responsive.matches) resize();
+    resize();
   }
   root.addEventListener(
     "pointerdown",
     (event) => {
-      if (!responsive.matches || !event.isPrimary || event.button !== 0) return;
+      if (!event.isPrimary || event.button !== 0) return;
       pointer = event.pointerId;
       startX = lastX = event.clientX;
       startY = lastY = event.clientY;
@@ -265,7 +264,6 @@ function initialize(root: HTMLElement): () => void {
     "keydown",
     (event) => {
       if (
-        !responsive.matches ||
         !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)
       )
         return;
@@ -287,7 +285,6 @@ function initialize(root: HTMLElement): () => void {
     },
     { signal: events.signal },
   );
-  responsive.addEventListener("change", updateMode, { signal: events.signal });
   reduced.addEventListener("change", requestDraw, { signal: events.signal });
   const resizeObserver = new ResizeObserver(resize);
   resizeObserver.observe(root);

@@ -5,7 +5,7 @@ interface Props {
   selected?: string;
   label?: string;
   id?: string;
-  class?: string;
+  className?: string;
 }
 
 const {
@@ -13,7 +13,7 @@ const {
   selected,
   label = "Select an option",
   id,
-  class: className,
+  className,
 } = Astro.props;
 const options = items.map((item) =>
   typeof item === "string" ? { label: item, value: item } : item,
@@ -28,7 +28,7 @@ const selectedValue =
   role="group"
   aria-label={label}
   class:list={[
-    "filter-nav scrollbar-none flex flex-nowrap gap-2 relative overflow-auto",
+    "filter-nav scrollbar-none flex flex-nowrap gap-2 relative overflow-auto -mx-[clamp(1rem,1.5038vw+.6476rem,2rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)] md:mx-0 md:px-0",
     className,
   ]}
 >
@@ -41,7 +41,7 @@ const selectedValue =
       type="button"
       value={item.value}
       class:list={[
-        "filter-item z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-4.5 px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none",
+        "filter-item z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-3.5 px-4.5 2md:py-4.5 2md:px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none",
         { "text-foreground!": item.value === selectedValue },
       ]}
       aria-pressed={item.value === selectedValue}

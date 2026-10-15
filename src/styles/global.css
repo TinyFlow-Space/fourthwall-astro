@@ -46,7 +46,7 @@
   --radius-lg: var(--fw-radius-lg);
 
   --ease-rise-in: cubic-bezier(0.16, 1, 0.3, 1);
-  --breakpoint-2md: 992px;
+  --breakpoint-2md: 62rem;
 
   @keyframes rise-in {
     from {
@@ -733,10 +733,7 @@ button,
   .products-section .container > div:nth-child(2) > div:last-child {
     display: none;
   }
-  .filter-item {
-    padding: 12px;
-    font-size: 14px;
-  }
+
   .products-section .container > .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 32px 4px;
@@ -876,10 +873,7 @@ button,
   .filter-nav {
     scrollbar-width: none;
   }
-  .filter-item {
-    padding: 14px 20px;
-    font-size: 17px;
-  }
+
   .products-section .container > div:nth-child(2) {
     margin-bottom: 36px;
   }

@@ -20,13 +20,20 @@ const FILTERS = [
 >
   <div class="container-lg">
     <!-- blog filter -->
-    <div class="flex items-center justify-between gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]">
-      <FilterButtons items={FILTERS} selected="Latest" />
+    <div class="blog-filter-row flex items-center justify-between gap-4 flex-col md:flex-row 2md:gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]">
+      <FilterButtons
+        items={FILTERS}
+        selected="Latest"
+        className="blog-filters"
+      />
       <SearchBar />
     </div>
 
     <!-- blog items -->
-    <div role="list" class="grid grid-cols-3 gap-x-8 gap-y-12">
+    <div
+      role="list"
+      class="grid grid-cols-1 md:grid-cols-2 2md:grid-cols-3 gap-x-8 gap-y-6 md:gap-y-12"
+    >
       <BlogCard />
       <BlogCard />
       <BlogCard />
@@ -39,3 +46,13 @@ const FILTERS = [
     <Pagination />
   </div>
 </section>
+
+<style is:global>
+  @reference "@/styles/global.css";
+
+  @media screen and (max-width: 767px) {
+    .blog-filters {
+      @apply min-w-0 w-auto max-w-none self-stretch grow;
+    }
+  }
+</style>

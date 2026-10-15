@@ -2,7 +2,10 @@
 import { Image } from "astro:assets";
 ---
 
-<article role="listitem" class="block relative transition-colors duration-150">
+<article
+  role="listitem"
+  class="blog-card block relative transition-colors duration-150"
+>
   <figure class="relative mt-0 mb-4 overflow-hidden aspect-10/6">
     <Image
       src={
@@ -47,3 +50,17 @@ import { Image } from "astro:assets";
     </div>
   </a>
 </article>
+
+<style>
+  @reference "@/styles/global.css";
+
+  @media screen and (max-width: 767px) {
+    .blog-card {
+      @apply grid grid-cols-[0.611111fr_0.388889fr] grid-rows-[auto_auto] items-start gap-4 border-b border-[#0000001a] pb-6 auto-cols-fr;
+    }
+
+    .blog-card figure {
+      @apply order-1 mb-0;
+    }
+  }
+</style>

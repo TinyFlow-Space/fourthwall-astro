@@ -1,0 +1,54 @@
+---
+import { cn } from "@/utils";
+
+const { className } = Astro.props;
+---
+
+<div
+  class={cn(
+    "mt-[clamp(3.5rem,0.7519vw+3.3238rem,4rem)] flex flex-row items-center justify-center gap-3",
+    className,
+  )}
+>
+  <!-- prev page -->
+  <button
+    aria-label="Previous Page"
+    tabindex="-1"
+    aria-disabled="true"
+    class="flex-none rounded-lg border-0 bg-transparent mx-0 p-2 transition-[background-color,color] duration-200 hover:bg-[#0a0a0a0f]"
+  >
+    <img
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a2a86ce3ba1b34afc4c3cee_left-icon.svg"
+      loading="lazy"
+      alt=""
+    />
+  </button>
+
+  <!-- page buttons -->
+  <div class="flex items-center justify-start gap-1">
+    {Array.from({ length: 4 }).map((_, index) => (
+      <button
+        class={cn(
+          "rounded-lg text-secondary-foreground text-sm leading-5.25 font-medium py-[.34375rem] px-[.84375rem] transition-[background-color,color,opacity] duration-200 hover:bg-[#0a0a0a0f] hover:text-foreground",
+          index === 0 && "bg-[#0000000d] text-[#161712]",
+        )}
+      >
+        {index + 1}
+      </button>
+    ))}
+  </div>
+
+  <!-- next page -->
+  <button
+    aria-label="Next Page"
+    tabindex="0"
+    aria-disabled="false"
+    class="flex-none rounded-lg border-0 bg-transparent mx-0 p-2 transition-[background-color,color] duration-200 hover:bg-[#0a0a0a0f]"
+  >
+    <img
+      src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a2a869a6d147ae440e64f53_right-icon.svg"
+      loading="lazy"
+      alt=""
+    />
+  </button>
+</div>

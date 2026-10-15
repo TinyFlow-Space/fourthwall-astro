@@ -1,0 +1,37 @@
+---
+const { placeholder = "Search posts", name = "filter" } = Astro.props;
+---
+
+<div class="flex max-w-60 w-full shrink-0 grow-0 items-center gap-2.5 rounded-lg border border-[#0a0a0a29] px-4 py-3 transition-[border-color] duration-200 cursor-text focus-within:border-surface-dark">
+  <svg
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    class="size-4.25 text-secondary-foreground grow-0 shrink-0"
+  >
+    <circle
+      cx="6.75"
+      cy="6.75"
+      r="4.75"
+      stroke="currentColor"
+      stroke-width="1.5"
+    ></circle>
+    <path
+      d="M10.5 10.5L14 14"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    ></path>
+  </svg>
+
+  <input
+    class="min-h-0 h-auto mb-0 min-w-0 flex-1 border-0 bg-transparent p-0 border-none font-body text-foreground text-body-md leading-normal font-normal align-middle w-full block focus-within:border-none focus-within:outline-none"
+    maxlength="256"
+    name={name}
+    placeholder={placeholder}
+    type="text"
+    id={name}
+    required
+  />
+</div>

@@ -1,0 +1,171 @@
+---
+/** Listen for the bubbling `selection-change` event to receive `event.detail.value`. */
+interface Props {
+  items: readonly (string | { label: string; value: string })[];
+  selected?: string;
+  label?: string;
+  id?: string;
+  class?: string;
+}
+
+const {
+  items,
+  selected,
+  label = "Select an option",
+  id,
+  class: className,
+} = Astro.props;
+const options = items.map((item) =>
+  typeof item === "string" ? { label: item, value: item } : item,
+);
+const selectedValue =
+  options.find((item) => item.value === selected)?.value ?? options[0]?.value;
+---
+
+<div
+  data-filter-buttons
+  id={id}
+  role="group"
+  aria-label={label}
+  class:list={[
+    "filter-nav scrollbar-none flex flex-nowrap gap-2 relative overflow-auto",
+    className,
+  ]}
+>
+  <div
+    aria-hidden="true"
+    class="hover-pill pointer-events-none z-0 bg-[#0a0a0a0f] absolute top-0 left-0 bottom-0 rounded-lg transition-[transform_0.28s_cubic-bezier(0.2,0.7,0.2,1),width_0.28s_cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none"
+  ></div>
+  {options.map((item) => (
+    <button
+      type="button"
+      value={item.value}
+      class:list={[
+        "filter-item z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-4.5 px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none",
+        { "text-foreground!": item.value === selectedValue },
+      ]}
+      aria-pressed={item.value === selectedValue}
+    >
+      {item.label}
+    </button>
+  ))}
+</div>
+
+<script>
+  const cleanups = new Map<HTMLElement, () => void>();
+
+  function initializeFilters() {
+    document
+      .querySelectorAll<HTMLElement>("[data-filter-buttons]")
+      .forEach((nav) => {
+        if (cleanups.has(nav)) return;
+        const controller = new AbortController();
+        const { signal } = controller;
+        const pill = nav.querySelector<HTMLElement>(".hover-pill");
+        const buttons = Array.from(
+          nav.querySelectorAll<HTMLButtonElement>(".filter-item"),
+        );
+        const initialSelectedButton = buttons.find(
+          (button) => button.getAttribute("aria-pressed") === "true",
+        );
+        let hoveredButton: HTMLButtonElement | null = null;
+
+        if (!pill || !initialSelectedButton) return;
+        let selectedButton = initialSelectedButton;
+        selectedButton.classList.add("text-foreground!");
+
+        let positionFrame = 0;
+        const schedulePillPosition = () => {
+          if (positionFrame) return;
+
+          positionFrame = window.requestAnimationFrame(() => {
+            positionFrame = 0;
+            const button = hoveredButton ?? selectedButton;
+            const { offsetWidth, offsetLeft } = button;
+
+            pill.style.width = `${offsetWidth}px`;
+            pill.style.transform = `translateX(${offsetLeft}px)`;
+          });
+        };
+
+        const positionCurrentButton = () => {
+          schedulePillPosition();
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener(
+            "pointerenter",
+            () => {
+              hoveredButton = button;
+              schedulePillPosition();
+            },
+            { signal },
+          );
+
+          button.addEventListener(
+            "focus",
+            () => {
+              hoveredButton = button;
+              schedulePillPosition();
+            },
+            { signal },
+          );
+
+          button.addEventListener(
+            "blur",
+            () => {
+              hoveredButton = null;
+              schedulePillPosition();
+            },
+            { signal },
+          );
+
+          button.addEventListener(
+            "click",
+            () => {
+              selectedButton = button;
+              buttons.forEach((item) => {
+                const isSelected = item === selectedButton;
+                item.setAttribute("aria-pressed", String(isSelected));
+                item.classList.toggle("text-foreground!", isSelected);
+              });
+              nav.dispatchEvent(
+                new CustomEvent("selection-change", {
+                  detail: { value: button.value },
+                  bubbles: true,
+                }),
+              );
+              schedulePillPosition();
+            },
+            { signal },
+          );
+        });
+
+        nav.addEventListener(
+          "pointerleave",
+          () => {
+            hoveredButton = null;
+            schedulePillPosition();
+          },
+          { signal },
+        );
+
+        positionCurrentButton();
+        const resizeObserver = new ResizeObserver(positionCurrentButton);
+        resizeObserver.observe(nav);
+        buttons.forEach((button) => resizeObserver.observe(button));
+        cleanups.set(nav, () => {
+          controller.abort();
+          resizeObserver.disconnect();
+          window.cancelAnimationFrame(positionFrame);
+        });
+      });
+  }
+
+  initializeFilters();
+  document.addEventListener("astro:page-load", initializeFilters);
+  document.addEventListener("astro:before-swap", () => {
+    cleanups.forEach((cleanup) => cleanup());
+    cleanups.clear();
+  });
+</script>

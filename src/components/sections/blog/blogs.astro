@@ -1,0 +1,41 @@
+---
+import BlogCard from "@/components/blog/blog-card.astro";
+import FilterButtons from "@/components/ui/filter-buttons.astro";
+import Pagination from "@/components/ui/pagination.astro";
+import SearchBar from "@/components/ui/search-bar.astro";
+
+const FILTERS = [
+  "Latest",
+  "Featured",
+  "Case Studies",
+  "Announcements",
+  "Best Practices",
+  "Trends & Insights",
+];
+---
+
+<section
+  aria-label="Blog List"
+  class="py-[clamp(4rem,3.3835vw+3.207rem,6.25rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
+>
+  <div class="container-lg">
+    <!-- blog filter -->
+    <div class="flex items-center justify-between gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]">
+      <FilterButtons items={FILTERS} selected="Latest" />
+      <SearchBar />
+    </div>
+
+    <!-- blog items -->
+    <div role="list" class="grid grid-cols-3 gap-x-8 gap-y-12">
+      <BlogCard />
+      <BlogCard />
+      <BlogCard />
+      <BlogCard />
+      <BlogCard />
+      <BlogCard />
+    </div>
+
+    <!-- blog pagination -->
+    <Pagination />
+  </div>
+</section>

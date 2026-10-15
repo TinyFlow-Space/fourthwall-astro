@@ -1,0 +1,65 @@
+---
+import { Image } from "astro:assets";
+---
+
+<section class="featured_blog-section pt-[clamp(6rem,5.2632vw+4.7664rem,9.5rem)] pb-[clamp(3rem,4.8872vw+1.8546rem,6.25rem)]">
+  <div class="container-lg">
+    <div role="list">
+      <article
+        role="listitem"
+        class="relative z-0 grid grid-cols-[1.5fr_1fr] grid-rows-[auto] grid-flow-row gap-x-12 gap-y-12 auto-cols-fr"
+      >
+        <figure class="relative my-0 overflow-hidden pt-[60.2%]">
+          <Image
+            src={
+              "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ac3bc3c1a8fa08cbaca9e24_teepublic-alternatives.webp"
+            }
+            loading={"eager"}
+            inferSize
+            alt={
+              "TeePublic alternatives for print-on-demand artists, including Fourthwall, Redbubble, and Zazzle, with earnings compared."
+            }
+            class="size-full absolute inset-0 object-cover"
+          />
+        </figure>
+
+        <div class="flex flex-col gap-4">
+          <div class="border-t border-[#00000029] pt-6 text-[0.6875rem] leading-[1.3] tracking-[1px] text-[#6e6e68] uppercase">
+            Trends & Insights
+          </div>
+
+          <div class="mt-auto flex flex-col gap-[clamp(1rem,0.3759vw+0.9119rem,1.25rem)]">
+            <h2 class="m-0 text-[clamp(2rem,0.7519vw+1.8238rem,2.5rem)] leading-[1.1] font-normal tracking-[-0.8px] text-balance">
+              8 Best TeePublic Alternatives for Artists in 2026
+            </h2>
+            <p class="tracking-[-.3px] mt-0 mb-2.5 text-wrap">
+              How each option compares on earnings per sale, pricing control,
+              and built-in marketplace traffic.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-start gap-[clamp(0.875rem,0.5634vw+0.743rem,1.25rem)]">
+              <p class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68] text-wrap">
+                Richard Lazazzera
+              </p>
+              <time
+                datetime="2026-10-14"
+                class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68]"
+              >
+                Oct 14, 2026
+              </time>
+            </div>
+          </div>
+        </div>
+
+        <a
+          href="/blog/teepublic-alternatives"
+          class="max-w-full inline-block absolute inset-0 size-full"
+        >
+          <div class="sr-only">
+            8 Best TeePublic Alternatives for Artists in 2026
+          </div>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>

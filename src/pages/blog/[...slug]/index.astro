@@ -1,7 +1,15 @@
 ---
-const params = Astro.params;
+import Newsletter from "@/components/sections/newsletter.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
 
-console.log(params, "route params");
+export const prerender = false;
+
+const { slug } = Astro.params;
+console.log(slug);
 ---
 
-<section>blog details</section>
+<BaseLayout title={slug!} description="Hello">
+  <section class="py-20 bg-background">blog details - {slug}</section>
+
+  <Newsletter />
+</BaseLayout>

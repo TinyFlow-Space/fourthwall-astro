@@ -1,15 +1,17 @@
 ---
 import Newsletter from "@/components/blog/newsletter.astro";
+import BlogDetailsArticle from "@/components/blog/sections/blog-details-article.astro";
+import Blogs from "@/components/blog/sections/blogs.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 
 export const prerender = false;
 
 const { slug } = Astro.params;
-console.log(slug);
 ---
 
-<BaseLayout title={slug!} description="Hello">
-  <section class="py-20 bg-background">blog details - {slug}</section>
+<BaseLayout title={slug!} description="Hello" className="z-3 bg-background">
+  <BlogDetailsArticle />
 
+  <Blogs showFilter={false} showTitle={true} />
   <Newsletter />
 </BaseLayout>

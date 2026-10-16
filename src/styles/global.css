@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Saans";
+  src: url("/fonts/saans-variable.woff2") format("woff2");
+  font-weight: 300 400 500 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Suisse";
+  src: url("/fonts/suisse-regular.woff2") format("woff2");
+  font-weight: 400 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
@@ -25,8 +40,8 @@
   --color-header: var(--header-bg);
   --color-paper-soft: var(--paper-soft);
 
-  --font-body: var(--font-inter);
-  --font-display: Saans, sans-serif;
+  --font-body: "Suisse", sans-serif;
+  --font-display: "Saans", sans-serif;
 
   --text-body-md: clamp(16px, 14px + 0.2083vw, 22px);
   --text-body-sm: clamp(14px, 13px + 0.1042vw, 16px);
@@ -289,6 +304,10 @@
     @apply max-w-310 w-full mx-auto;
   }
 
+  .container-md {
+    @apply max-w-280 w-full mx-auto;
+  }
+
   .footer-wordmark-wrap.is-visible {
     @apply opacity-100! transform-[translateZ(0)]!;
   }
@@ -462,21 +481,6 @@ button,
   border: 0;
 }
 
-@font-face {
-  font-family: "Mobile Saans";
-  src: url("/fonts/saans-variable.woff2") format("woff2");
-  font-weight: 300 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Mobile Suisse";
-  src: url("/fonts/suisse-regular.woff2") format("woff2");
-  font-weight: 400 500;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Mobile composition from the 375px reference; desktop tokens stay unchanged. */
 @media (max-width: 991px) {
   :root {
@@ -486,17 +490,11 @@ button,
     --surface-y-xl: 80px;
     --creator-blob-size: 64px;
   }
-  .font-display {
-    font-family: "Mobile Saans", sans-serif;
-    font-weight: 400;
-  }
+
   .text-body-md {
     font-size: 16px;
   }
-  body,
-  .font-body {
-    font-family: "Mobile Suisse", Arial, sans-serif;
-  }
+
   html.mobile-menu-open {
     overflow: hidden;
   }

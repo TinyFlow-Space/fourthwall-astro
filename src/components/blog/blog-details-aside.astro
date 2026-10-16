@@ -1,0 +1,109 @@
+---
+const articleShareList = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/shareArticle?url=https://fourthwall.com/blog/teepublic-alternatives",
+    icon: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483b4db3a8e6569d9990_Linkedin.svg",
+  },
+  {
+    name: "X/Twitter",
+    href: "https://twitter.com/share?url=https://fourthwall.com/blog/teepublic-alternatives",
+    icon: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483b0bdb452858c203e9_Twitter.svg",
+  },
+  {
+    name: "Facebook",
+    href: "https://facebook.com/sharer/sharer.php?u=https://fourthwall.com/blog/teepublic-alternatives",
+    icon: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483c18983b80b015bbe9_Facebook.svg",
+  },
+];
+---
+
+<aside class="block 2md:sticky top-24 max-w-full 2md:max-w-60 w-full flex-none self-start">
+  <div class="text-sm leading-[1.3] font-medium mb-3">In this article:</div>
+
+  <!-- toc links tag -->
+  <!-- if collapsed max-h-(--toc-cut,8.75rem) relative overflow-hidden -->
+  <div class="mb-[clamp(1.5rem,0.7519vw+1.3238rem,2rem)] flex max-h-none 2md:max-h-88 flex-col gap-2.5 2md:overflow-auto scrollbar-thin">
+    <a
+      data-toc-level="h2"
+      href="#teepublic-alternatives-at-a-glance"
+      class="text-sm p-0 bg-none text-[#6e6e68] transition-colors duration-200 ease-[ease] text-left leading-[1.5] hover:text-foreground"
+    >
+      TeePublic Alternatives at a Glance
+    </a>
+    <a
+      data-toc-level="h2"
+      href="#1-fourthwall"
+      class="text-sm p-0 bg-none text-[#6e6e68] transition-colors duration-200 ease-[ease] text-left leading-[1.5] hover:text-foreground"
+    >
+      1. Fourthwall
+    </a>
+    <a
+      data-toc-level="h3"
+      href="#pros-of-fourthwall"
+      class="text-sm p-0 bg-none text-[#6e6e68] transition-colors duration-200 ease-[ease] text-left leading-[1.5] hover:text-foreground pl-3.75"
+    >
+      Pros of Fourthwall
+    </a>
+  </div>
+
+  <!-- blog newsletter -->
+  <div class="p-5 pt-4 mb-8 bg-surface-dark text-white">
+    <div class="font-display text-body-md leading-[1.25] font-[450] tracking-[-.01em] mb-3 text-wrap">
+      Join our newsletter
+    </div>
+    <p class="max-w-[20ch] text-[#b5b3b0] text-sm leading-[1.5] mb-4 tracking-[-.00714286em] text-wrap">
+      New features, product updates, trend breakdowns, and creator stories.
+    </p>
+
+    <div class="mb-0">
+      <form action="" class="flex flex-col gap-2.5">
+        <input
+          type="email"
+          name="email"
+          autocomplete="email"
+          aria-required={true}
+          placeholder="Your email address*"
+          class="rounded-lg border border-[#585954] font-body w-full text-[1em] leading-[1.5] text-center outline-none p-2.5"
+        />
+        <button
+          type="submit"
+          class="py-3 px-5 bg-background text-foreground rounded-lg font-body font-medium text-base w-full text-center block cursor-pointer wrap-break-word [word-break:break-word] m-0 border-none outline-none"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- blog share -->
+  <address class="flex items-center justify-start gap-3.5 not-italic">
+    <div class="text-sm leading-[1.5]">Share article:</div>
+    <ul
+      role="list"
+      class="my-0 flex list-none items-center justify-center gap-3 pl-0"
+    >
+      {articleShareList.map(({ name, href, icon }) => (
+        <li class="flex mb-0">
+          <a
+            data-share="social"
+            href={href}
+            target="_blank"
+            class="relative flex aspect-square w-6 items-center justify-center bg-surface-dark"
+            rel="nofollow"
+          >
+            <img
+              width="24"
+              height="24"
+              alt=""
+              src={icon}
+              loading="lazy"
+              class="select-none"
+            />
+            <div class="sr-only">Share on {name}</div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </address>
+</aside>

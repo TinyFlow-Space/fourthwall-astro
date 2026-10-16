@@ -1,6 +1,6 @@
 ---
-import { WALL_SHOPS } from "@/data/wall-shops";
-import MadeWallItem from "@/components/made-wall-item.astro";
+import { WALL_SHOPS } from "@/data/home/wall-shops";
+import MadeWallItem from "@/components/home/made-wall-item.astro";
 
 interface Props {
   /** Auto-rotate speed in degrees/second. Positive = left → right, 0 = off. */
@@ -53,9 +53,9 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
 
 <script>
   import gsap from "gsap";
-  import { initSectionExpansion } from "@/lib/section-expansion";
+  import { initSectionExpansion } from "@/scripts/animations/section-expansion";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
-  import { initCursorTracking } from "@/lib/cursor-tracking";
+  import { initCursorTracking } from "@/scripts/animations/cursor-tracking";
 
   gsap.registerPlugin(ScrollTrigger);
 

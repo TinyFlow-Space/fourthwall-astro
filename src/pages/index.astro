@@ -1,16 +1,16 @@
 ---
 import BaseLayout from "@/layouts/base-layout.astro";
-import Hero from "@/components/sections/hero.astro";
-import TrustedBrands from "@/components/sections/trusted-brands.astro";
-import Accordion from "@/components/sections/accordion.astro";
-import Creators from "@/components/sections/creators.astro";
-import FeaturedProducts from "@/components/sections/featured-products.astro";
-import Testimonials from "@/components/sections/testimonials.astro";
-import Products from "@/components/sections/products.astro";
-import Operations from "@/components/sections/operations.astro";
-import MadeWith from "@/components/sections/made-with.astro";
-import ProductDesign from "@/components/sections/product-design.astro";
-import BrandShowcase from "@/components/sections/brand-showcase.astro";
+import Hero from "@/components/home/sections/hero.astro";
+import TrustedBrands from "@/components/home/sections/trusted-brands.astro";
+import Accordion from "@/components/home/sections/faq.astro";
+import Creators from "@/components/home/sections/creators.astro";
+import FeaturedProducts from "@/components/home/sections/featured-products.astro";
+import Testimonials from "@/components/home/sections/testimonials.astro";
+import Products from "@/components/home/sections/products.astro";
+import Operations from "@/components/home/sections/operations.astro";
+import MadeWith from "@/components/home/sections/made-with.astro";
+import ProductDesign from "@/components/home/sections/product-design.astro";
+import BrandShowcase from "@/components/home/sections/brand-showcase.astro";
 ---
 
 <BaseLayout
@@ -31,7 +31,8 @@ import BrandShowcase from "@/components/sections/brand-showcase.astro";
 </BaseLayout>
 
 <script>
-  import { initReveal, initScatterReveal } from "@/lib";
+  import { initReveal } from "@/scripts/animations/reveal";
+import { initScatterReveal } from "@/scripts/animations/scatter-reveal";
   initReveal();
   initScatterReveal();
 </script>

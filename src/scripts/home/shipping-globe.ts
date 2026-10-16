@@ -1,6 +1,6 @@
 // Natural Earth 1:110m land boundaries, sampled into an equal-distance point grid.
 // Public-domain geographic data: https://www.naturalearthdata.com/about/terms-of-use/
-import coordinates from "@/data/globe-points.json";
+import coordinates from "@/data/home/globe-points.json";
 
 type Point = [number, number, number];
 const radians = Math.PI / 180;

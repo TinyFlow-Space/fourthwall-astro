@@ -1,6 +1,6 @@
 ---
 import { CropIcon } from "@/components/icons";
-import { DESIGN_MOCKUPS } from "@/data";
+import { DESIGN_MOCKUPS } from "@/data/home/design-mockups";
 import { cn } from "@/utils";
 
 const ACTIVE_DESIGN_KEY = "a";
@@ -214,7 +214,7 @@ const ACTIVE_DESIGN_KEY = "a";
 
 <script>
   import gsap from "gsap";
-  import { initSectionExpansion } from "@/lib/section-expansion";
+  import { initSectionExpansion } from "@/scripts/animations/section-expansion";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);

@@ -1,6 +1,6 @@
 ---
 import { cn } from "@/utils";
-import { HERO_SLIDERS } from "@/data";
+import { HERO_SLIDERS } from "@/data/home/sliders";
 import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
 import { Image } from "astro:assets";
 ---
@@ -115,7 +115,7 @@ import { Image } from "astro:assets";
 </div>
 
 <script>
-  import { initCursorTracking } from "@/lib/cursor-tracking";
+  import { initCursorTracking } from "@/scripts/animations/cursor-tracking";
 
   const sliderCleanups = new Map<HTMLElement, () => void>();
   const initializeSliders = () => {

@@ -2,11 +2,14 @@
 import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
+import netlify from "@astrojs/netlify";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
   fonts: [
     {
       provider: fontProviders.fontsource(),
@@ -14,6 +17,7 @@ export default defineConfig({
       cssVariable: "--font-inter",
     },
   ],
+
   image: {
     remotePatterns: [
       {
@@ -28,4 +32,12 @@ export default defineConfig({
       },
     ],
   },
+
+  adapter: netlify({
+    devFeatures: {
+      images: true,
+      environmentVariables: false,
+      edgeFunctions: false,
+    },
+  }),
 });

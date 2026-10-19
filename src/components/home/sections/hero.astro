@@ -1,5 +1,6 @@
 ---
 import HeroSlider from "@/components/home/hero-slider.astro";
+import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
 ---
 
 <section class="hero-section z-3 bg-surface-dark text-white p-0 relative overflow-hidden">
@@ -30,6 +31,53 @@ import HeroSlider from "@/components/home/hero-slider.astro";
           No upfront costs. No credit card required.
         </p>
       </div>
+    </div>
+
+    <!--  NEXT/PREV buttons -->
+    <div class="scatter-reveal scatter-reveal-rise flex gap-3 z-3">
+      <CarouselNavButton
+        aria-label="Previous"
+        variant="default"
+        disabled={true}
+        class="carousel-prev text-white"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+          class="block h-7.5 w-7.5 -translate-px"
+        >
+          <path
+            d="M15 6l-6 6 6 6"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </CarouselNavButton>
+
+      <CarouselNavButton
+        aria-label="Next"
+        variant="default"
+        disabled={false}
+        class="carousel-next text-white"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+          class="block h-7.5 w-7.5 translate-px"
+        >
+          <path
+            d="M9 6l6 6-6 6"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </CarouselNavButton>
     </div>
   </div>
 

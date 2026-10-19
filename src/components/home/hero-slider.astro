@@ -1,7 +1,6 @@
 ---
 import { cn } from "@/utils";
 import { HERO_SLIDERS } from "@/data/home/sliders";
-import CarouselNavButton from "@/components/ui/carousel-nav-button.astro";
 import { Image } from "astro:assets";
 ---
 
@@ -60,53 +59,6 @@ import { Image } from "astro:assets";
     ))}
   </div>
 
-  <!--  NEXT/PREV buttons -->
-  <div class="scatter-reveal scatter-reveal-rise flex gap-3 absolute -top-19 right-10 z-3">
-    <CarouselNavButton
-      aria-label="Previous"
-      variant="default"
-      disabled={true}
-      class="carousel-prev text-white"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        class="block h-7.5 w-7.5 -translate-px"
-      >
-        <path
-          d="M15 6l-6 6 6 6"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-      </svg>
-    </CarouselNavButton>
-
-    <CarouselNavButton
-      aria-label="Next"
-      variant="default"
-      disabled={false}
-      class="carousel-next text-white"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
-        class="block h-7.5 w-7.5 translate-px"
-      >
-        <path
-          d="M9 6l6 6-6 6"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        ></path>
-      </svg>
-    </CarouselNavButton>
-  </div>
-
   <!-- custom cursor tracking -->
   <div
     aria-hidden="true"
@@ -124,10 +76,12 @@ import { Image } from "astro:assets";
       const events = new AbortController();
       let observer: ResizeObserver | undefined;
       const track = root.querySelector<HTMLElement>(".hero-track");
+      // Controls live in the surrounding hero, outside the slider itself.
+      const controlsRoot = root.closest<HTMLElement>(".hero-section") ?? root;
       const prevButton =
-        root.querySelector<HTMLButtonElement>(".carousel-prev");
+        controlsRoot.querySelector<HTMLButtonElement>(".carousel-prev");
       const nextButton =
-        root.querySelector<HTMLButtonElement>(".carousel-next");
+        controlsRoot.querySelector<HTMLButtonElement>(".carousel-next");
 
       if (track && prevButton && nextButton) {
         const getGap = () => {

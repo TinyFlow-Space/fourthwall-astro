@@ -153,10 +153,17 @@
 }
 
 @utility scatter-reveal {
-  @apply translate-y-14 opacity-0 reveal-transition;
+  opacity: 0;
+  transition: none !important;
 
   --reveal-duration: 1.8s;
-  transition-delay: calc(var(--stagger-index, 0) * 0.15s);
+
+  &.in {
+    --rise-distance: 56px;
+    opacity: 1;
+    animation: rise-in var(--reveal-duration) var(--ease-rise-in)
+      calc(var(--stagger-index, 0) * 0.15s) backwards;
+  }
 }
 
 @utility reveal-transition {

@@ -3,7 +3,7 @@
 @font-face {
   font-family: "Saans";
   src: url("/fonts/saans-variable.woff2") format("woff2");
-  font-weight: 300 400 500 900;
+  font-weight: 300 400 500;
   font-style: normal;
   font-display: swap;
 }
@@ -848,21 +848,6 @@ button,
   }
   .catalog-card .catalog-tech > span + span::before {
     margin-right: 6px;
-  }
-  .product-design-section canvas {
-    display: none;
-  }
-  .product-design-section {
-    background-image:
-      linear-gradient(
-        var(--surface-dark) 24%,
-        transparent 45%,
-        var(--surface-dark)
-      ),
-      radial-gradient(circle, #7778 1px, transparent 1.3px);
-    background-size:
-      100% 100%,
-      12px 12px;
   }
 }
 @media (max-width: 359px) {

@@ -236,6 +236,9 @@ import { ArrowDown } from "@/components/icons";
   }
   function openDesktop(group: HTMLElement) {
     if (mobile.matches) return;
+    clearTimeout(closeTimer);
+    // Do not make focused links inert when re-entering an open menu.
+    if (group.dataset.open === "true") return;
     closeDesktop();
     group.dataset.open = "true";
     group.querySelector("button")!.setAttribute("aria-expanded", "true");
@@ -244,22 +247,35 @@ import { ArrowDown } from "@/components/icons";
   desktopGroups.forEach((group) => {
     const trigger = group.querySelector<HTMLButtonElement>("button")!;
     group.addEventListener("pointerenter", (event) => {
-      if (event.pointerType !== "touch") openDesktop(group);
+      if (event.pointerType === "touch") return;
+      const focusedMenu = desktopGroups.find(
+        (other) =>
+          other.dataset.open === "true" &&
+          other.contains(document.activeElement),
+      );
+      if (!focusedMenu || focusedMenu === group) openDesktop(group);
     });
     group.addEventListener("pointerleave", () => {
-      closeTimer = setTimeout(closeDesktop, 120);
+      clearTimeout(closeTimer);
+      if (group.contains(document.activeElement)) return;
+      closeTimer = setTimeout(() => {
+        if (
+          group.dataset.open === "true" &&
+          !group.contains(document.activeElement)
+        ) closeDesktop();
+      }, 120);
     });
     trigger.addEventListener("click", () =>
       group.dataset.open === "true" ? closeDesktop() : openDesktop(group),
     );
-    group.addEventListener("focusout", () => {
-      queueMicrotask(() => {
-        if (
-          group.dataset.open === "true" &&
-          !group.contains(document.activeElement)
-        )
-          closeDesktop();
-      });
+    group.addEventListener("focusin", () => {
+      clearTimeout(closeTimer);
+    });
+    group.addEventListener("focusout", (event) => {
+      if (
+        group.dataset.open === "true" &&
+        !group.contains(event.relatedTarget as Node | null)
+      ) closeDesktop();
     });
     group.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {

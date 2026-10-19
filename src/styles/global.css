@@ -540,9 +540,6 @@ button,
     opacity: 1;
   }
 
-  .hero-slider > div:has(.carousel-prev) {
-    display: none;
-  }
   .featured-products-section {
     padding-top: 80px;
     padding-bottom: 0;

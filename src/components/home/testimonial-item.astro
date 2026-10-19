@@ -7,34 +7,33 @@ const { className, testimonial } = Astro.props;
 <div
   role="listitem"
   class={cn(
-    "flex flex-col-reverse [grid-row-gap:0px] lg:not-first:will-change-transform lg:not-first:[--tgrid-row:clamp(36px,4.4vw,80px)] lg:nth-[2]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*2),0)] lg:nth-[3]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*-3),0)] group",
+    "relative flex flex-col-reverse [grid-row-gap:0px] lg:not-first:will-change-transform lg:not-first:[--tgrid-row:clamp(36px,4.4vw,80px)] lg:nth-[2]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*2),0)] lg:nth-[3]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*-3),0)] group",
     className,
   )}
 >
-  <a
-    rel="nofollow"
-    target="_blank"
-    href={testimonial.url}
-    class="pt-[clamp(32px,1.6vw,56px)] [grid-row-gap:24px] flex flex-col grow-0 no-underline max-w-full"
-  >
+  <div class="pt-[clamp(32px,1.6vw,56px)] [grid-row-gap:24px] flex flex-col grow-0 no-underline max-w-full">
     <p class="font-body text-foreground text-body-md leading-relaxed my-0 font-normal">
       {testimonial.quote}
     </p>
     <p class="font-display text-foreground text-body-md leading-[1.35] my-0 font-medium">
       {testimonial.linkText}
     </p>
-  </a>
-  <a
-    rel="nofollow"
-    target="_blank"
-    href={testimonial.url}
-    class="max-w-full aspect-4/5 bg-[#efeff0] no-underline block relative overflow-hidden"
-  >
+  </div>
+  <div class="max-w-full aspect-4/5 bg-[#efeff0] no-underline block relative overflow-hidden">
     <img
       alt={testimonial.alt}
       loading="lazy"
       src={testimonial.avatarUrl}
       class="testimonial-image object-cover size-full block [transition:transform_.4s_ease] [@media(hover:hover)_and_(pointer:fine)]:group-hover:transform-[scale(1.04)]"
     />
+  </div>
+
+  <a
+    rel="nofollow"
+    target="_blank"
+    href={testimonial.url}
+    class="max-w-full inline-block absolute inset-0 size-full"
+  >
+    <div class="sr-only">{testimonial.quote}</div>
   </a>
 </div>

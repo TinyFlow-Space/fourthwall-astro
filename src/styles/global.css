@@ -655,9 +655,7 @@ button,
     right: 0;
     margin-top: 0;
   }
-  .product-design-slider > .contents > div > div {
-    transform: none;
-  }
+
   .design-preview-wrap {
     display: flex;
   }
@@ -933,9 +931,7 @@ button,
   .product-design-slider > .contents > div:nth-child(2) {
     flex: 1 1 0%;
   }
-  .product-design-slider > .contents > div:nth-child(2) {
-    margin-top: 48px;
-  }
+
   .product-design-slider > [role="group"] {
     bottom: 64px;
   }
@@ -967,6 +963,9 @@ button,
 }
 
 @media (max-width: 767px) {
+  .product-design-slider > .contents > div > div {
+    transform: none;
+  }
   .design-scroll-track > div {
     scroll-snap-align: start;
   }

@@ -12,7 +12,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
 >
   <div class="container @container">
     <div class="mb-10 max-w-[94ch] reveal">
-      <h2 class="font-display text-foreground text-heading-lg leading-tight font-medium normal-case my-0 p-0">
+      <h2 class="font-display text-foreground text-heading-lg leading-tight font-[435] normal-case my-0 p-0">
         You bring the ideas.
         <span class="text-secondary-foreground"> We'll handle the rest.</span>
       </h2>
@@ -23,7 +23,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
       <BrandShowcaseCard className="col-[span_7]" index={0}>
         <BrandManufactureSlider />
 
-        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-[450] tracking-normal text-balance m-0">
           Design your product, we make it real.
           <span class="text-secondary-foreground">
             {" "}
@@ -37,7 +37,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
         <!-- brand showcase marquee -->
         <BrandShopSlider />
 
-        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-[450] tracking-normal text-balance m-0">
           Build a branded shop in minutes.
           <span class="text-secondary-foreground">
             {" "}
@@ -48,9 +48,12 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
         </p>
       </BrandShowcaseCard>
 
-      <BrandShowcaseCard className="col-[span_6] min-[992px]:grid min-[992px]:row-span-2 min-[992px]:grid-rows-subgrid" index={0}>
+      <BrandShowcaseCard
+        className="col-[span_6] min-[992px]:grid min-[992px]:row-span-2 min-[992px]:grid-rows-subgrid"
+        index={0}
+      >
         <ShippingGlobe />
-        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-[450] tracking-normal text-balance m-0">
           Fast, global shipping.
           <span class="text-secondary-foreground">
             {" "}
@@ -60,20 +63,23 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
         </p>
       </BrandShowcaseCard>
 
-      <BrandShowcaseCard className="col-[span_7] min-[992px]:grid min-[992px]:row-span-2 min-[992px]:grid-rows-subgrid" index={1}>
+      <BrandShowcaseCard
+        className="col-[span_7] min-[992px]:grid min-[992px]:row-span-2 min-[992px]:grid-rows-subgrid"
+        index={1}
+      >
         <div class="bg-paper-soft w-full relative overflow-hidden [-webkit-user-select:none] flex items-center justify-center @container bg-[radial-gradient(272.72%_140.48%_at_1.33%_0,#ac244b_0%,#cc4975_50%,#b0cb74_100%)] aspect-8/5">
           <div
             class="z-1 bg-background rounded-[2.5cqi] w-[63cqi] p-[4cqi] pt-[5cqi] relative shadow-[0_.6cqi_2.5cqi_#0000000a] [transition:transform_.9s_var(--ease-rise-in)] group-hover:transform-[perspective(900px)_scale(var(--support-zoom,1))_rotateX(var(--tilt-x,0deg))_rotateY(var(--tilt-y,0deg))] group-hover:[transition:transform_.25s_var(--ease-rise-in)]"
             style="--tilt-y: 0deg; --tilt-x: 0deg;"
           >
-            <p class="text-secondary-foreground font-medium m-[0_0_2.5cqi] text-[2.5cqi]">
+            <p class="text-secondary-foreground font-[450] m-[0_0_2.5cqi] text-[2.5cqi]">
               Customer support for order 2FX43PL
             </p>
 
             <div class="flex flex-col gap-y-[2.5cqi]">
               <!-- customer bubble -->
               <div class="flex items-end justify-start gap-x-[1.4cqi]">
-                <div class="text-foreground bg-[#ededed] text-[2.5cqi] leading-[135%] font-medium rounded-[1.9cqi] p-[2cqi_2.8cqi]">
+                <div class="text-foreground bg-[#ededed] text-[2.5cqi] leading-[135%] font-[450] rounded-[1.9cqi] p-[2cqi_2.8cqi]">
                   I entered the wrong shipping address on my order. Can you
                   change it?
                 </div>
@@ -92,7 +98,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
 
               <!-- agent bubble -->
               <div class="flex items-end justify-start gap-x-[1.4cqi]">
-                <div class="text-white bg-surface-dark text-[2.5cqi] leading-[135%] font-medium rounded-[1.9cqi] p-[2cqi_2.8cqi]">
+                <div class="text-white bg-surface-dark text-[2.5cqi] leading-[135%] font-[450] rounded-[1.9cqi] p-[2cqi_2.8cqi]">
                   Updated. Your order hasn't been dispatched yet, so it'll ship
                   to the new address.
                 </div>
@@ -115,7 +121,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
             </div>
           </div>
         </div>
-        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-medium tracking-normal text-balance m-0">
+        <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-[450] tracking-normal text-balance m-0">
           World-class support for you and your customers.
           <span class="text-secondary-foreground">
             {" "}

@@ -491,10 +491,6 @@ button,
     --creator-blob-size: 64px;
   }
 
-  .text-body-md {
-    font-size: 16px;
-  }
-
   html.mobile-menu-open {
     overflow: hidden;
   }
@@ -502,16 +498,14 @@ button,
   h2 {
     text-wrap: balance;
   }
-  .text-heading-xl,
-  .text-heading-lg {
-    font-size: 28px;
-  }
+
   .hero-section > div:first-child {
-    min-height: calc(48svh + 42px);
+    min-height: 48svh;
   }
   .hero-section h1 {
     max-width: 335px;
     text-wrap: balance;
+    line-height: 1.12;
   }
   .hero-section h1 + div {
     margin-top: 36px;
@@ -666,9 +660,7 @@ button,
   .operations-section {
     padding-top: 80px;
   }
-  .operations-section h2 {
-    max-width: 300px;
-  }
+
   .operations-section .container > .grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 48px;
@@ -698,10 +690,7 @@ button,
   .testimonials-progress {
     display: block;
   }
-  .testimonials-progress > div:first-child {
-    margin-bottom: 36px;
-    grid-area: auto;
-  }
+
   .testimonials-progress > [role="list"] {
     display: flex;
     align-items: start;
@@ -793,41 +782,17 @@ button,
     font-size: 28px;
   }
   .made-wall-stage {
-    --stage-default-h: clamp(400px, 65vw, 560px);
-    --stage-expanded-h: clamp(500px, 80vw, 700px);
+    --stage-default-h: 320px;
+    --stage-expanded-h: 480px;
   }
-  .accordion-section > .container > div:first-child {
-    text-align: left;
-    margin-bottom: 32px;
-  }
-  .accordion-section h2 {
-    font-size: 27px;
-    white-space: normal;
-  }
-  .accordion-trigger {
-    padding: 16px;
-    gap: 12px;
-  }
+
   .accordion-panel {
     padding-inline: 16px;
   }
   .accordion-section > .container > div:last-child {
     margin-top: 48px;
   }
-  .orbit-section {
-    /* position: relative; */
-    /* z-index: 0; */
-    height: 345px;
-    margin-top: 0;
-  }
-  .orbit-section h2 {
-    font-size: 28px;
-    max-width: 240px;
-  }
-  .orbit-section .orbit-ring {
-    opacity: 0.55;
-    scale: 1;
-  }
+
   .orbit-section .orbit-slot:nth-child(even) {
     display: none;
   }
@@ -837,23 +802,7 @@ button,
   .brand-shop-slider {
     aspect-ratio: 7 / 5;
   }
-  .brand-showcase-section .container > .grid > div:nth-child(4) > div > div {
-    width: 73cqi;
-  }
-  .brand-showcase-section .container > .grid > div:nth-child(4) > div > div p {
-    font-size: 2.9cqi;
-  }
-  .brand-showcase-section
-    .container
-    > .grid
-    > div:nth-child(4)
-    > div
-    > div
-    > div
-    > div
-    > div {
-    font-size: 3cqi;
-  }
+
   .products-section {
     padding-bottom: 48px;
   }
@@ -881,9 +830,7 @@ button,
   .products-section .container > .grid {
     row-gap: 28px;
   }
-  .orbit-section .orbit {
-    top: 0;
-  }
+
   .made-wall-section h2 {
     white-space: nowrap;
     font-size: clamp(23px, 7.46vw, 28px);
@@ -937,12 +884,8 @@ button,
 
 /* Tablet composition shown in the reference; desktop starts at 992px. */
 @media (min-width: 768px) and (max-width: 991px) {
-  .hero-section > div:first-child {
-    min-height: 440px;
-  }
   .hero-section h1 {
     max-width: 28ch;
-    font-size: 44px;
   }
   .hero-section h1 + div {
     width: auto;
@@ -992,9 +935,7 @@ button,
   .product-design-slider > [role="group"] {
     bottom: 64px;
   }
-  .brand-shop-slider {
-    aspect-ratio: 8 / 5;
-  }
+
   .testimonials-progress [role="listitem"] {
     flex-basis: 62%;
   }
@@ -1011,16 +952,7 @@ button,
   .products-section .catalog-card > p:last-child {
     font-size: 14px;
   }
-  .accordion-section > .container > div:first-child {
-    text-align: center;
-  }
-  .orbit-section {
-    height: 448px;
-  }
-  .orbit-section h2 {
-    font-size: 44px;
-    max-width: 380px;
-  }
+
   .wordmark-section > div:last-child > a,
   .wordmark-section > div:last-child > button {
     display: inline-flex;

@@ -11,7 +11,7 @@ import { FAQS } from "@/data/home/faqs";
 >
   <div class="container @container">
     <div class="max-w-[88ch] mb-[clamp(56px,2.8vw,80px)] mx-auto text-center reveal">
-      <h2 class="text-heading-lg text-foreground leading-tight font-display font-medium tracking-[-.01em] my-0 p-0 normal-case">
+      <h2 class="text-heading-lg text-foreground leading-tight font-display font-[435] tracking-[-.01em] my-0 p-0 normal-case">
         Frequently asked questions
       </h2>
     </div>
@@ -21,7 +21,7 @@ import { FAQS } from "@/data/home/faqs";
         <AccordionItem id={faq.id} title={faq.question}>
           {faq.answer.map((block) =>
             block.type === "paragraph" ? (
-              <p class="not-last:mb-3.5 text-wrap nt">
+              <p class="not-last:mb-3.5 text-wrap">
                 {block.content.map((part) =>
                   typeof part === "string" ? (
                     part

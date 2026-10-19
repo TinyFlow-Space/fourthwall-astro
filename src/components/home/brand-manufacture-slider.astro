@@ -40,9 +40,9 @@ import { Image } from "astro:assets";
         </div>
 
         <div class="flex-1 min-w-0">
-          <h3 class="font-body text-[#14110f] leading-[112%] font-medium tracking-[-.01em] text-balance m-[0_0_2.7cqi] text-[2.9cqi]">
+          <div class="font-body text-[#14110f] leading-[112%] font-medium tracking-[-.01em] text-balance m-[0_0_2.7cqi] text-[2.9cqi]">
             {product.name}
-          </h3>
+          </div>
 
           <div class="grid grid-cols-2 gap-x-[2cqi] gap-y-[2.3cqi]">
             {product.stats.map((stat) => (
@@ -54,7 +54,7 @@ import { Image } from "astro:assets";
                     stat.isProfit && "text-[#1aa05a]",
                   )}
                 >
-                  ${stat.value}
+                  ${stat.value}.00
                 </span>
               </div>
             ))}

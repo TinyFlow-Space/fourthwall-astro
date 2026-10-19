@@ -62,14 +62,18 @@ const ld = {
 
     <script>
       import { initCardTilt } from "@/scripts/animations/card-tilt";
+      import { initNumberCounters } from "@/scripts/animations/number-counter";
 
       let cleanupCardTilt = initCardTilt();
+      let cleanupCounters = initNumberCounters();
 
       document.addEventListener("astro:page-load", () => {
         cleanupCardTilt();
         cleanupCardTilt = initCardTilt();
+        cleanupCounters = initNumberCounters();
       });
       document.addEventListener("astro:before-swap", () => cleanupCardTilt());
+      document.addEventListener("astro:before-swap", () => cleanupCounters());
     </script>
   </body>
 </html>

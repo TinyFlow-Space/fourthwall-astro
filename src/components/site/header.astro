@@ -3,16 +3,17 @@ import MegaMenuContent from "@/components/site/mega-menu-content.astro";
 import Logo from "@/components/site/logo.astro";
 import { NAV_ITEMS } from "@/data/site/nav";
 import { ArrowDown } from "@/components/icons";
+const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
 ---
 
-<header class="site-header px-surface-x py-3.5 bg-surface-dark text-foreground z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 delay-180 ease-[ease]">
+<header data-light-at-top={lightAtTop} class="site-header px-surface-x py-3.5 bg-surface-dark text-white z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 ease-[ease]">
   <!-- logo -->
   <div class="flex-1">
     <a
       href="/"
       aria-current="page"
       aria-label="Fourthwall"
-      class="h-6 text-white inline-flex justify-self-start items-center max-w-full"
+      class="header-logo h-6 text-inherit inline-flex justify-self-start items-center max-w-full"
     >
       <Logo />
     </a>
@@ -28,7 +29,7 @@ import { ArrowDown } from "@/components/icons";
         <div class="desktop-menu-group">
           <button
             type="button"
-            class="desktop-menu-trigger link-underline py-1 text-white"
+            class="desktop-menu-trigger link-underline py-1 text-inherit"
             aria-expanded="false"
             aria-controls={`desktop-${item.label.toLowerCase()}`}
           >
@@ -47,7 +48,7 @@ import { ArrowDown } from "@/components/icons";
         </div>
       ) : (
         <a
-          class="link-underline py-1 text-white no-underline cursor-pointer"
+          class="link-underline py-1 text-inherit no-underline cursor-pointer"
           href={item.href}
         >
           {item.label}
@@ -60,7 +61,7 @@ import { ArrowDown } from "@/components/icons";
   <div class="desktop-actions flex flex-1 items-center justify-end gap-7">
     <a
       href="https://my-shop.fourthwall.com/admin/dashboard"
-      class="link-underline py-1 text-white no-underline text-body-md font-medium"
+      class="link-underline py-1 text-inherit no-underline text-body-md font-medium"
     >
       Log in
     </a>
@@ -153,6 +154,16 @@ import { ArrowDown } from "@/components/icons";
   const menu = header.querySelector<HTMLElement>(".mobile-navigation")!;
   const mobile = window.matchMedia("(max-width: 991px)");
   let open = false;
+  let desktopOpen = false;
+  function syncHeader() {
+    const scrolled = window.scrollY > 0;
+    header.dataset.dark = String(scrolled || open || desktopOpen);
+    header.dataset.compact = String(scrolled && !open && !desktopOpen);
+  }
+  syncHeader();
+  window.addEventListener("scroll", syncHeader, { passive: true });
+  window.addEventListener("pageshow", syncHeader);
+
   const heroAction = document.querySelector<HTMLElement>(
     ".hero-section a[href*=get-started]",
   );
@@ -181,6 +192,7 @@ import { ArrowDown } from "@/components/icons";
   );
   function setOpen(value: boolean, restoreFocus = false) {
     open = value;
+    syncHeader();
     header.dataset.menuOpen = String(value);
     toggle.setAttribute("aria-expanded", String(value));
     toggle.setAttribute(
@@ -226,20 +238,24 @@ import { ArrowDown } from "@/components/icons";
     header.querySelectorAll<HTMLElement>(".desktop-menu-group"),
   );
   let closeTimer: ReturnType<typeof setTimeout>;
-  function closeDesktop() {
+  function closeDesktop(sync = true) {
+    desktopOpen = false;
     clearTimeout(closeTimer);
     desktopGroups.forEach((group) => {
       group.dataset.open = "false";
       group.querySelector("button")!.setAttribute("aria-expanded", "false");
       group.querySelector<HTMLElement>(".desktop-mega")!.inert = true;
     });
+    if (sync) syncHeader();
   }
   function openDesktop(group: HTMLElement) {
     if (mobile.matches) return;
     clearTimeout(closeTimer);
     // Do not make focused links inert when re-entering an open menu.
     if (group.dataset.open === "true") return;
-    closeDesktop();
+    closeDesktop(false);
+    desktopOpen = true;
+    syncHeader();
     group.dataset.open = "true";
     group.querySelector("button")!.setAttribute("aria-expanded", "true");
     group.querySelector<HTMLElement>(".desktop-mega")!.inert = false;
@@ -321,6 +337,36 @@ import { ArrowDown } from "@/components/icons";
 </script>
 
 <style>
+  /* Inherit the header's animated color without the underline utility's delay. */
+  .desktop-menu-trigger,
+  .desktop-nav > a,
+  .desktop-actions > a:first-child {
+    transition: none;
+  }
+  .site-header[data-light-at-top="true"]:not([data-dark="true"]) {
+    background: white;
+    color: var(--foreground);
+  }
+  .site-header[data-light-at-top="true"]:not([data-dark="true"]) .desktop-actions > a:last-child,
+  .site-header[data-light-at-top="true"]:not([data-dark="true"]) .mobile-header-start {
+    background: var(--foreground);
+    color: white;
+  }
+  .desktop-actions > a:last-child,
+  .mobile-header-start {
+    transition: background-color 320ms ease, color 320ms ease;
+  }
+  .header-logo :global(.clip-ourth),
+  .header-logo :global(.clip-all),
+  .header-logo :global(.wall-group) {
+    transition: transform 350ms ease-in-out;
+  }
+  .header-logo :global(.clip-ourth) { transform-origin: 7.5px 0; }
+  .header-logo :global(.clip-all) { transform-origin: 87.3px 0; }
+  [data-compact="true"] .header-logo :global(.clip-ourth),
+  [data-compact="true"] .header-logo :global(.clip-all) { transform: scaleX(0); }
+  [data-compact="true"] .header-logo :global(.wall-group) { transform: translateX(-60px); }
+
   .desktop-menu-trigger {
     background: none;
     border: 0;
@@ -330,7 +376,7 @@ import { ArrowDown } from "@/components/icons";
   .desktop-menu-trigger:focus-visible,
   .mobile-submenu-toggle:focus-visible,
   .mobile-menu-toggle:focus-visible {
-    outline: 2px solid white;
+    outline: 2px solid currentColor;
     outline-offset: 5px;
   }
   .desktop-mega {
@@ -394,7 +440,7 @@ import { ArrowDown } from "@/components/icons";
       height: 44px;
       margin-right: -12px;
       background: transparent;
-      color: white;
+      color: inherit;
     }
     .mobile-menu-toggle span {
       width: 22px;
@@ -532,6 +578,12 @@ import { ArrowDown } from "@/components/icons";
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .desktop-actions > a:last-child,
+    .mobile-header-start,
+    .header-logo :global(.clip-ourth),
+    .header-logo :global(.clip-all),
+    .header-logo :global(.wall-group),
     .desktop-mega,
     .mobile-submenu,
     .mobile-navigation,

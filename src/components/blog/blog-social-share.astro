@@ -1,0 +1,55 @@
+---
+import { cn } from "@/utils";
+
+const articleShareList = [
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/shareArticle?url=https://fourthwall.com/blog/teepublic-alternatives",
+    icon: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483b4db3a8e6569d9990_Linkedin.svg",
+  },
+  {
+    name: "X/Twitter",
+    href: "https://twitter.com/share?url=https://fourthwall.com/blog/teepublic-alternatives",
+    icon: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483b0bdb452858c203e9_Twitter.svg",
+  },
+  {
+    name: "Facebook",
+    href: "https://facebook.com/sharer/sharer.php?u=https://fourthwall.com/blog/teepublic-alternatives",
+    icon: "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483c18983b80b015bbe9_Facebook.svg",
+  },
+];
+
+const { className } = Astro.props;
+---
+
+<address
+  class={cn("flex items-center justify-start gap-3.5 not-italic", className)}
+>
+  <div class="text-sm leading-[1.5]">Share article:</div>
+  <ul
+    role="list"
+    class="my-0 flex list-none items-center justify-center gap-3 pl-0"
+  >
+    {articleShareList.map(({ name, href, icon }) => (
+      <li class="flex mb-0">
+        <a
+          data-share="social"
+          href={href}
+          target="_blank"
+          class="relative flex aspect-square w-6 items-center justify-center bg-surface-dark"
+          rel="nofollow"
+        >
+          <img
+            width="24"
+            height="24"
+            alt=""
+            src={icon}
+            loading="lazy"
+            class="select-none"
+          />
+          <div class="sr-only">Share on {name}</div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</address>

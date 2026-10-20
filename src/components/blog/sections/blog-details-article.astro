@@ -1,6 +1,8 @@
 ---
 import BlogDetailsAside from "@/components/blog/blog-details-aside.astro";
 import { Image } from "astro:assets";
+import BlogAuthorCard from "@/components/blog/blog-author-card.astro";
+import BlogTldrCard from "@/components/blog/blog-tldr-card.astro";
 ---
 
 <article class="bg-background">
@@ -88,6 +90,7 @@ import { Image } from "astro:assets";
 
         <!-- blog content -->
         <div class="w-full min-w-0">
+          <BlogTldrCard />
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
           voluptate, voluptatibus placeat molestiae ea cum exercitationem
           officia illo earum incidunt nostrum quaerat eaque ex ut inventore
@@ -145,6 +148,7 @@ import { Image } from "astro:assets";
           nesciunt delectus facere quam. Voluptates dolore aliquam placeat hic
           impedit doloribus soluta saepe incidunt officiis quia? Itaque animi
           nisi inventore esse maiores facere commodi.
+          <BlogAuthorCard />
         </div>
       </div>
     </div>

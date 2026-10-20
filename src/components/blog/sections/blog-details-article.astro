@@ -4,6 +4,9 @@ import { Image } from "astro:assets";
 import BlogAuthorCard from "@/components/blog/blog-author-card.astro";
 import BlogTldrCard from "@/components/blog/blog-tldr-card.astro";
 import BlogFaqs from "@/components/blog/blog-faqs.astro";
+import { Content, getHeadings } from "@/data/blog/sample-article.md";
+
+const headings = getHeadings();
 ---
 
 <article class="bg-background">
@@ -87,12 +90,14 @@ import BlogFaqs from "@/components/blog/blog-faqs.astro";
   <div class="px-[clamp(1rem,1.5038vw+.6476rem,2rem)] pt-12">
     <div class="container-md">
       <div class="flex flex-col 2md:flex-row gap-[clamp(4rem,1.5038vw+3.6476rem,5rem)]">
-        <BlogDetailsAside />
+        <BlogDetailsAside headings={headings} />
 
         <!-- blog content -->
         <div class="w-full min-w-0">
           <BlogTldrCard />
-          <div class="mb-13">blog content goes here</div>
+          <div class="blog-richtext mb-13 text-base md:text-lg leading-relaxed wrap-break-word">
+            <Content />
+          </div>
           <BlogFaqs />
           <BlogAuthorCard />
         </div>
@@ -100,3 +105,30 @@ import BlogFaqs from "@/components/blog/blog-faqs.astro";
     </div>
   </div>
 </article>
+
+<style>
+  .blog-richtext :global(h2),
+  .blog-richtext :global(h3) {
+    font-family: var(--font-display);
+    font-weight: 435;
+    line-height: 1.2;
+    scroll-margin-top: 100px;
+    margin-block: 2.5rem 1.25rem;
+  }
+  .blog-richtext :global(h2) { font-size: clamp(26px, 3vw, 32px); }
+  .blog-richtext :global(h3) { font-size: clamp(21px, 2.5vw, 24px); }
+  .blog-richtext :global(> :first-child) { margin-top: 0; }
+  .blog-richtext :global(p),
+  .blog-richtext :global(ul),
+  .blog-richtext :global(ol),
+  .blog-richtext :global(blockquote) { margin-bottom: 1.5rem; }
+  .blog-richtext :global(ul) { list-style: disc; padding-left: 1.5em; }
+  .blog-richtext :global(ol) { list-style: decimal; padding-left: 1.5em; }
+  .blog-richtext :global(li + li) { margin-top: 0.5rem; }
+  .blog-richtext :global(a) { text-decoration: underline; }
+  .blog-richtext :global(blockquote) {
+    border-left: 2px solid var(--foreground);
+    padding-left: 1.25rem;
+    font-style: italic;
+  }
+</style>

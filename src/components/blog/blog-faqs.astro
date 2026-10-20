@@ -1,0 +1,98 @@
+---
+import Accordion from "@/components/ui/accordion.astro";
+import AccordionItem from "@/components/ui/accordion-item.astro";
+import { cn } from "@/utils";
+
+interface Props {
+  class?: string;
+  id?: string;
+  items?: { question: string; answer: string }[];
+}
+
+// Draft copy for the current article; pass items for other blog posts.
+const {
+  class: className,
+  id = "blog-faqs",
+  items = [
+    {
+      question: "What should I compare when choosing a TeePublic alternative?",
+      answer:
+        "Compare product quality, pricing control, fulfillment options, and how customers will find your work. Consider whether you want a marketplace listing or a storefront that you promote yourself.",
+    },
+    {
+      question:
+        "What is the difference between a marketplace and my own storefront?",
+      answer:
+        "A marketplace brings work from many sellers into one shopping destination. Your own storefront gives your brand a dedicated home, where you can guide visitors through your products and tell the story behind your designs.",
+    },
+    {
+      question: "Can I sell my designs on more than one platform?",
+      answer:
+        "Check each platform’s current terms and any licensing agreements attached to your artwork before listing it elsewhere. Keep your product descriptions and availability up to date across the platforms you use.",
+    },
+    {
+      question: "How can I check product quality before launching?",
+      answer:
+        "Order samples of the products you plan to sell. Review the print, colors, material, fit, and packaging, and use what you learn to improve your designs and product descriptions before sharing the collection.",
+    },
+  ],
+} = Astro.props;
+---
+
+<section
+  class={cn("blog-faqs mb-13", className)}
+  aria-labelledby={`${id}-heading`}
+>
+  <h2
+    id={`${id}-heading`}
+    class="mt-0 mb-5 font-display font-[435] text-[32px] leading-9"
+  >
+    FAQ
+  </h2>
+  <Accordion class="gap-y-0">
+    {items.map((item, index) => (
+      <AccordionItem
+        id={`${id}-${index}`}
+        title={item.question}
+        class="border-b border-[#00000029] bg-transparent hover:bg-transparent"
+        triggerClass="px-0 py-5 text-lg font-normal leading-normal md:px-0 md:py-5"
+        panelClass="px-0"
+        contentClass="max-w-none pb-8 text-base leading-[1.5] text-foreground"
+      >
+        <p>{item.answer}</p>
+      </AccordionItem>
+    ))}
+  </Accordion>
+</section>
+
+<style>
+  /* Keep blog answers flush even where the shared mobile styles add padding. */
+  .blog-faqs :global(.accordion-panel) {
+    padding-inline: 0;
+  }
+
+  .blog-faqs :global(.accordion-icon) {
+    color: var(--foreground);
+    transition: transform 220ms ease;
+  }
+
+  .blog-faqs :global(.accordion-icon path) {
+    stroke-width: 1.5;
+    stroke-linecap: butt;
+  }
+
+  .blog-faqs :global(.accordion-item[data-open="true"] .accordion-icon) {
+    transform: rotate(45deg);
+  }
+
+  .blog-faqs
+    :global(.accordion-item[data-open="true"] .accordion-icon-vertical) {
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-faqs :global(.accordion-icon) {
+      transition: none;
+    }
+  }
+</style>

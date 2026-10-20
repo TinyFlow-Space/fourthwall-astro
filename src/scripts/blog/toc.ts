@@ -1,6 +1,6 @@
 const instances = new WeakMap<HTMLElement, () => void>();
 
-/** Connect one TOC to headings in its own article. */
+/** Initialize an article TOC; return cleanup. */
 export function initToc(nav: HTMLElement) {
   const existing = instances.get(nav);
   if (existing) return existing;
@@ -45,7 +45,7 @@ export function initToc(nav: HTMLElement) {
 
   function update() {
     if (pending) return;
-    // Read positions only at observer boundaries, never on every scroll event.
+    // Measure headings only when the observer fires.
     let active: HTMLElement | null = null;
     for (const { heading } of items) {
       if (heading.getBoundingClientRect().top <= offset + 1) active = heading;
@@ -71,7 +71,7 @@ export function initToc(nav: HTMLElement) {
       ),
       behavior: smooth && !reducedMotion.matches ? "smooth" : "instant",
     });
-    // Fallback for browsers without scrollend and navigation to the same position.
+    // Unlock if scrollend never fires.
     timer = setTimeout(release, smooth && !reducedMotion.matches ? 1800 : 100);
   }
 
@@ -90,8 +90,7 @@ export function initToc(nav: HTMLElement) {
   function observe() {
     offset = Math.max(100, (header?.getBoundingClientRect().height ?? 0) + 24);
     observer?.disconnect();
-    // Extend below the document: headings remain intersecting until they cross
-    // the header boundary, including large jumps and upward scrolling.
+    // Track header crossings in either scroll direction.
     observer = new IntersectionObserver(update, {
       rootMargin: `-${offset}px 0px ${document.documentElement.scrollHeight}px 0px`,
       threshold: [0, 1],
@@ -130,8 +129,7 @@ export function initToc(nav: HTMLElement) {
           ),
           document.documentElement.scrollHeight - window.innerHeight,
         );
-        // A previous scroll (e.g. bringing a mobile TOC link into view) may
-        // finish just as navigation starts. Do not unlock that new navigation.
+        // Ignore scrollend from a scroll that started before this navigation.
         if (Math.abs(window.scrollY - target) > 2) return;
       }
       release();
@@ -162,7 +160,7 @@ export function initToc(nav: HTMLElement) {
   window.addEventListener("hashchange", restoreHash, { signal });
   window.addEventListener("pageshow", restoreHash, { signal });
 
-  // Preserve an incoming hash before the first observer callback can update it.
+  // Keep the incoming hash until navigation finishes.
   pending =
     items.find(({ link }) => link.hash === location.hash)?.heading ?? null;
   observe();

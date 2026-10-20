@@ -34,7 +34,6 @@ import { cn } from "@/utils";
     </div>
   </div>
 
-  <!-- footer bottom -->
   <div class="w-full mt-12 pb-0 2md:pb-5 text-muted-foreground text-body-md flex flex-col gap-3 2md:gap-0 md:flex-row justify-between">
     <span>© Fourthwall</span>
 
@@ -78,7 +77,7 @@ import { cn } from "@/utils";
   document
     .querySelectorAll<HTMLElement>(".wordmark-section")
     .forEach((section) => {
-      // reveal on scroll (once)
+
       const wrap = section.querySelector<HTMLElement>(".footer-wordmark-wrap");
 
       if (wrap) {
@@ -96,7 +95,6 @@ import { cn } from "@/utils";
         revealObserver.observe(wrap);
       }
 
-      // scroll to top
       const scrollToTopBtn =
         section.querySelector<HTMLElement>(".scroll-to-top");
       if (scrollToTopBtn) {
@@ -105,7 +103,6 @@ import { cn } from "@/utils";
         });
       }
 
-      // 3d rotation on mouse move
       gsap.set(section, { perspective: 1200 });
 
       const outerRX = gsap.quickTo(
@@ -122,8 +119,6 @@ import { cn } from "@/utils";
           ease: "power3",
         },
       );
-      // const innerX = gsap.quickTo(section.querySelector(".logo"), "x", { ease: "power3" });
-      // const innerY = gsap.quickTo(section.querySelector(".logo"), "y", { ease: "power3" });
 
       section?.addEventListener("pointermove", (e: PointerEvent) => {
         outerRX(gsap.utils.interpolate(15, -15, e.y / window.innerHeight));
@@ -133,8 +128,7 @@ import { cn } from "@/utils";
       section?.addEventListener("pointerleave", (e) => {
         outerRX(0);
         outerRY(0);
-        //   innerX(0);
-        //   innerY(0);
+
       });
     });
 </script>

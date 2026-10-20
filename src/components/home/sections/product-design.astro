@@ -11,7 +11,7 @@ const ACTIVE_DESIGN_KEY = "a";
     class="product-design-section [--gutter:80px] max-[992px]:[--gutter:40px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] py-surface-y-lg bg-surface-dark mx-auto relative overflow-hidden"
     style={{ "--expand-progress": "0.0000" }}
   >
-    <!-- design dot field -->
+
     <canvas
       aria-hidden="true"
       class="design-dot-field absolute size-full z-0 inset-0 pointer-events-none"
@@ -29,7 +29,6 @@ const ACTIVE_DESIGN_KEY = "a";
         </p>
       </div>
 
-      <!-- current slider -->
       <div
         data-current-slide={ACTIVE_DESIGN_KEY}
         class="product-design-slider scatter-reveal-section flex items-start flex-wrap gap-[clamp(24px,4vw,56px)] mt-30 px-[clamp(16px,10cqi,140px)] select-none"
@@ -39,25 +38,25 @@ const ACTIVE_DESIGN_KEY = "a";
         }}
         data-autoplay-delay="5200"
       >
-        <!-- design slider strip-->
+
         <div
           class="design-scroll-track contents max-[768px]:flex max-[768px]:flex-none max-[768px]:w-[calc(100%+40px)] max-[768px]:min-w-0 max-[768px]:gap-3 max-[768px]:overflow-x-auto max-[768px]:-mx-5 max-[768px]:px-5 max-[768px]:scroll-px-5 max-[768px]:snap-x max-[768px]:snap-proximity scrollbar-none"
           tabindex="0"
           role="region"
           aria-label="Product design previews, scroll horizontally"
         >
-          <!-- design mockup column-->
+
           <div
             class="flex flex-1 flex-col min-w-0 scatter-reveal"
             style={{ "--stagger-index": 0 }}
           >
-            <!-- design mockup -->
+
             <div class="aspect-5/6 w-full relative overflow-hidden @container will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*-80px),0)]">
-              <!-- mockup viewport -->
+
               <div class="absolute inset-0 overflow-hidden">
-                <!-- mockup track -->
+
                 <div class="isolate absolute inset-0">
-                  <!-- design mockup slide -->
+
                   {DESIGN_MOCKUPS.map((mockup, index) => (
                     <div
                       data-slide-key={mockup.key}
@@ -84,7 +83,6 @@ const ACTIVE_DESIGN_KEY = "a";
                 </div>
               </div>
 
-              <!-- design canvas -->
               <div
                 aria-hidden="true"
                 class="absolute top-[45%] left-1/2 aspect-5/3 w-[54%] -translate-x-1/2 -translate-y-1/2 pointer-events-none bg-[repeating-linear-gradient(90deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(90deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(0deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(0deg,#fff_0_5px,#0000_5px_11px)] bg-position-[0_0,0_100%,0_0,100%_0] bg-no-repeat bg-size-[100%_2px,100%_2px,2px_100%,2px_100%]"
@@ -98,7 +96,6 @@ const ACTIVE_DESIGN_KEY = "a";
                 <CropIcon className="hidden" />
                 <CropIcon className="hidden" />
 
-                <!-- design toolbar -->
                 <div
                   aria-hidden="true"
                   class="absolute top-[calc(100%+3cqi)] left-1/2 flex items-stretch gap-x-[2.5cqi] -translate-x-1/2 whitespace-nowrap font-body"
@@ -158,14 +155,13 @@ const ACTIVE_DESIGN_KEY = "a";
             </div>
           </div>
 
-          <!-- design preview column-->
           <div
             class="flex flex-1 flex-col min-w-0 scatter-reveal"
             style={{ "--stagger-index": 1 }}
           >
-            <!-- design preview -->
+
             <div class="design-preview-wrap aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*80px),0)]">
-              <!--design preview viewport -->
+
               <div class="flex-1 relative overflow-hidden w-full min-h-0">
                 <div class="isolate absolute inset-0">
                   {DESIGN_MOCKUPS.map((preview, index) => (
@@ -186,7 +182,6 @@ const ACTIVE_DESIGN_KEY = "a";
           </div>
         </div>
 
-        <!-- design slider dots -->
         <div
           aria-label="Design slides"
           role="group"
@@ -411,7 +406,6 @@ const ACTIVE_DESIGN_KEY = "a";
           activateSlide(initialKey, true);
         }
 
-        // section expand
         const setProgress = (
           value: number,
           variable: string,

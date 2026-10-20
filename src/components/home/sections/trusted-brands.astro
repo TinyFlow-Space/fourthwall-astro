@@ -5,14 +5,13 @@ import { cn } from "@/utils";
 
 <section class="trusted-brands-section py-surface-y-sm bg-background px-surface-x">
   <div class="container">
-    <!-- top content -->
+
     <div class="max-w-[88ch] mx-auto text-center mb-[clamp(56px,2.8vw,80px)] reveal">
       <h2 class="font-body text-secondary-foreground text-body-md leading-relaxed font-normal my-0 p-0">
         Trusted by 500,000+ creators and companies
       </h2>
     </div>
 
-    <!-- brand logos -->
     <div class="reveal">
       <div class="trusted-brands-track grid grid-cols-6 mx-auto gap-x-8 gap-y-14 place-items-center max-[768px]:marquee-left max-[768px]:[--marquee-duration:40s] max-[768px]:motion-reduce:animate-none">
         {[...BRANDS, ...BRANDS].map((brand, index) => (

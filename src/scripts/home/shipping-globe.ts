@@ -103,7 +103,7 @@ function initialize(root: HTMLElement): () => void {
     ctx.beginPath();
     ctx.arc(width / 2, height / 2, radius, 0, Math.PI * 2);
     ctx.fill();
-    // Orthographic projection clips the back hemisphere instead of rotating a flat image.
+    // Hide points on the back of the globe.
     for (const point of land) {
       const [x, y, z] = project(point);
       if (z <= 0.02) continue;
@@ -125,7 +125,7 @@ function initialize(root: HTMLElement): () => void {
       ctx.beginPath();
       ctx.arc(x, y, Math.max(1.1, width / 320), 0, Math.PI * 2);
       ctx.fill();
-      // Short raised shipping arcs remain attached to the globe as it turns.
+      // Rotate shipping arcs with the globe.
       const target = hubs[(index + 1) % hubs.length];
       ctx.beginPath();
       let started = false;

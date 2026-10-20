@@ -10,7 +10,7 @@ const { className } = Astro.props;
     className,
   )}
 >
-  <!-- prev page -->
+
   <button
     aria-label="Previous Page"
     tabindex="-1"
@@ -24,7 +24,6 @@ const { className } = Astro.props;
     />
   </button>
 
-  <!-- page buttons -->
   <div class="max-[390px]:max-w-[80%] max-[390px]:overflow-auto flex items-center justify-start gap-1">
     {Array.from({ length: 4 }).map((_, index) => (
       <button
@@ -38,7 +37,6 @@ const { className } = Astro.props;
     ))}
   </div>
 
-  <!-- next page -->
   <button
     aria-label="Next Page"
     tabindex="0"

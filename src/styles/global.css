@@ -488,7 +488,7 @@ button,
   border: 0;
 }
 
-/* Mobile composition from the 375px reference; desktop tokens stay unchanged. */
+/* Mobile styles. */
 @media (max-width: 991px) {
   :root {
     --surface-x: 20px;
@@ -869,7 +869,7 @@ button,
   }
 }
 
-/* Tablet composition shown in the reference; desktop starts at 992px. */
+/* Tablet styles; desktop starts at 992px. */
 @media (min-width: 768px) and (max-width: 991px) {
   .hero-section h1 {
     max-width: 28ch;
@@ -970,7 +970,7 @@ button,
 @media (max-width: 767px) {
   .trusted-brands-section .trusted-brands-track {
     grid-template-columns: repeat(12, 128px);
-    /* Include the trailing gap so half the track is exactly one logo set. */
+    /* Include the trailing gap for a seamless loop. */
     padding-right: 32px;
   }
   .trusted-brands-track:hover,

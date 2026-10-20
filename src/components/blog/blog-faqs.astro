@@ -9,7 +9,7 @@ interface Props {
   items?: { question: string; answer: string }[];
 }
 
-// Draft copy for the current article; pass items for other blog posts.
+// Default FAQ copy; override with items.
 const {
   class: className,
   id = "blog-faqs",
@@ -66,7 +66,7 @@ const {
 </section>
 
 <style>
-  /* Keep blog answers flush even where the shared mobile styles add padding. */
+  /* Override shared mobile padding for blog answers. */
   .blog-faqs :global(.accordion-panel) {
     padding-inline: 0;
   }

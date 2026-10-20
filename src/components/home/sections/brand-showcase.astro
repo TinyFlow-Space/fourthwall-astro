@@ -18,7 +18,6 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
       </h2>
     </div>
 
-    <!-- brand showcase grid -->
     <div class="scatter-reveal-section grid grid-cols-[repeat(13,1fr)] gap-x-[clamp(32px,1.6vw,56px)] gap-y-[clamp(64px,57.6px,96px)]">
       <BrandShowcaseCard className="col-[span_7]" index={0}>
         <BrandManufactureSlider />
@@ -34,7 +33,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
       </BrandShowcaseCard>
 
       <BrandShowcaseCard className="col-[span_6]" index={1}>
-        <!-- brand showcase marquee -->
+
         <BrandShopSlider />
 
         <p class="max-w-[42ch] font-display text-foreground text-body-lg leading-normal font-[450] tracking-normal text-balance m-0">
@@ -77,7 +76,7 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
             </p>
 
             <div class="flex flex-col gap-y-[2.5cqi]">
-              <!-- customer bubble -->
+
               <div class="flex items-end justify-start gap-x-[1.4cqi]">
                 <div class="text-foreground bg-[#ededed] text-[2.5cqi] leading-[135%] font-[450] rounded-[1.9cqi] p-[2cqi_2.8cqi]">
                   I entered the wrong shipping address on my order. Can you
@@ -96,7 +95,6 @@ import BrandShopSlider from "@/components/home/brand-shop-slider.astro";
                 </div>
               </div>
 
-              <!-- agent bubble -->
               <div class="flex items-end justify-start gap-x-[1.4cqi]">
                 <div class="text-white bg-surface-dark text-[2.5cqi] leading-[135%] font-[450] rounded-[1.9cqi] p-[2cqi_2.8cqi]">
                   Updated. Your order hasn't been dispatched yet, so it'll ship

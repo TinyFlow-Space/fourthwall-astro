@@ -3,11 +3,11 @@ import { WALL_SHOPS } from "@/data/home/wall-shops";
 import MadeWallItem from "@/components/home/made-wall-item.astro";
 
 interface Props {
-  /** Auto-rotate speed in degrees/second. Positive = left → right, 0 = off. */
+  /** Rotation speed in degrees/s; positive rotates right, 0 stops. */
   speed?: number;
-  /** ms to ease auto-rotate back in after a drag / wheel gesture (0 = instantly). */
+  /** Autoplay resume duration in ms; 0 resumes immediately. */
   resume?: number;
-  /** Turn auto-rotate off when the OS has "Reduce motion" enabled. */
+  /** Disable autoplay for reduced motion. */
   respectReducedMotion?: boolean;
 }
 
@@ -28,14 +28,13 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       </h2>
     </div>
 
-    <!-- stage -->
     <div class="made-wall-stage relative mt-[clamp(24px,3.8vw,96px)] [--stage-default-h:clamp(440px,calc(310px+25vw),1120px)] [--stage-expanded-h:clamp(560px,calc(380px+30vw),1400px)] h-[calc(var(--stage-default-h)+var(--expand-progress)*(var(--stage-expanded-h)-var(--stage-default-h)))] perspective-[clamp(1500px,calc(1275px+37.5vw),3200px)] mask-none [-webkit-mask-image:none] touch-pan-y [-webkit-user-select:none] w-full perspective-origin-[50%_center] isolate overflow-hidden mb-0 mx-0">
-      <!-- stage frame -->
+
       <div
         class="stage-frame absolute top-1/2 left-1/2 h-0 w-0 transform-3d will-change-transform"
         style="transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);"
       >
-        <!-- stage wall: 3 rows × 24 tiles -->
+
         <div class="made-wall-items absolute top-0 left-0 h-0 w-0 transform-3d">
           {Array.from({ length: 72 }).map((_, index) => (
             <MadeWallItem shop={WALL_SHOPS[index % WALL_SHOPS.length]} />
@@ -59,20 +58,16 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ───────────────────────────────────────────────────────────────────────
-  //  Wall geometry (all sizes are ratios of the viewport width, measured
-  //  from the reference: 1920px viewport → 489.6 × 309.6 tiles, R ≈ 2023px)
-  // ───────────────────────────────────────────────────────────────────────
-  const TILE_W = 0.255; // tile width  = 25.5% of viewport width
-  const TILE_ASPECT = 68 / 43; // 1360 × 860 screenshots → h = 309.6 @ 1920
-  const GAP = 0.02; // gap between tiles (horizontal and vertical)
-  const TOP_PAD = 1 / 60; // space between stage top and first row (≈32px @ 1920)
-  const COLUMNS = 24; // tiles per ring → 15° apart
-  const CULL_MARGIN = 0.1; // keep tiles this far (× viewport width) off-screen "visible"
-  const MAX_VELOCITY = 600; // deg/s clamp for flings
-  const FRICTION_TAU = 0.19; // s, fling momentum decays like e^(-t/τ)
-  const DRAG_THRESHOLD = 4; // px before a press counts as a drag
-  const WHEEL_IDLE_MS = 140; // a wheel/trackpad gesture ends after this much silence
+  const TILE_W = 0.255; // 25.5% of viewport width.
+  const TILE_ASPECT = 68 / 43; // Source image aspect ratio.
+  const GAP = 0.02; // Tile gap, relative to viewport width.
+  const TOP_PAD = 1 / 60; // Top padding, relative to viewport width.
+  const COLUMNS = 24; // 24 tiles per ring, 15° apart.
+  const CULL_MARGIN = 0.1; // Offscreen buffer, relative to viewport width.
+  const MAX_VELOCITY = 600; // Maximum fling speed in degrees/s.
+  const FRICTION_TAU = 0.19; // Momentum decay time in seconds.
+  const DRAG_THRESHOLD = 4; // Drag threshold in px.
+  const WHEEL_IDLE_MS = 140; // Wheel idle timeout in ms.
   const RAD = Math.PI / 180;
 
   const num = (value: string | undefined, fallback: number) => {
@@ -82,7 +77,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       : fallback;
   };
 
-  // Keep angles in [-180, 180) like the reference (167.08° → -177.92°)
+  // Wrap angles to [-180, 180).
   const wrap180 = (a: number) => ((((a + 180) % 360) + 360) % 360) - 180;
 
   function initWallMotion(
@@ -102,26 +97,25 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
 
     const stepDeg = 360 / COLUMNS;
 
-    // Per-tile constants: angular position on the ring + row
+    // Cache tile angles and rows.
     const row = items.map((_, i) => Math.floor(i / COLUMNS));
     const baseDeg = items.map(
       (_, i) => (i % COLUMNS) * stepDeg + (row[i] % 2) * (stepDeg / 2),
     ); // brick stagger
 
-    // ── Geometry: only recomputed on resize, never per frame ──
+    // Recalculate geometry on resize.
     let vw = 0;
     let tileW = 0;
     let tileH = 0;
     let radius = 1; // ring radius (px)
-    let persp = 1500; // CSS perspective of the stage (px)
+    let persp = 1500; // Perspective in px.
     let stageW = 0;
     let stageH = 0;
-    let rowY: number[] = []; // y of each tile's row centre
-    let degPerPx = 0; // drag: front tile follows the pointer 1:1
+    let rowY: number[] = []; // Row centers in px.
+    let degPerPx = 0; // Degrees per pixel of pointer movement.
 
     const layout = () => {
-      // y of the first row: anchored to the top of the stage so growing the
-      // stage (expand-progress) reveals more rows instead of shifting them.
+      // Anchor the first row so expansion reveals rows without moving them.
       const tileGap = vw * GAP;
       const y0 = -stageH / 2 + vw * TOP_PAD + tileH / 2;
       rowY = items.map((_, i) => y0 + row[i] * (tileH + tileGap));
@@ -141,7 +135,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       render(true);
     };
 
-    // ── State: one angle (degrees) for autoplay, drag, fling and wheel ──
+    // Share one angle across autoplay and gestures.
     let angle = 0;
     let velocity = 0; // deg/s fling momentum
     let autoFactor = 1;
@@ -162,7 +156,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
     const ac = new AbortController();
     const { signal } = ac;
 
-    // Is this tile worth rendering? Back-facing or fully off-stage → no.
+    // Skip tiles facing away or outside the stage.
     const shouldShow = (
       i: number,
       s: number,
@@ -170,10 +164,10 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       X: number,
       Z: number,
     ) => {
-      // back-face: normal (s,0,c) must point towards the camera at (0,0,persp)
+      // Check that the tile faces the camera.
       if (-X * s + (persp - Z) * c <= 0) return false;
 
-      // horizontal: projected left/right edge vs stage
+      // Check projected horizontal bounds.
       const hw = tileW / 2;
       const margin = vw * CULL_MARGIN;
       const halfW = stageW / 2 + margin;
@@ -183,7 +177,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       const xr = ((X + hw * c) * persp) / (persp - zr);
       if (Math.max(xl, xr) < -halfW || Math.min(xl, xr) > halfW) return false;
 
-      // vertical: whole row outside the stage
+      // Skip rows outside the stage.
       const k = persp / (persp - Z);
       const top = (rowY[i] - tileH / 2) * k;
       const bottom = (rowY[i] + tileH / 2) * k;
@@ -227,14 +221,14 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       if (!pressed && !wheeling) {
         let delta = 0;
 
-        // fling momentum
+        // Apply momentum.
         if (velocity !== 0) {
           delta += velocity * dt;
           velocity *= Math.exp(-dt / FRICTION_TAU);
           if (Math.abs(velocity) < 0.02) velocity = 0;
         }
 
-        // auto-rotate left → right
+        // Resume autoplay.
         if (autoEnabled()) {
           autoFactor =
             resumeMs > 0 ? Math.min(1, autoFactor + (dt * 1000) / resumeMs) : 1;
@@ -258,11 +252,10 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       rafId = 0;
     };
 
-    // ── Drag (mouse / pen / touch) ───────────────────────────────────────
     const flingVelocity = () => {
       const now = performance.now();
       const last = samples[samples.length - 1];
-      if (!last || now - last.t > 80 || samples.length < 2) return 0; // held still → no fling
+      if (!last || now - last.t > 80 || samples.length < 2) return 0; // No fling after holding still.
       const first = samples[0];
       const dt = (last.t - first.t) / 1000;
       if (dt <= 0) return 0;
@@ -280,8 +273,8 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
         suppressClick = false;
         startX = e.clientX;
         startAngle = angle;
-        velocity = 0; // catching the wall stops any fling
-        autoFactor = 0; // ease back in after release
+        velocity = 0; // Stop momentum on press.
+        autoFactor = 0; // Resume gradually after release.
         samples = [];
       },
       { signal },
@@ -300,11 +293,11 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
           try {
             section.setPointerCapture(e.pointerId);
           } catch {
-            /* pointer already gone: keep dragging without capture */
+            /* Pointer capture is no longer available. */
           }
         }
 
-        // Drag right → wall rotates so the front tile moves right (angle ↑)
+        // Rotate with the pointer.
         setAngle(startAngle + dx * degPerPx);
         const now = performance.now();
         samples.push({ t: now, a: angle });
@@ -319,7 +312,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       try {
         section.releasePointerCapture(e.pointerId);
       } catch {
-        /* already released */
+        /* Pointer capture was already released. */
       }
       if (!pressed) return;
       pressed = false;
@@ -327,7 +320,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       if (dragging) {
         velocity = flingVelocity();
         dragging = false;
-        suppressClick = true; // don't open the tile link after a drag
+        suppressClick = true; // Prevent link clicks after dragging.
         window.setTimeout(() => (suppressClick = false), 350);
         delete section.dataset.dragging;
       }
@@ -350,18 +343,17 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       { signal, capture: true },
     );
 
-    // ── Two-finger trackpad / horizontal wheel ───────────────────────────
-    // The OS supplies the momentum as trailing wheel events, so none is added here.
+    // Use the wheel momentum supplied by the OS.
     section.addEventListener(
       "wheel",
       (e) => {
         if (degPerPx <= 0) return;
-        // Lock the axis for the whole gesture; clearly vertical scrolls pass through.
+        // Lock horizontal gestures; allow vertical scrolling.
         if (!wheeling && Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
-        if (e.cancelable) e.preventDefault(); // also blocks browser back/forward swipe
+        if (e.cancelable) e.preventDefault(); // Prevent browser swipe navigation.
 
         const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? vw : 1;
-        // Swipe left (deltaX > 0) → wall moves left (angle ↓), like a drag to the left
+        // Match the drag direction.
         setAngle(angle - e.deltaX * unit * degPerPx);
 
         wheeling = true;
@@ -376,9 +368,8 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
       { signal, passive: false },
     );
 
-    // ── Lifecycle ────────────────────────────────────────────────────────
     const ro = new ResizeObserver(([entry]) => {
-      // stage width/height change with --expand-progress; no layout reads needed
+      // Read stage size from the expansion state.
       stageW = entry.contentRect.width;
       stageH = entry.contentRect.height;
       layout();
@@ -409,7 +400,7 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
     stageH = stage.clientHeight;
     measureViewport();
     start();
-    section.dataset.wallReady = "true"; // handy DevTools check that the script ran
+    section.dataset.wallReady = "true";
 
     return () => {
       stop();
@@ -422,7 +413,6 @@ const { speed = 0.4, resume = 150, respectReducedMotion = false } = Astro.props;
     };
   }
 
-  // ───────────────────────────────────────────────────────────────────────
   const cleanups = new WeakMap<HTMLElement, () => void>();
 
   const initializeMadeWall = () => {

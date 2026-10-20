@@ -13,7 +13,6 @@ export function initReveal() {
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        // if (!entry.isIntersecting || entry.intersectionRatio <= 0) return;
 
         const item = entry.target as HTMLElement;
         observer?.unobserve(item);

@@ -5,12 +5,12 @@ function scheduleRefresh() {
   if (refreshFrame) return;
   refreshFrame = requestAnimationFrame(() => {
     refreshFrame = 0;
-    // Refresh shared viewport measurements before refreshing individual bounds.
+    // Refresh viewport measurements before section bounds.
     ScrollTrigger.refresh();
   });
 }
 
-/** The existing scroll-distance calculation, shared by both expanding sections. */
+/** Scroll distance for expanding sections. */
 export function initSectionExpansion(
   section: HTMLElement,
   trigger: HTMLElement,
@@ -35,8 +35,7 @@ export function initSectionExpansion(
   const refresh = () => {
     if (!disposed) scheduleRefresh();
   };
-  // Observe available width, not the animated section's dimensions. Observing
-  // its changing height would feed each animation frame back into its bounds.
+  // Watch parent width to avoid a resize loop during animation.
   let availableWidth = section.parentElement!.clientWidth;
   const observer = new ResizeObserver((entries) => {
     const width = entries[0].contentRect.width;
@@ -47,7 +46,7 @@ export function initSectionExpansion(
   observer.observe(section.parentElement!);
   section.addEventListener("load", refresh, true);
   document.fonts.ready.then(refresh);
-  // ScrollTrigger already refreshes all instances together on viewport resize.
+  // ScrollTrigger handles viewport resizing.
   return () => {
     disposed = true;
     observer.disconnect();

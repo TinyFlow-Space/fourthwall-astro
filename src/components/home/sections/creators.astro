@@ -11,16 +11,14 @@ import CreatorItem from "@/components/home/creator-item.astro";
       </p>
     </div>
 
-    <!-- creators marquee -->
     <div class="flex flex-col overflow-hidden gap-[clamp(40px,19.5px+1.43vw,56px)] py-[clamp(16px,7.8px+0.572vw,22.4px)] mask-[linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
-      <!-- track left -->
+
       <div class="box-border will-change-transform marquee-track marquee-left">
         {CREATORS_LEFT.map((creator) => (
           <CreatorItem creator={creator} />
         ))}
       </div>
 
-      <!-- track right -->
       <div class="box-border will-change-transform marquee-track marquee-right">
         {CREATORS_RIGHT.map((creator) => (
           <CreatorItem creator={creator} />

@@ -7,7 +7,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
 ---
 
 <header data-light-at-top={lightAtTop} class="site-header px-surface-x py-3.5 bg-surface-dark text-white z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 ease-[ease]">
-  <!-- logo -->
+
   <div class="flex-1">
     <a
       href="/"
@@ -19,7 +19,6 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
     </a>
   </div>
 
-  <!-- nav menus -->
   <nav
     aria-label="Main navigation"
     class="desktop-nav flex w-auto justify-center my-0 gap-9 text-body-md font-medium"
@@ -57,7 +56,6 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
     )}
   </nav>
 
-  <!-- nav right -->
   <div class="desktop-actions flex flex-1 items-center justify-end gap-7">
     <a
       href="https://my-shop.fourthwall.com/admin/dashboard"
@@ -251,7 +249,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
   function openDesktop(group: HTMLElement) {
     if (mobile.matches) return;
     clearTimeout(closeTimer);
-    // Do not make focused links inert when re-entering an open menu.
+    // Keep focused links usable when re-entering the menu.
     if (group.dataset.open === "true") return;
     closeDesktop(false);
     desktopOpen = true;
@@ -337,7 +335,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
 </script>
 
 <style>
-  /* Inherit the header's animated color without the underline utility's delay. */
+  /* Inherit header colors without an extra transition delay. */
   .desktop-menu-trigger,
   .desktop-nav > a,
   .desktop-actions > a:first-child {

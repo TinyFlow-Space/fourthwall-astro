@@ -3,7 +3,7 @@ const DURATION = 1500;
 const instances = new WeakMap<ParentNode, () => void>();
 const completed = new WeakSet<HTMLElement>();
 
-/** Animate existing counters once when visible. Returns cleanup. */
+/** Animate visible counters once; return cleanup. */
 export function initNumberCounters(root: ParentNode = document) {
   const existing = instances.get(root);
   if (existing) return existing;
@@ -64,7 +64,7 @@ export function initNumberCounters(root: ParentNode = document) {
   function register(element: HTMLElement) {
     if (states.has(element) || completed.has(element)) return;
     const target = element.dataset.count ?? "";
-    // Plain or comma-grouped numbers; retain decimal precision and final text.
+    // Preserve decimal places and number formatting.
     if (!/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(target)) return;
     const value = Number(target.replaceAll(",", ""));
     const decimals = target.split(".")[1]?.length ?? 0;

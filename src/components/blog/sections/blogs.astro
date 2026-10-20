@@ -21,7 +21,7 @@ const FILTERS = [
   class="bg-background py-[clamp(4rem,3.3835vw+3.207rem,6.25rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
 >
   <div class="container-lg">
-    <!-- blog filter -->
+
     {showFilter && (
       <div class="blog-filter-row flex items-center justify-between gap-4 flex-col md:flex-row 2md:gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]">
         <FilterButtons
@@ -33,14 +33,12 @@ const FILTERS = [
       </div>
     )}
 
-    <!-- related blog title -->
     {showTitle && (
       <h2 class="font-display mt-0 mb-[clamp(2.5rem,2.2556vw+1.9713rem,4rem)] border-t border-[#00000029] pt-[clamp(2rem,2.2556vw+1.4713rem,3.5rem)] text-[clamp(2rem,1.5038vw+1.6476rem,3rem)] leading-9 font-normal tracking-[-0.96px] text-wrap">
         You might also like
       </h2>
     )}
 
-    <!-- blog items -->
     <div
       role="list"
       class="grid grid-cols-1 md:grid-cols-2 2md:grid-cols-3 gap-x-8 gap-y-6 md:gap-y-12"
@@ -53,7 +51,6 @@ const FILTERS = [
       <BlogCard />
     </div>
 
-    <!-- blog pagination -->
     <Pagination />
   </div>
 </section>

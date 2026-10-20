@@ -1,4 +1,4 @@
-/** A gently rippling dot grid, with the same motion at every viewport size. */
+/** Animate the dot grid. */
 export function initDotField(canvas: HTMLCanvasElement) {
   const context = canvas.getContext("2d");
   if (!context) return () => {};
@@ -17,16 +17,14 @@ export function initDotField(canvas: HTMLCanvasElement) {
     context!.fillStyle = "#ffffff";
     for (let y = -spacing; y < height + spacing; y += spacing) {
       const position = y / height;
-      // Fade away behind the heading and along the bottom edge.
+      // Fade dots behind the heading and bottom edge.
       const fade = Math.min(1, Math.max(0, (position - 0.16) / 0.23)) *
         Math.min(1, Math.max(0, (1 - position) / 0.12));
       for (let x = -spacing; x < width + spacing; x += spacing) {
-        // Coordinate-based phases keep the wavelength consistent on phones
-        // and desktops, rather than stretching the effect to the viewport.
+        // Keep wave spacing consistent across screen sizes.
         const phase = x * 0.009 + y * 0.014 - time * 1.4;
         const wave = Math.sin(phase);
-        // Quarter-cycle offsets keep the dots moving through wave crests;
-        // opposing waves previously produced noticeable stationary beats.
+        // Offset the waves to avoid stationary dots.
         const offsetX = Math.cos(phase) * 1.5;
         const offsetY = wave * 3;
         const highlight = (wave + 1) / 2;

@@ -6,7 +6,7 @@ import { Image } from "astro:assets";
 
 <div class="hero-slider z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]">
   <div class="hero-track flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden">
-    <!-- slider card -->
+
     {HERO_SLIDERS.map((item, index) => (
       <div
         class={cn(
@@ -59,7 +59,6 @@ import { Image } from "astro:assets";
     ))}
   </div>
 
-  <!-- custom cursor tracking -->
   <div
     aria-hidden="true"
     class="hero-cursor fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
@@ -76,7 +75,7 @@ import { Image } from "astro:assets";
       const events = new AbortController();
       let observer: ResizeObserver | undefined;
       const track = root.querySelector<HTMLElement>(".hero-track");
-      // Controls live in the surrounding hero, outside the slider itself.
+      // Find controls in the parent hero.
       const controlsRoot = root.closest<HTMLElement>(".hero-section") ?? root;
       const prevButton =
         controlsRoot.querySelector<HTMLButtonElement>(".carousel-prev");

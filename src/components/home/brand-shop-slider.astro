@@ -4,24 +4,24 @@ import { cn } from "@/utils";
 import { Image } from "astro:assets";
 
 interface Props {
-  /** Auto-scroll speed in px/second, right → left. Use 0 to disable auto-scroll. */
+  /** Scroll speed in px/s; 0 disables autoplay. */
   speed?: number;
-  /** ms to ease the auto-scroll back in after a drag ends (0 = instantly). */
+  /** Autoplay resume duration in ms; 0 resumes immediately. */
   resume?: number;
-  /** Turn auto-scroll off when the OS has "Reduce motion" enabled. */
+  /** Disable autoplay for reduced motion. */
   respectReducedMotion?: boolean;
 }
 
 const { speed = 40, resume = 150, respectReducedMotion = false } = Astro.props;
 
-// Repeat the data so the loop always has enough slides to stay seamless.
+// Repeat slides to fill the loop.
 const MIN_SLIDES = 5;
 const items = Array.from(
   { length: Math.max(BRAND_MARQUEE_DATA.length, MIN_SLIDES) },
   (_, i) => BRAND_MARQUEE_DATA[i % BRAND_MARQUEE_DATA.length],
 );
 
-// Initial layout (also the no-JS fallback): 0, 1, 2, -2, -1 …
+// Center slides before JavaScript loads.
 const getPosition = (index: number) => {
   const midpoint = Math.floor(items.length / 2);
   return index - (index > midpoint ? items.length : 0);
@@ -35,7 +35,7 @@ const getPosition = (index: number) => {
   aria-hidden="true"
   class="brand-shop-slider w-full relative overflow-hidden @container bg-[#ebebec] flex-1 min-h-0 touch-pan-y overscroll-x-contain [--shop-step:51cqi] [-webkit-user-select:none] select-none aspect-8/5"
 >
-  <!-- Zero-height probe: lets JS read the real pixel value of --shop-step -->
+  <!-- Measure --shop-step in pixels. -->
   <i
     aria-hidden="true"
     class="shop-step pointer-events-none invisible absolute top-0 left-0 h-0 w-(--shop-step)"
@@ -106,7 +106,7 @@ const getPosition = (index: number) => {
 </div>
 
 <script>
-  const DRAG_THRESHOLD = 4; // px of movement before a press counts as a drag
+  const DRAG_THRESHOLD = 4; // Drag threshold in px.
 
   const num = (value: string | undefined, fallback: number) => {
     const n = Number(value);
@@ -133,17 +133,16 @@ const getPosition = (index: number) => {
     const base = slides.map((s) => Number(s.dataset.position) || 0);
     const half = count / 2;
 
-    // ── The ONE piece of state. Unit = "steps" (1 step = slide width + gap).
-    // Auto-scroll and dragging both write it; every slide derives from it.
+    // Shared position for dragging and autoplay, in slide-width steps.
     let offset = 0;
-    let step = 0; // px per step, measured from the real --shop-step value
-    let autoFactor = 1; // 0 → 1 ramp after a drag ends
+    let step = 0; // Slide width plus gap, in px.
+    let autoFactor = 1; // Autoplay ramp after dragging.
     let rafId = 0;
     let lastTime = 0;
     let visible = true;
 
     let pressed = false;
-    let wheeling = false; // true while a trackpad/wheel gesture is active
+    let wheeling = false; // Wheel gesture in progress.
     let wheelTimer = 0;
     let pointerId: number | null = null;
     let startX = 0;
@@ -153,8 +152,7 @@ const getPosition = (index: number) => {
     const ac = new AbortController();
     const { signal } = ac;
 
-    // Wrap into [-count/2, count/2): a slide leaving one side re-enters the
-    // other while it's still far outside the viewport, so the loop never jumps.
+    // Wrap slides outside the viewport to hide loop resets.
     const wrap = (v: number) => ((((v + half) % count) + count) % count) - half;
 
     const render = () => {
@@ -164,7 +162,7 @@ const getPosition = (index: number) => {
       }
     };
 
-    // Layout is read here only (mount + resize), never per frame.
+    // Measure on mount and resize only.
     const measure = () => {
       const w = probe.getBoundingClientRect().width;
       if (w > 0) step = w;
@@ -184,8 +182,7 @@ const getPosition = (index: number) => {
       const dt = Math.min(Math.max(now - lastTime, 0), 100) / 1000; // clamp long stalls
       lastTime = now;
 
-      // Auto-scroll is paused for the whole press (before and during a drag),
-      // so the slide under the finger never drifts away from it.
+      // Pause while pressed so the slide stays under the pointer.
       if (!pressed && !wheeling && step > 0 && autoEnabled()) {
         autoFactor =
           resumeMs > 0 ? Math.min(1, autoFactor + (dt * 1000) / resumeMs) : 1;
@@ -206,22 +203,21 @@ const getPosition = (index: number) => {
       rafId = 0;
     };
 
-    // ── Drag (shared by mouse/pen pointer events and touch events) ───────
     const press = (x: number) => {
       pressed = true;
       startX = x;
       startOffset = offset;
       dragging = false;
-      autoFactor = 0; // ease back in once the press ends
+      autoFactor = 0; // Resume gradually after release.
     };
 
     const beginDrag = () => {
       dragging = true;
-      slider.dataset.dragging = "true"; // CSS shows `grabbing` on hover-capable pointers
+      slider.dataset.dragging = "true"; // Enable the grabbing cursor.
     };
 
     const moveTo = (x: number) => {
-      // 1:1 with the pointer/finger. Drag right → content moves right.
+      // Move slides with the pointer.
       offset = (startOffset + (x - startX) / step) % count;
       render();
     };
@@ -230,11 +226,11 @@ const getPosition = (index: number) => {
       if (!pressed) return;
       pressed = false;
       dragging = false;
-      lastTime = performance.now(); // no dt spike; offset stays where the user left it
+      lastTime = performance.now(); // Avoid a time jump after dragging.
       delete slider.dataset.dragging;
     };
 
-    // Mouse / pen / touch screen (touch-action: pan-y keeps vertical page scroll)
+    // Allow vertical page scrolling during touch gestures.
     slider.addEventListener(
       "pointerdown",
       (e) => {
@@ -255,7 +251,7 @@ const getPosition = (index: number) => {
           try {
             slider.setPointerCapture(e.pointerId);
           } catch {
-            /* pointer already gone: keep dragging without capture */
+            /* Pointer capture is no longer available. */
           }
         }
         moveTo(e.clientX);
@@ -269,7 +265,7 @@ const getPosition = (index: number) => {
       try {
         slider.releasePointerCapture(e.pointerId);
       } catch {
-        /* already released */
+        /* Pointer capture was already released. */
       }
       release();
     };
@@ -278,28 +274,25 @@ const getPosition = (index: number) => {
     slider.addEventListener("pointercancel", endPointer, { signal });
     slider.addEventListener("dragstart", (e) => e.preventDefault(), { signal });
 
-    // Two-finger trackpad / horizontal wheel: arrives as `wheel` events with
-    // deltaX. Same `offset`, so it behaves exactly like a drag. The OS supplies
-    // the momentum as trailing wheel events, so no inertia code is needed.
-    const WHEEL_IDLE_MS = 140; // gesture counts as finished after this much silence
+    // Use wheel deltas directly; the OS supplies momentum.
+    const WHEEL_IDLE_MS = 140; // Wheel idle timeout in ms.
     slider.addEventListener(
       "wheel",
       (e) => {
         if (step <= 0) return;
-        // Lock the axis for the whole gesture so stray deltaY noise from a
-        // horizontal swipe can't scroll the page; clearly vertical gestures pass through.
+        // Lock horizontal gestures; let vertical scrolling pass through.
         if (!wheeling && Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
 
-        if (e.cancelable) e.preventDefault(); // also blocks browser back/forward swipe
+        if (e.cancelable) e.preventDefault(); // Prevent browser swipe navigation.
 
         const unit =
           e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? slider.clientWidth : 1;
-        // Swipe left (deltaX > 0) → content moves left, like a drag to the left.
+        // Match the drag direction.
         offset = (offset - (e.deltaX * unit) / step) % count;
         render();
 
         wheeling = true;
-        autoFactor = 0; // ease back in after the gesture ends
+        autoFactor = 0; // Resume gradually after the gesture.
         clearTimeout(wheelTimer);
         wheelTimer = window.setTimeout(() => {
           wheeling = false;
@@ -309,7 +302,6 @@ const getPosition = (index: number) => {
       { signal, passive: false },
     );
 
-    // ── Lifecycle ────────────────────────────────────────────────────────
     const ro = new ResizeObserver(measure);
     ro.observe(slider);
 
@@ -330,7 +322,7 @@ const getPosition = (index: number) => {
 
     measure();
     start();
-    slider.dataset.sliderReady = "true"; // handy DevTools check that the script ran
+    slider.dataset.sliderReady = "true";
 
     return () => {
       stop();
@@ -343,7 +335,7 @@ const getPosition = (index: number) => {
     };
   }
 
-  // Works with and without Astro view transitions (<ClientRouter />).
+  // Reinitialize after Astro navigation.
   const instances = new Map<HTMLElement, () => void>();
 
   const mountAll = () => {
@@ -366,9 +358,9 @@ const getPosition = (index: number) => {
 
 <style>
   .shop-slide {
-    /* SSR / no-JS fallback. JS overrides it inline with the same formula. */
+    /* Initial position before JavaScript loads. */
     transform: translateX(calc(-50% + var(--shop-position) * var(--shop-step)));
-    /* Slides never intercept the pointer, so drags always start on the slider */
+    /* Let the slider handle drag events. */
     pointer-events: none;
   }
 

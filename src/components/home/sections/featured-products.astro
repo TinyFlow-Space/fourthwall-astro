@@ -15,7 +15,7 @@ const CLASSES = [
 <section class="scatter-reveal-section featured-products-section bg-background px-surface-x pt-30 pb-surface-y-sm">
   <div class="container @container">
     <div class="grid grid-cols-11 gap-x-[clamp(20px,3.25vw,48px)] gap-y-[clamp(36px,4.5cqi,80px)]">
-      <!-- product section header -->
+
       <div
         class="max-[992px]:-order-2 min-w-0 self-start [grid-area:1/1/6/7] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform] scatter-reveal"
         style={{
@@ -34,7 +34,6 @@ const CLASSES = [
         </p>
       </div>
 
-      <!--  featured products -->
       {FEATURED_PRODUCTS.map((product, index) => (
         <FeaturedProductCard
           product={product}
@@ -43,7 +42,6 @@ const CLASSES = [
         />
       ))}
 
-      <!-- browse all -->
       <a
         rel="noopener"
         target="_blank"

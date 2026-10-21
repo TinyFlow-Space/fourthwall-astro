@@ -51,8 +51,18 @@ const ld = {
   </head>
 
   <body class="bg-background text-foreground min-h-svh m-0 font-body text-body-md overflow-x-hidden leading-relaxed antialiased">
+    <a
+      href="#skip-main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-101 focus:rounded-lg focus:bg-background focus:px-5 focus:py-3 focus:text-foreground focus:font-medium focus:shadow-lg focus:outline-2 focus:outline-offset-4 focus:outline-foreground"
+    >
+      Skip to main content
+    </a>
     <Header />
-    <main class={cn("z-2 bg-surface-dark block relative", className)}>
+    <main
+      id="skip-main"
+      tabindex="-1"
+      class={cn("z-2 bg-surface-dark block relative", className)}
+    >
       <slot />
 
       <Cta />

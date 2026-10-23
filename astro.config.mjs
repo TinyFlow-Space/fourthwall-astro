@@ -2,7 +2,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
-import netlify from "@astrojs/netlify";
+import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
   vite: {
@@ -32,11 +32,5 @@ export default defineConfig({
     ],
   },
 
-  adapter: netlify({
-    devFeatures: {
-      images: true,
-      environmentVariables: false,
-      edgeFunctions: false,
-    },
-  }),
+  adapter: cloudflare(),
 });

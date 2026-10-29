@@ -21,6 +21,56 @@ export function initToc(nav: HTMLElement) {
 
   const controller = new AbortController();
   const { signal } = controller;
+  const disclosure = nav.closest<HTMLElement>("[data-toc-disclosure]");
+  const toggle =
+    disclosure?.querySelector<HTMLButtonElement>("[data-toc-toggle]");
+  const compact = matchMedia("(max-width: 992px)");
+  const links = Array.from(
+    nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
+  );
+  let expanded = false;
+  function updateDisclosure() {
+    if (!disclosure || !toggle) return;
+    const collapsible = compact.matches && links.length > 4;
+    toggle.hidden = !collapsible;
+    toggle.setAttribute("aria-expanded", String(expanded));
+    toggle.textContent = expanded
+      ? "Hide table of contents"
+      : "Show table of contents";
+    if (collapsible) {
+      // Four complete entries, followed by a faded preview of the next entry.
+      const preview = links[4];
+      const height =
+        preview.getBoundingClientRect().top -
+        nav.getBoundingClientRect().top +
+        parseFloat(getComputedStyle(preview).lineHeight);
+      disclosure.style.setProperty("--toc-preview-height", `${height}px`);
+      disclosure.dataset.expanded = String(expanded);
+    } else delete disclosure.dataset.expanded;
+    links.forEach((link, index) => {
+      const clipped = collapsible && !expanded && index >= 4;
+      link.inert = clipped;
+      if (clipped) link.setAttribute("aria-hidden", "true");
+      else link.removeAttribute("aria-hidden");
+    });
+  }
+  toggle?.addEventListener(
+    "click",
+    () => {
+      expanded = !expanded;
+      updateDisclosure();
+      // Keep the control visible if collapsing a long list moves it above the viewport.
+      if (!expanded && toggle.getBoundingClientRect().top < 100) {
+        toggle.scrollIntoView({ block: "center", behavior: "instant" });
+      }
+    },
+    { signal },
+  );
+  compact.addEventListener("change", updateDisclosure, { signal });
+  const disclosureResize = new ResizeObserver(updateDisclosure);
+  disclosureResize.observe(nav);
+  updateDisclosure();
+
   const header = document.querySelector<HTMLElement>(".site-header");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
   let observer: IntersectionObserver;
@@ -173,6 +223,7 @@ export function initToc(nav: HTMLElement) {
     controller.abort();
     observer.disconnect();
     resize.disconnect();
+    disclosureResize.disconnect();
     clearTimeout(timer);
     cancelAnimationFrame(frame);
     instances.delete(nav);

@@ -10,23 +10,41 @@ const toc = headings.filter(({ depth }) => depth === 2 || depth === 3);
 ---
 
 <aside class="block 2md:sticky top-24 max-w-full 2md:max-w-60 w-full flex-none self-start">
-  <div class="text-sm leading-[1.3] font-medium mb-3">In this article:</div>
+  <div class="toc-label text-sm leading-[1.3] font-medium mb-3">
+    In this article:
+  </div>
 
   {toc.length > 0 && (
-    <nav data-toc aria-label="Table of contents" class="mb-[clamp(1.5rem,0.7519vw+1.3238rem,2rem)] flex max-h-none 2md:max-h-88 flex-col gap-2.5 2md:overflow-auto scrollbar-thin">
-      {toc.map(({ depth, slug, text }) => (
-        <a
-          data-toc-level={`h${depth}`}
-          href={`#${slug}`}
-          class:list={[
-            "text-sm p-0 bg-none text-[#6e6e68] transition-colors duration-200 ease-[ease] text-left leading-[1.5] hover:text-foreground",
-            { "pl-3.75": depth === 3 },
-          ]}
-        >
-          {text}
-        </a>
-      ))}
-    </nav>
+    <div data-toc-disclosure>
+      <nav
+        id="article-toc"
+        data-toc
+        aria-label="Table of contents"
+        class="mb-[clamp(1.5rem,0.7519vw+1.3238rem,2rem)] flex max-h-none 2md:max-h-88 flex-col gap-2.5 2md:overflow-auto scrollbar-thin"
+      >
+        {toc.map(({ depth, slug, text }) => (
+          <a
+            data-toc-level={`h${depth}`}
+            href={`#${slug}`}
+            class:list={[
+              "text-sm p-0 bg-none text-[#6e6e68] transition-colors duration-200 ease-[ease] text-left leading-[1.5] hover:text-foreground",
+              { "pl-3.75": depth === 3 },
+            ]}
+          >
+            {text}
+          </a>
+        ))}
+      </nav>
+      <button
+        data-toc-toggle
+        type="button"
+        hidden
+        aria-expanded="false"
+        aria-controls="article-toc"
+      >
+        Show table of contents
+      </button>
+    </div>
   )}
 
   <div class="p-5 pt-4 mb-8 bg-surface-dark text-white">
@@ -65,7 +83,9 @@ const toc = headings.filter(({ depth }) => depth === 2 || depth === 3);
   let cleanups: (() => void)[] = [];
   function initialize() {
     cleanups.forEach((cleanup) => cleanup());
-    cleanups = Array.from(document.querySelectorAll<HTMLElement>("[data-toc]")).map(initToc);
+    cleanups = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-toc]"),
+    ).map(initToc);
   }
   initialize();
   document.addEventListener("astro:page-load", initialize);
@@ -76,6 +96,54 @@ const toc = headings.filter(({ depth }) => depth === 2 || depth === 3);
 </script>
 
 <style>
+  [data-toc-disclosure] {
+    display: contents;
+  }
+  [data-toc-toggle] {
+    display: none;
+  }
+
+  @media (max-width: 992px) {
+    .toc-label {
+      font-size: 1rem;
+    }
+    [data-toc-disclosure] {
+      display: block;
+      margin-bottom: clamp(1.5rem, 0.7519vw + 1.3238rem, 2rem);
+    }
+    [data-toc] {
+      max-height: none;
+      overflow: visible;
+      margin-bottom: 0;
+      gap: 1rem;
+    }
+    [data-toc] a {
+      font-size: 1rem;
+    }
+    [data-toc-disclosure][data-expanded="false"] [data-toc] {
+      max-height: var(--toc-preview-height, 22rem);
+      overflow: hidden;
+      mask-image: linear-gradient(
+        to bottom,
+        black calc(100% - 2.5rem),
+        transparent
+      );
+    }
+    [data-toc-toggle]:not([hidden]) {
+      display: block;
+      margin-top: 1rem;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: var(--foreground);
+      font: inherit;
+      font-weight: 500;
+      text-align: left;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      cursor: pointer;
+    }
+  }
   [data-toc] a[aria-current="location"] {
     color: var(--foreground);
   }

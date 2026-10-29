@@ -1,0 +1,13 @@
+---
+import type { Block } from "@portabletext/astro/types";
+import { headingId } from "@/lib/sanity/presentation";
+interface Props {
+  node: Block;
+}
+const { node } = Astro.props;
+const Tag = node.style === "h3" ? "h3" : "h2";
+---
+
+<Tag id={headingId(node._key ?? "")}>
+  <slot />
+</Tag>

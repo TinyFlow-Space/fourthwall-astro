@@ -1,7 +1,7 @@
 ---
 /** Emits selection-change with detail.value. */
 interface Props {
-  items: readonly (string | { label: string; value: string })[];
+  items: readonly (string | { label: string; value: string; href?: string })[];
   selected?: string;
   label?: string;
   id?: string;
@@ -16,7 +16,9 @@ const {
   className,
 } = Astro.props;
 const options = items.map((item) =>
-  typeof item === "string" ? { label: item, value: item } : item,
+  typeof item === "string"
+    ? { label: item, value: item, href: undefined }
+    : item,
 );
 const selectedValue =
   options.find((item) => item.value === selected)?.value ?? options[0]?.value;
@@ -36,19 +38,25 @@ const selectedValue =
     aria-hidden="true"
     class="hover-pill pointer-events-none z-0 bg-[#0a0a0a0f] absolute top-0 left-0 bottom-0 rounded-lg transition-[transform_0.28s_cubic-bezier(0.2,0.7,0.2,1),width_0.28s_cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none"
   ></div>
-  {options.map((item) => (
-    <button
-      type="button"
-      value={item.value}
-      class:list={[
-        "filter-item z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-3.5 px-4.5 2md:py-4.5 2md:px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none",
-        { "text-foreground!": item.value === selectedValue },
-      ]}
-      aria-pressed={item.value === selectedValue}
-    >
-      {item.label}
-    </button>
-  ))}
+  {options.map((item) => {
+    const Tag = item.href ? "a" : "button";
+    return (
+      <Tag
+        type={item.href ? undefined : "button"}
+        href={item.href}
+        data-value={item.value}
+        value={item.href ? undefined : item.value}
+        role={item.href ? "button" : undefined}
+        class:list={[
+          "filter-item z-1 text-secondary-foreground hover:text-foreground! text-body-md leading-none font-medium cursor-pointer shrink-0 mb-0 relative py-3.5 px-4.5 2md:py-4.5 2md:px-5 rounded-lg whitespace-nowrap transition-colors duration-200 inline-block border-none",
+          { "text-foreground!": item.value === selectedValue },
+        ]}
+        aria-pressed={item.value === selectedValue}
+      >
+        {item.label}
+      </Tag>
+    );
+  })}
 </div>
 
 <script>
@@ -63,12 +71,14 @@ const selectedValue =
         const { signal } = controller;
         const pill = nav.querySelector<HTMLElement>(".hover-pill");
         const buttons = Array.from(
-          nav.querySelectorAll<HTMLButtonElement>(".filter-item"),
+          nav.querySelectorAll<HTMLButtonElement | HTMLAnchorElement>(
+            ".filter-item",
+          ),
         );
         const initialSelectedButton = buttons.find(
           (button) => button.getAttribute("aria-pressed") === "true",
         );
-        let hoveredButton: HTMLButtonElement | null = null;
+        let hoveredButton: HTMLButtonElement | HTMLAnchorElement | null = null;
 
         if (!pill || !initialSelectedButton) return;
         let selectedButton = initialSelectedButton;
@@ -93,6 +103,20 @@ const selectedValue =
         };
 
         buttons.forEach((button) => {
+          button.addEventListener(
+            "keydown",
+            (event) => {
+              if (
+                button instanceof HTMLAnchorElement &&
+                event instanceof KeyboardEvent &&
+                event.key === " "
+              ) {
+                event.preventDefault();
+                button.click();
+              }
+            },
+            { signal },
+          );
           button.addEventListener(
             "pointerenter",
             () => {
@@ -122,7 +146,16 @@ const selectedValue =
 
           button.addEventListener(
             "click",
-            () => {
+            (event) => {
+              if (
+                event instanceof MouseEvent &&
+                (event.metaKey ||
+                  event.ctrlKey ||
+                  event.shiftKey ||
+                  event.altKey ||
+                  event.button !== 0)
+              )
+                return;
               selectedButton = button;
               buttons.forEach((item) => {
                 const isSelected = item === selectedButton;
@@ -131,7 +164,7 @@ const selectedValue =
               });
               nav.dispatchEvent(
                 new CustomEvent("selection-change", {
-                  detail: { value: button.value },
+                  detail: { value: button.dataset.value },
                   bubbles: true,
                 }),
               );
@@ -140,6 +173,28 @@ const selectedValue =
             { signal },
           );
         });
+
+        // Restore selection from URL/history without triggering a new request.
+        nav.addEventListener(
+          "selection-set",
+          (event) => {
+            const value = (event as CustomEvent<{ value: string }>).detail
+              .value;
+            const button =
+              buttons.find((item) => item.dataset.value === value) ??
+              buttons[0];
+            if (!button) return;
+            selectedButton = button;
+            hoveredButton = null;
+            buttons.forEach((item) => {
+              const selected = item === button;
+              item.setAttribute("aria-pressed", String(selected));
+              item.classList.toggle("text-foreground!", selected);
+            });
+            schedulePillPosition();
+          },
+          { signal },
+        );
 
         nav.addEventListener(
           "pointerleave",
@@ -151,6 +206,12 @@ const selectedValue =
         );
 
         positionCurrentButton();
+        // Keep a directly linked tab visible in the existing scrollable mobile row.
+        nav.scrollLeft = Math.max(
+          0,
+          selectedButton.offsetLeft -
+            (nav.clientWidth - selectedButton.offsetWidth) / 2,
+        );
         const resizeObserver = new ResizeObserver(positionCurrentButton);
         resizeObserver.observe(nav);
         buttons.forEach((button) => resizeObserver.observe(button));

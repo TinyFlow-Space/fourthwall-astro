@@ -26,3 +26,8 @@ pnpm-debug.log*
 # Local Netlify folder
 .netlify
 .wrangler
+.env.*
+!.env.example
+.dev.vars*
+studio/dist/
+studio/.sanity/

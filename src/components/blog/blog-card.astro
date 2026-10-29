@@ -1,5 +1,11 @@
 ---
-import { Image } from "astro:assets";
+import type { PostSummary } from "@/lib/sanity/types";
+import { imageUrl, postHref, formatDate } from "@/lib/sanity/presentation";
+interface Props {
+  post: PostSummary;
+}
+const { post } = Astro.props;
+const image = imageUrl(post?.mainImage, 720, 432);
 ---
 
 <article
@@ -7,47 +13,46 @@ import { Image } from "astro:assets";
   class="blog-card block relative transition-colors duration-150"
 >
   <figure class="relative mt-0 mb-4 overflow-hidden aspect-10/6">
-    <Image
-      src={
-        "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ace8fe0187cc9529096ab7b_aimee-song-creator-spotlight.webp"
-      }
-      loading={"lazy"}
-      inferSize
-      alt={
-        "Aimee Song, fashion blogger known for Song of Style, a Revolve collection, and the Amiya luxury knitwear brand."
-      }
-      class="size-full absolute inset-0 object-cover"
-    />
+    {image && (
+      <img
+        src={image}
+        srcset={`${imageUrl(post?.mainImage, 360, 216)} 360w, ${image} 720w`}
+        sizes="(max-width: 767px) 40vw, (max-width: 991px) 50vw, 33vw"
+        width="720"
+        height="432"
+        loading="lazy"
+        alt={post?.mainImage?.alt ?? ""}
+        class="size-full absolute inset-0 object-cover"
+      />
+    )}
   </figure>
 
   <div class="flex flex-col gap-2.5">
     <div class="text-[0.6875rem] leading-[1.3] tracking-[1px] text-[#6e6e68] uppercase">
-      Featured
+      {post.categories.map((category) => category.title).join(" · ")}
     </div>
     <h2 class="my-0 text-[clamp(1.125rem,.188vw+1.0809rem,1.25rem)] leading-[1.4] font-display font-[435] tracking-[-0.1px] text-balance">
-      How Aimee Song Turned an Architecture Portfolio Into a Fashion Brand
+      {post.title}
     </h2>
 
     <div class="flex flex-wrap items-center justify-start gap-[clamp(0.875rem,0.5634vw+0.743rem,1.25rem)]">
       <p class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68] text-wrap">
-        Richard Lazazzera
+        {post.author?.name}
       </p>
       <time
-        datetime="2026-10-14"
+        datetime={post.publishedAt}
         class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68]"
       >
-        Oct 14, 2026
+        {formatDate(post.publishedAt)}
       </time>
     </div>
   </div>
 
   <a
-    href="/blog/aimee-song-creator-spotlight"
+    href={postHref(post.slug)}
     class="max-w-full inline-block absolute inset-0 size-full"
   >
-    <div class="sr-only">
-      How Aimee Song Turned an Architecture Portfolio Into a Fashion Brand
-    </div>
+    <div class="sr-only">{post.title}</div>
   </a>
 </article>
 

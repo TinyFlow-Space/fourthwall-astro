@@ -1,0 +1,65 @@
+<div
+  data-blog-navigation
+  hidden
+  role="status"
+  aria-live="polite"
+  class="fixed inset-x-0 top-20 bottom-0 z-50 overflow-hidden bg-background px-6 py-12"
+>
+  <span class="sr-only">Loading blog content…</span>
+  <div aria-hidden="true" class="container-md motion-safe:animate-pulse">
+    <div class="h-5 w-32 bg-[#0000000d] mb-8"></div>
+    <div class="h-12 w-3/4 bg-[#0000000d] mb-5"></div>
+    <div class="h-6 w-1/2 bg-[#0000000d] mb-10"></div>
+    <div class="aspect-10/6 max-h-96 bg-[#0000000d]"></div>
+  </div>
+</div>
+<script>
+  const overlay = document.querySelector<HTMLElement>("[data-blog-navigation]");
+  let loadingTimer: ReturnType<typeof setTimeout>;
+  let resetTimer: ReturnType<typeof setTimeout>;
+  document.addEventListener("click", (event) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    const link = (event.target as Element).closest<HTMLAnchorElement>(
+      "a[href]",
+    );
+    if (
+      !link ||
+      link.target ||
+      link.hasAttribute("download") ||
+      link.matches("[data-page-link], [data-reset], [data-retry]")
+    )
+      return;
+    const url = new URL(link.href);
+    if (
+      url.origin !== location.origin ||
+      !/^\/blog(?:\/|$)/.test(url.pathname) ||
+      url.href === location.href
+    )
+      return;
+    loadingTimer = setTimeout(() => {
+      if (overlay) overlay.hidden = false;
+    }, 150);
+    // Restore the page if a browser navigation is stopped or fails.
+    resetTimer = setTimeout(() => {
+      if (overlay) overlay.hidden = true;
+    }, 15000);
+  });
+  window.addEventListener("pageshow", () => {
+    clearTimeout(loadingTimer);
+    clearTimeout(resetTimer);
+    if (overlay) overlay.hidden = true;
+  });
+</script>
+<style>
+  [hidden] {
+    display: none !important;
+  }
+</style>

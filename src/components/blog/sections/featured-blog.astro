@@ -1,5 +1,11 @@
 ---
-import { Image } from "astro:assets";
+import type { PostSummary } from "@/lib/sanity/types";
+import { imageUrl, postHref, formatDate } from "@/lib/sanity/presentation";
+interface Props {
+  post: PostSummary;
+}
+const { post } = Astro.props;
+const image = imageUrl(post.mainImage, 1200, 720);
 ---
 
 <section
@@ -13,54 +19,52 @@ import { Image } from "astro:assets";
         class="relative z-0 grid grid-cols-[1.5fr] 2md:grid-cols-[1.5fr_1fr] grid-rows-[auto] grid-flow-row gap-6 md:gap-12 auto-cols-fr"
       >
         <figure class="relative my-0 overflow-hidden pt-[60.2%]">
-          <Image
-            src={
-              "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ac3bc3c1a8fa08cbaca9e24_teepublic-alternatives.webp"
-            }
-            loading={"eager"}
-            inferSize
-            alt={
-              "TeePublic alternatives for print-on-demand artists, including Fourthwall, Redbubble, and Zazzle, with earnings compared."
-            }
-            class="size-full absolute inset-0 object-cover"
-          />
+          {image && (
+            <img
+              src={image}
+              srcset={`${imageUrl(post.mainImage, 600, 360)} 600w, ${image} 1200w`}
+              sizes="(max-width: 991px) 100vw, 800px"
+              width="1200"
+              height="720"
+              fetchpriority="high"
+              alt={post.mainImage?.alt ?? ""}
+              class="size-full absolute inset-0 object-cover"
+            />
+          )}
         </figure>
 
         <div class="flex flex-col gap-4">
           <div class="2md:border-t 2md:border-[#00000029] 2md:pt-6 text-[0.6875rem] leading-[1.3] tracking-[1px] text-[#6e6e68] uppercase">
-            Trends & Insights
+            {post?.featured
+              ? "Featured"
+              : post.categories.map((category) => category.title).join(" · ")}
           </div>
 
           <div class="mt-auto flex flex-col gap-[clamp(1rem,0.3759vw+0.9119rem,1.25rem)]">
-            <h2 class="my-0 text-[clamp(2rem,0.7519vw+1.8238rem,2.5rem)] leading-[1.1] font-normal tracking-[-0.8px] text-balance">
-              8 Best TeePublic Alternatives for Artists in 2026
+            <h2 class="my-0 text-[clamp(2rem,0.7519vw+1.8238rem,2.5rem)] leading-[1.1] font-normal font-display tracking-[-0.8px] text-balance">
+              {post.title}
             </h2>
-            <p class="tracking-[-.3px] mt-0 mb-2.5 text-wrap">
-              How each option compares on earnings per sale, pricing control,
-              and built-in marketplace traffic.
-            </p>
+            <p class="tracking-[-.3px] mt-0 mb-2.5 text-wrap">{post.excerpt}</p>
 
             <div class="flex flex-col md:flex-row flex-wrap items-start md:items-center justify-start gap-1 md:gap-[clamp(0.875rem,0.5634vw+0.743rem,1.25rem)]">
               <p class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68] text-wrap">
-                Richard Lazazzera
+                {post.author?.name}
               </p>
               <time
-                datetime="2026-10-14"
+                datetime={post.publishedAt}
                 class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68]"
               >
-                Oct 14, 2026
+                {formatDate(post.publishedAt)}
               </time>
             </div>
           </div>
         </div>
 
         <a
-          href="/blog/teepublic-alternatives"
+          href={postHref(post.slug)}
           class="max-w-full inline-block absolute inset-0 size-full"
         >
-          <div class="sr-only">
-            8 Best TeePublic Alternatives for Artists in 2026
-          </div>
+          <div class="sr-only">{post.title}</div>
         </a>
       </article>
     </div>

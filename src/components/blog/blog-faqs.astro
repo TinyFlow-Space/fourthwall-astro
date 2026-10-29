@@ -9,34 +9,7 @@ interface Props {
   items?: { question: string; answer: string }[];
 }
 
-// Default FAQ copy; override with items.
-const {
-  class: className,
-  id = "blog-faqs",
-  items = [
-    {
-      question: "What should I compare when choosing a TeePublic alternative?",
-      answer:
-        "Compare product quality, pricing control, fulfillment options, and how customers will find your work. Consider whether you want a marketplace listing or a storefront that you promote yourself.",
-    },
-    {
-      question:
-        "What is the difference between a marketplace and my own storefront?",
-      answer:
-        "A marketplace brings work from many sellers into one shopping destination. Your own storefront gives your brand a dedicated home, where you can guide visitors through your products and tell the story behind your designs.",
-    },
-    {
-      question: "Can I sell my designs on more than one platform?",
-      answer:
-        "Check each platform’s current terms and any licensing agreements attached to your artwork before listing it elsewhere. Keep your product descriptions and availability up to date across the platforms you use.",
-    },
-    {
-      question: "How can I check product quality before launching?",
-      answer:
-        "Order samples of the products you plan to sell. Review the print, colors, material, fit, and packaging, and use what you learn to improve your designs and product descriptions before sharing the collection.",
-    },
-  ],
-} = Astro.props;
+const { class: className, id = "blog-faqs", items = [] } = Astro.props;
 ---
 
 <section

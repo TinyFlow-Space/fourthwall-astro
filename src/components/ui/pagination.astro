@@ -1,20 +1,44 @@
 ---
 import { cn } from "@/utils";
 
-const { className } = Astro.props;
+interface Props {
+  className?: string;
+  currentPage?: number;
+  totalPages?: number;
+  hrefForPage?: (page: number) => string;
+}
+const {
+  className,
+  currentPage = 1,
+  totalPages = 1,
+  hrefForPage = (page) => `?page=${page}`,
+} = Astro.props;
+const previous = currentPage > 1;
+const next = currentPage < totalPages;
+const Previous = previous ? "a" : "button";
+const Next = next ? "a" : "button";
+// Bound the number of controls for large archives, preserving numbered buttons.
+const start = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+const pages = Array.from(
+  { length: Math.min(5, totalPages) },
+  (_, index) => start + index,
+);
 ---
 
-<div
+<nav
+  aria-label="Blog pagination"
   class={cn(
     "mt-[clamp(3.5rem,0.7519vw+3.3238rem,4rem)] flex flex-row items-center justify-center gap-3",
     className,
   )}
 >
-
-  <button
+  <Previous
+    data-page-link={previous ? "" : undefined}
+    href={previous ? hrefForPage(currentPage - 1) : undefined}
+    disabled={!previous}
     aria-label="Previous Page"
-    tabindex="-1"
-    aria-disabled="true"
+    tabindex={previous ? 0 : -1}
+    aria-disabled={!previous}
     class="flex-none rounded-lg border-0 bg-transparent mx-0 p-2 transition-[background-color,color] duration-200 hover:bg-[#0a0a0a0f]"
   >
     <img
@@ -22,25 +46,32 @@ const { className } = Astro.props;
       loading="lazy"
       alt=""
     />
-  </button>
+  </Previous>
 
   <div class="max-[390px]:max-w-[80%] max-[390px]:overflow-auto flex items-center justify-start gap-1">
-    {Array.from({ length: 4 }).map((_, index) => (
-      <button
+    {pages.map((page) => (
+      <a
+        data-page-link
+        href={hrefForPage(page)}
+        aria-label={`Page ${page}`}
+        aria-current={page === currentPage ? "page" : undefined}
         class={cn(
           "rounded-lg text-secondary-foreground text-sm leading-5.25 font-medium py-[.34375rem] px-[.84375rem] transition-[background-color,color,opacity] duration-200 hover:bg-[#0a0a0a0f] hover:text-foreground",
-          index === 0 && "bg-[#0000000d] text-[#161712]",
+          page === currentPage && "bg-[#0000000d] text-[#161712]",
         )}
       >
-        {index + 1}
-      </button>
+        {page}
+      </a>
     ))}
   </div>
 
-  <button
+  <Next
+    data-page-link={next ? "" : undefined}
+    href={next ? hrefForPage(currentPage + 1) : undefined}
+    disabled={!next}
     aria-label="Next Page"
-    tabindex="0"
-    aria-disabled="false"
+    tabindex={next ? 0 : -1}
+    aria-disabled={!next}
     class="flex-none rounded-lg border-0 bg-transparent mx-0 p-2 transition-[background-color,color] duration-200 hover:bg-[#0a0a0a0f]"
   >
     <img
@@ -48,5 +79,5 @@ const { className } = Astro.props;
       loading="lazy"
       alt=""
     />
-  </button>
-</div>
+  </Next>
+</nav>

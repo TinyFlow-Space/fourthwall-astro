@@ -1,0 +1,36 @@
+---
+import type { SanityImage } from "@/lib/sanity/types";
+import { imageUrl } from "@/lib/sanity/presentation";
+interface Props {
+  node: SanityImage;
+}
+const { node } = Astro.props;
+const url = imageUrl(node, 1200);
+// Sanity asset IDs encode the original dimensions; reserve space to avoid shifts.
+const dimensions = node.asset?._ref.match(/-(\d+)x(\d+)-/);
+const width = Number(dimensions?.[1] ?? 1200);
+const height = Number(dimensions?.[2] ?? 720);
+const ratio =
+  (width * (1 - (node.crop?.left ?? 0) - (node.crop?.right ?? 0))) /
+  (height * (1 - (node.crop?.top ?? 0) - (node.crop?.bottom ?? 0)));
+---
+
+{url && (
+  <figure class="my-8">
+    <img
+      src={url}
+      srcset={`${imageUrl(node, 480)} 480w, ${imageUrl(node, 800)} 800w, ${url} 1200w`}
+      sizes="(max-width: 991px) 100vw, 800px"
+      width="1200"
+      height={Math.round(1200 / ratio)}
+      alt={node.alt ?? ""}
+      loading="lazy"
+      class="w-full h-auto"
+    />
+    {node.caption && (
+      <figcaption class="text-sm text-[#6e6e68] mt-2">
+        {node.caption}
+      </figcaption>
+    )}
+  </figure>
+)}

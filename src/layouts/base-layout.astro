@@ -6,16 +6,28 @@ import Footer from "@/components/site/footer.astro";
 import WordMark from "@/components/site/wordmark.astro";
 import Cta from "@/components/site/cta.astro";
 import { cn } from "@/utils";
+import BlogNavigationLoading from "@/components/blog/navigation-loading.astro";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
   className?: string;
+  noindex?: boolean;
+  article?: boolean;
+  canonicalUrl?: string;
 }
-const { title, description, image = "/og.png", className } = Astro.props;
+const {
+  title,
+  description,
+  image = "/og.png",
+  className,
+  noindex = false,
+  article = false,
+  canonicalUrl,
+} = Astro.props;
 const siteUrl = Astro.site ?? Astro.url;
-const canonical = new URL(Astro.url.pathname, siteUrl);
+const canonical = new URL(canonicalUrl ?? Astro.url.pathname, siteUrl);
 const ld = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -34,7 +46,9 @@ const ld = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <slot name="head" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, siteUrl)} />
@@ -58,6 +72,7 @@ const ld = {
       Skip to main content
     </a>
     <Header />
+    <BlogNavigationLoading />
     <main
       id="skip-main"
       tabindex="-1"

@@ -1,0 +1,19 @@
+---
+import type { MarkProps } from "@portabletext/astro/types";
+import { safeHref } from "@/lib/sanity/presentation";
+type Props = MarkProps<{ href?: string }>;
+const href = safeHref(Astro.props.node.markDef?.href);
+---
+
+{href ? (
+  <a
+    href={href}
+    rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+  >
+    <slot />
+  </a>
+) : (
+  <span>
+    <slot />
+  </span>
+)}

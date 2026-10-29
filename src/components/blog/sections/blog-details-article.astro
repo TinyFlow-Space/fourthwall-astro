@@ -1,52 +1,62 @@
 ---
 import BlogDetailsAside from "@/components/blog/blog-details-aside.astro";
-import { Image } from "astro:assets";
 import BlogAuthorCard from "@/components/blog/blog-author-card.astro";
-import BlogTldrCard from "@/components/blog/blog-tldr-card.astro";
 import BlogFaqs from "@/components/blog/blog-faqs.astro";
-import { Content, getHeadings } from "@/data/blog/sample-article.md";
-
-const headings = getHeadings();
+import RichText from "@/components/blog/portable-text/rich-text.astro";
+import type { Post } from "@/lib/sanity/types";
+import {
+  imageUrl,
+  formatDate,
+  getHeadings,
+  safeHref,
+} from "@/lib/sanity/presentation";
+import BlogTldrCard from "../blog-tldr-card.astro";
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const headings = getHeadings(post.body ?? []);
+const image = imageUrl(post.mainImage, 1200, 720);
+const avatar = imageUrl(post.author?.image, 92, 92);
 ---
 
 <article class="bg-background">
-
   <div class="block px-[clamp(1rem,1.5038vw+.6476rem,2rem)] pt-[clamp(6rem,4.5113vw+4.9427rem,9rem)]">
     <div class="container-md">
-
       <div class="flex items-stretch md:items-start flex-col-reverse md:flex-row gap-4 md:gap-8 2md:gap-20">
-
         <div class="md:sticky top-24 flex w-full max-w-full md:max-w-60 flex-none items-start justify-start gap-4 mt-3 md:mt-0">
-          <img
-            src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a5505fedc183bce3bfe0ac3_Richard%20Lazazzera%20Profile.jpeg"
-            loading="eager"
-            width="46"
-            height="46"
-            alt="Richard Lazazzera"
-            class="aspect-square rounded-full flex-none w-11.5"
-          />
+          {avatar && (
+            <img
+              src={avatar}
+              width="46"
+              height="46"
+              alt={post.author?.name ?? ""}
+              class="aspect-square rounded-full flex-none w-11.5"
+            />
+          )}
           <div>
             <div class="flex items-center max-[480px]:mb-0.5 mb-1 gap-3">
               <a
-                href="https://www.linkedin.com/in/rlazazzera/"
+                href={safeHref(post.author?.website)}
                 target="_blank"
                 class="max-w-full inline-block"
-                rel="nofollow"
+                rel="nofollow noopener noreferrer"
               >
                 <div class="font-body font-normal font-base leading-[1.5]">
-                  Richard Lazazzera
+                  {post.author?.name}
                 </div>
               </a>
             </div>
 
             <p class="text-[#6e6e68] text-sm leading-[1.5] max-[480px]:hidden">
-              Richard is Head of Organic Growth at Fourthwall, with 14+ years of
-              experience in the creator economy and ecommerce.
+              {post.author?.bio?.substring(0, 105)}
             </p>
 
             <div class="block text-[#6e6e68] text-sm leading-[1.5] max-[480px]:mt-0 max-[480px]:pt-0 max-[480px]:border-none mt-3 pt-3 border-t border-t-[#00000029]">
               <span>Published </span>
-              <time datetime="2026-10-14">2026-10-14</time>
+              <time datetime={post.publishedAt}>
+                {formatDate(post.publishedAt)}
+              </time>
             </div>
           </div>
         </div>
@@ -56,29 +66,35 @@ const headings = getHeadings();
             <div class="flex items-center justify-start gap-3 text-[#6e6e68] mb-[clamp(1rem,.7519vw+.8238rem,1.5rem)]">
               <a href="/blog">Blog</a>
               <div>/</div>
-              <a href="/blog?category=trends&insights">Trends & Insights</a>
+              {post.categories.map((category) => (
+                <a href={`/blog?category=${encodeURIComponent(category.slug)}`}>
+                  {category.title}
+                </a>
+              ))}
             </div>
 
             <h1 class="my-0 text-balance text-[clamp(2rem,1.5038vw+1.6476rem,3rem)] leading-[1.1] font-display font-normal tracking-[-.02em]">
-              8 Best TeePublic Alternatives for Artists in 2026
+              {post.title}
             </h1>
 
             <p class="text-[#6e6e68] max-w-[60ch] text-[clamp(1.125rem,.3759vw+1.037rem,1.25rem)] leading-[1.5] mt-[1.6rem] mb-0 text-wrap">
-              How each option compares on earnings per sale, pricing control,
-              and built-in marketplace traffic.
+              {post.excerpt}
             </p>
           </div>
 
           <figure class="overflow-hidden relative pt-[60%] mb-0 mt-[clamp(1rem,3.0075vw+.2951rem,3rem)]">
-            <Image
-              src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ac3bc3c1a8fa08cbaca9e24_teepublic-alternatives.webp"
-              loading="eager"
-              width="800"
-              height="480"
-              alt="TeePublic alternatives for print-on-demand artists, including Fourthwall, Redbubble, and Zazzle, with earnings compared."
-              sizes="(max-width: 991px) 100vw, 800px"
-              class="absolute inset-0 size-full object-cover"
-            />
+            {image && (
+              <img
+                src={image}
+                srcset={`${imageUrl(post.mainImage, 600, 360)} 600w, ${image} 1200w`}
+                sizes="(max-width: 991px) 100vw, 800px"
+                width="1200"
+                height="720"
+                fetchpriority="high"
+                alt={post.mainImage?.alt ?? ""}
+                class="absolute inset-0 size-full object-cover"
+              />
+            )}
           </figure>
         </div>
       </div>
@@ -91,12 +107,13 @@ const headings = getHeadings();
         <BlogDetailsAside headings={headings} />
 
         <div class="w-full min-w-0">
-          <BlogTldrCard />
+          {post.summary && <BlogTldrCard summary={post.summary} />}
+
           <div class="blog-richtext mb-13 text-base md:text-lg leading-relaxed wrap-break-word">
-            <Content />
+            <RichText value={post.body ?? []} />
           </div>
-          <BlogFaqs />
-          <BlogAuthorCard />
+          {post.faqs.length > 0 && <BlogFaqs items={post.faqs} />}
+          {post.author && <BlogAuthorCard author={post.author} />}
         </div>
       </div>
     </div>
@@ -112,17 +129,35 @@ const headings = getHeadings();
     scroll-margin-top: 100px;
     margin-block: 2.5rem 1.25rem;
   }
-  .blog-richtext :global(h2) { font-size: clamp(26px, 3vw, 32px); }
-  .blog-richtext :global(h3) { font-size: clamp(21px, 2.5vw, 24px); }
-  .blog-richtext :global(> :first-child) { margin-top: 0; }
+  .blog-richtext :global(h2) {
+    font-size: clamp(26px, 3vw, 32px);
+  }
+  .blog-richtext :global(h3) {
+    font-size: clamp(21px, 2.5vw, 24px);
+  }
+  .blog-richtext :global(> :first-child) {
+    margin-top: 0;
+  }
   .blog-richtext :global(p),
   .blog-richtext :global(ul),
   .blog-richtext :global(ol),
-  .blog-richtext :global(blockquote) { margin-bottom: 1.5rem; }
-  .blog-richtext :global(ul) { list-style: disc; padding-left: 1.5em; }
-  .blog-richtext :global(ol) { list-style: decimal; padding-left: 1.5em; }
-  .blog-richtext :global(li + li) { margin-top: 0.5rem; }
-  .blog-richtext :global(a) { text-decoration: underline; }
+  .blog-richtext :global(blockquote) {
+    margin-bottom: 1.5rem;
+  }
+  .blog-richtext :global(ul) {
+    list-style: disc;
+    padding-left: 1.5em;
+  }
+  .blog-richtext :global(ol) {
+    list-style: decimal;
+    padding-left: 1.5em;
+  }
+  .blog-richtext :global(li + li) {
+    margin-top: 0.5rem;
+  }
+  .blog-richtext :global(a) {
+    text-decoration: underline;
+  }
   .blog-richtext :global(blockquote) {
     border-left: 2px solid var(--foreground);
     padding-left: 1.25rem;

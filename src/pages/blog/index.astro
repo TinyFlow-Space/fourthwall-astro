@@ -1,17 +1,49 @@
 ---
 import BlogHero from "@/components/blog/sections/blog-hero.astro";
-import Blogs from "@/components/blog/sections/blogs.astro";
 import FeaturedBlog from "@/components/blog/sections/featured-blog.astro";
 import Newsletter from "@/components/blog/newsletter.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
+import { getListing, postsPerPage } from "@/lib/sanity/client";
+import { parseBlogParams, blogHref } from "@/lib/sanity/params";
+import type { Listing } from "@/lib/sanity/types";
+import Blogs from "@/components/blog/sections/blogs.astro";
+export const prerender = false;
+let params = parseBlogParams(Astro.url.searchParams);
+let data: Listing | undefined;
+let error = false;
+try {
+  ({ data, params } = await getListing(params));
+} catch {
+  error = true;
+  Astro.response.status = 503;
+}
+Astro.response.headers.set("Cache-Control", "no-store");
+const fragment = Astro.url.searchParams.get("fragment") === "1";
+const listing = {
+  params,
+  total: data?.total ?? 0,
+  categories: data?.categories ?? [],
+  error,
+  perPage: postsPerPage,
+};
 ---
 
-<BaseLayout
-  title="Fourthwall | Blog"
-  description="A blog about creators, e-commerce, memberships, and more. Everything that you need to know to run your creator business on Fourthwall."
->
-  <BlogHero />
-  <FeaturedBlog />
-  <Blogs />
-  <Newsletter />
-</BaseLayout>
+{fragment ? (
+  <Blogs posts={data?.posts ?? []} listing={listing} resultsOnly />
+) : (
+  <BaseLayout
+    canonicalUrl={blogHref(params)}
+    title="Fourthwall | Blog"
+    description="A blog about creators, e-commerce, memberships, and more. Everything you need to run your creator business on Fourthwall."
+    noindex={error || !!params.q || !!params.category || !!params.tag}
+  >
+    <BlogHero />
+    {data?.featured && <FeaturedBlog post={data.featured} />}
+    <Blogs posts={data?.posts ?? []} listing={listing} />
+    <Newsletter />
+  </BaseLayout>
+)}
+
+<script>
+  import "@/scripts/blog/listing";
+</script>

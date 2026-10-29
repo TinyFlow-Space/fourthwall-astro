@@ -1,45 +1,47 @@
 ---
 import BlogSocialShare from "@/components/blog/blog-social-share.astro";
+import type { Author } from "@/lib/sanity/types";
+import { imageUrl, safeHref } from "@/lib/sanity/presentation";
+interface Props {
+  author: Author;
+}
+const { author } = Astro.props;
+const avatar = imageUrl(author.image, 128, 128);
 ---
 
 <div class="mt-18">
-
   <div class="flex flex-col md:flex-row max-[480px]:p-[1rem_1.25rem] p-8 gap-7 2md:gap-16 bg-[#0000000d]">
-
     <div class="flex items-start justify-start flex-none gap-5">
-      <img
-        src="https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a54f192e523b4fb5858c957_Matt%20Keyser%20Headshot.png"
-        loading="lazy"
-        width="64"
-        height="64"
-        alt="Matt Keyser"
-        class="w-16 rounded-full aspect-square"
-      />
+      {avatar && (
+        <img
+          src={avatar}
+          width="64"
+          height="64"
+          loading="lazy"
+          alt={author.name}
+          class="w-16 rounded-full aspect-square"
+        />
+      )}
       <div>
         <h2 class="font-body mt-0 mb-1.5 text-lg font-normal leading-[1.6]">
-          Matt Keyser
+          {author.name}
         </h2>
         <p class="max-w-[18ch] mb-1.5 text-base leading-[1.5] text-[#6e6e68]">
-          Creator Economy Writer
+          {author.role}
         </p>
         <a
-          href="https://www.linkedin.com/in/matt-keyser-253842237/"
+          href={safeHref(author.website)}
           target="_blank"
           class="max-w-full underline text-[#6e6e68] block"
-          rel="nofollow"
+          rel="nofollow noopener noreferrer"
         >
-          <span>Linkedin</span>
+          <span>{safeHref(author.website) ? "Linkedin" : ""}</span>
         </a>
       </div>
     </div>
 
     <p class="font-body text-body-md text-foreground leading-relaxed">
-      Matt Keyser is a writer at Fourthwall who lives at the intersection of
-      social media and Creator culture. With 4+ years of experience covering
-      industry trends, his work focuses on helping Creators and brands
-      understand how to turn their passion into a thriving business while
-      maintaining a constant pulse on the latest eCommerce and social media
-      trends.
+      {author.bio}
     </p>
   </div>
 

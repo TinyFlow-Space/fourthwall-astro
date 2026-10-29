@@ -3,60 +3,191 @@ import BlogCard from "@/components/blog/blog-card.astro";
 import FilterButtons from "@/components/ui/filter-buttons.astro";
 import Pagination from "@/components/ui/pagination.astro";
 import SearchBar from "@/components/ui/search-bar.astro";
+import type { PostSummary } from "@/lib/sanity/types";
 
-const { showFilter = true, showTitle = false } = Astro.props;
+import { blogHref, type BlogParams } from "@/lib/sanity/params";
+import { categoryOptions } from "@/lib/sanity/categories";
+import type { Taxonomy } from "@/lib/sanity/types";
 
-const FILTERS = [
-  "Latest",
-  "Featured",
-  "Case Studies",
-  "Announcements",
-  "Best Practices",
-  "Trends & Insights",
-];
+interface Props {
+  posts: PostSummary[];
+  showFilter?: boolean;
+  showTitle?: boolean;
+  queryName?: string;
+  searchQuery?: string;
+  listing?: {
+    params: BlogParams;
+    total: number;
+    categories: Taxonomy[];
+    error: boolean;
+    perPage: number;
+  };
+  resultsOnly?: boolean;
+}
+const {
+  posts,
+  showFilter = true,
+  showTitle = false,
+  queryName = "q",
+  searchQuery = "",
+  listing,
+  resultsOnly = false,
+} = Astro.props;
+const params = listing?.params ?? {
+  q: searchQuery,
+  category: "",
+  tag: "",
+  page: 1,
+};
+const filters = categoryOptions(listing?.categories ?? []).map((item) => ({
+  ...item,
+  href: blogHref({ ...params, category: item.value, page: 1 }),
+}));
+const pages = Math.max(
+  1,
+  Math.ceil((listing?.total ?? posts.length) / (listing?.perPage ?? 6)),
+);
 ---
 
-<section
-  aria-label="Blog List"
-  class="bg-background py-[clamp(4rem,3.3835vw+3.207rem,6.25rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
->
-  <div class="container-lg">
+{(listing || posts.length > 0) && (
+  <section
+    data-blog-listing={listing && !resultsOnly ? "" : undefined}
+    aria-label="Blog List"
+    class="bg-background py-[clamp(4rem,3.3835vw+3.207rem,6.25rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
+  >
+    <div class="container-lg">
+      {showFilter && !resultsOnly && (
+        <form
+          action="/blog"
+          role="search"
+          class="blog-filter-row flex items-center justify-between gap-4 flex-col md:flex-row 2md:gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]"
+        >
+          <FilterButtons
+            items={filters}
+            selected={params.category}
+            label="Blog categories"
+            className="blog-filters"
+          />
+          <input type="hidden" name="category" value={params.category} />
+          <input type="hidden" name="tag" value={params.tag} />
+          <SearchBar name={queryName} value={params.q} />
+          <button type="submit" class="sr-only">
+            Search
+          </button>
+        </form>
+      )}
 
-    {showFilter && (
-      <div class="blog-filter-row flex items-center justify-between gap-4 flex-col md:flex-row 2md:gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]">
-        <FilterButtons
-          items={FILTERS}
-          selected="Latest"
-          className="blog-filters"
-        />
-        <SearchBar />
+      {showTitle && (
+        <h2 class="font-display mt-0 mb-[clamp(2.5rem,2.2556vw+1.9713rem,4rem)] border-t border-[#00000029] pt-[clamp(2rem,2.2556vw+1.4713rem,3.5rem)] text-[clamp(2rem,1.5038vw+1.6476rem,3rem)] leading-9 font-normal tracking-[-0.96px] text-wrap">
+          You might also like
+        </h2>
+      )}
+
+      {listing && !resultsOnly && (
+        <p
+          data-loading-status
+          role="status"
+          aria-live="polite"
+          class="sr-only"
+        ></p>
+      )}
+      <div data-results-shell class="relative">
+        {listing && !resultsOnly && (
+          <div
+            data-skeleton
+            hidden
+            aria-hidden="true"
+            class="absolute inset-0 z-10 overflow-hidden bg-background grid grid-cols-1 md:grid-cols-2 2md:grid-cols-3 gap-x-8 gap-y-6 md:gap-y-12"
+          >
+            {Array.from({ length: listing.perPage }, () => (
+              <div class="motion-safe:animate-pulse grid grid-cols-[0.611111fr_0.388889fr] md:block gap-4 border-b border-[#0000001a] md:border-0 pb-6 md:pb-0">
+                <div class="order-1 aspect-10/6 bg-[#0000000d] mb-4"></div>
+                <div>
+                  <div class="h-3 w-1/3 bg-[#0000000d] mb-3"></div>
+                  <div class="h-6 w-3/4 bg-[#0000000d] mb-3"></div>
+                  <div class="h-4 w-1/2 bg-[#0000000d]"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div
+          data-blog-results
+          data-page={params.page}
+          data-category={params.category}
+          data-q={params.q}
+          data-tag={params.tag}
+          data-error={listing?.error ? "true" : undefined}
+        >
+          {listing?.error ? (
+            <div role="alert" class="py-16 text-center">
+              <h2 class="text-2xl">The blog is temporarily unavailable</h2>
+              <p>We couldn’t load the posts. Please try again shortly.</p>
+              <a data-retry href={blogHref(params)} class="underline">
+                Try again
+              </a>
+            </div>
+          ) : (
+            <>
+              {listing && (
+                <p data-result-count class="sr-only">
+                  {listing.total} posts · Page {params.page} of {pages}
+                </p>
+              )}
+              {posts.length > 0 ? (
+                <div
+                  role="list"
+                  class="grid grid-cols-1 md:grid-cols-2 2md:grid-cols-3 gap-x-8 gap-y-6 md:gap-y-12"
+                >
+                  {posts.map((post) => (
+                    <BlogCard post={post} />
+                  ))}
+                </div>
+              ) : (
+                <div class="text-center py-16">
+                  <h2 class="text-2xl">
+                    {params.q
+                      ? "No search results"
+                      : params.category || params.tag
+                        ? "No posts match these filters"
+                        : "New stories are on their way"}
+                  </h2>
+                  <p>
+                    {params.q || params.category || params.tag
+                      ? "Try another search or clear your filters."
+                      : "Check back soon for our latest posts."}
+                  </p>
+                  {(params.q || params.category || params.tag) && (
+                    <a data-reset href="/blog" class="underline">
+                      Clear search and filters
+                    </a>
+                  )}
+                </div>
+              )}
+              {listing && posts.length > 0 && (
+                <Pagination
+                  currentPage={params.page}
+                  totalPages={pages}
+                  hrefForPage={(page) => blogHref(params, page)}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
-    )}
-
-    {showTitle && (
-      <h2 class="font-display mt-0 mb-[clamp(2.5rem,2.2556vw+1.9713rem,4rem)] border-t border-[#00000029] pt-[clamp(2rem,2.2556vw+1.4713rem,3.5rem)] text-[clamp(2rem,1.5038vw+1.6476rem,3rem)] leading-9 font-normal tracking-[-0.96px] text-wrap">
-        You might also like
-      </h2>
-    )}
-
-    <div
-      role="list"
-      class="grid grid-cols-1 md:grid-cols-2 2md:grid-cols-3 gap-x-8 gap-y-6 md:gap-y-12"
-    >
-      <BlogCard />
-      <BlogCard />
-      <BlogCard />
-      <BlogCard />
-      <BlogCard />
-      <BlogCard />
     </div>
-
-    <Pagination />
-  </div>
-</section>
+  </section>
+)}
 
 <style is:global>
   @reference "@/styles/global.css";
+  [data-blog-listing] [hidden] {
+    display: none !important;
+  }
+  [data-blog-results][aria-busy="true"] {
+    opacity: 0.35;
+    pointer-events: none;
+  }
 
   @media screen and (max-width: 767px) {
     .blog-filters {

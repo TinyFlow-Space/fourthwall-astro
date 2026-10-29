@@ -1,0 +1,12 @@
+{
+  "name": "fourthwall-studio",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "sanity": "^6.20.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "styled-components": "^6.6.0"
+  }
+}

@@ -23,6 +23,7 @@ export const postQuery =
   defineQuery(`*[${published} && slug.current == $slug][0] {
   ${summary}, _updatedAt, body, summary, "faqs": coalesce(faqs, [])
 }`);
-export const relatedQuery = defineQuery(`*[${published} && _id != $id] {
-  ${summary}, "relevance": count(categories[@._ref in $categories]) + count(tags[@._ref in $tags])
-} | order(relevance desc, publishedAt desc, _id asc)[0...3]`);
+// Require a shared category before sorting; never fill gaps with unrelated posts.
+export const relatedQuery = defineQuery(`*[${published} && _id != $id
+  && count(categories[@._ref in $categories]) > 0
+] | order(publishedAt desc, _id asc)[0...3] {${summary}}`);

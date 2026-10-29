@@ -54,9 +54,8 @@ export async function getListing(
 }
 export const getPost = (slug: string) =>
   query<Post | null>(postQuery, { slug });
-export const getRelated = (post: Post) =>
-  query<PostSummary[]>(relatedQuery, {
-    id: post._id,
-    categories: post.categories.map((c) => c._id),
-    tags: post.tags.map((t) => t._id),
-  });
+export const getRelated = (post: Post): Promise<PostSummary[]> => {
+  const categories = post.categories.map((category) => category._id);
+  if (!categories.length) return Promise.resolve([]);
+  return query<PostSummary[]>(relatedQuery, { id: post._id, categories });
+};

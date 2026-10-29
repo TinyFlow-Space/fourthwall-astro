@@ -1,5 +1,5 @@
 import { createImageUrlBuilder } from "@sanity/image-url";
-import type { SanityImage, BodyBlock } from "./types";
+import type { SanityImage } from "./types";
 const builder = createImageUrlBuilder({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || "unconfigured",
   dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
@@ -38,20 +38,4 @@ export function safeHref(value?: string): string | undefined {
     return undefined;
   }
 }
-export const headingId = (key: string) =>
-  `section-${key.replace(/[^a-zA-Z0-9_-]/g, "")}`;
-export function getHeadings(body: BodyBlock[]) {
-  return body.flatMap((block) =>
-    block._type === "block" &&
-    "children" in block &&
-    (block.style === "h2" || block.style === "h3")
-      ? [
-          {
-            depth: block.style === "h2" ? 2 : 3,
-            slug: headingId(block._key ?? ""),
-            text: block.children.map((child) => child.text).join(""),
-          },
-        ]
-      : [],
-  );
-}
+export { getHeadings, headingId } from "./headings";

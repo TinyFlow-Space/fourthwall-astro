@@ -1,6 +1,7 @@
 ---
 import { PortableText } from "@portabletext/astro";
 import type { BodyBlock } from "@/lib/sanity/types";
+import { prepareHeadings } from "@/lib/sanity/headings";
 import Heading from "./heading.astro";
 import Image from "./image.astro";
 import Link from "./link.astro";
@@ -8,12 +9,20 @@ interface Props {
   value: BodyBlock[];
 }
 const { value } = Astro.props;
+const { blocks } = prepareHeadings(value);
 ---
 
 <PortableText
-  value={value}
+  value={blocks}
   components={{
-    block: { h2: Heading, h3: Heading },
+    block: {
+      h1: Heading,
+      h2: Heading,
+      h3: Heading,
+      h4: Heading,
+      h5: Heading,
+      h6: Heading,
+    },
     type: { image: Image },
     mark: { link: Link },
   }}

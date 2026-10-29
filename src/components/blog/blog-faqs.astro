@@ -12,10 +12,7 @@ interface Props {
 const { class: className, id = "blog-faqs", items = [] } = Astro.props;
 ---
 
-<section
-  class={cn("blog-faqs mb-13", className)}
-  aria-labelledby={`${id}-heading`}
->
+<div class={cn("blog-faqs mb-13", className)} aria-labelledby={`${id}-heading`}>
   <h2
     id={`${id}-heading`}
     class="mt-0 mb-5 font-display font-[435] text-[32px] leading-9"
@@ -36,7 +33,7 @@ const { class: className, id = "blog-faqs", items = [] } = Astro.props;
       </AccordionItem>
     ))}
   </Accordion>
-</section>
+</div>
 
 <style>
   /* Override shared mobile padding for blog answers. */

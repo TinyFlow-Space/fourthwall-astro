@@ -7,10 +7,12 @@ import { getPost, getRelated } from "@/lib/sanity/client";
 import { imageUrl, postHref } from "@/lib/sanity/presentation";
 import type { Post, PostSummary } from "@/lib/sanity/types";
 export const prerender = false;
+
 const { slug } = Astro.params;
 let post: Post | null = null;
-let related: PostSummary[] = [];
+let relatedBlogs: PostSummary[] = [];
 let failed = false;
+
 if (slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
   try {
     post = await getPost(slug);
@@ -20,15 +22,18 @@ if (slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
 }
 if (post) {
   try {
-    related = await getRelated(post);
+    relatedBlogs = await getRelated(post);
   } catch {
     /* The article remains usable if recommendations fail. */
   }
 }
+
 Astro.response.status = failed ? 503 : post ? 200 : 404;
 Astro.response.headers.set("Cache-Control", "no-store");
+
 const title =
   post?.title ?? (failed ? "Article unavailable" : "Article not found");
+
 const structured = post
   ? {
       "@context": "https://schema.org",
@@ -65,9 +70,16 @@ const structured = post
   )}
   {post ? (
     <>
-      <BlogDetailsArticle post={post} />
+      <BlogDetailsArticle
+        post={post}
+        className={
+          relatedBlogs.length === 0
+            ? "pb-[clamp(4rem,3.3835vw+3.207rem,6.25rem)]"
+            : undefined
+        }
+      />
       <Blogs
-        posts={related}
+        posts={relatedBlogs}
         showTitle={true}
         showFilter={false}
         searchQuery=""

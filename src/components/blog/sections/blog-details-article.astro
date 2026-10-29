@@ -11,16 +11,18 @@ import {
   safeHref,
 } from "@/lib/sanity/presentation";
 import BlogTldrCard from "../blog-tldr-card.astro";
+import { cn } from "@/utils";
 interface Props {
   post: Post;
+  className?: String;
 }
-const { post } = Astro.props;
+const { post, className } = Astro.props;
 const headings = getHeadings(post.body ?? []);
 const image = imageUrl(post.mainImage, 1200, 720);
 const avatar = imageUrl(post.author?.image, 92, 92);
 ---
 
-<article class="bg-background">
+<article class={cn("bg-background", className)}>
   <div class="block px-[clamp(1rem,1.5038vw+.6476rem,2rem)] pt-[clamp(6rem,4.5113vw+4.9427rem,9rem)]">
     <div class="container-md">
       <div class="flex items-stretch md:items-start flex-col-reverse md:flex-row gap-4 md:gap-8 2md:gap-20">

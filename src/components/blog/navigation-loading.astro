@@ -3,14 +3,193 @@
   hidden
   role="status"
   aria-live="polite"
-  class="fixed inset-x-0 top-20 bottom-0 z-50 overflow-hidden bg-background px-6 py-12"
+  aria-busy="true"
+  class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-background"
 >
   <span class="sr-only">Loading blog content…</span>
-  <div aria-hidden="true" class="container-md motion-safe:animate-pulse">
-    <div class="h-5 w-32 bg-[#0000000d] mb-8"></div>
-    <div class="h-12 w-3/4 bg-[#0000000d] mb-5"></div>
-    <div class="h-6 w-1/2 bg-[#0000000d] mb-10"></div>
-    <div class="aspect-10/6 max-h-96 bg-[#0000000d]"></div>
+  <div
+    data-article-skeleton
+    aria-hidden="true"
+    class="motion-safe:animate-pulse pb-16"
+  >
+    <div class="px-[clamp(1rem,1.5038vw+.6476rem,2rem)] pt-[clamp(6rem,4.5113vw+4.9427rem,9rem)]">
+      <div class="container-md">
+        <div class="flex items-stretch md:items-start flex-col-reverse md:flex-row gap-4 md:gap-8 2md:gap-20">
+          <div
+            data-skeleton-author
+            class="flex w-full md:max-w-60 flex-none items-start gap-4 mt-3 md:mt-0"
+          >
+            <div class="size-11.5 shrink-0 rounded-full bg-[#0000000d]"></div>
+            <div class="min-w-0 flex-1">
+              <div class="h-5 w-28 max-w-full bg-[#0000000d] mb-3"></div>
+              <div class="space-y-2 max-[480px]:hidden">
+                <div class="h-3 w-full bg-[#0000000d]"></div>
+                <div class="h-3 w-full bg-[#0000000d]"></div>
+                <div class="h-3 w-4/5 bg-[#0000000d]"></div>
+                <div class="h-3 w-3/5 bg-[#0000000d]"></div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-[#00000029] max-[480px]:mt-0 max-[480px]:pt-0 max-[480px]:border-0">
+                <div class="h-3 w-36 max-w-full bg-[#0000000d]"></div>
+              </div>
+            </div>
+          </div>
+          <div data-skeleton-hero class="w-full min-w-0">
+            <div class="flex gap-3 mb-[clamp(1rem,.7519vw+.8238rem,1.5rem)]">
+              <div class="h-5 w-10 bg-[#0000000d]"></div>
+              <div class="h-5 w-20 bg-[#0000000d]"></div>
+            </div>
+            <div class="space-y-2 text-[clamp(2rem,1.5038vw+1.6476rem,3rem)] leading-[1.1]">
+              <div class="h-[.9em] w-full bg-[#0000000d]"></div>
+              <div class="h-[.9em] w-11/12 bg-[#0000000d]"></div>
+              <div class="h-[.9em] w-3/5 bg-[#0000000d] md:hidden"></div>
+            </div>
+            <div class="mt-[1.6rem] max-w-[60ch] space-y-2 text-[clamp(1.125rem,.3759vw+1.037rem,1.25rem)]">
+              <div class="h-[1em] w-full bg-[#0000000d]"></div>
+              <div class="h-[1em] w-3/5 bg-[#0000000d]"></div>
+            </div>
+            <div
+              data-skeleton-image
+              class="aspect-5/3 w-full bg-[#0000000d] mt-[clamp(1rem,3.0075vw+.2951rem,3rem)]"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-[clamp(1rem,1.5038vw+.6476rem,2rem)] pt-12">
+      <div class="container-md flex flex-col 2md:flex-row gap-[clamp(4rem,1.5038vw+3.6476rem,5rem)]">
+        <div class="w-full 2md:max-w-60 flex-none space-y-4">
+          <div class="h-4 w-28 bg-[#0000000d]"></div>
+          {Array.from({ length: 4 }, () => (
+            <div class="space-y-2">
+              <div class="h-3 w-full bg-[#0000000d]"></div>
+              <div class="h-3 w-4/5 bg-[#0000000d]"></div>
+            </div>
+          ))}
+        </div>
+        <div class="w-full min-w-0">
+          <div class="px-8 py-7 bg-[#0000000d] mb-10">
+            <div class="h-7 w-24 bg-[#0000000d] mb-6"></div>
+            <div class="space-y-3">
+              <div class="h-4 w-full bg-[#0000000d]"></div>
+              <div class="h-4 w-full bg-[#0000000d]"></div>
+              <div class="h-4 w-3/4 bg-[#0000000d]"></div>
+            </div>
+          </div>
+          <div class="h-7 w-2/3 bg-[#0000000d] mb-6"></div>
+          <div class="space-y-3">
+            {Array.from({ length: 4 }, () => (
+              <div class="h-4 w-full bg-[#0000000d]"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    data-listing-skeleton
+    hidden
+    aria-hidden="true"
+    class="motion-safe:animate-pulse"
+  >
+    <div class="pt-[clamp(6rem,5.2632vw+4.7664rem,9.5rem)] pb-[clamp(3rem,4.8872vw+1.8546rem,6.25rem)]">
+      <div class="container-lg px-[clamp(1rem,1.5038vw+.6476rem,2rem)]">
+        <div class="grid place-items-center gap-[clamp(1.5rem,.7519vw+1.3238rem,2rem)]">
+          <div class="text-[clamp(3rem,5.8271vw+1.6343rem,6.875rem)] h-[1.1em] w-[4em] max-w-full bg-[#0000000d]"></div>
+          <div class="w-full max-w-[50ch] space-y-2 mb-2.5">
+            <div class="h-4 w-full bg-[#0000000d]"></div>
+            <div class="h-4 w-4/5 mx-auto bg-[#0000000d]"></div>
+            <div class="h-4 w-3/5 mx-auto bg-[#0000000d] md:hidden"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="px-[clamp(1rem,1.5038vw+.6476rem,2rem)]">
+      <div
+        data-listing-featured
+        class="container-lg grid grid-cols-[1.5fr] 2md:grid-cols-[1.5fr_1fr] gap-6 md:gap-12"
+      >
+        <div
+          data-listing-featured-image
+          class="w-full pt-[60.2%] bg-[#0000000d]"
+        ></div>
+        <div data-listing-featured-copy class="min-w-0 flex flex-col gap-4">
+          <div class="2md:border-t 2md:border-[#00000029] 2md:pt-6">
+            <div class="h-3 w-24 bg-[#0000000d]"></div>
+          </div>
+          <div class="mt-auto flex flex-col gap-[clamp(1rem,.3759vw+.9119rem,1.25rem)]">
+            <div class="text-[clamp(2rem,.7519vw+1.8238rem,2.5rem)] space-y-2">
+              <div class="h-[.9em] w-full bg-[#0000000d]"></div>
+              <div class="h-[.9em] w-11/12 bg-[#0000000d]"></div>
+              <div class="h-[.9em] w-3/4 bg-[#0000000d]"></div>
+            </div>
+            <div class="space-y-2 mb-2.5">
+              <div class="h-4 w-full bg-[#0000000d]"></div>
+              <div class="h-4 w-4/5 bg-[#0000000d]"></div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-1 md:gap-[clamp(.875rem,.5634vw+.743rem,1.25rem)]">
+              <div class="h-3.5 w-24 bg-[#0000000d]"></div>
+              <div class="h-3.5 w-24 bg-[#0000000d]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="py-[clamp(4rem,3.3835vw+3.207rem,6.25rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]">
+      <div class="container-lg">
+        <div
+          data-listing-filter-row
+          class="flex items-center justify-between gap-4 flex-col md:flex-row 2md:gap-8 mb-[clamp(2.5rem,.7519vw+2.3238rem,3rem)]"
+        >
+          <div class="flex gap-2 w-full min-w-0 overflow-hidden">
+            {[20, 24, 28, 36, 32, 36].map((width) => (
+              <div
+                class="h-12 rounded-lg bg-[#0000000d] shrink-0"
+                style={{ width: `${width / 4}rem` }}
+              ></div>
+            ))}
+          </div>
+          <div
+            data-listing-search
+            class="h-12 w-full md:max-w-60 shrink-0 rounded-lg border border-[#0a0a0a29] px-4 py-3"
+          >
+            <div class="h-4 w-3/5 bg-[#0000000d]"></div>
+          </div>
+        </div>
+        <div
+          data-listing-grid
+          class="grid grid-cols-1 md:grid-cols-2 2md:grid-cols-3 gap-x-8 gap-y-6 md:gap-y-12"
+        >
+          {Array.from({ length: 6 }, () => (
+            <div
+              data-listing-card
+              class="grid grid-cols-[0.611111fr_0.388889fr] md:block items-start gap-4 border-b border-[#0000001a] md:border-0 pb-6 md:pb-0 min-w-0"
+            >
+              <div
+                data-listing-card-image
+                class="order-1 aspect-10/6 w-full bg-[#0000000d] md:mb-4"
+              ></div>
+              <div class="min-w-0 flex flex-col gap-2.5">
+                <div class="h-2.5 w-20 max-w-full bg-[#0000000d]"></div>
+                <div class="space-y-2">
+                  <div class="h-4 w-full bg-[#0000000d]"></div>
+                  <div class="h-4 w-4/5 bg-[#0000000d]"></div>
+                  <div class="h-4 w-3/5 bg-[#0000000d] md:hidden"></div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <div class="h-3 w-20 bg-[#0000000d]"></div>
+                  <div class="h-3 w-20 bg-[#0000000d]"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="mt-[clamp(3.5rem,.7519vw+3.3238rem,4rem)] flex items-center justify-center gap-3">
+          {Array.from({ length: 4 }, () => (
+            <div class="size-8 rounded-lg bg-[#0000000d]"></div>
+          ))}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>
@@ -41,11 +220,25 @@
     if (
       url.origin !== location.origin ||
       !/^\/blog(?:\/|$)/.test(url.pathname) ||
-      url.href === location.href
+      (url.pathname === location.pathname && url.search === location.search)
     )
       return;
+    clearTimeout(loadingTimer);
+    clearTimeout(resetTimer);
     loadingTimer = setTimeout(() => {
-      if (overlay) overlay.hidden = false;
+      if (overlay) {
+        const isArticle = /^\/blog\/.+/.test(url.pathname);
+        const article = overlay.querySelector<HTMLElement>(
+          "[data-article-skeleton]",
+        );
+        const listing = overlay.querySelector<HTMLElement>(
+          "[data-listing-skeleton]",
+        );
+        if (article) article.hidden = !isArticle;
+        if (listing) listing.hidden = isArticle;
+        overlay.scrollTop = 0;
+        overlay.hidden = false;
+      }
     }, 150);
     // Restore the page if a browser navigation is stopped or fails.
     resetTimer = setTimeout(() => {

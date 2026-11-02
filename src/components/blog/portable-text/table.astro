@@ -1,0 +1,69 @@
+---
+import type { RichContentBlock } from "@/lib/sanity/types";
+interface Props {
+  node: RichContentBlock;
+}
+const { node } = Astro.props;
+const rows = node.rows ?? [];
+const header = node.headerRow !== false ? rows[0] : undefined;
+---
+
+{rows.length > 0 && (
+  <div
+    class="table-scroll"
+    role="region"
+    aria-label={node.caption || "Article table"}
+    tabindex="0"
+  >
+    <table>
+      {node.caption && <caption>{node.caption}</caption>}
+      {header && (
+        <thead>
+          <tr>
+            {header.cells.map((cell) => (
+              <th scope="col">{cell}</th>
+            ))}
+          </tr>
+        </thead>
+      )}
+      <tbody>
+        {(header ? rows.slice(1) : rows).map((row) => (
+          <tr>
+            {row.cells.map((cell) => (
+              <td>{cell}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+<style>
+  .table-scroll {
+    overflow-x: auto;
+    margin-block: 2rem;
+    max-width: 100%;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font: inherit;
+  }
+  caption {
+    text-align: left;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  th,
+  td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.8rem 1rem;
+    border: 1px solid #0003;
+    min-width: 8rem;
+  }
+  th {
+    background: #00000006;
+    font-weight: 600;
+  }
+</style>

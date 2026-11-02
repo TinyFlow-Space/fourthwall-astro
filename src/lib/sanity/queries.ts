@@ -21,7 +21,7 @@ export const listingQuery = defineQuery(`{
 }`);
 export const postQuery =
   defineQuery(`*[${published} && slug.current == $slug][0] {
-  ${summary}, _updatedAt, body, summary, "faqs": coalesce(faqs, [])
+  ${summary}, _updatedAt, body[]{..., file{..., "url": asset->url}, captions{..., "url": asset->url}}, summary, "faqs": coalesce(faqs, [])
 }`);
 // Require a shared category before sorting; never fill gaps with unrelated posts.
 export const relatedQuery = defineQuery(`*[${published} && _id != $id

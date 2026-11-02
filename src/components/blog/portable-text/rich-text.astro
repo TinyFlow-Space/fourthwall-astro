@@ -5,6 +5,9 @@ import { prepareHeadings } from "@/lib/sanity/headings";
 import Heading from "./heading.astro";
 import Image from "./image.astro";
 import Link from "./link.astro";
+import Table from "./table.astro";
+import Video from "./video.astro";
+import Embed from "./embed.astro";
 interface Props {
   value: BodyBlock[];
 }
@@ -23,7 +26,14 @@ const { blocks } = prepareHeadings(value);
       h5: Heading,
       h6: Heading,
     },
-    type: { image: Image },
+    type: {
+      image: Image,
+      table: Table,
+      videoEmbed: Video,
+      socialEmbed: Embed,
+      htmlEmbed: Embed,
+      scriptEmbed: Embed,
+    },
     mark: { link: Link },
   }}
 />

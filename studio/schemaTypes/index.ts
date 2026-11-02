@@ -1,3 +1,4 @@
+import { richContent } from "./richContent";
 import { defineArrayMember, defineField, defineType } from "sanity";
 const slug = defineField({
   name: "slug",
@@ -114,6 +115,14 @@ export const schemaTypes = [
         validation: (rule) => rule.unique(),
       }),
       defineField({
+        name: "enableAudio",
+        title: "Enable audio",
+        type: "boolean",
+        initialValue: false,
+        description:
+          "Reserved for future audio support. This currently has no effect on the blog page.",
+      }),
+      defineField({
         name: "summary",
         title: "TL;DR summary",
         type: "text",
@@ -124,6 +133,7 @@ export const schemaTypes = [
         type: "array",
         validation: (rule) => rule.required().min(1),
         of: [
+          ...richContent,
           defineArrayMember({
             type: "block",
             styles: [
@@ -147,12 +157,10 @@ export const schemaTypes = [
                       name: "href",
                       type: "url",
                       validation: (rule) =>
-                        rule
-                          .required()
-                          .uri({
-                            allowRelative: true,
-                            scheme: ["https", "http", "mailto"],
-                          }),
+                        rule.required().uri({
+                          allowRelative: true,
+                          scheme: ["https", "http", "mailto"],
+                        }),
                     },
                   ],
                 },

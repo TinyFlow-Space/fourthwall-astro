@@ -31,7 +31,24 @@ export interface PostSummary {
   categories: Taxonomy[];
   tags: Taxonomy[];
 }
-export type BodyBlock = PortableTextBlock | (SanityImage & { _key: string });
+export interface RichContentBlock {
+  _type: "table" | "videoEmbed" | "socialEmbed" | "htmlEmbed" | "scriptEmbed";
+  _key: string;
+  title?: string;
+  caption?: string;
+  headerRow?: boolean;
+  rows?: { cells: string[] }[];
+  url?: string;
+  html?: string;
+  scriptUrl?: string;
+  fallbackUrl?: string;
+  height?: number;
+  file?: { url?: string };
+  captions?: { url?: string };
+  captionLanguage?: string;
+}
+export type BodyBlock =
+  RichContentBlock | PortableTextBlock | (SanityImage & { _key: string });
 export interface Post extends PostSummary {
   _updatedAt: string;
   body: BodyBlock[];

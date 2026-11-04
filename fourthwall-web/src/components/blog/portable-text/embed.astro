@@ -4,17 +4,19 @@ const cms = contentFor(Astro.locals);
 const content = cms.blogPage.sections.embed;
 
 import type { RichContentBlock } from "@/lib/sanity/types";
-import { embedDocument, httpsUrl, socialUrl } from "@/lib/blog/embeds";
+import { embedDocument, htmlVideoUrl, httpsUrl, socialUrl } from "@/lib/blog/embeds";
+import Video from "./video.astro";
 interface Props {
   node: RichContentBlock;
 }
 const { node } = Astro.props;
 const social = node._type === "socialEmbed";
+const video = node._type === "htmlEmbed" ? htmlVideoUrl(node.html) : undefined;
 const src = social ? socialUrl(node.url) : undefined;
 const fallback = httpsUrl(social ? node.url : node.fallbackUrl);
 const height = Math.min(1600, Math.max(160, Number(node.height) || 600));
 const document =
-  !social && node.html
+  !social && !video && node.html
     ? embedDocument(
         node.html,
         node._type === "scriptEmbed" ? node.scriptUrl : undefined,
@@ -24,6 +26,9 @@ const document =
 
 ---
 
+{video ? (
+  <Video node={{ ...node, url: video }} />
+) : (
 <figure class="my-8 min-w-0">
   {src || document ? (
     <iframe
@@ -52,3 +57,4 @@ const document =
     </figcaption>
   )}
 </figure>
+)}

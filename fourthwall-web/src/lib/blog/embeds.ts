@@ -43,6 +43,22 @@ export function socialUrl(value?: string): string | undefined {
     if (path) return `https://open.spotify.com/embed/${path[1]}/${path[2]}`;
   }
 }
+// Promote only a standalone, recognized video iframe. Never render editor HTML
+// directly in the page or relax the sandbox for arbitrary HTML/script embeds.
+export function htmlVideoUrl(html?: string): string | undefined {
+  const iframe = html?.match(
+    /^\s*<iframe\b((?:[^"'<>]|"[^"]*"|'[^']*')*)>\s*<\/iframe>\s*$/i,
+  );
+  if (!iframe) return;
+  const attributes = iframe[1].matchAll(
+    /([^\s=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s]+)))?/g,
+  );
+  for (const attribute of attributes) {
+    if (attribute[1].toLowerCase() === "src") {
+      return videoUrl(attribute[2] ?? attribute[3] ?? attribute[4]);
+    }
+  }
+}
 export function escapeHtml(value: string): string {
   return value.replace(
     /[&<>"']/g,

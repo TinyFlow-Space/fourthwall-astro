@@ -1,0 +1,25 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.blogPage.sections.blogHero;
+
+
+
+---
+
+<section
+  aria-label={content.ariaLabelHero}
+  class="blog-hero bg-background pt-[clamp(6rem,5.2632vw+4.7664rem,9.5rem)] pb-[clamp(3rem,4.8872vw+1.8546rem,6.25rem)]"
+>
+  <div class="container-lg px-[clamp(1rem,1.5038vw+.6476rem,2rem)]">
+    <div class="text-center place-items-center grid gap-[clamp(1.5rem,.7519vw+1.3238rem,2rem)]">
+      <h1 class="[font-variation-settings:'slnt'_-10] text-[clamp(3rem,5.8271vw+1.6343rem,6.875rem)] leading-[1.1] tracking-[-2.2px] font-display font-normal my-0 text-wrap">
+        {content.the}
+        <span class="[font-variation-settings:'slnt'_0]"> {content.drop}</span>
+      </h1>
+      <p class="max-w-[50ch] mt-0 mb-2.5 text-wrap text-center">
+        {content.aSemiRegularGuideToMerch}
+      </p>
+    </div>
+  </div>
+</section>

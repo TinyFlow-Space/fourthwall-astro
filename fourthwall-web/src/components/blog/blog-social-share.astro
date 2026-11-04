@@ -1,0 +1,49 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.blogPage.sections.blogSocialShare;
+
+import { cn } from "@/utils";
+
+const articleShareList = cms.blogPage.collections.shareProviders.map(provider => {
+  const url = new URL(provider.href);
+  url.searchParams.set(provider.name === "Facebook" ? "u" : "url", new URL(Astro.url.pathname, Astro.site ?? Astro.url).href);
+  return {...provider,href:url.href};
+});
+
+const { className } = Astro.props;
+
+
+---
+
+<address
+  class={cn("flex items-center justify-start gap-3.5 not-italic", className)}
+>
+  <div class="text-sm leading-[1.5]">{content.shareArticle}</div>
+  <ul
+    role="list"
+    class="my-0 flex list-none items-center justify-center gap-3 pl-0"
+  >
+    {articleShareList.map(({ name, href, icon }) => (
+      <li class="flex mb-0">
+        <a
+          data-share="social"
+          href={href}
+          target="_blank"
+          class="relative flex aspect-square w-6 items-center justify-center bg-surface-dark"
+          rel="nofollow"
+        >
+          <img
+            width="24"
+            height="24"
+            alt=""
+            src={icon}
+            loading="lazy"
+            class="select-none"
+          />
+          <div class="sr-only">{content.shareOn} {name}</div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</address>

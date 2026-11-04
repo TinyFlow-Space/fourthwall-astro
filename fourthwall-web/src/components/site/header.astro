@@ -1,0 +1,608 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.navigation.sections.header;
+const NAV_ITEMS = cms.navigation.collections.NAV_ITEMS;
+
+import MegaMenuContent from "@/components/site/mega-menu-content.astro";
+import Logo from "@/components/site/logo.astro";
+
+import { ArrowDown } from "@/components/icons";
+const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
+
+---
+
+<header data-light-at-top={lightAtTop} class="site-header px-surface-x py-3.5 bg-surface-dark text-white z-100 fixed top-0 left-0 right-0 flex items-center justify-between transition-colors duration-320 ease-[ease]">
+
+  <div class="flex-1">
+    <a
+      href={content.href}
+      aria-current="page"
+      aria-label={cms.siteSettings.siteName}
+      class="header-logo h-6 text-inherit inline-flex justify-self-start items-center max-w-full"
+    >
+      <Logo />
+    </a>
+  </div>
+
+  <nav
+    aria-label={content.ariaLabelMainNavigation}
+    class="desktop-nav flex w-auto justify-center my-0 gap-9 text-body-md font-medium"
+  >
+    {NAV_ITEMS.map((item) =>
+      item.menu ? (
+        <div class="desktop-menu-group">
+          <button
+            type="button"
+            class="desktop-menu-trigger link-underline py-1 text-inherit"
+            aria-expanded="false"
+            aria-controls={`desktop-${item.label.toLowerCase()}`}
+          >
+            {item.label}
+            <ArrowDown />
+          </button>
+          <div
+            class="desktop-mega"
+            id={`desktop-${item.label.toLowerCase()}`}
+            inert
+          >
+            <div class="desktop-mega-inner">
+              <MegaMenuContent kind={item.menuKind || item.label} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <a
+          class="link-underline py-1 text-inherit no-underline cursor-pointer"
+          href={item.href}
+          target={item.openInNewTab ? "_blank" : undefined}
+          rel={item.openInNewTab ? "noopener noreferrer" : undefined}
+        >
+          {item.label}
+        </a>
+      ),
+    )}
+  </nav>
+
+  <div class="desktop-actions flex flex-1 items-center justify-end gap-7">
+    <a
+      href={content.hrefHttpsMyShopFourthwallComAdminDashboard}
+      class="link-underline py-1 text-inherit no-underline text-body-md font-medium"
+    >
+      {content.logIn}
+    </a>
+
+    {cms.siteSettings.globalCTA.enabled && (<a
+      href={cms.siteSettings.globalCTA.url}
+      class="link-underline inline-flex items-center gap-2.5 font-body text-body-md py-3 px-5 rounded-lg bg-background text-foreground max-w-full font-medium group"
+    >
+      <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+        <span class="text-motion group-hover:-translate-y-full">{cms.siteSettings.globalCTA.label}</span>
+        <span class="text-motion group-hover:-translate-y-full">{cms.siteSettings.globalCTA.label}</span>
+      </div>
+    </a>)}
+  </div>
+  {cms.siteSettings.globalCTA.enabled && (<a
+    href={cms.siteSettings.globalCTA.url}
+    class="mobile-header-start h-8 hidden ml-auto mr-2 rounded-xl bg-white px-4 py-2 text-base leading-none font-medium text-foreground"
+  >
+    {cms.siteSettings.globalCTA.label}
+  </a>)}
+  <button
+    class="mobile-menu-toggle"
+    type="button"
+    aria-label={content.ariaLabelOpenNavigation}
+    aria-expanded="false"
+    aria-controls="mobile-navigation"
+  >
+    <span></span>
+    <span></span>
+  </button>
+  <nav
+    id="mobile-navigation"
+    class="mobile-navigation"
+    aria-label={content.ariaLabelMobileNavigation}
+    inert
+  >
+    <div class="mobile-navigation-inner">
+      <div class="mobile-primary-links">
+        {NAV_ITEMS.map((item) =>
+          item.menu ? (
+            <div class="mobile-menu-group">
+              <button
+                class="mobile-submenu-toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`mobile-${item.label.toLowerCase()}`}
+              >
+                {item.label}
+                <ArrowDown />
+              </button>
+              <div
+                class="mobile-submenu"
+                id={`mobile-${item.label.toLowerCase()}`}
+                inert
+              >
+                <div class="mobile-submenu-clip">
+                  <div class="mobile-submenu-content">
+                    <MegaMenuContent kind={item.menuKind || item.label} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a class="mobile-primary-link" href={item.href}
+          target={item.openInNewTab ? "_blank" : undefined}
+          rel={item.openInNewTab ? "noopener noreferrer" : undefined}>
+              {item.label}
+            </a>
+          ),
+        )}
+      </div>
+      <div class="mobile-account-actions">
+        <a
+          class="mobile-login"
+          href={content.hrefHttpsMyShopFourthwallComAdminDashboard}
+        >
+          {content.logIn}
+        </a>
+        {cms.siteSettings.globalCTA.enabled && (<a class="mobile-start" href={cms.siteSettings.globalCTA.url}>
+          {cms.siteSettings.globalCTA.label}
+        </a>)}
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>(".site-header")!;
+  const toggle = header.querySelector<HTMLButtonElement>(
+    ".mobile-menu-toggle",
+  )!;
+  const menu = header.querySelector<HTMLElement>(".mobile-navigation")!;
+  const mobile = window.matchMedia("(max-width: 991px)");
+  let open = false;
+  let desktopOpen = false;
+  function syncHeader() {
+    const scrolled = window.scrollY > 0;
+    header.dataset.dark = String(scrolled || open || desktopOpen);
+    header.dataset.compact = String(scrolled && !open && !desktopOpen);
+    const logo = header.querySelector<HTMLImageElement>("[data-cms-logo]");
+    if (logo) {
+      const light = header.dataset.lightAtTop === "true" && header.dataset.dark !== "true";
+      const source = light ? logo.dataset.lightLogo : logo.dataset.darkLogo;
+      if (source && logo.getAttribute("src") !== source) logo.src = source;
+    }
+  }
+  syncHeader();
+  window.addEventListener("scroll", syncHeader, { passive: true });
+  window.addEventListener("pageshow", syncHeader);
+
+  const heroAction = document.querySelector<HTMLElement>(
+    ".hero-section a[href*=get-started]",
+  );
+  if (heroAction) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        header.classList.toggle(
+          "is-past-hero-action",
+          entry.boundingClientRect.bottom < 64,
+        );
+      },
+      { rootMargin: "-64px 0px 0px" },
+    );
+    observer.observe(heroAction);
+    document.addEventListener(
+      "astro:before-swap",
+      () => observer.disconnect(),
+      { once: true },
+    );
+  }
+
+  const background = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      "body > main, body > footer, body > section",
+    ),
+  );
+  function setOpen(value: boolean, restoreFocus = false) {
+    open = value;
+    syncHeader();
+    header.dataset.menuOpen = String(value);
+    toggle.setAttribute("aria-expanded", String(value));
+    toggle.setAttribute(
+      "aria-label",
+      value ? "Close navigation" : "Open navigation",
+    );
+    menu.inert = !value;
+    document.documentElement.classList.toggle("mobile-menu-open", value);
+    background.forEach((element) => {
+      element.inert = value;
+    });
+    if (value || restoreFocus) toggle.focus({ preventScroll: true });
+  }
+  toggle.addEventListener("click", () => setOpen(!open));
+  menu.addEventListener("click", (event) => {
+    if ((event.target as Element).closest("a")) setOpen(false, true);
+  });
+  header.addEventListener("keydown", (event) => {
+    if (!open) return;
+    if (event.key === "Escape") {
+      setOpen(false, true);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const controls = [
+      header.querySelector<HTMLAnchorElement>("a")!,
+      toggle,
+      ...Array.from(
+        menu.querySelectorAll<HTMLElement>("a[href], button"),
+      ).filter((element) => !element.closest("[inert]")),
+    ];
+    const first = controls[0],
+      last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+  const desktopGroups = Array.from(
+    header.querySelectorAll<HTMLElement>(".desktop-menu-group"),
+  );
+  let closeTimer: ReturnType<typeof setTimeout>;
+  function closeDesktop(sync = true) {
+    desktopOpen = false;
+    clearTimeout(closeTimer);
+    desktopGroups.forEach((group) => {
+      group.dataset.open = "false";
+      group.querySelector("button")!.setAttribute("aria-expanded", "false");
+      group.querySelector<HTMLElement>(".desktop-mega")!.inert = true;
+    });
+    if (sync) syncHeader();
+  }
+  function openDesktop(group: HTMLElement) {
+    if (mobile.matches) return;
+    clearTimeout(closeTimer);
+    // Keep focused links usable when re-entering the menu.
+    if (group.dataset.open === "true") return;
+    closeDesktop(false);
+    desktopOpen = true;
+    syncHeader();
+    group.dataset.open = "true";
+    group.querySelector("button")!.setAttribute("aria-expanded", "true");
+    group.querySelector<HTMLElement>(".desktop-mega")!.inert = false;
+  }
+  desktopGroups.forEach((group) => {
+    const trigger = group.querySelector<HTMLButtonElement>("button")!;
+    group.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "touch") return;
+      const focusedMenu = desktopGroups.find(
+        (other) =>
+          other.dataset.open === "true" &&
+          other.contains(document.activeElement),
+      );
+      if (!focusedMenu || focusedMenu === group) openDesktop(group);
+    });
+    group.addEventListener("pointerleave", () => {
+      clearTimeout(closeTimer);
+      if (group.contains(document.activeElement)) return;
+      closeTimer = setTimeout(() => {
+        if (
+          group.dataset.open === "true" &&
+          !group.contains(document.activeElement)
+        ) closeDesktop();
+      }, 120);
+    });
+    trigger.addEventListener("click", () =>
+      group.dataset.open === "true" ? closeDesktop() : openDesktop(group),
+    );
+    group.addEventListener("focusin", () => {
+      clearTimeout(closeTimer);
+    });
+    group.addEventListener("focusout", (event) => {
+      if (
+        group.dataset.open === "true" &&
+        !group.contains(event.relatedTarget as Node | null)
+      ) closeDesktop();
+    });
+    group.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeDesktop();
+        trigger.focus();
+      }
+      if (event.key === "ArrowDown" && event.target === trigger) {
+        event.preventDefault();
+        openDesktop(group);
+        group.querySelector<HTMLAnchorElement>(".desktop-mega a")?.focus();
+      }
+    });
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (!header.contains(event.target as Node)) closeDesktop();
+  });
+  const submenus = Array.from(
+    menu.querySelectorAll<HTMLButtonElement>(".mobile-submenu-toggle"),
+  );
+  function setSubmenu(button: HTMLButtonElement, expanded: boolean) {
+    button.setAttribute("aria-expanded", String(expanded));
+    button.parentElement!.dataset.open = String(expanded);
+    document.getElementById(button.getAttribute("aria-controls")!)!.inert =
+      !expanded;
+  }
+  submenus.forEach((button) =>
+    button.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") !== "true";
+      submenus.forEach((other) =>
+        setSubmenu(other, other === button && expanded),
+      );
+    }),
+  );
+  mobile.addEventListener("change", () => {
+    closeDesktop();
+    submenus.forEach((button) => setSubmenu(button, false));
+    if (!mobile.matches) {
+      const focusWasInMenu = menu.contains(document.activeElement);
+      setOpen(false);
+      if (focusWasInMenu) header.querySelector<HTMLAnchorElement>("a")?.focus();
+    }
+  });
+</script>
+
+<style>
+  /* Inherit header colors without an extra transition delay. */
+  .desktop-menu-trigger,
+  .desktop-nav > a,
+  .desktop-actions > a:first-child {
+    transition: none;
+  }
+  .site-header[data-light-at-top="true"]:not([data-dark="true"]) {
+    background: white;
+    color: var(--foreground);
+  }
+  .site-header[data-light-at-top="true"]:not([data-dark="true"]) .desktop-actions > a:last-child,
+  .site-header[data-light-at-top="true"]:not([data-dark="true"]) .mobile-header-start {
+    background: var(--foreground);
+    color: white;
+  }
+  .desktop-actions > a:last-child,
+  .mobile-header-start {
+    transition: background-color 320ms ease, color 320ms ease;
+  }
+  .header-logo :global(.clip-ourth),
+  .header-logo :global(.clip-all),
+  .header-logo :global(.wall-group) {
+    transition: transform 350ms ease-in-out;
+  }
+  .header-logo :global(.clip-ourth) { transform-origin: 7.5px 0; }
+  .header-logo :global(.clip-all) { transform-origin: 87.3px 0; }
+  [data-compact="true"] .header-logo :global(.clip-ourth),
+  [data-compact="true"] .header-logo :global(.clip-all) { transform: scaleX(0); }
+  [data-compact="true"] .header-logo :global(.wall-group) { transform: translateX(-60px); }
+
+  .desktop-menu-trigger {
+    background: none;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+  .desktop-menu-trigger:focus-visible,
+  .mobile-submenu-toggle:focus-visible,
+  .mobile-menu-toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 5px;
+  }
+  .desktop-mega {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--surface-dark);
+    color: white;
+    visibility: hidden;
+    clip-path: inset(0 0 100%);
+    transition:
+      clip-path 0.4s var(--ease-rise-in),
+      visibility 0s 0.4s;
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  .desktop-mega-inner {
+    padding: 32px var(--surface-x) 48px;
+  }
+  .desktop-menu-group[data-open="true"] .desktop-mega {
+    visibility: visible;
+    clip-path: inset(0);
+    transition-delay: 0s;
+  }
+  .desktop-menu-group[data-open="true"] :global(.desktop-menu-trigger svg),
+  .mobile-menu-group[data-open="true"] :global(.mobile-submenu-toggle svg) {
+    transform: rotate(180deg);
+  }
+
+  .mobile-menu-toggle,
+  .mobile-navigation {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    .is-past-hero-action:not([data-menu-open="true"]) .mobile-header-start {
+      display: inline-flex;
+    }
+
+    header {
+      height: 64px;
+      padding-block: 10px;
+    }
+    header > a:first-child {
+      flex: none;
+      width: 113px;
+      height: 24px;
+    }
+    .desktop-nav,
+    .desktop-actions {
+      display: none;
+    }
+    .mobile-menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 44px;
+      height: 44px;
+      margin-right: -12px;
+      background: transparent;
+      color: inherit;
+    }
+    .mobile-menu-toggle span {
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      margin-inline: auto;
+      transition: transform 0.4s var(--ease-rise-in);
+    }
+    [data-menu-open="true"] .mobile-menu-toggle span:first-child {
+      transform: translateY(4px) rotate(45deg);
+    }
+    [data-menu-open="true"] .mobile-menu-toggle span:last-child {
+      transform: translateY(-4px) rotate(-45deg);
+    }
+    .mobile-navigation {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: calc(100dvh - 64px);
+      background: var(--surface-dark);
+      color: white;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      visibility: hidden;
+      clip-path: inset(0 0 100%);
+      transition:
+        clip-path 0.5s var(--ease-rise-in),
+        visibility 0s 0.5s;
+    }
+    [data-menu-open="true"] .mobile-navigation {
+      visibility: visible;
+      clip-path: inset(0);
+      transition-delay: 0s;
+    }
+    [data-menu-open="true"] {
+      padding-inline: 20px;
+      background: #090909;
+    }
+    [data-menu-open="true"] .mobile-menu-toggle {
+      margin-right: -11px;
+    }
+    .mobile-navigation {
+      background: #090909;
+    }
+    .mobile-navigation-inner {
+      padding: 36px 20px max(28px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .mobile-primary-links {
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-primary-link,
+    .mobile-submenu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      text-align: left;
+      padding: 5px 0 9px;
+      font: inherit;
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.035em;
+      line-height: 36px;
+      color: white;
+      background: none;
+      border: 0;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .mobile-submenu-toggle :global(svg) {
+      width: 20px;
+      height: 14px;
+      margin-right: 0;
+    }
+    .mobile-submenu {
+      display: grid;
+      grid-template-rows: 0fr;
+      visibility: hidden;
+      transition:
+        grid-template-rows 0.4s var(--ease-rise-in),
+        visibility 0s 0.4s;
+    }
+    .mobile-submenu-clip {
+      overflow: hidden;
+      min-height: 0;
+    }
+    .mobile-submenu-content {
+      padding: 12px 0 32px;
+    }
+    .mobile-menu-group[data-open="true"] .mobile-submenu {
+      grid-template-rows: 1fr;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    .mobile-account-actions {
+      margin-top: auto;
+      padding-top: 36px;
+      display: grid;
+      gap: 12px;
+    }
+    .mobile-account-actions a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      border-radius: 12px;
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .mobile-login {
+      background: #242424;
+      color: white;
+    }
+    .mobile-start {
+      background: white;
+      color: #090909;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .mobile-navigation-inner {
+      padding-top: 64px;
+    }
+    .mobile-primary-link,
+    .mobile-submenu-toggle {
+      font-size: 44px;
+      line-height: 56px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .desktop-actions > a:last-child,
+    .mobile-header-start,
+    .header-logo :global(.clip-ourth),
+    .header-logo :global(.clip-all),
+    .header-logo :global(.wall-group),
+    .desktop-mega,
+    .mobile-submenu,
+    .mobile-navigation,
+    .mobile-menu-toggle span {
+      transition: none;
+    }
+  }
+</style>

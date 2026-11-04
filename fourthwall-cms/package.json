@@ -1,0 +1,24 @@
+{
+  "name": "fourthwall-cms",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "sanity": "^6.20.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "styled-components": "^6.6.0",
+    "@sanity/client": "^8.12.0"
+  },
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "check": "tsc --noEmit",
+    "seed": "node --env-file-if-exists=.env --experimental-strip-types scripts/seed.ts",
+    "seed:login": "sanity exec scripts/seed.ts --with-user-token -- --cli"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "@types/node": "^26.6.5"
+  }
+}

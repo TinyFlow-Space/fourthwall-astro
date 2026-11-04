@@ -1,0 +1,54 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.blogPage.sections.embed;
+
+import type { RichContentBlock } from "@/lib/sanity/types";
+import { embedDocument, httpsUrl, socialUrl } from "@/lib/blog/embeds";
+interface Props {
+  node: RichContentBlock;
+}
+const { node } = Astro.props;
+const social = node._type === "socialEmbed";
+const src = social ? socialUrl(node.url) : undefined;
+const fallback = httpsUrl(social ? node.url : node.fallbackUrl);
+const height = Math.min(1600, Math.max(160, Number(node.height) || 600));
+const document =
+  !social && node.html
+    ? embedDocument(
+        node.html,
+        node._type === "scriptEmbed" ? node.scriptUrl : undefined,
+      )
+    : undefined;
+
+
+---
+
+<figure class="my-8 min-w-0">
+  {src || document ? (
+    <iframe
+      title={node.title || "Embedded content"}
+      src={src}
+      srcdoc={document}
+      sandbox={
+        social
+          ? "allow-scripts allow-same-origin allow-popups"
+          : "allow-scripts"
+      }
+      referrerpolicy="no-referrer"
+      loading="lazy"
+      style={`height:${height}px`}
+      class="block w-full max-w-full border-0"
+      allow="encrypted-media"
+    />
+  ) : (
+    <p>{content.embeddedContentUnavailable}</p>
+  )}
+  {fallback && (
+    <figcaption class="mt-2 text-sm">
+      <a href={fallback} target="_blank" rel="noopener noreferrer">
+        {content.view} {node.title || "original content"}
+      </a>
+    </figcaption>
+  )}
+</figure>

@@ -1,0 +1,478 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.homePage.sections.productDesign;
+const DESIGN_MOCKUPS = cms.homePage.collections.DESIGN_MOCKUPS;
+
+import { CropIcon } from "@/components/icons";
+
+import { cn } from "@/utils";
+
+const ACTIVE_DESIGN_KEY = "a";
+
+---
+
+<section class="product-design-root bg-background">
+  <div
+    class="product-design-section [--gutter:80px] max-[992px]:[--gutter:40px] w-[calc(100%-var(--gutter)+var(--expand-progress)*var(--gutter))] max-w-[calc(1880px+var(--expand-progress)*(100vw-1880px))] py-surface-y-lg bg-surface-dark mx-auto relative overflow-hidden"
+    style={{ "--expand-progress": "0.0000" }}
+  >
+
+    <canvas
+      aria-hidden="true"
+      class="design-dot-field absolute size-full z-0 inset-0 pointer-events-none"
+    ></canvas>
+
+    <div class="container @container relative z-1">
+      <div class="mb-10 max-w-[88ch] text-center mx-auto reveal">
+        <h2 class="font-display text-white text-heading-xl leading-flat tracking-[-.02em] font-[420] normal-case my-0 p-0">
+          {content.designYourProducts} <br />
+          <span class="text-muted-foreground"> {content.allYouNeedIsAnIdea}</span>
+        </h2>
+        <p class="max-w-[60ch] m-[clamp(28px,2.2vw,40px)_auto_0] text-muted-foreground text-balance text-body-md leading-relaxed">
+          {content.describeAnIdeaUploadYourOwn}
+        </p>
+      </div>
+
+      <div
+        data-current-slide={ACTIVE_DESIGN_KEY}
+        class="product-design-slider scatter-reveal-section flex items-start flex-wrap gap-[clamp(24px,4vw,56px)] mt-30 px-[clamp(16px,10cqi,140px)] select-none"
+        style={{
+          "--progress-duration": "5200ms",
+          "--scroll-progress": "0.0000",
+        }}
+        data-autoplay-delay="5200"
+      >
+
+        <div
+          class="design-scroll-track contents max-[768px]:flex max-[768px]:flex-none max-[768px]:w-[calc(100%+40px)] max-[768px]:min-w-0 max-[768px]:gap-3 max-[768px]:overflow-x-auto max-[768px]:-mx-5 max-[768px]:px-5 max-[768px]:scroll-px-5 max-[768px]:snap-x max-[768px]:snap-proximity scrollbar-none"
+          tabindex="0"
+          role="region"
+          aria-label={content.ariaLabelProductDesignPreviewsScrollHorizontally}
+        >
+
+          <div
+            class="flex flex-1 flex-col min-w-0 scatter-reveal"
+            style={{ "--stagger-index": 0 }}
+          >
+
+            <div class="aspect-5/6 w-full relative overflow-hidden @container will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*-80px),0)]">
+
+              <div class="absolute inset-0 overflow-hidden">
+
+                <div class="isolate absolute inset-0">
+
+                  {DESIGN_MOCKUPS.map((mockup, index) => (
+                    <div
+                      data-slide-key={mockup.key}
+                      class={cn(
+                        "design-mockup-slide absolute top-0 -left-px flex h-full w-[calc(100%+2px)] items-center justify-center will-change-[clip-path]",
+
+                        mockup.key === ACTIVE_DESIGN_KEY && "is-active",
+                      )}
+                    >
+                      <img
+                        src={mockup.mockupSrc}
+                        loading="lazy"
+                        alt=""
+                        class="object-contain size-full block pointer-events-none"
+                      />
+                      <img
+                        src={mockup.artworkSrc}
+                        loading="lazy"
+                        alt=""
+                        class="w-1/2 absolute top-[45%] left-1/2 transform-[translate(-50%,-50%)] pointer-events-none"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div
+                aria-hidden="true"
+                class="absolute top-[45%] left-1/2 aspect-5/3 w-[54%] -translate-x-1/2 -translate-y-1/2 pointer-events-none bg-[repeating-linear-gradient(90deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(90deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(0deg,#fff_0_5px,#0000_5px_11px),repeating-linear-gradient(0deg,#fff_0_5px,#0000_5px_11px)] bg-position-[0_0,0_100%,0_0,100%_0] bg-no-repeat bg-size-[100%_2px,100%_2px,2px_100%,2px_100%]"
+              >
+                <CropIcon className="-top-1 -left-1" />
+                <CropIcon className="-top-1 -right-1" />
+                <CropIcon className="-bottom-1 -left-1" />
+                <CropIcon className="-bottom-1 -right-1" />
+                <CropIcon className="hidden" />
+                <CropIcon className="hidden" />
+                <CropIcon className="hidden" />
+                <CropIcon className="hidden" />
+
+                <div
+                  aria-hidden="true"
+                  class="absolute top-[calc(100%+3cqi)] left-1/2 flex items-stretch gap-x-[2.5cqi] -translate-x-1/2 whitespace-nowrap font-body"
+                >
+                  <div class="inline-flex items-center gap-x-[2.15cqi] rounded-[3.05cqi] bg-white px-[3.05cqi] py-[2.15cqi] text-[2.9cqi] font-medium leading-[100%] tracking-[-.01em] text-[#0c0c0c]">
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      class="size-[2.85cqi] shrink-0 text-[#0c0c0c]"
+                    >
+                      <path
+                        d="M11.2003 0.575117C11.4577 -0.191706 12.5423 -0.191706 12.7997 0.575117C14.4817 5.58555 18.4144 9.51827 23.4249 11.2003C24.1917 11.4577 24.1917 12.5423 23.4249 12.7997C18.4144 14.4817 14.4817 18.4144 12.7997 23.4249C12.5423 24.1917 11.4577 24.1917 11.2003 23.4249C9.51827 18.4144 5.58555 14.4817 0.575117 12.7997C-0.191706 12.5423 -0.191706 11.4577 0.575117 11.2003C5.58555 9.51827 9.51827 5.58555 11.2003 0.575117Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                    <span>{content.ask}</span>
+                  </div>
+
+                  <div class="inline-flex items-center gap-x-[2.85cqi] rounded-[3.05cqi] bg-white px-[3.05cqi] py-[2.15cqi] text-[#0c0c0c]">
+                    <span class="relative overflow-hidden size-[3.05cqi] shrink-0 rounded-full">
+                      {DESIGN_MOCKUPS.map((mockup) => (
+                        <span
+                          data-design-swatch={mockup.key}
+                          class={cn(
+                            "design-swatch transition-[opacity_.6s] absolute inset-0 opacity-0",
+                            mockup.key === ACTIVE_DESIGN_KEY && "opacity-100",
+                          )}
+                          style={{ background: mockup.swatch }}
+                        ></span>
+                      ))}
+                    </span>
+                    <span class="inline-flex h-[2.85cqi] w-[2.85cqi] shrink-0 items-center justify-center text-[#0c0c0c]">
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path
+                          d="M1.50018 7.9912V13.4393L5.96655 8.97776L7.02625 10.0416L2.56379 14.4982H8.01367V16H1.75021C0.783732 15.9999 7.52404e-05 15.2154 0 14.2479V7.9912H1.50018Z"
+                          fill="currentColor"
+                        ></path>
+                        <path
+                          d="M14.2498 0C15.2163 0.00011005 16 0.784528 16 1.75214V8.0088H14.4998V2.55977L10.0335 7.02127L8.97375 5.95845L13.4352 1.50183H7.98633V0H14.2498Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </span>
+                    <span class="inline-flex h-[2.85cqi] w-[2.85cqi] shrink-0 items-center justify-center text-[#0c0c0c]">
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M6.1 1.5C5.96193 1.5 5.85 1.61193 5.85 1.75V2.16667C5.85 2.30474 5.96193 2.41667 6.1 2.41667H9.9C10.0381 2.41667 10.15 2.30474 10.15 2.16667V1.75C10.15 1.61193 10.0381 1.5 9.9 1.5H6.1ZM11.6323 2.41667C11.644 2.33502 11.65 2.25155 11.65 2.16667V1.75C11.65 0.783502 10.8665 0 9.9 0H6.1C5.1335 0 4.35 0.783502 4.35 1.75V2.16667C4.35 2.25155 4.35604 2.33502 4.36772 2.41667H0.75V3.91667H1.46772C1.45604 3.99832 1.45 4.08179 1.45 4.16667V14.25C1.45 15.2165 2.2335 16 3.2 16H12.8C13.7665 16 14.55 15.2165 14.55 14.25V4.16667C14.55 4.08179 14.544 3.99832 14.5323 3.91667H15.25V2.41667H11.6323ZM12.8 3.91667H3.2C3.06193 3.91667 2.95 4.02859 2.95 4.16667V14.25C2.95 14.3881 3.06193 14.5 3.2 14.5H12.8C12.9381 14.5 13.05 14.3881 13.05 14.25V4.16667C13.05 4.0286 12.9381 3.91667 12.8 3.91667ZM5.35 12.8333V6.06667H6.85V12.8333H5.35ZM9.15 12.8333V6.06667H10.65V12.8333H9.15Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-1 flex-col min-w-0 scatter-reveal"
+            style={{ "--stagger-index": 1 }}
+          >
+
+            <div class="design-preview-wrap aspect-5/6 will-change-transform transform-[translate3d(0,calc(var(--scroll-progress,0)*80px),0)]">
+
+              <div class="flex-1 relative overflow-hidden w-full min-h-0">
+                <div class="isolate absolute inset-0">
+                  {DESIGN_MOCKUPS.map((preview, index) => (
+                    <img
+                      data-design-preview={preview.key}
+                      src={preview.previewSrc}
+                      loading="lazy"
+                      alt=""
+                      class={cn(
+                        "design-preview-slide absolute top-0 -left-px object-contain w-[calc(100%+2px)] h-full block pointer-events-none will-change-[clip-path]",
+                        preview.key === ACTIVE_DESIGN_KEY && "is-active",
+                      )}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          aria-label={content.ariaLabelDesignSlides}
+          role="group"
+          class="flex justify-center gap-x-2 mt-16 flex-[0_0_100%]"
+        >
+          {DESIGN_MOCKUPS.map((mockup, index) => (
+            <button
+              type="button"
+              aria-label={`Slide ${index + 1}`}
+              data-design-dot={mockup.key}
+              aria-pressed={mockup.key === ACTIVE_DESIGN_KEY ? "true" : "false"}
+              class={cn(
+                "design-slide-dot relative w-2 h-2 transition-[width_.4s] border-none p-0 bg-[#ffffff4d] cursor-pointer rounded-full text-white leading-[inherit] inline-block before:content-[''] before:absolute before:-inset-2",
+                mockup.key === ACTIVE_DESIGN_KEY && "is-active",
+              )}
+            ></button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { initSectionExpansion } from "@/scripts/animations/section-expansion";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  import { initDotField } from "@/scripts/animations/dot-field";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const instances = new Map<HTMLElement, () => void>();
+  function initializeDesignSections() {
+    document
+      .querySelectorAll<HTMLElement>(".product-design-section")
+      .forEach((section) => {
+        const slider = section.querySelector<HTMLElement>(
+          ".product-design-slider",
+        );
+        if (!slider || instances.has(section)) return;
+        const canvas = section.querySelector<HTMLCanvasElement>(".design-dot-field");
+        const disposeDotField = canvas ? initDotField(canvas) : () => {};
+        const slides = [
+          ...slider.querySelectorAll<HTMLElement>("[data-slide-key]"),
+        ];
+        const previews = [
+          ...slider.querySelectorAll<HTMLElement>("[data-design-preview]"),
+        ];
+        const swatches = [
+          ...slider.querySelectorAll<HTMLElement>("[data-design-swatch]"),
+        ];
+        const dots = [
+          ...slider.querySelectorAll<HTMLButtonElement>("[data-design-dot]"),
+        ];
+
+        const designPreviewWrap = slider.querySelector(".design-preview-wrap");
+
+        const zIndexSequence = [...slides]
+          .map((slide) => slide.dataset.slideKey)
+          .filter((key): key is string => Boolean(key))
+          .sort((first, second) =>
+            first.localeCompare(second, undefined, { numeric: true }),
+          );
+
+        const slideKeys = slides
+          .map((slide) => slide.dataset.slideKey)
+          .filter((key): key is string => Boolean(key));
+
+        const autoplayDelay = Number(slider.dataset.autoplayDelay) || 5200;
+        let autoplayTimer: number | undefined;
+        let transitionCleanupTimer: number | undefined;
+        let activeKey: string | undefined;
+        const previewViewport = previews[0]?.parentElement?.parentElement;
+        const previewFrame = previewViewport?.parentElement;
+        const transitionDuration = 1150;
+        const slideTransition =
+          "clip-path 1150ms cubic-bezier(0.65, 0, 0.35, 1), opacity 1150ms cubic-bezier(0.65, 0, 0.35, 1), filter 1150ms cubic-bezier(0.65, 0, 0.35, 1)";
+
+        if (previewFrame && previewViewport) {
+          previewViewport.style.height = "100%";
+        }
+
+        const setSlideStacking = (activeKey: string) => {
+          const activeIndex = zIndexSequence.indexOf(activeKey);
+          if (activeIndex < 0 || zIndexSequence.length < 2) {
+            slides.forEach((slide) => {
+              slide.style.zIndex =
+                slide.dataset.slideKey === activeKey ? "1" : "0";
+            });
+            previews.forEach((preview) => {
+              preview.style.zIndex =
+                preview.dataset.designPreview === activeKey ? "1" : "0";
+            });
+            return;
+          }
+
+          const slideCount = zIndexSequence.length;
+          const isFirstInSequence = activeIndex === 0;
+          const zIndexes = new Map<string, number>();
+          zIndexSequence.forEach((key, index) => {
+            const relativePosition =
+              (index - activeIndex + slideCount) % slideCount;
+            const zIndex =
+              relativePosition === 0
+                ? slideCount
+                : isFirstInSequence
+                  ? relativePosition
+                  : slideCount - relativePosition;
+            zIndexes.set(key, zIndex);
+          });
+
+          slides.forEach((slide) => {
+            slide.style.zIndex = String(
+              zIndexes.get(slide.dataset.slideKey ?? "") ?? 0,
+            );
+          });
+          previews.forEach((preview) => {
+            preview.style.zIndex = String(
+              zIndexes.get(preview.dataset.designPreview ?? "") ?? 0,
+            );
+          });
+        };
+
+        const scheduleAutoplay = (activeKey: string) => {
+          window.clearTimeout(autoplayTimer);
+          autoplayTimer = window.setTimeout(() => {
+            const activeIndex = slideKeys.indexOf(activeKey);
+            const nextKey = slideKeys[(activeIndex + 1) % slideKeys.length];
+            if (nextKey) activateSlide(nextKey);
+          }, autoplayDelay);
+        };
+
+        const setSlideVisualState = (
+          elements: HTMLElement[],
+          key: string,
+          previousKey: string | undefined,
+          immediate: boolean,
+          isPreview: boolean,
+        ) => {
+          elements.forEach((element) => {
+            const elementKey = isPreview
+              ? element.dataset.designPreview
+              : element.dataset.slideKey;
+            const isActive = elementKey === key;
+            const isPrevious = Boolean(
+              previousKey && elementKey === previousKey,
+            );
+
+            element.style.transition =
+              immediate || (!isActive && !isPrevious)
+                ? "none"
+                : slideTransition;
+
+            if (isActive) {
+              element.style.clipPath = "inset(0px)";
+              element.style.opacity = "1";
+              element.style.filter = "brightness(1)";
+            } else if (isPrevious && !immediate) {
+              element.style.clipPath = "inset(0px)";
+              element.style.opacity = "0";
+              element.style.filter = "brightness(0.2)";
+            } else {
+              element.style.clipPath = "inset(0 100% 0 0)";
+              element.style.opacity = "0";
+              element.style.filter = "brightness(0.2)";
+            }
+          });
+        };
+
+        const activateSlide = (key: string, immediate = false) => {
+          if (!slideKeys.includes(key)) return;
+          const previousKey = activeKey;
+          window.clearTimeout(transitionCleanupTimer);
+
+          setSlideStacking(key);
+          setSlideVisualState(slides, key, previousKey, immediate, false);
+          setSlideVisualState(previews, key, previousKey, immediate, true);
+
+          activeKey = key;
+          slider.dataset.currentSlide = key;
+
+          swatches.forEach((swatch) => {
+            const isActive = swatch.dataset.designSwatch === key;
+            swatch.style.opacity = isActive ? "1" : "0";
+          });
+
+          dots.forEach((dot) => {
+            const isActive = dot.dataset.designDot === key;
+            dot.classList.toggle("is-active", isActive);
+            dot.setAttribute("aria-pressed", String(isActive));
+          });
+
+          if (previousKey && previousKey !== key && !immediate) {
+            transitionCleanupTimer = window.setTimeout(() => {
+              if (activeKey !== key) return;
+              for (const elements of [slides, previews]) {
+                const previous = elements.find(
+                  (element) =>
+                    (element.dataset.slideKey ??
+                      element.dataset.designPreview) === previousKey,
+                );
+                if (previous) {
+                  previous.style.transition = "none";
+                  previous.style.clipPath = "inset(0 100% 0 0)";
+                }
+              }
+            }, transitionDuration);
+          }
+
+          scheduleAutoplay(key);
+        };
+
+        dots.forEach((dot) => {
+          dot.addEventListener("click", () => {
+            const key = dot.dataset.designDot;
+            if (key) activateSlide(key);
+          });
+        });
+
+        const initialKey = slider.dataset.currentSlide ?? slideKeys[0];
+        if (initialKey && slideKeys.includes(initialKey)) {
+          activateSlide(initialKey, true);
+        }
+
+        const setProgress = (
+          value: number,
+          variable: string,
+          target: HTMLElement = section,
+        ) => {
+          const progress = Math.min(1, Math.max(0, value)).toFixed(4);
+          if (target.style.getPropertyValue(variable) !== progress) {
+            target.style.setProperty(variable, progress);
+          }
+        };
+
+        const disposeExpansion = initSectionExpansion(section, slider, 0.5);
+
+        const previewScroll = ScrollTrigger.create({
+          trigger: designPreviewWrap,
+          start: "top bottom",
+          end: "bottom 0%",
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) =>
+            setProgress(self.progress, "--scroll-progress", slider),
+          onRefresh: (self) =>
+            setProgress(self.progress, "--scroll-progress", slider),
+        });
+        instances.set(section, () => {
+          window.clearTimeout(autoplayTimer);
+          window.clearTimeout(transitionCleanupTimer);
+          disposeExpansion();
+          disposeDotField();
+          previewScroll.kill();
+        });
+      });
+  }
+  initializeDesignSections();
+  document.addEventListener("astro:page-load", initializeDesignSections);
+  document.addEventListener("astro:before-swap", () => {
+    instances.forEach((dispose) => dispose());
+    instances.clear();
+  });
+</script>
+
+<style>
+  @keyframes dot-progress {
+    0% {
+      clip-path: inset(0px 100% 0px 0px);
+    }
+    100% {
+      clip-path: inset(0px);
+    }
+  }
+
+  .design-slide-dot.is-active {
+    width: 36px !important;
+  }
+
+  .design-slide-dot.is-active::after {
+    content: "";
+    position: absolute;
+    clip-path: inset(0px 100% 0px 0px);
+    inset: 0px;
+    background: rgb(255, 255, 255);
+    border-radius: 999px;
+    animation: dot-progress var(--progress-duration, 5.2s) linear forwards;
+  }
+</style>

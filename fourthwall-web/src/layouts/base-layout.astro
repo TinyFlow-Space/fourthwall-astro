@@ -1,0 +1,111 @@
+---
+import { Font } from "astro:assets";
+import "@/styles/global.css";
+import Header from "@/components/site/header.astro";
+import Footer from "@/components/site/footer.astro";
+import WordMark from "@/components/site/wordmark.astro";
+import Cta from "@/components/site/cta.astro";
+import { cn } from "@/utils";
+import BlogNavigationLoading from "@/components/blog/navigation-loading.astro";
+
+import {contentFor, type Seo} from "@/lib/sanity/content";
+import {resolveSeo} from "@/lib/sanity/seo";
+interface Props {
+  seo?: Seo;
+  title: string;
+  description: string;
+  image?: string;
+  className?: string;
+  noindex?: boolean;
+  article?: boolean;
+  canonicalUrl?: string;
+}
+const {
+  title: fallbackTitle,
+  description: fallbackDescription,
+  image: fallbackImage,
+  className,
+  noindex: fallbackNoindex = false,
+  article = false,
+  canonicalUrl: fallbackCanonical,
+  seo,
+} = Astro.props;
+const cms=contentFor(Astro.locals);
+const {title,description,image,canonicalUrl,noindex}=resolveSeo(seo,cms.siteSettings.defaultSeo,{title:fallbackTitle,description:fallbackDescription,image:fallbackImage,canonicalUrl:fallbackCanonical,noindex:fallbackNoindex});
+const siteUrl = Astro.site ?? Astro.url;
+const canonical = new URL(canonicalUrl ?? Astro.url.pathname, siteUrl);
+const ld = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: cms.siteSettings.siteName,
+  description: cms.siteSettings.siteDescription,
+  url: canonical.href,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href={cms.siteSettings.favicon || "/favicon.svg"} />
+    {(!cms.siteSettings.favicon || cms.siteSettings.favicon === "/favicon.svg") && <link rel="icon" href="/favicon.ico" />}
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <slot name="head" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, siteUrl)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="theme-color" content="#0a0a0a" />
+    <Font cssVariable="--font-inter" />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(ld)}
+    />
+  </head>
+
+  <body class="bg-background text-foreground min-h-svh m-0 font-body text-body-md overflow-x-hidden leading-relaxed antialiased">
+    <a
+      href="#skip-main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-101 focus:rounded-lg focus:bg-background focus:px-5 focus:py-3 focus:text-foreground focus:font-medium focus:shadow-lg focus:outline-2 focus:outline-offset-4 focus:outline-foreground"
+    >
+      Skip to main content
+    </a>
+    <Header />
+    <BlogNavigationLoading />
+    <main
+      id="skip-main"
+      tabindex="-1"
+      class={cn("z-2 bg-surface-dark block relative", className)}
+    >
+      <slot />
+
+      {cms.siteSettings.globalCTA.enabled && <Cta />}
+    </main>
+    <Footer />
+    <WordMark />
+
+    <script>
+      import { initCardTilt } from "@/scripts/animations/card-tilt";
+      import { initNumberCounters } from "@/scripts/animations/number-counter";
+
+      let cleanupCardTilt = initCardTilt();
+      let cleanupCounters = initNumberCounters();
+
+      document.addEventListener("astro:page-load", () => {
+        cleanupCardTilt();
+        cleanupCardTilt = initCardTilt();
+        cleanupCounters = initNumberCounters();
+      });
+      document.addEventListener("astro:before-swap", () => cleanupCardTilt());
+      document.addEventListener("astro:before-swap", () => cleanupCounters());
+    </script>
+  </body>
+</html>

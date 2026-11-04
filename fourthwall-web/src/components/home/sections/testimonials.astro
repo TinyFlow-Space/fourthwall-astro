@@ -1,0 +1,86 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.homePage.sections.testimonials;
+const TESTIMONIALS = cms.homePage.collections.TESTIMONIALS;
+
+import TestimonialItem from "@/components/home/testimonial-item.astro";
+
+
+const CLASSES = [
+  "[grid-area:2/1/3/2]",
+  "[grid-area:2/2/3/3]",
+  "[grid-area:2/3/3/4]",
+];
+
+---
+
+<section class="testimonials-section py-surface-y-sm px-surface-x bg-white">
+  <div
+    class="testimonials-progress container @container grid grid-cols-3 gap-x-[clamp(20px,3.25vw,48px)] gap-y-0 items-start"
+    style={{ "--tgrid-progress": "0.0000" }}
+  >
+
+    <div class="max-w-[88ch] mb-[clamp(56px,50.4px,80px)] [grid-area:1/1/2/3] reveal">
+      <h2 class="font-display text-foreground text-heading-lg leading-tight font-[435] normal-case my-0 p-0">
+        {content.over500000CreatorsTrustFourthwall}
+      </h2>
+    </div>
+
+    <div role="list" class="contents [align-items:start] reveal">
+      {TESTIMONIALS.map((testimonial, index) => (
+        <TestimonialItem className={CLASSES[index]} testimonial={testimonial} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document
+    .querySelectorAll<HTMLElement>(".testimonials-section")
+    .forEach((section) => {
+      const progressTarget = section?.querySelector<HTMLElement>(
+        ".testimonials-progress",
+      );
+      const triggerImage =
+        section?.querySelector<HTMLImageElement>(".testimonial-image");
+
+      if (
+        section &&
+        progressTarget &&
+        triggerImage &&
+        !section.dataset.progressInitialized
+      ) {
+        section.dataset.progressInitialized = "true";
+
+        const setProgress = (value: number) => {
+          const progress = value.toFixed(4);
+          if (
+            progressTarget.style.getPropertyValue("--tgrid-progress") !==
+            progress
+          ) {
+            progressTarget.style.setProperty("--tgrid-progress", progress);
+          }
+        };
+
+        ScrollTrigger.create({
+          trigger: triggerImage,
+          start: "top bottom",
+          end: () =>
+            `+=${Math.min(
+              triggerImage.getBoundingClientRect().height * 0.8,
+              document.documentElement.clientHeight,
+            )}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => setProgress(self.progress),
+          onRefresh: (self) => setProgress(self.progress),
+        });
+      }
+    });
+</script>

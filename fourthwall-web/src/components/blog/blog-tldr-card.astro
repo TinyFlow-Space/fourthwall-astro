@@ -1,0 +1,52 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.blogPage.sections.blogTldrCard;
+
+interface Props {
+  summary: string;
+}
+const { summary } = Astro.props;
+const articleUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const prompt = `Please read and summarize the following article ${articleUrl.href}`;
+const aiProviders = cms.blogPage.collections.summaryProviders.map((provider) => {
+  const url = new URL(provider.url);
+  url.searchParams.set("q", prompt);
+  return { ...provider, href: url.href };
+});
+
+
+---
+
+<div class="flex flex-col gap-[clamp(1rem,.3759vw+.9119rem,1.25rem)] max-[480px]:p-[1rem_1.25rem] px-8 py-7 mb-10 bg-[#0000000d]">
+  <div class="max-[480px]:contents flex items-center justify-between">
+    <div class="font-display text-[clamp(20px,2vw,48px)] font-[450] max-[480px]:-order-1">
+      {content.title}
+    </div>
+    <div class="flex items-center justify-start gap-3">
+      <div class="text-[#6e6e68]">{content.summarizeWith}</div>
+      {aiProviders.map((provider) => (
+        <a
+          rel="nofollow noopener noreferrer"
+          data-ai-summarize=""
+          href={provider.href}
+          target="_blank"
+          class="max-w-full outline-none block relative group"
+        >
+          <img
+            width="24"
+            height="24"
+            alt=""
+            src={provider.icon}
+            loading="lazy"
+            class="opacity-50 transition-opacity duration-200 group-hover:opacity-100 focus-visible:opacity-100"
+          />
+          <span class="pointer-events-none absolute bottom-full left-1/2 block -translate-x-1/2 rounded-md bg-surface-dark px-2 py-1 text-[0.875rem] font-medium leading-[1.5] tracking-[0.00714286em] text-white whitespace-nowrap transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible">
+            {provider.name}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+  <p class="max-[480px]:-order-1">{summary}</p>
+</div>

@@ -1,0 +1,1934 @@
+{
+  "homePage": {
+    "sections": {
+      "aiIntegrationBox": {
+        "src6A9073Ce9Cab5F62A7A49EdaIntTiktokSvg": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce9cab5f62a7a49eda_int-tiktok.svg"
+      },
+      "brandManufactureSlider": {
+        "status": "Status"
+      },
+      "shippingGlobe": {
+        "ariaLabelWorldwideShippingGlobeDragHorizontallyOrU": "Worldwide shipping globe. Drag horizontally or use the arrow keys to rotate.",
+        "srcShippingGlobeSvg": "/images/shipping-globe.svg",
+        "text17ManufacturersWorldwide": "17 manufacturers worldwide",
+        "text4DaysAvgShipTime": "4 days avg. ship time",
+        "text480AvgShipCost": "$4.80 avg. ship cost"
+      },
+      "madeWith": {
+        "madeWithFourthwall": "Made with Fourthwall"
+      },
+      "hero": {
+        "ariaLabelPrevious": "Previous",
+        "ariaLabelNext": "Next",
+        "onePlatformForPremiumProductsAnd": "One platform for premium products and branded shops.",
+        "easyToStartReadyToGrow": "Easy to start. Ready to grow.",
+        "noUpfrontCostsNoCreditCard": "No upfront costs. No credit card required."
+      },
+      "creators": {
+        "fourthwallIsForCreators": "Fourthwall is for creators"
+      },
+      "faq": {
+        "hrefFaq": "/faq",
+        "hrefHttpsHelpFourthwallCom": "https://help.fourthwall.com",
+        "frequentlyAskedQuestions": "Frequently asked questions",
+        "moreQuestions": "More questions?",
+        "browseAllFaqs": "Browse all FAQs",
+        "visitTheHelpCenter": "visit the help center"
+      },
+      "productDesign": {
+        "ariaLabelProductDesignPreviewsScrollHorizontally": "Product design previews, scroll horizontally",
+        "ariaLabelDesignSlides": "Design slides",
+        "designYourProducts": "Design your products.",
+        "allYouNeedIsAnIdea": "All you need is an idea.",
+        "describeAnIdeaUploadYourOwn": "Describe an idea, upload your own art, or commission an artist. Then\n          build a full collection. Money-back guarantee.",
+        "ask": "Ask"
+      },
+      "trustedBrands": {
+        "trustedBy500000CreatorsAnd": "Trusted by 500,000+ creators and companies"
+      },
+      "featuredProducts": {
+        "hrefHttpsProductsFourthwallCom": "https://products.fourthwall.com",
+        "createHighQualityProducts": "Create high-quality products.",
+        "noExperienceRequired": "No experience required.",
+        "over200HighQualityProductsYou": "Over 200 high-quality products you and your community can be proud of,\n          from t-shirts to mugs to plushies. No upfront costs.",
+        "browseAll": "Browse all"
+      },
+      "testimonials": {
+        "over500000CreatorsTrustFourthwall": "Over 500,000 creators trust Fourthwall with their products and brands"
+      },
+      "operations": {
+        "src6A90738D84Dd5E7E02Ae237EStatsFlagUsSvg": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90738d84dd5e7e02ae237e_stats-flag-us.svg",
+        "src6A90738C36D8B0Bfe90F3Cd5StatsFlagGbSvg": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90738c36d8b0bfe90f3cd5_stats-flag-gb.svg",
+        "theWholeOperation": "The whole operation.",
+        "oneDashboard": "One dashboard.",
+        "expertPersonalizedAdviceFromYourOwn": "Expert, personalized advice from your own AI assistant.",
+        "yourProfit": "Your profit",
+        "topProducts": "Top products",
+        "salesByCountry": "Sales by country",
+        "understandAndGrowYourBusinessWith": "Understand and grow your business with confidence.",
+        "appsAndIntegrationsYouLlLove": "Apps and integrations you'll love.",
+        "description10": "Our team has helped creators sell billions of dollars of products.\n            We put everything we've learned into Eli, an AI assistant who can\n            help you achieve your goals.",
+        "description11": "Our easy-to-use dashboard gives you full visibility into your daily\n            operations. Track orders, see analytics, and make changes quickly.",
+        "description12": "We integrate with YouTube, Instagram, TikTok, Spotify, and more.\n            Plus live gifting, on-screen notifications, and chat-driven\n            purchases for your audience.",
+        "profitAmount": "26,896.10",
+        "growthPercent": "41",
+        "usSales": "21,495.04",
+        "ukSales": "9,524.95"
+      },
+      "products": {
+        "hrefHttpsProductsFourthwallCom": "https://products.fourthwall.com",
+        "hundredsOfProducts": "Hundreds of products.",
+        "noMinimums": "No minimums.",
+        "browseAll": "Browse all",
+        "bestsellers": "Bestsellers"
+      },
+      "brandShowcase": {
+        "youBringTheIdeas": "You bring the ideas.",
+        "weLlHandleTheRest": "We'll handle the rest.",
+        "designYourProductWeMakeIt": "Design your product, we make it real.",
+        "buildABrandedShopInMinutes": "Build a branded shop in minutes.",
+        "fastGlobalShipping": "Fast, global shipping.",
+        "customerSupportForOrder2Fx43Pl": "Customer support for order 2FX43PL",
+        "iEnteredTheWrongShippingAddress": "I entered the wrong shipping address on my order. Can you\n                  change it?",
+        "updatedYourOrderHasnTBeen": "Updated. Your order hasn't been dispatched yet, so it'll ship\n                  to the new address.",
+        "worldClassSupportForYouAnd": "World-class support for you and your customers.",
+        "description9": "Sourcing, samples, production, quality control — handled by partners\n            we vet. No upfront costs, quality guaranteed.",
+        "description10": "Start with a template and customize every part until it's truly\n            yours. Don't need a storefront? Skip it and order your products\n            immediately.",
+        "description11": "We work with top manufacturers all over the world to ensure that\n            products ship fast and for a fair price.",
+        "description12": "Whenever you or your customers need help, we'll be there with fast,\n            human support."
+      }
+    },
+    "collections": {
+      "BRANDS": [
+        {
+          "name": "MKBHD",
+          "url": "https://mkbhd.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073884ca8d0a18e6d9d80_logo-mkbhd.svg",
+          "height": "h-9"
+        },
+        {
+          "name": "Smithsonian",
+          "url": "https://nmaahcstore.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073876825926d544e71a6_logo-smithsonian.svg",
+          "height": "h-5.5"
+        },
+        {
+          "name": "Garage Beer",
+          "url": "https://merch.drinkgaragebeer.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907387c01bd264f48ec174_logo-garagebeer.svg",
+          "height": "h-14"
+        },
+        {
+          "name": "Eater",
+          "url": "https://shop.eater.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90738773dc4088c848fa30_logo-eater.svg",
+          "height": "h-7"
+        },
+        {
+          "name": "Vox",
+          "url": "https://shop.vox.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073872b777e8f57eb1716_logo-vox.svg",
+          "height": "h-8.5"
+        },
+        {
+          "name": "SanDisk",
+          "url": "https://sandiskmerch.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907387aca6dd42e1de3a16_logo-sandisk.svg",
+          "height": "h-4.5"
+        },
+        {
+          "name": "Kalshi",
+          "url": "https://shop.kalshi.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073867cdcbaa10534abe0_logo-kalshi.svg",
+          "height": "h-6.5"
+        },
+        {
+          "name": "New York Magazine",
+          "url": "https://shop.nymag.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907387aca6dd42e1de39db_logo-newyork.svg",
+          "height": "h-8.5"
+        },
+        {
+          "name": "beehiiiv",
+          "url": "https://shop.beehiiv.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073869dd71310024c1563_logo-beehiiv.svg",
+          "height": "h-9.5"
+        },
+        {
+          "name": "Harry Mack",
+          "url": "https://shop.harrymackofficial.com/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073867cdcbaa10534ac22_logo-harrymack.svg",
+          "height": "h-8"
+        },
+        {
+          "name": "Mogul",
+          "url": "https://ludwig.gg/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073867cdcbaa10534ac02_logo-mogul.svg",
+          "height": "h-10.5"
+        },
+        {
+          "name": "Speeed",
+          "url": "https://speeed.co/",
+          "logoSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907312aca6dd42e1dde08a_logo-speeed.svg",
+          "height": "h-8.5"
+        }
+      ],
+      "CREATORS_LEFT": [
+        {
+          "name": "Artists",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp"
+        },
+        {
+          "name": "Creators",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f36d8b0bfe90efc55_audience-creators.webp"
+        },
+        {
+          "name": "YouTubers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e36d8b0bfe90efc33_audience-youtubers.webp"
+        },
+        {
+          "name": "Musicians",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e9dd71310024bfca4_audience-musicians.webp"
+        },
+        {
+          "name": "Streamers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e61c2955811eee478_audience-streamers.webp"
+        },
+        {
+          "name": "Comedians",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730ee012a161831768f5_audience-comedians.webp"
+        },
+        {
+          "name": "Businesses",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e2a466a079fa7e508_audience-businesses.webp"
+        },
+        {
+          "name": "Artists",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddc4d_audience-artists.webp"
+        },
+        {
+          "name": "Creators",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f36d8b0bfe90efc55_audience-creators.webp"
+        },
+        {
+          "name": "YouTubers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e36d8b0bfe90efc33_audience-youtubers.webp"
+        },
+        {
+          "name": "Musicians",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e9dd71310024bfca4_audience-musicians.webp"
+        },
+        {
+          "name": "Streamers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e61c2955811eee478_audience-streamers.webp"
+        },
+        {
+          "name": "Comedians",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730ee012a161831768f5_audience-comedians.webp"
+        },
+        {
+          "name": "Businesses",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e2a466a079fa7e508_audience-businesses.webp"
+        }
+      ],
+      "CREATORS_RIGHT": [
+        {
+          "name": "Podcasters",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e7ae69840e3d71643_audience-podcasters.webp"
+        },
+        {
+          "name": "Agencies",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730ef970019c245b2006_audience-agencies.webp"
+        },
+        {
+          "name": "Influencers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d36b65d65ec004628_audience-influencers.webp"
+        },
+        {
+          "name": "Educators",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730db23dd5cfdf9f1e57_audience-educators.webp"
+        },
+        {
+          "name": "Authors",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d3353c92912793437_audience-authors.webp"
+        },
+        {
+          "name": "Cosplayers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d2b777e8f57eaec30_audience-cosplayers.webp"
+        },
+        {
+          "name": "Athletes",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730dec75f2fe3ac035bf_audience-athletes.webp"
+        },
+        {
+          "name": "Podcasters",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730e7ae69840e3d71643_audience-podcasters.webp"
+        },
+        {
+          "name": "Agencies",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730ef970019c245b2006_audience-agencies.webp"
+        },
+        {
+          "name": "Influencers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d36b65d65ec004628_audience-influencers.webp"
+        },
+        {
+          "name": "Educators",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730db23dd5cfdf9f1e57_audience-educators.webp"
+        },
+        {
+          "name": "Authors",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d3353c92912793437_audience-authors.webp"
+        },
+        {
+          "name": "Cosplayers",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d2b777e8f57eaec30_audience-cosplayers.webp"
+        },
+        {
+          "name": "Athletes",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730dec75f2fe3ac035bf_audience-athletes.webp"
+        }
+      ],
+      "DESIGN_MOCKUPS": [
+        {
+          "key": "b",
+          "mockupSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073896825926d544e72a9_design-product-b-p-1600.webp",
+          "artworkSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073896c96d9b5281d8407_design-artwork-b.svg",
+          "previewSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907388222ba19d17f86299_design-preview-b-p-1600.webp",
+          "swatch": "#8d5846"
+        },
+        {
+          "key": "a",
+          "mockupSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907389b5a50ce5c8f66b5c_design-product-a.webp",
+          "artworkSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073892b777e8f57eb17a8_design-artwork-a.svg",
+          "previewSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073884ca8d0a18e6d9dab_design-preview-a-p-1080.webp",
+          "swatch": "linear-gradient(135deg,#be24bc 0%,#3f9ebd 100%)"
+        },
+        {
+          "key": "c",
+          "mockupSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907389e012a16183179f69_design-product-c.webp",
+          "artworkSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073886825926d544e7249_design-artwork-c.svg",
+          "previewSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907388222ba19d17f86284_design-preview-c.webp",
+          "swatch": "#cd3960"
+        }
+      ],
+      "FAQS": [
+        {
+          "id": "pricing",
+          "question": "How much does it cost to use Fourthwall?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "There are no monthly fees, no upfront costs, and no contracts to use Fourthwall. You set your prices and choose your own margins. Here is how our pricing and splits work when you sell:"
+              ]
+            },
+            {
+              "type": "list",
+              "items": [
+                [
+                  {
+                    "text": "Products from our product catalog.",
+                    "strong": true
+                  },
+                  " All products in our ",
+                  {
+                    "text": "product catalog",
+                    "href": "https://products.fourthwall.com/all"
+                  },
+                  " have a publicly listed flat fee, which gets deducted from the selling price you set. There are no extra percentages/margins. You keep 100% of profits."
+                ],
+                [
+                  {
+                    "text": "Products you self-source.",
+                    "strong": true
+                  },
+                  " No fee (0% fee)"
+                ],
+                [
+                  {
+                    "text": "Digital products.",
+                    "strong": true
+                  },
+                  " 5% flat fee"
+                ],
+                [
+                  {
+                    "text": "Memberships.",
+                    "strong": true
+                  },
+                  " 5% flat fee"
+                ]
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                "Additionally, all US-based credit card transactions have an added 2.9% + $0.30 payment processing fee (same as Shopify). Fees vary for PayPal and other providers. ",
+                {
+                  "text": "See full pricing details",
+                  "href": "https://fourthwall.com/pricing"
+                },
+                "."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "payments",
+          "question": "Does Fourthwall handle payment processing?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "Fourthwall handles checkout and payment processing for your shop. Your supporters can use the payment methods available at checkout."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "taxes",
+          "question": "Does Fourthwall handle taxes?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "There are no monthly fees, no upfront costs, and no contracts to use Fourthwall. You set your prices and choose your own margins. Here is how our pricing and splits work when you sell:"
+              ]
+            },
+            {
+              "type": "list",
+              "items": [
+                [
+                  {
+                    "text": "Products from our product catalog.",
+                    "strong": true
+                  },
+                  " All products in our ",
+                  {
+                    "text": "product catalog",
+                    "href": "https://products.fourthwall.com/all"
+                  },
+                  " have a publicly listed flat fee, which gets deducted from the selling price you set. There are no extra percentages/margins. You keep 100% of profits."
+                ],
+                [
+                  {
+                    "text": "Products you self-source.",
+                    "strong": true
+                  },
+                  " No fee (0% fee)"
+                ],
+                [
+                  {
+                    "text": "Digital products.",
+                    "strong": true
+                  },
+                  " 5% flat fee"
+                ],
+                [
+                  {
+                    "text": "Memberships.",
+                    "strong": true
+                  },
+                  " 5% flat fee"
+                ]
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                "Additionally, all US-based credit card transactions have an added 2.9% + $0.30 payment processing fee (same as Shopify). Fees vary for PayPal and other providers. ",
+                {
+                  "text": "See full pricing details",
+                  "href": "https://fourthwall.com/pricing"
+                },
+                "."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "question": "Does Fourthwall offer design support?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "You can use your own artwork or find an independent designer through Fourthwall’s designer directory."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "profit",
+          "question": "How much money do I make on sales from the Fourthwall product catalog?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "You set the retail price. Your earnings depend on that price, the listed product cost, and applicable processing fees. See the pricing page for details."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "shipping",
+          "question": "Do you ship worldwide?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "Products can ship to many countries. Availability, delivery estimates, and shipping costs depend on the product and destination and are shown at checkout."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ai",
+          "question": "Does Fourthwall use AI?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "Fourthwall includes optional AI tools for product ideas, shop customization, and help with running your business."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "support",
+          "question": "Does Fourthwall provide customer support for my orders?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "Fourthwall provides customer support for orders fulfilled through its product catalog. Visit the help center for support with an order."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "domain",
+          "question": "Can I move my domain to a Fourthwall website?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "content": [
+                "You can connect your own domain to your Fourthwall shop. The help center explains how to update your domain settings."
+              ]
+            }
+          ]
+        }
+      ],
+      "MGF_IMAGES": [
+        "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907311222ba19d17f82c7f_mfg-a-bg.webp",
+        "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073119dd71310024bfd5c_mfg-b-bg.webp",
+        "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907311f970019c245b20e2_mfg-c-bg.webp"
+      ],
+      "MGF_PRODUCTS": [
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310e012a16183176ad7_mfg-a-product.webp",
+          "alt": "",
+          "name": "AS Colour Relax Faded Crew",
+          "stats": [
+            {
+              "label": "Selling price",
+              "value": 49,
+              "isProfit": false
+            },
+            {
+              "label": "Production cost",
+              "value": 24,
+              "isProfit": false
+            },
+            {
+              "label": "Your profit",
+              "value": 25,
+              "isProfit": true
+            }
+          ],
+          "status": "Delivered"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310be52e261c85cec0b_mfg-b-product.webp",
+          "alt": "",
+          "name": "Knitted Crewneck Sweater Classic Fit",
+          "stats": [
+            {
+              "label": "Selling price",
+              "value": 59,
+              "isProfit": false
+            },
+            {
+              "label": "Production cost",
+              "value": 29,
+              "isProfit": false
+            },
+            {
+              "label": "Your profit",
+              "value": 30,
+              "isProfit": true
+            }
+          ],
+          "status": "Shipped"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90731061c2955811eee55a_mfg-c-product.webp",
+          "alt": "",
+          "name": "Double-Wall Jolt Bottle",
+          "stats": [
+            {
+              "label": "Selling price",
+              "value": 29,
+              "isProfit": false
+            },
+            {
+              "label": "Production cost",
+              "value": 16,
+              "isProfit": false
+            },
+            {
+              "label": "Your profit",
+              "value": 13,
+              "isProfit": true
+            }
+          ],
+          "status": "Awaiting"
+        }
+      ],
+      "TOP_PRODUCTS_IMAGES": [
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce7a1d0e256f0886b6_stats-top-product-1.webp"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce30b303e378d52dce_stats-top-product-2.webp"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce30b303e378d52db9_stats-top-product-3.webp"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce4ca8d0a18e6db6da_stats-top-product-4.webp"
+        }
+      ],
+      "OPERATIONS_AI_DATA": [
+        {
+          "title": "Prototype new design ideas",
+          "images": [
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073d084dd5e7e02ae45fa_ai-a1.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073d07cdcbaa10534c9d8_ai-a2.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073d084fb9359c5927113_ai-a3.webp",
+              "alt": ""
+            }
+          ]
+        },
+        {
+          "title": "Customize my shop for upcoming drop",
+          "images": [
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073d084dd5e7e02ae45b0_ai-s1.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073cf7cdcbaa10534c956_ai-s2.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073cf062d972ec73c056b_ai-s3.webp",
+              "alt": ""
+            }
+          ]
+        },
+        {
+          "title": "What products should I launch this season?",
+          "images": [
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073cfbc2cd29fbab4c474_ai-p1.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073cf975d0f518d5917f1_ai-p2.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a9073ce7a1d0e256f0886cb_ai-p3.webp",
+              "alt": ""
+            }
+          ]
+        }
+      ],
+      "BRAND_MARQUEE_DATA": [
+        {
+          "type": "image",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90731061c2955811eee545_shop-site-orchid.webp",
+          "alt": ""
+        },
+        {
+          "type": "image",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310aca6dd42e1dddd83_shop-site-signal.webp",
+          "alt": ""
+        },
+        {
+          "type": "image",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310aca6dd42e1dddd35_shop-site-dagger.webp",
+          "alt": ""
+        },
+        {
+          "type": "image",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a907310e012a16183176a0d_shop-site-bl.webp",
+          "alt": ""
+        },
+        {
+          "type": "video",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f6825926d544e2af9_shop-storywide-loop.mp4",
+          "alt": "",
+          "bgSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730f294d5fa8d2b843b0_shop-site-storywide.webp",
+          "actionImgSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730faca6dd42e1dddcba_shop-storywide-btn.webp"
+        }
+      ],
+      "HERO_SLIDERS": [
+        {
+          "type": "img",
+          "url": "",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a907149f970019c245ad022_6a6dbf5d5b605a3355a43733_6a6c9ae1169758925d7ad5a4_drop_01_nymag.webp",
+          "title": "New York Magazine's merch shop"
+        },
+        {
+          "type": "img",
+          "url": "",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a907149f970019c245ad01e_6a6dbf5d5b605a3355a43736_6a6c9ae162368e3a654b6a8a_drop_02_mkbhd.webp",
+          "title": "MKBHD's product line"
+        },
+        {
+          "type": "video",
+          "url": "",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730cec75f2fe3ac03548_drop-03-video.webm",
+          "poster": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a907149f970019c245ad028_6a6dbf5d5b605a3355a43739_6a6d231b37f613e3ca5a2a8f_drop-03-poster.webp",
+          "title": "SanDisk's branded shop"
+        },
+        {
+          "type": "img",
+          "url": "",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a907149f970019c245ad025_6a6dbf5d5b605a3355a4373f_6a6c9ae1ddeca476fd0f838e_drop_04_harrymack.webp",
+          "title": "Harry Mack's limited drop"
+        },
+        {
+          "type": "img",
+          "url": "",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a907149f970019c245ad02b_6a6dbf5d5b605a3355a4373c_6a6c9ae1169758925d7ad5e4_drop_05_vivaplus.webp",
+          "title": "VIVA+'s memberships and shop"
+        }
+      ],
+      "TESTIMONIALS": [
+        {
+          "quote": "Working with Fourthwall is a fantastic experience. They handle logistics, manufacturing, and most importantly, customer service, letting you focus on what matters. I'd recommend it to all creators.",
+          "alt": "MKBHD in an olive green tee printed with a camera graphic reading Auto Focus",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a941db84cb664fa1c211be9_mkbhd-testimonial-hq.webp",
+          "url": "https://mkbhd.com",
+          "linkText": "MKBHD"
+        },
+        {
+          "quote": "I've been working with Fourthwall for years and they have always been very helpful and fun to work with. Love their app as well! It lets me send video thank-yous to everyone that buys my merch.",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a941db84cb664fa1c211bec_charlottedobre-testimonial-hq.webp",
+          "alt": "Portrait of Charlotte Dobre in a brown leather jacket",
+          "url": "https://shop.charlottedobre.net",
+          "linkText": "Charlotte Dobre"
+        },
+        {
+          "quote": "I've been blown away by my fans reaction to my new site and shop. It's been game changing. The added income has also let me expand my team and produce better content for my fans.",
+          "alt": "A collage of Harry Mack merch — tees, caps and posters — with a black and white photo of Harry Mack at the centre",
+          "avatarUrl": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a941db84cb664fa1c211bef_harrymack-testimonial-hq.webp",
+          "url": "https://shop.harrymackofficial.com",
+          "linkText": "Harry Mack"
+        }
+      ],
+      "WALL_SHOPS": [
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38eb_6a6dbf070e2e7087513587cf_6a6dbded7be4790556e1a799_site-nymag.webp",
+          "name": "NYMag",
+          "row": 1,
+          "href": "https://shop.nymag.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38dc_6a6dbf070e2e7087513587c6_6a6dbdeed7734260d35ebcda_site-willneff.webp",
+          "name": "Will Neff",
+          "row": 1,
+          "href": "https://neffsauce.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38df_6a6dbf070e2e7087513587bd_6a6dbd405a6294f460e2cd60_site-harrymack.webp",
+          "name": "Harry Mack",
+          "row": 1,
+          "href": "https://shop.harrymackofficial.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38d9_6a6dbf070e2e7087513587c0_6a6dbdeef5a18c2037a49f36_site-speeed.webp",
+          "name": "speeed",
+          "row": 1,
+          "href": "https://speeed.co/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38e5_6a6dbf070e2e7087513587c9_6a6dbded7be4790556e1a7ca_site-sandisk.webp",
+          "name": "SanDisk",
+          "row": 1,
+          "href": "https://sandiskmerch.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38d6_6a6dbf070e2e7087513587ba_6a6dbdecf4eeb4b259375983_site-icmap.webp",
+          "name": "I Could Murder A Podcast",
+          "row": 1,
+          "href": "https://icmap.co.uk/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38e8_6a6dbf070e2e7087513587cc_6a6dbd3e0ad1f528b2b837d2_site-collectorsanxiety.webp",
+          "name": "Collector's Anxiety",
+          "row": 1,
+          "href": "https://collectorsanxiety.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38f1_6a6dbf070e2e7087513587c3_6a6dbd3d57d6c0474fd2a878_site-acquired.webp",
+          "name": "Acquired",
+          "row": 1,
+          "href": "https://shop.acquired.fm/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38e2_6a6dbf09291ad17ff6d809dd_6a6dbded5b605a3355a3c515_site-mkbhd.webp",
+          "name": "MKBHD",
+          "row": 2,
+          "href": "https://mkbhd.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38d3_6a6dbf09291ad17ff6d809e0_6a6dbd3ff5f1ad337d145a1c_site-garagebeer.webp",
+          "name": "Garage Beer",
+          "row": 2,
+          "href": "https://merch.drinkgaragebeer.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a90712061c2955811ee38ee_6a6dbf09291ad17ff6d809da_6a6dbdeeb0fe6b6f28ecc78b_site-tmgstudios.webp",
+          "name": "TMG Studios",
+          "row": 2,
+          "href": "https://tmgstudios.tv/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a50c_6a6dbf09291ad17ff6d809e3_6a6dbd3f03751affa3759c73_site-eeveenara.webp",
+          "name": "Eevee Nara",
+          "row": 2,
+          "href": "https://eeveenara.co/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a509_6a6dbf09291ad17ff6d809e6_6a6dbdeecf83f720d5c395c8_site-smithsonian.webp",
+          "name": "Smithsonian",
+          "row": 2,
+          "href": "https://nmaahcstore.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a4f4_6a6dbf09291ad17ff6d809ec_6a6dbd3e78d1ce1e6256dda6_site-eater.webp",
+          "name": "Eater",
+          "row": 2,
+          "href": "https://shop.eater.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a4fd_6a6dbf09291ad17ff6d809d7_6a6dbdee183fbba14fae9b5c_site-vivaplus.webp",
+          "name": "Viva+",
+          "row": 2,
+          "href": "https://vivaplus.tv/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a4f1_6a6dbf09291ad17ff6d809e9_6a6dbded5a6294f460e3201c_site-kalshi.webp",
+          "name": "Kalshi",
+          "row": 2,
+          "href": "https://shop.kalshi.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a50f_6a6dbf0b24a07ced411658df_6a6dbdee0ad1f528b2b8a35e_site-sunnyxvi.webp",
+          "name": "Sunny XVI",
+          "row": 3,
+          "href": "https://merch.sunnysixteen.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a506_6a6dbf0b24a07ced411658d3_6a6dbd3e03751affa3759bd1_site-creepycozy.webp",
+          "name": "Creepy Cozy",
+          "row": 3,
+          "href": "https://creepycozy.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a4fa_6a6dbf0b24a07ced411658d9_6a6dbd3d590d5f9032f674cc_site-charlottedobre.webp",
+          "name": "Charlotte Dobre",
+          "row": 3,
+          "href": "https://shop.charlottedobre.net/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ac4b3f0577d947213ba6731_6ac4b2cd054f14e6014f9860_site-channel5.webp",
+          "name": "Channel 5",
+          "row": 3,
+          "href": "https://c5.now/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a503_6a6dbf0b24a07ced411658e8_6a6dbdee183fbba14fae9b72_site-vox.webp",
+          "name": "Vox",
+          "row": 3,
+          "href": "https://shop.vox.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9071097ae69840e3d6a500_6a817e2bfd5cc3255f2f8de1_6a817dea8105144ee746ec49_site-simonsits.webp",
+          "name": "simonsits",
+          "row": 3,
+          "href": "https://simonsits.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ac4b3ef5d626ec196a0b545_6ac4b2cdb0a225113999cf99_site-newyorkminute.webp",
+          "name": "New York Minute",
+          "row": 3,
+          "href": "https://shopnewyorkminute.com/"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a9070a361c2955811edfcf7_6a6dbf0b24a07ced411658e2_6a6dbd3f0ad1f528b2b838d1_site-goblin420.webp",
+          "name": "Goblin 420",
+          "row": 3,
+          "href": "https://goblin420.com/"
+        }
+      ],
+      "CATALOG_PRODUCTS": [
+        {
+          "href": "https://products.fourthwall.com/comfort-colors-garment-dyed-heavyweight-t-shirt-dtfx-2",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6aa416d8e114cd7020c46c7b_DyhSvg.webp",
+          "name": "Comfort Colors Garment-Dyed Heavyweight T-Shirt",
+          "tech": [
+            "Printed",
+            "Embroidered"
+          ],
+          "price": "From $15.45",
+          "badges": [
+            "Best seller",
+            "Staff pick"
+          ],
+          "colors": [
+            {
+              "name": "Black",
+              "hex": "#080808"
+            },
+            {
+              "name": "True Navy",
+              "hex": "#1e2b44"
+            },
+            {
+              "name": "Midnight",
+              "hex": "#3a4e63"
+            },
+            {
+              "name": "Graphite",
+              "hex": "#3e3737"
+            }
+          ],
+          "reviews": 254,
+          "colorCount": 44,
+          "rating": 4.7
+        },
+        {
+          "href": "https://products.fourthwall.com/bella-canvas-unisex-supersoft-t-shirt-dtg",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6aa82764d4311c80e4968698_HO-82Q.webp",
+          "name": "Bella+Canvas Unisex Supersoft T-Shirt",
+          "tech": [
+            "Printed"
+          ],
+          "price": "From $11.75",
+          "badges": [
+            "Best seller",
+            "Staff pick"
+          ],
+          "colors": [
+            {
+              "name": "Heather Kelly",
+              "hex": "#00a263"
+            },
+            {
+              "name": "Teal",
+              "hex": "#00e3cf"
+            },
+            {
+              "name": "Kelly",
+              "hex": "#036953"
+            },
+            {
+              "name": "True Royal",
+              "hex": "#104184"
+            }
+          ],
+          "reviews": 239,
+          "colorCount": 83,
+          "rating": 4.7
+        },
+        {
+          "href": "https://products.fourthwall.com/cotton-heritage-unisex-premium-hoodie-dtfx",
+          "src": "https://cdn.fourthwall.com/product-catalog/pro_Ve53HhSHT565G7Uw5H1_EA/19c69162-a009-4f09-b43e-c8eee871d342.jpeg",
+          "name": "Cotton Heritage Unisex Premium Hoodie",
+          "tech": [
+            "Printed",
+            "Embroidered"
+          ],
+          "price": "From $27.29",
+          "badges": [
+            "Best seller",
+            "Staff pick"
+          ],
+          "colors": [
+            {
+              "name": "Black",
+              "hex": "#080808"
+            },
+            {
+              "name": "Navy Blazer",
+              "hex": "#292d3b"
+            },
+            {
+              "name": "Team Royal",
+              "hex": "#2d407d"
+            },
+            {
+              "name": "Forest Green",
+              "hex": "#335231"
+            }
+          ],
+          "reviews": 133,
+          "colorCount": 21,
+          "rating": 4.6
+        },
+        {
+          "href": "https://products.fourthwall.com/white-glossy-mug-sublimation",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/685de2eacdb961ac7d590da4_ZWc.webp",
+          "name": "White Glossy Mug",
+          "tech": [
+            "Sublimation"
+          ],
+          "price": "From $5.95",
+          "badges": [
+            "Best seller"
+          ],
+          "colors": [
+            {
+              "name": "White",
+              "hex": "#ffffff"
+            }
+          ],
+          "reviews": 123,
+          "colorCount": 1,
+          "rating": 4.5
+        },
+        {
+          "href": "https://products.fourthwall.com/kiss-cut-stickers-1",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/690bc3cb32d06ec6bd7a859b_Y2Eud2VicA.webp",
+          "name": "Kiss Cut Stickers",
+          "tech": [
+            "Sticker"
+          ],
+          "price": "From $2.29",
+          "badges": [
+            "Best seller"
+          ],
+          "colors": [
+            {
+              "name": "White",
+              "hex": "#ffffff"
+            }
+          ],
+          "reviews": 108,
+          "colorCount": 1,
+          "rating": 4.2
+        },
+        {
+          "href": "https://products.fourthwall.com/gildan-heavyweight-t-shirt-dtfx-1",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6aa501ea642a2ad3328e70a5_aE4jaQ.webp",
+          "name": "Gildan Heavyweight T-Shirt",
+          "tech": [
+            "Printed",
+            "Embroidered"
+          ],
+          "price": "From $9.50",
+          "badges": [
+            "Best seller"
+          ],
+          "colors": [
+            {
+              "name": "Irish Green",
+              "hex": "#00ba69"
+            },
+            {
+              "name": "Black",
+              "hex": "#141313"
+            },
+            {
+              "name": "Royal",
+              "hex": "#175ac7"
+            },
+            {
+              "name": "Navy",
+              "hex": "#1a2330"
+            }
+          ],
+          "reviews": 101,
+          "colorCount": 29,
+          "rating": 4.7
+        },
+        {
+          "href": "https://products.fourthwall.com/gildan-unisex-softstyle-t-shirt-1",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6ac7a86a5c0c75c7b229c9f3_33gRJA.webp",
+          "name": "Gildan Unisex Softstyle T-Shirt",
+          "tech": [
+            "Printed",
+            "Embroidered"
+          ],
+          "price": "From $9.50",
+          "badges": [],
+          "colors": [
+            {
+              "name": "Sapphire",
+              "hex": "#007ab3"
+            },
+            {
+              "name": "Kelly Green",
+              "hex": "#009b66"
+            },
+            {
+              "name": "Tropical Blue",
+              "hex": "#00a0b3"
+            },
+            {
+              "name": "Irish Green",
+              "hex": "#00ac61"
+            }
+          ],
+          "reviews": 94,
+          "colorCount": 34,
+          "rating": 4.5
+        },
+        {
+          "href": "https://products.fourthwall.com/ceramic-mug-with-color-inside-1",
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6908409294e07db243acf7ef_ZTIzMTMuanBlZw.webp",
+          "name": "Ceramic Mug with Color Inside",
+          "tech": [
+            "Sublimation"
+          ],
+          "price": "From $8.95",
+          "badges": [
+            "Best seller"
+          ],
+          "colors": [
+            {
+              "name": "Black",
+              "hex": "#050505"
+            },
+            {
+              "name": "Dark Blue",
+              "hex": "#1b1b51"
+            },
+            {
+              "name": "Blue",
+              "hex": "#1e9fcd"
+            },
+            {
+              "name": "Dark Green",
+              "hex": "#226653"
+            }
+          ],
+          "reviews": 93,
+          "colorCount": 10,
+          "rating": 4.7
+        }
+      ],
+      "FEATURED_PRODUCTS": [
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b47_6a96e11c1178eccd5e25adce_scatter-tshirt-v3.webp",
+          "hoverSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b50_6a96e11c1178eccd5e25ade3_scatter-tshirt-hover-v3.webp",
+          "name": "Comfort Colors Garment-Dyed Heavyweight T-Shirt",
+          "rating": "4.7",
+          "href": "https://products.fourthwall.com/comfort-colors-garment-dyed-heavyweight-t-shirt-dtg?selectedColor=Black"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a97e7b45886662d0a3fb6bd_scatter-croptop-v6.webp",
+          "hoverSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a97e7b45886662d0a3fb6c0_scatter-croptop-hover-v6.webp",
+          "name": "LA Apparel Womens Ribbed Baby Tee Crop Top",
+          "rating": "4.3",
+          "href": "https://products.fourthwall.com/la-apparel-womens-ribbed-baby-tee-crop-top-dtfx"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96f0d639d075e7d0602a12_6a96f07e9fa2a3c11235e262_scatter-hoodie-v7-poster.webp",
+          "name": "Cotton Heritage Unisex Premium Hoodie",
+          "rating": "4.6",
+          "href": "https://products.fourthwall.com/cotton-heritage-unisex-premium-hoodie-dtg?selectedColor=Black"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a97eb4b3b5d828a7c5923d0_scatter-cap-v3.webp",
+          "hoverSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6aaa8b5ab97a618ef6adcbaf_scatter-cap-hover-v4.webp",
+          "name": "Yupoong Classic Dad Hat",
+          "rating": "4.7",
+          "href": "https://products.fourthwall.com/yupoong-classic-dad-hat?selectedColor=Black"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b56_6a96e11c26e50e76f96f9a65_scatter-mug-v2.webp",
+          "hoverSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a96e19498b18abfd6278b53_6a96e11ca47ec7c6b41f77c9_scatter-mug-hover-v2.webp",
+          "name": "Black Glossy Mug",
+          "rating": "4.5",
+          "href": "https://products.fourthwall.com/black-glossy-mug?selectedColor=Black"
+        },
+        {
+          "src": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a92b9b29f9b7f8b2cd84f38_6a92b98251e6f2012c200a1d_scatter-stickers-blank-v2.webp",
+          "hoverSrc": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f9ec7ffe916b/6a92bd2d2b0ef7af46c32187_6a92bd0916f788fda8eaeff3_scatter-stickers-print-v3.webp",
+          "name": "Kiss Cut Sticker Sheet",
+          "rating": "4.4",
+          "href": "https://products.fourthwall.com/kiss-cut-sticker-sheet-with-custom-background-sticker?selectedColor=White"
+        }
+      ]
+    },
+    "seo": {
+      "metaTitle": "",
+      "metaDescription": "",
+      "ogImage": "",
+      "canonicalUrl": "",
+      "noIndex": false
+    }
+  },
+  "navigation": {
+    "sections": {
+      "megaMenuContent": {
+        "altAskEli": "Ask Eli",
+        "hrefHttpsDiscordComInviteT5Vm6Q2425": "https://discord.com/invite/t5Vm6Q2425",
+        "expandFourthwall": "Expand Fourthwall",
+        "whatSNew": "What’s new",
+        "joinOurDiscordCommunity": "Join our Discord community",
+        "getTheApp": "Get the app"
+      },
+      "header": {
+        "href": "/",
+        "ariaLabelMainNavigation": "Main navigation",
+        "hrefHttpsMyShopFourthwallComAdminDashboard": "https://my-shop.fourthwall.com/admin/dashboard",
+        "ariaLabelOpenNavigation": "Open navigation",
+        "ariaLabelMobileNavigation": "Mobile navigation",
+        "logIn": "Log in"
+      }
+    },
+    "collections": {
+      "APP_LINKS": [
+        {
+          "label": "Download on the App Store",
+          "href": "https://apps.apple.com/us/app/fourthwall-for-creators/id1479668990",
+          "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d84dd5e7e02ae04cb_badge-app-store.svg"
+        },
+        {
+          "label": "Get it on Google Play",
+          "href": "https://play.google.com/store/apps/details?id=com.fourthwall.android",
+          "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d9cab5f62a7a481ef_badge-google-play.svg"
+        }
+      ],
+      "ELI_CARD": {
+        "href": "https://fourthwall.com/ai-assistant-eli",
+        "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730dec75f2fe3ac0359d_nav-ask-eli.webp",
+        "description": "Introducing Eli, your personal 24/7 e-commerce assistant"
+      },
+      "EXPAND_LINKS": [
+        {
+          "label": "Build your own app",
+          "href": "https://docs.fourthwall.com/"
+        },
+        {
+          "label": "Fourthwall MCP",
+          "href": "https://docs.fourthwall.com/ai/mcp"
+        }
+      ],
+      "FEATURE_GROUPS": [
+        {
+          "title": "Create products",
+          "links": [
+            {
+              "label": "Product catalog",
+              "href": "https://products.fourthwall.com"
+            },
+            {
+              "label": "Product designer",
+              "href": "https://fourthwall.com/design-and-sell"
+            },
+            {
+              "label": "Source custom products",
+              "href": "https://fourthwall.com/bespoke"
+            },
+            {
+              "label": "Digital products",
+              "href": "https://fourthwall.com/features/digital-products"
+            },
+            {
+              "label": "Curated artists",
+              "href": "https://fourthwall.com/designers"
+            }
+          ]
+        },
+        {
+          "title": "Launch a shop",
+          "links": [
+            {
+              "label": "Shop builder",
+              "href": "https://fourthwall.com/shops"
+            },
+            {
+              "label": "Themes",
+              "href": "https://fourthwall.com/features/custom-themes"
+            },
+            {
+              "label": "Fulfillment & shipping",
+              "href": "https://fourthwall.com/print-on-demand"
+            },
+            {
+              "label": "Sales channels",
+              "href": "https://fourthwall.com/features"
+            },
+            {
+              "label": "Discounts",
+              "href": "https://fourthwall.com/features/promo-codes"
+            }
+          ]
+        },
+        {
+          "title": "Build your brand",
+          "links": [
+            {
+              "label": "Homepages",
+              "href": "https://fourthwall.com/websites"
+            },
+            {
+              "label": "Memberships",
+              "href": "https://fourthwall.com/memberships"
+            },
+            {
+              "label": "Apps & integrations",
+              "href": "https://fourthwall.com/features"
+            },
+            {
+              "label": "Launch your mobile app",
+              "href": "https://fourthwall.com/features/custom-mobile-apps"
+            }
+          ]
+        }
+      ],
+      "LEARN_CARDS": [
+        {
+          "label": "Get inspired",
+          "href": "https://fourthwall.com/get-inspired",
+          "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d7ae69840e3d7157c_nav-learn-getinspired.webp",
+          "description": "See how creators and companies use Fourthwall to run their shops"
+        },
+        {
+          "label": "Designers",
+          "href": "https://fourthwall.com/designers",
+          "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730d36d8b0bfe90efb06_nav-learn-designers.webp",
+          "description": "Browse our network of talented designers ready to help you"
+        },
+        {
+          "label": "Help center",
+          "href": "https://help.fourthwall.com/",
+          "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730cbdfc5afc225a3c03_nav-learn-helpcenter.webp",
+          "description": "Find answers to questions for every step of your journey"
+        },
+        {
+          "label": "Blog",
+          "href": "https://fourthwall.com/blog",
+          "image": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a90730c73dc4088c848ce1b_nav-learn-blog.webp",
+          "description": "Read news, explore creator stories, and learn helpful tips"
+        }
+      ],
+      "NAV_ITEMS": [
+        {
+          "label": "Features",
+          "href": "#features",
+          "menu": true,
+          "menuKind": "Features",
+          "openInNewTab": false
+        },
+        {
+          "label": "Product catalog",
+          "href": "https://products.fourthwall.com/",
+          "menuKind": "",
+          "openInNewTab": false
+        },
+        {
+          "label": "Pricing",
+          "href": "/pricing",
+          "menuKind": "",
+          "openInNewTab": false
+        },
+        {
+          "label": "Learn",
+          "href": "#learn",
+          "menu": true,
+          "menuKind": "Learn",
+          "openInNewTab": false
+        }
+      ]
+    }
+  },
+  "footer": {
+    "sections": {
+      "footer": {
+        "getTheApp": "Get the app"
+      },
+      "wordmark": {
+        "ariaLabelBackToTop": "Back to top"
+      }
+    },
+    "collections": {
+      "FOOTER_BOTTOM_LINKS": [
+        {
+          "name": "Acceptable use policy",
+          "url": "/"
+        },
+        {
+          "name": "Terms of service",
+          "url": "/"
+        },
+        {
+          "name": "Privacy policy",
+          "url": "/"
+        }
+      ],
+      "FOOTER_LINKS": [
+        {
+          "title": "Features",
+          "links": [
+            {
+              "name": "Product Catalog",
+              "url": "/"
+            },
+            {
+              "name": "Shops",
+              "url": "/"
+            },
+            {
+              "name": "Homepages",
+              "url": "/"
+            },
+            {
+              "name": "Memberships",
+              "url": "/"
+            },
+            {
+              "name": "Pricing",
+              "url": "#"
+            }
+          ]
+        },
+        {
+          "title": "Platform",
+          "links": [
+            {
+              "name": "Features",
+              "url": "/"
+            },
+            {
+              "name": "Get Inspired",
+              "url": "/"
+            },
+            {
+              "name": "Designers",
+              "url": "/"
+            },
+            {
+              "name": "Blog",
+              "url": "/"
+            },
+            {
+              "name": "Careers",
+              "url": "/"
+            }
+          ]
+        },
+        {
+          "title": "Support",
+          "links": [
+            {
+              "name": "Help Center",
+              "url": "/"
+            },
+            {
+              "name": "Contact",
+              "url": "/"
+            },
+            {
+              "name": "System Status",
+              "url": "/"
+            },
+            {
+              "name": "FAQs",
+              "url": "/"
+            }
+          ]
+        },
+        {
+          "title": "Compare to",
+          "links": [
+            {
+              "name": "Shopify",
+              "url": "/"
+            },
+            {
+              "name": "Spring",
+              "url": "/"
+            },
+            {
+              "name": "Redbubble",
+              "url": "/"
+            },
+            {
+              "name": "Streamlabs",
+              "url": "/"
+            },
+            {
+              "name": "Patreon",
+              "url": "/"
+            },
+            {
+              "name": "Compare All",
+              "url": "/"
+            }
+          ]
+        },
+        {
+          "title": "Elsewhere",
+          "links": [
+            {
+              "name": "Instagram",
+              "url": "/"
+            },
+            {
+              "name": "X/Twitter",
+              "url": "/"
+            },
+            {
+              "name": "Discord",
+              "url": "/"
+            },
+            {
+              "name": "YouTube",
+              "url": "/"
+            },
+            {
+              "name": "TikTok",
+              "url": "/"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "siteSettings": {
+    "sections": {
+      "cta": {
+        "makeSomethingWorthBuying": "Make something worth buying"
+      }
+    },
+    "collections": {
+      "ORBIT_RINGS": [
+        {
+          "radiusAt1800": 393,
+          "radiusAt1920": 418,
+          "durationAt1800": 39,
+          "durationAt1920": 41,
+          "sizeAt1800": 65,
+          "heightAt1800": 78,
+          "images": [
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            }
+          ]
+        },
+        {
+          "radiusAt1800": 638,
+          "radiusAt1920": 680,
+          "durationAt1800": 73,
+          "durationAt1920": 78,
+          "sizeAt1800": 78,
+          "heightAt1800": 94,
+          "images": [
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            }
+          ]
+        },
+        {
+          "radiusAt1800": 882,
+          "radiusAt1920": 941,
+          "durationAt1800": 120,
+          "durationAt1920": 129,
+          "sizeAt1800": 90,
+          "heightAt1800": 108,
+          "images": [
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff397e7d6e8612751aa8_p009.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff54b1c72c92475e61d4_p030.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            },
+            {
+              "src": "https://cdn.prod.website-files.com/63ff7c6ecc83f9ec7ffe916b/6aa2ff377e7d6e8612751a6e_p003.webp",
+              "alt": ""
+            }
+          ]
+        }
+      ]
+    },
+    "siteName": "Fourthwall",
+    "siteDescription": "Launch your online shop with Fourthwall. Create and sell custom products, offer memberships, and build a fully branded website with ease.",
+    "logo": "",
+    "logoDark": "",
+    "favicon": "/favicon.svg",
+    "defaultSeo": {
+      "metaTitle": "",
+      "metaDescription": "",
+      "ogImage": "",
+      "canonicalUrl": "",
+      "noIndex": false
+    },
+    "globalCTA": {
+      "enabled": true,
+      "label": "Start now",
+      "url": "https://fourthwall.com/get-started"
+    },
+    "socialLinks": [
+      {
+        "name": "Instagram",
+        "url": "/",
+        "enabled": true
+      },
+      {
+        "name": "X/Twitter",
+        "url": "/",
+        "enabled": true
+      },
+      {
+        "name": "Discord",
+        "url": "/",
+        "enabled": true
+      },
+      {
+        "name": "YouTube",
+        "url": "/",
+        "enabled": true
+      },
+      {
+        "name": "TikTok",
+        "url": "/",
+        "enabled": true
+      }
+    ],
+    "copyrightText": "© Fourthwall"
+  },
+  "blogPage": {
+    "sections": {
+      "blogTldrCard": {
+        "summarizeWith": "Summarize with:",
+        "title": "TL;DR"
+      },
+      "newsletter": {
+        "ariaLabelCallToAction": "Call to action",
+        "placeholderYourEmailAddress": "Your email address*",
+        "keepUpWithTheLatestFrom": "Keep up with the latest from Fourthwall",
+        "newFeaturesProductUpdatesTrendBreakdowns": "New features, product updates, trend breakdowns, and creator stories —\n          straight to your inbox.",
+        "submit": "Submit",
+        "youAgreeToReceiveFourthwallMarketing": "You agree to receive Fourthwall marketing emails.",
+        "formAction": ""
+      },
+      "blogFaqs": {
+        "faq": "FAQ"
+      },
+      "blogSocialShare": {
+        "shareArticle": "Share article:",
+        "shareOn": "Share on"
+      },
+      "blogDetailsAside": {
+        "ariaLabelTableOfContents": "Table of contents",
+        "placeholderYourEmailAddress": "Your email address*",
+        "inThisArticle": "In this article:",
+        "showTableOfContents": "Show table of contents",
+        "joinOurNewsletter": "Join our newsletter",
+        "newFeaturesProductUpdatesTrendBreakdowns": "New features, product updates, trend breakdowns, and creator stories.",
+        "submit": "Submit",
+        "formAction": ""
+      },
+      "embed": {
+        "embeddedContentUnavailable": "Embedded content unavailable.",
+        "view": "View"
+      },
+      "video": {
+        "downloadVideo": "Download video",
+        "videoUnavailable": "Video unavailable."
+      },
+      "blogs": {
+        "ariaLabelBlogList": "Blog List",
+        "actionBlog": "/blog",
+        "search": "Search",
+        "youMightAlsoLike": "You might also like",
+        "theBlogIsTemporarilyUnavailable": "The blog is temporarily unavailable",
+        "weCouldnTLoadThePosts": "We couldn’t load the posts. Please try again shortly.",
+        "tryAgain": "Try again",
+        "clearSearchAndFilters": "Clear search and filters"
+      },
+      "blogDetailsArticle": {
+        "hrefBlog": "/blog",
+        "published": "Published",
+        "blog": "Blog"
+      },
+      "featuredBlog": {
+        "ariaLabelFeatureBlog": "Feature Blog"
+      },
+      "blogHero": {
+        "ariaLabelHero": "Hero",
+        "the": "The",
+        "drop": "Drop",
+        "aSemiRegularGuideToMerch": "A semi-regular guide to merch strategy, creator commerce, product drops,\n        and building a better business around your audience."
+      }
+    },
+    "collections": {
+      "summaryProviders": [
+        {
+          "name": "ChatGPT",
+          "url": "https://chatgpt.com/",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a2fbdf6e14ef48620ad65f9_6c46ef088b26f32bab62728ad9aebade_chatGPT.svg"
+        },
+        {
+          "name": "Claude",
+          "url": "https://claude.ai/new",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a2fbe26373e2872bd7db05c_e24dcaf876090e0d4722c0026ea41572_claude.svg"
+        },
+        {
+          "name": "Gemini",
+          "url": "https://www.google.com/search?udm=50",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a2fbe35fe350642acd6c0cf_462561a3090a9eb75d349e4bd3ceb43b_gemini.svg"
+        },
+        {
+          "name": "Grok",
+          "url": "https://grok.com/",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a2fbe437482cb2b5699603b_bc1cf3ccbc6a5f9fa176c41587d07536_grok.svg"
+        }
+      ],
+      "shareProviders": [
+        {
+          "name": "LinkedIn",
+          "href": "https://www.linkedin.com/shareArticle?url=https://fourthwall.com/blog/teepublic-alternatives",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483b4db3a8e6569d9990_Linkedin.svg"
+        },
+        {
+          "name": "X/Twitter",
+          "href": "https://twitter.com/share?url=https://fourthwall.com/blog/teepublic-alternatives",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483b0bdb452858c203e9_Twitter.svg"
+        },
+        {
+          "name": "Facebook",
+          "href": "https://facebook.com/sharer/sharer.php?u=https://fourthwall.com/blog/teepublic-alternatives",
+          "icon": "https://fourthwall.com/webflow-cdn/63ff7c6ecc83f97ec5fe9155/6a45483c18983b80b015bbe9_Facebook.svg"
+        }
+      ]
+    },
+    "seo": {
+      "metaTitle": "",
+      "metaDescription": "",
+      "ogImage": "",
+      "canonicalUrl": "",
+      "noIndex": false
+    },
+    "postsPerPage": 6
+  }
+}

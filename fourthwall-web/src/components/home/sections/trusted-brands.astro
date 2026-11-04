@@ -1,0 +1,50 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.homePage.sections.trustedBrands;
+const BRANDS = cms.homePage.collections.BRANDS;
+
+
+import { cn } from "@/utils";
+
+---
+
+<section class="trusted-brands-section py-surface-y-sm bg-background px-surface-x">
+  <div class="container">
+
+    <div class="max-w-[88ch] mx-auto text-center mb-[clamp(56px,2.8vw,80px)] reveal">
+      <h2 class="font-body text-secondary-foreground text-body-md leading-relaxed font-normal my-0 p-0">
+        {content.trustedBy500000CreatorsAnd}
+      </h2>
+    </div>
+
+    <div class="reveal">
+      <div class="trusted-brands-track grid grid-cols-6 mx-auto gap-x-8 gap-y-14 place-items-center max-[768px]:marquee-left max-[768px]:[--marquee-duration:40s] max-[768px]:motion-reduce:animate-none">
+        {[...BRANDS, ...BRANDS].map((brand, index) => (
+          <a
+            href={brand.url}
+            target="_blank"
+            rel="nofollow"
+            aria-label={brand.name}
+            aria-hidden={index >= BRANDS.length ? "true" : undefined}
+            tabindex={index >= BRANDS.length ? -1 : undefined}
+            class:list={[
+              "opacity-65 hover:opacity-100 inline-flex items-center justify-center max-w-full w-full h-16 no-underline transition-opacity duration-200",
+              { "min-[768px]:hidden": index >= BRANDS.length },
+            ]}
+          >
+            <img
+              src={brand.logoSrc}
+              alt={brand.name}
+              loading="lazy"
+              class={cn(
+                "w-auto max-w-[130%] block object-contain",
+                brand.height,
+              )}
+            />
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

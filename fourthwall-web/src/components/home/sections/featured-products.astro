@@ -1,0 +1,71 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const content = cms.homePage.sections.featuredProducts;
+const FEATURED_PRODUCTS = cms.homePage.collections.FEATURED_PRODUCTS;
+
+
+import FeaturedProductCard from "@/components/products/featured-product-card.astro";
+
+const CLASSES = [
+  "[grid-area:5/1/12/4]",
+  "[grid-area:7/4/14/7]",
+  "[grid-area:1/7/13/12] max-[992px]:-order-1",
+  "[grid-area:15/1/27/6] max-[992px]:order-1",
+  "[grid-area:17/6/24/9]",
+  "[grid-area:14/9/21/12]",
+];
+
+---
+
+<section class="scatter-reveal-section featured-products-section bg-background px-surface-x pt-30 pb-surface-y-sm">
+  <div class="container @container">
+    <div class="grid grid-cols-11 gap-x-[clamp(20px,3.25vw,48px)] gap-y-[clamp(36px,4.5cqi,80px)]">
+
+      <div
+        class="max-[992px]:-order-2 min-w-0 self-start [grid-area:1/1/6/7] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform] scatter-reveal"
+        style={{
+          "--stagger-index": 0,
+          "--rise-distance": "56px",
+        }}
+      >
+        <h2 class="font-display text-foreground text-heading-lg leading-tight font-[435] normal-case my-0 p-0">
+          {content.createHighQualityProducts}
+          <br />
+          <span class="text-secondary-foreground">{content.noExperienceRequired}</span>
+        </h2>
+        <p class="max-[992px]:max-w-[60ch] m-0 mt-[clamp(28px,2.2vw,40px)] text-foreground text-body-md leading-relaxed text-balance">
+          {content.over200HighQualityProductsYou}
+        </p>
+      </div>
+
+      {FEATURED_PRODUCTS.map((product, index) => (
+        <FeaturedProductCard
+          product={product}
+          index={index}
+          classNames={CLASSES[index]}
+        />
+      ))}
+
+      <a
+        rel="noopener"
+        target="_blank"
+        href={content.hrefHttpsProductsFourthwallCom}
+        class="max-[992px]:order-2 aspect-[1] w-45 max-w-full text-foreground text-body-md font-medium flex items-center justify-center text-center no-underline hover:bg-surface-dark hover:text-white rounded-full border border-surface-dark [grid-area:22/9/25/12] [place-self:start_center] [transition:normal,normal_1.8s,1.8s_var(--ease-rise-in),var(--ease-rise-in)_opacity,transform]! scatter-reveal group"
+        style={{
+          "--stagger-index": 0,
+          "--rise-distance": "56px",
+        }}
+      >
+        <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+          <span class="text-motion group-hover:-translate-y-full">
+            {content.browseAll}
+          </span>
+          <span class="text-motion group-hover:-translate-y-full">
+            {content.browseAll}
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

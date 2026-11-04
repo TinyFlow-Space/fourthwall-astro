@@ -1,0 +1,69 @@
+import type { PortableTextBlock } from "@portabletext/types";
+export interface SanityImage {
+  _type: "image";
+  asset: { _ref: string; _type: "reference" };
+  alt?: string;
+  caption?: string;
+  crop?: { top: number; bottom: number; left: number; right: number };
+  hotspot?: { x: number; y: number; width: number; height: number };
+}
+export interface Taxonomy {
+  _id: string;
+  title: string;
+  slug: string;
+}
+export interface Author {
+  name: string;
+  bio?: string;
+  role?: string;
+  image?: SanityImage;
+  website?: string;
+}
+export interface PostSummary {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  publishedAt: string;
+  featured: boolean;
+  mainImage?: SanityImage;
+  author?: Author;
+  categories: Taxonomy[];
+  tags: Taxonomy[];
+}
+export interface RichContentBlock {
+  _type: "table" | "videoEmbed" | "socialEmbed" | "htmlEmbed" | "scriptEmbed";
+  _key: string;
+  title?: string;
+  caption?: string;
+  headerRow?: boolean;
+  rows?: { cells: string[] }[];
+  url?: string;
+  html?: string;
+  scriptUrl?: string;
+  fallbackUrl?: string;
+  height?: number;
+  file?: { url?: string };
+  captions?: { url?: string };
+  captionLanguage?: string;
+}
+export type BodyBlock =
+  RichContentBlock | PortableTextBlock | (SanityImage & { _key: string });
+export interface Post extends PostSummary {
+  seo?: import("./content").Seo;
+  enableAudio?: boolean;
+  audioUrl?: string;
+  audioDuration?: number;
+  relatedPosts?: PostSummary[];
+  _updatedAt: string;
+  body: BodyBlock[];
+  summary?: string;
+  faqs: { _key: string; question: string; answer: string }[];
+}
+export interface Listing {
+  posts: PostSummary[];
+  total: number;
+  categories: Taxonomy[];
+  tags: Taxonomy[];
+  featured: PostSummary | null;
+}

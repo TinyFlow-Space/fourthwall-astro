@@ -1,0 +1,1955 @@
+{
+  "homePage": [
+    {
+      "name": "sections",
+      "title": "Sections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "aiIntegrationBox",
+          "title": "Ai Integration Box",
+          "type": "object",
+          "fields": [
+            {
+              "name": "src6A9073Ce9Cab5F62A7A49EdaIntTiktokSvg",
+              "title": "Src6A9073Ce9Cab5F62A7A49Eda Int Tiktok Svg",
+              "type": "managedMedia"
+            }
+          ]
+        },
+        {
+          "name": "brandManufactureSlider",
+          "title": "Brand Manufacture Slider",
+          "type": "object",
+          "fields": [
+            {
+              "name": "status",
+              "title": "Status",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "shippingGlobe",
+          "title": "Shipping Globe",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelWorldwideShippingGlobeDragHorizontallyOrU",
+              "title": "Aria Label Worldwide Shipping Globe Drag Horizontally Or U",
+              "type": "string"
+            },
+            {
+              "name": "srcShippingGlobeSvg",
+              "title": "Src Shipping Globe Svg",
+              "type": "managedMedia"
+            },
+            {
+              "name": "text17ManufacturersWorldwide",
+              "title": "Text17Manufacturers Worldwide",
+              "type": "string"
+            },
+            {
+              "name": "text4DaysAvgShipTime",
+              "title": "Text4Days Avg Ship Time",
+              "type": "string"
+            },
+            {
+              "name": "text480AvgShipCost",
+              "title": "Text480Avg Ship Cost",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "madeWith",
+          "title": "Made With",
+          "type": "object",
+          "fields": [
+            {
+              "name": "madeWithFourthwall",
+              "title": "Made With Fourthwall",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "hero",
+          "title": "Hero",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelPrevious",
+              "title": "Aria Label Previous",
+              "type": "string"
+            },
+            {
+              "name": "ariaLabelNext",
+              "title": "Aria Label Next",
+              "type": "string"
+            },
+            {
+              "name": "onePlatformForPremiumProductsAnd",
+              "title": "One Platform For Premium Products And",
+              "type": "string"
+            },
+            {
+              "name": "easyToStartReadyToGrow",
+              "title": "Easy To Start Ready To Grow",
+              "type": "string"
+            },
+            {
+              "name": "noUpfrontCostsNoCreditCard",
+              "title": "No Upfront Costs No Credit Card",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "creators",
+          "title": "Creators",
+          "type": "object",
+          "fields": [
+            {
+              "name": "fourthwallIsForCreators",
+              "title": "Fourthwall Is For Creators",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "faq",
+          "title": "Faq",
+          "type": "object",
+          "fields": [
+            {
+              "name": "hrefFaq",
+              "title": "Href Faq",
+              "type": "string"
+            },
+            {
+              "name": "hrefHttpsHelpFourthwallCom",
+              "title": "Href Https Help Fourthwall Com",
+              "type": "string"
+            },
+            {
+              "name": "frequentlyAskedQuestions",
+              "title": "Frequently Asked Questions",
+              "type": "string"
+            },
+            {
+              "name": "moreQuestions",
+              "title": "More Questions",
+              "type": "string"
+            },
+            {
+              "name": "browseAllFaqs",
+              "title": "Browse All Faqs",
+              "type": "string"
+            },
+            {
+              "name": "visitTheHelpCenter",
+              "title": "Visit The Help Center",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "productDesign",
+          "title": "Product Design",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelProductDesignPreviewsScrollHorizontally",
+              "title": "Aria Label Product Design Previews Scroll Horizontally",
+              "type": "string"
+            },
+            {
+              "name": "ariaLabelDesignSlides",
+              "title": "Aria Label Design Slides",
+              "type": "string"
+            },
+            {
+              "name": "designYourProducts",
+              "title": "Design Your Products",
+              "type": "string"
+            },
+            {
+              "name": "allYouNeedIsAnIdea",
+              "title": "All You Need Is An Idea",
+              "type": "string"
+            },
+            {
+              "name": "describeAnIdeaUploadYourOwn",
+              "title": "Describe An Idea Upload Your Own",
+              "type": "text"
+            },
+            {
+              "name": "ask",
+              "title": "Ask",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "trustedBrands",
+          "title": "Trusted Brands",
+          "type": "object",
+          "fields": [
+            {
+              "name": "trustedBy500000CreatorsAnd",
+              "title": "Trusted By500000Creators And",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "featuredProducts",
+          "title": "Featured Products",
+          "type": "object",
+          "fields": [
+            {
+              "name": "hrefHttpsProductsFourthwallCom",
+              "title": "Href Https Products Fourthwall Com",
+              "type": "string"
+            },
+            {
+              "name": "createHighQualityProducts",
+              "title": "Create High Quality Products",
+              "type": "string"
+            },
+            {
+              "name": "noExperienceRequired",
+              "title": "No Experience Required",
+              "type": "string"
+            },
+            {
+              "name": "over200HighQualityProductsYou",
+              "title": "Over200High Quality Products You",
+              "type": "text"
+            },
+            {
+              "name": "browseAll",
+              "title": "Browse All",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "testimonials",
+          "title": "Testimonials",
+          "type": "object",
+          "fields": [
+            {
+              "name": "over500000CreatorsTrustFourthwall",
+              "title": "Over500000Creators Trust Fourthwall",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "operations",
+          "title": "Operations",
+          "type": "object",
+          "fields": [
+            {
+              "name": "src6A90738D84Dd5E7E02Ae237EStatsFlagUsSvg",
+              "title": "Src6A90738D84Dd5E7E02Ae237Estats Flag Us Svg",
+              "type": "managedMedia"
+            },
+            {
+              "name": "src6A90738C36D8B0Bfe90F3Cd5StatsFlagGbSvg",
+              "title": "Src6A90738C36D8B0Bfe90F3Cd5Stats Flag Gb Svg",
+              "type": "managedMedia"
+            },
+            {
+              "name": "theWholeOperation",
+              "title": "The Whole Operation",
+              "type": "string"
+            },
+            {
+              "name": "oneDashboard",
+              "title": "One Dashboard",
+              "type": "string"
+            },
+            {
+              "name": "expertPersonalizedAdviceFromYourOwn",
+              "title": "Expert Personalized Advice From Your Own",
+              "type": "string"
+            },
+            {
+              "name": "yourProfit",
+              "title": "Your Profit",
+              "type": "string"
+            },
+            {
+              "name": "topProducts",
+              "title": "Top Products",
+              "type": "string"
+            },
+            {
+              "name": "salesByCountry",
+              "title": "Sales By Country",
+              "type": "string"
+            },
+            {
+              "name": "understandAndGrowYourBusinessWith",
+              "title": "Understand And Grow Your Business With",
+              "type": "string"
+            },
+            {
+              "name": "appsAndIntegrationsYouLlLove",
+              "title": "Apps And Integrations You Ll Love",
+              "type": "string"
+            },
+            {
+              "name": "description10",
+              "title": "Description10",
+              "type": "text"
+            },
+            {
+              "name": "description11",
+              "title": "Description11",
+              "type": "text"
+            },
+            {
+              "name": "description12",
+              "title": "Description12",
+              "type": "text"
+            },
+            {
+              "name": "profitAmount",
+              "title": "Profit Amount",
+              "type": "string"
+            },
+            {
+              "name": "growthPercent",
+              "title": "Growth Percent",
+              "type": "string"
+            },
+            {
+              "name": "usSales",
+              "title": "Us Sales",
+              "type": "string"
+            },
+            {
+              "name": "ukSales",
+              "title": "Uk Sales",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "products",
+          "title": "Products",
+          "type": "object",
+          "fields": [
+            {
+              "name": "hrefHttpsProductsFourthwallCom",
+              "title": "Href Https Products Fourthwall Com",
+              "type": "string"
+            },
+            {
+              "name": "hundredsOfProducts",
+              "title": "Hundreds Of Products",
+              "type": "string"
+            },
+            {
+              "name": "noMinimums",
+              "title": "No Minimums",
+              "type": "string"
+            },
+            {
+              "name": "browseAll",
+              "title": "Browse All",
+              "type": "string"
+            },
+            {
+              "name": "bestsellers",
+              "title": "Bestsellers filter label",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "brandShowcase",
+          "title": "Brand Showcase",
+          "type": "object",
+          "fields": [
+            {
+              "name": "youBringTheIdeas",
+              "title": "You Bring The Ideas",
+              "type": "string"
+            },
+            {
+              "name": "weLlHandleTheRest",
+              "title": "We Ll Handle The Rest",
+              "type": "string"
+            },
+            {
+              "name": "designYourProductWeMakeIt",
+              "title": "Design Your Product We Make It",
+              "type": "string"
+            },
+            {
+              "name": "buildABrandedShopInMinutes",
+              "title": "Build Abranded Shop In Minutes",
+              "type": "string"
+            },
+            {
+              "name": "fastGlobalShipping",
+              "title": "Fast Global Shipping",
+              "type": "string"
+            },
+            {
+              "name": "customerSupportForOrder2Fx43Pl",
+              "title": "Customer Support For Order2Fx43Pl",
+              "type": "string"
+            },
+            {
+              "name": "iEnteredTheWrongShippingAddress",
+              "title": "I Entered The Wrong Shipping Address",
+              "type": "string"
+            },
+            {
+              "name": "updatedYourOrderHasnTBeen",
+              "title": "Updated Your Order Hasn Tbeen",
+              "type": "string"
+            },
+            {
+              "name": "worldClassSupportForYouAnd",
+              "title": "World Class Support For You And",
+              "type": "string"
+            },
+            {
+              "name": "description9",
+              "title": "Description9",
+              "type": "text"
+            },
+            {
+              "name": "description10",
+              "title": "Description10",
+              "type": "text"
+            },
+            {
+              "name": "description11",
+              "title": "Description11",
+              "type": "string"
+            },
+            {
+              "name": "description12",
+              "title": "Description12",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collections",
+      "title": "Collections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "BRANDS",
+          "title": "Brands",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "url",
+                  "title": "Url",
+                  "type": "string"
+                },
+                {
+                  "name": "logoSrc",
+                  "title": "Logo Src",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "CREATORS_LEFT",
+          "title": "Creators Left",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "avatarUrl",
+                  "title": "Avatar Url",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "CREATORS_RIGHT",
+          "title": "Creators Right",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "avatarUrl",
+                  "title": "Avatar Url",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DESIGN_MOCKUPS",
+          "title": "Design Mockups",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "mockupSrc",
+                  "title": "Mockup Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "artworkSrc",
+                  "title": "Artwork Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "previewSrc",
+                  "title": "Preview Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "swatch",
+                  "title": "Swatch",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "FAQS",
+          "title": "Faqs",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "id",
+                  "title": "Id",
+                  "type": "string"
+                },
+                {
+                  "name": "question",
+                  "title": "Question",
+                  "type": "string"
+                },
+                {
+                  "name": "answer",
+                  "title": "Answer",
+                  "type": "array",
+                  "of": [
+                    {
+                      "name": "cmsItem",
+                      "title": "Cms Item",
+                      "type": "object",
+                      "fields": [
+                        {
+                          "name": "type",
+                          "title": "Type",
+                          "type": "string"
+                        },
+                        {
+                          "name": "content",
+                          "title": "Content",
+                          "type": "array",
+                          "of": [
+                            {
+                              "name": "cmsItem",
+                              "title": "Cms Item",
+                              "type": "object",
+                              "fields": [
+                                {
+                                  "name": "plainText",
+                                  "title": "Plain Text",
+                                  "type": "text"
+                                },
+                                {
+                                  "name": "text",
+                                  "title": "Text",
+                                  "type": "string"
+                                },
+                                {
+                                  "name": "href",
+                                  "title": "Href",
+                                  "type": "string"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "items",
+                          "title": "Items",
+                          "type": "array",
+                          "of": [
+                            {
+                              "name": "cmsItem",
+                              "title": "Cms Item",
+                              "type": "object",
+                              "fields": [
+                                {
+                                  "name": "listItems",
+                                  "title": "List Items",
+                                  "type": "array",
+                                  "of": [
+                                    {
+                                      "name": "cmsItem",
+                                      "title": "Cms Item",
+                                      "type": "object",
+                                      "fields": [
+                                        {
+                                          "name": "text",
+                                          "title": "Text",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "name": "strong",
+                                          "title": "Strong",
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "name": "plainText",
+                                          "title": "Plain Text",
+                                          "type": "text"
+                                        },
+                                        {
+                                          "name": "href",
+                                          "title": "Href",
+                                          "type": "string"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "MGF_IMAGES",
+          "title": "Mgf Images",
+          "type": "array",
+          "of": [
+            {
+              "type": "managedMedia"
+            }
+          ]
+        },
+        {
+          "name": "MGF_PRODUCTS",
+          "title": "Mgf Products",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "src",
+                  "title": "Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "alt",
+                  "title": "Alt",
+                  "type": "string"
+                },
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "stats",
+                  "title": "Stats",
+                  "type": "array",
+                  "of": [
+                    {
+                      "name": "cmsItem",
+                      "title": "Cms Item",
+                      "type": "object",
+                      "fields": [
+                        {
+                          "name": "label",
+                          "title": "Label",
+                          "type": "string"
+                        },
+                        {
+                          "name": "value",
+                          "title": "Value",
+                          "type": "number"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "status",
+                  "title": "Status",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "TOP_PRODUCTS_IMAGES",
+          "title": "Top Products Images",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "src",
+                  "title": "Src",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "OPERATIONS_AI_DATA",
+          "title": "Operations Ai Data",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "title",
+                  "title": "Title",
+                  "type": "string"
+                },
+                {
+                  "name": "images",
+                  "title": "Images",
+                  "type": "array",
+                  "of": [
+                    {
+                      "name": "cmsItem",
+                      "title": "Cms Item",
+                      "type": "object",
+                      "fields": [
+                        {
+                          "name": "src",
+                          "title": "Src",
+                          "type": "managedMedia"
+                        },
+                        {
+                          "name": "alt",
+                          "title": "Alt",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "BRAND_MARQUEE_DATA",
+          "title": "Brand Marquee Data",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "type",
+                  "title": "Type",
+                  "type": "string"
+                },
+                {
+                  "name": "src",
+                  "title": "Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "alt",
+                  "title": "Alt",
+                  "type": "string"
+                },
+                {
+                  "name": "bgSrc",
+                  "title": "Bg Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "actionImgSrc",
+                  "title": "Action Img Src",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "HERO_SLIDERS",
+          "title": "Hero Sliders",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "type",
+                  "title": "Type",
+                  "type": "string"
+                },
+                {
+                  "name": "url",
+                  "title": "Url",
+                  "type": "string"
+                },
+                {
+                  "name": "src",
+                  "title": "Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "title",
+                  "title": "Title",
+                  "type": "string"
+                },
+                {
+                  "name": "poster",
+                  "title": "Poster",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "enabled",
+                  "title": "Enabled",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "TESTIMONIALS",
+          "title": "Testimonials",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "quote",
+                  "title": "Quote",
+                  "type": "text"
+                },
+                {
+                  "name": "alt",
+                  "title": "Alt",
+                  "type": "string"
+                },
+                {
+                  "name": "avatarUrl",
+                  "title": "Avatar Url",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "url",
+                  "title": "Url",
+                  "type": "string"
+                },
+                {
+                  "name": "linkText",
+                  "title": "Link Text",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "WALL_SHOPS",
+          "title": "Wall Shops",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "src",
+                  "title": "Src",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "href",
+                  "title": "Href",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "seo",
+      "title": "Seo",
+      "type": "object",
+      "fields": [
+        {
+          "name": "metaTitle",
+          "title": "Meta Title",
+          "type": "string"
+        },
+        {
+          "name": "metaDescription",
+          "title": "Meta Description",
+          "type": "string"
+        },
+        {
+          "name": "ogImage",
+          "title": "Og Image",
+          "type": "managedMedia"
+        },
+        {
+          "name": "canonicalUrl",
+          "title": "Canonical Url",
+          "type": "string"
+        },
+        {
+          "name": "noIndex",
+          "title": "No Index",
+          "type": "boolean"
+        }
+      ]
+    }
+  ],
+  "navigation": [
+    {
+      "name": "sections",
+      "title": "Sections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "megaMenuContent",
+          "title": "Mega Menu Content",
+          "type": "object",
+          "fields": [
+            {
+              "name": "altAskEli",
+              "title": "Alt Ask Eli",
+              "type": "string"
+            },
+            {
+              "name": "hrefHttpsDiscordComInviteT5Vm6Q2425",
+              "title": "Href Https Discord Com Invite T5Vm6Q2425",
+              "type": "string"
+            },
+            {
+              "name": "expandFourthwall",
+              "title": "Expand Fourthwall",
+              "type": "string"
+            },
+            {
+              "name": "whatSNew",
+              "title": "What Snew",
+              "type": "string"
+            },
+            {
+              "name": "joinOurDiscordCommunity",
+              "title": "Join Our Discord Community",
+              "type": "string"
+            },
+            {
+              "name": "getTheApp",
+              "title": "Get The App",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "header",
+          "title": "Header",
+          "type": "object",
+          "fields": [
+            {
+              "name": "href",
+              "title": "Href",
+              "type": "string"
+            },
+            {
+              "name": "ariaLabelMainNavigation",
+              "title": "Aria Label Main Navigation",
+              "type": "string"
+            },
+            {
+              "name": "hrefHttpsMyShopFourthwallComAdminDashboard",
+              "title": "Href Https My Shop Fourthwall Com Admin Dashboard",
+              "type": "string"
+            },
+            {
+              "name": "ariaLabelOpenNavigation",
+              "title": "Aria Label Open Navigation",
+              "type": "string"
+            },
+            {
+              "name": "ariaLabelMobileNavigation",
+              "title": "Aria Label Mobile Navigation",
+              "type": "string"
+            },
+            {
+              "name": "logIn",
+              "title": "Log In",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collections",
+      "title": "Collections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "APP_LINKS",
+          "title": "App Links",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "label",
+                  "title": "Label",
+                  "type": "string"
+                },
+                {
+                  "name": "href",
+                  "title": "Href",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "title": "Image",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ELI_CARD",
+          "title": "Eli Card",
+          "type": "object",
+          "fields": [
+            {
+              "name": "href",
+              "title": "Href",
+              "type": "string"
+            },
+            {
+              "name": "image",
+              "title": "Image",
+              "type": "managedMedia"
+            },
+            {
+              "name": "description",
+              "title": "Description",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "EXPAND_LINKS",
+          "title": "Expand Links",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "label",
+                  "title": "Label",
+                  "type": "string"
+                },
+                {
+                  "name": "href",
+                  "title": "Href",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "FEATURE_GROUPS",
+          "title": "Feature Groups",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "title",
+                  "title": "Title",
+                  "type": "string"
+                },
+                {
+                  "name": "links",
+                  "title": "Links",
+                  "type": "array",
+                  "of": [
+                    {
+                      "name": "cmsItem",
+                      "title": "Cms Item",
+                      "type": "object",
+                      "fields": [
+                        {
+                          "name": "label",
+                          "title": "Label",
+                          "type": "string"
+                        },
+                        {
+                          "name": "href",
+                          "title": "Href",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "LEARN_CARDS",
+          "title": "Learn Cards",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "label",
+                  "title": "Label",
+                  "type": "string"
+                },
+                {
+                  "name": "href",
+                  "title": "Href",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "title": "Image",
+                  "type": "managedMedia"
+                },
+                {
+                  "name": "description",
+                  "title": "Description",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "NAV_ITEMS",
+          "title": "Nav Items",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "label",
+                  "title": "Label",
+                  "type": "string"
+                },
+                {
+                  "name": "href",
+                  "title": "Href",
+                  "type": "string"
+                },
+                {
+                  "name": "menu",
+                  "title": "Menu",
+                  "type": "boolean"
+                },
+                {
+                  "name": "menuKind",
+                  "title": "Menu Kind",
+                  "type": "string"
+                },
+                {
+                  "name": "openInNewTab",
+                  "title": "Open In New Tab",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "name": "sections",
+      "title": "Sections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "footer",
+          "title": "Footer",
+          "type": "object",
+          "fields": [
+            {
+              "name": "getTheApp",
+              "title": "Get The App",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "wordmark",
+          "title": "Wordmark",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelBackToTop",
+              "title": "Aria Label Back To Top",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collections",
+      "title": "Collections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "FOOTER_BOTTOM_LINKS",
+          "title": "Footer Bottom Links",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "url",
+                  "title": "Url",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "FOOTER_LINKS",
+          "title": "Footer Links",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "title",
+                  "title": "Title",
+                  "type": "string"
+                },
+                {
+                  "name": "links",
+                  "title": "Links",
+                  "type": "array",
+                  "of": [
+                    {
+                      "name": "cmsItem",
+                      "title": "Cms Item",
+                      "type": "object",
+                      "fields": [
+                        {
+                          "name": "name",
+                          "title": "Name",
+                          "type": "string"
+                        },
+                        {
+                          "name": "url",
+                          "title": "Url",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "siteSettings": [
+    {
+      "name": "sections",
+      "title": "Sections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "cta",
+          "title": "Cta",
+          "type": "object",
+          "fields": [
+            {
+              "name": "makeSomethingWorthBuying",
+              "title": "Make Something Worth Buying",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collections",
+      "title": "Collections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "ORBIT_RINGS",
+          "title": "Orbit Rings",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "images",
+                  "title": "Images",
+                  "type": "array",
+                  "of": [
+                    {
+                      "name": "cmsItem",
+                      "title": "Cms Item",
+                      "type": "object",
+                      "fields": [
+                        {
+                          "name": "src",
+                          "title": "Src",
+                          "type": "managedMedia"
+                        },
+                        {
+                          "name": "alt",
+                          "title": "Alt",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "siteName",
+      "title": "Site Name",
+      "type": "string"
+    },
+    {
+      "name": "siteDescription",
+      "title": "Site Description",
+      "type": "text"
+    },
+    {
+      "name": "logo",
+      "title": "Logo",
+      "type": "managedMedia"
+    },
+    {
+      "name": "logoDark",
+      "title": "Logo Dark",
+      "type": "managedMedia"
+    },
+    {
+      "name": "favicon",
+      "title": "Favicon",
+      "type": "managedMedia"
+    },
+    {
+      "name": "defaultSeo",
+      "title": "Default Seo",
+      "type": "object",
+      "fields": [
+        {
+          "name": "metaTitle",
+          "title": "Meta Title",
+          "type": "string"
+        },
+        {
+          "name": "metaDescription",
+          "title": "Meta Description",
+          "type": "string"
+        },
+        {
+          "name": "ogImage",
+          "title": "Og Image",
+          "type": "managedMedia"
+        },
+        {
+          "name": "canonicalUrl",
+          "title": "Canonical Url",
+          "type": "string"
+        },
+        {
+          "name": "noIndex",
+          "title": "No Index",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "globalCTA",
+      "title": "Global Cta",
+      "type": "object",
+      "fields": [
+        {
+          "name": "enabled",
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        {
+          "name": "label",
+          "title": "Label",
+          "type": "string"
+        },
+        {
+          "name": "url",
+          "title": "Url",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "socialLinks",
+      "title": "Social Links",
+      "type": "array",
+      "of": [
+        {
+          "name": "cmsItem",
+          "title": "Cms Item",
+          "type": "object",
+          "fields": [
+            {
+              "name": "name",
+              "title": "Name",
+              "type": "string"
+            },
+            {
+              "name": "url",
+              "title": "Url",
+              "type": "string"
+            },
+            {
+              "name": "enabled",
+              "title": "Enabled",
+              "type": "boolean"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "copyrightText",
+      "title": "Copyright Text",
+      "type": "string"
+    }
+  ],
+  "blogPage": [
+    {
+      "name": "sections",
+      "title": "Sections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "blogTldrCard",
+          "title": "Blog Tldr Card",
+          "type": "object",
+          "fields": [
+            {
+              "name": "summarizeWith",
+              "title": "Summarize With",
+              "type": "string"
+            },
+            {
+              "name": "title",
+              "title": "Title",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "newsletter",
+          "title": "Newsletter",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelCallToAction",
+              "title": "Aria Label Call To Action",
+              "type": "string"
+            },
+            {
+              "name": "placeholderYourEmailAddress",
+              "title": "Placeholder Your Email Address",
+              "type": "string"
+            },
+            {
+              "name": "keepUpWithTheLatestFrom",
+              "title": "Keep Up With The Latest From",
+              "type": "string"
+            },
+            {
+              "name": "newFeaturesProductUpdatesTrendBreakdowns",
+              "title": "New Features Product Updates Trend Breakdowns",
+              "type": "string"
+            },
+            {
+              "name": "submit",
+              "title": "Submit",
+              "type": "string"
+            },
+            {
+              "name": "youAgreeToReceiveFourthwallMarketing",
+              "title": "You Agree To Receive Fourthwall Marketing",
+              "type": "string"
+            },
+            {
+              "name": "formAction",
+              "title": "Form Action",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "blogFaqs",
+          "title": "Blog Faqs",
+          "type": "object",
+          "fields": [
+            {
+              "name": "faq",
+              "title": "Faq",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "blogSocialShare",
+          "title": "Blog Social Share",
+          "type": "object",
+          "fields": [
+            {
+              "name": "shareArticle",
+              "title": "Share Article",
+              "type": "string"
+            },
+            {
+              "name": "shareOn",
+              "title": "Share On",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "blogDetailsAside",
+          "title": "Blog Details Aside",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelTableOfContents",
+              "title": "Aria Label Table Of Contents",
+              "type": "string"
+            },
+            {
+              "name": "placeholderYourEmailAddress",
+              "title": "Placeholder Your Email Address",
+              "type": "string"
+            },
+            {
+              "name": "inThisArticle",
+              "title": "In This Article",
+              "type": "string"
+            },
+            {
+              "name": "showTableOfContents",
+              "title": "Show Table Of Contents",
+              "type": "string"
+            },
+            {
+              "name": "joinOurNewsletter",
+              "title": "Join Our Newsletter",
+              "type": "string"
+            },
+            {
+              "name": "newFeaturesProductUpdatesTrendBreakdowns",
+              "title": "New Features Product Updates Trend Breakdowns",
+              "type": "string"
+            },
+            {
+              "name": "submit",
+              "title": "Submit",
+              "type": "string"
+            },
+            {
+              "name": "formAction",
+              "title": "Form Action",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "embed",
+          "title": "Embed",
+          "type": "object",
+          "fields": [
+            {
+              "name": "embeddedContentUnavailable",
+              "title": "Embedded Content Unavailable",
+              "type": "string"
+            },
+            {
+              "name": "view",
+              "title": "View",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "video",
+          "title": "Video",
+          "type": "object",
+          "fields": [
+            {
+              "name": "downloadVideo",
+              "title": "Download Video",
+              "type": "string"
+            },
+            {
+              "name": "videoUnavailable",
+              "title": "Video Unavailable",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "blogs",
+          "title": "Blogs",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelBlogList",
+              "title": "Aria Label Blog List",
+              "type": "string"
+            },
+            {
+              "name": "actionBlog",
+              "title": "Action Blog",
+              "type": "string"
+            },
+            {
+              "name": "search",
+              "title": "Search",
+              "type": "string"
+            },
+            {
+              "name": "youMightAlsoLike",
+              "title": "You Might Also Like",
+              "type": "string"
+            },
+            {
+              "name": "theBlogIsTemporarilyUnavailable",
+              "title": "The Blog Is Temporarily Unavailable",
+              "type": "string"
+            },
+            {
+              "name": "weCouldnTLoadThePosts",
+              "title": "We Couldn Tload The Posts",
+              "type": "string"
+            },
+            {
+              "name": "tryAgain",
+              "title": "Try Again",
+              "type": "string"
+            },
+            {
+              "name": "clearSearchAndFilters",
+              "title": "Clear Search And Filters",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "blogDetailsArticle",
+          "title": "Blog Details Article",
+          "type": "object",
+          "fields": [
+            {
+              "name": "hrefBlog",
+              "title": "Href Blog",
+              "type": "string"
+            },
+            {
+              "name": "published",
+              "title": "Published",
+              "type": "string"
+            },
+            {
+              "name": "blog",
+              "title": "Blog",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "featuredBlog",
+          "title": "Featured Blog",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelFeatureBlog",
+              "title": "Aria Label Feature Blog",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "blogHero",
+          "title": "Blog Hero",
+          "type": "object",
+          "fields": [
+            {
+              "name": "ariaLabelHero",
+              "title": "Aria Label Hero",
+              "type": "string"
+            },
+            {
+              "name": "the",
+              "title": "The",
+              "type": "string"
+            },
+            {
+              "name": "drop",
+              "title": "Drop",
+              "type": "string"
+            },
+            {
+              "name": "aSemiRegularGuideToMerch",
+              "title": "A Semi Regular Guide To Merch",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "collections",
+      "title": "Collections",
+      "type": "object",
+      "fields": [
+        {
+          "name": "summaryProviders",
+          "title": "Summary Providers",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "url",
+                  "title": "Url",
+                  "type": "string"
+                },
+                {
+                  "name": "icon",
+                  "title": "Icon",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "shareProviders",
+          "title": "Share Providers",
+          "type": "array",
+          "of": [
+            {
+              "name": "cmsItem",
+              "title": "Cms Item",
+              "type": "object",
+              "fields": [
+                {
+                  "name": "name",
+                  "title": "Name",
+                  "type": "string"
+                },
+                {
+                  "name": "href",
+                  "title": "Href",
+                  "type": "string"
+                },
+                {
+                  "name": "icon",
+                  "title": "Icon",
+                  "type": "managedMedia"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "seo",
+      "title": "Seo",
+      "type": "object",
+      "fields": [
+        {
+          "name": "metaTitle",
+          "title": "Meta Title",
+          "type": "string"
+        },
+        {
+          "name": "metaDescription",
+          "title": "Meta Description",
+          "type": "string"
+        },
+        {
+          "name": "ogImage",
+          "title": "Og Image",
+          "type": "managedMedia"
+        },
+        {
+          "name": "canonicalUrl",
+          "title": "Canonical Url",
+          "type": "string"
+        },
+        {
+          "name": "noIndex",
+          "title": "No Index",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "postsPerPage",
+      "title": "Posts Per Page",
+      "type": "number"
+    }
+  ]
+}

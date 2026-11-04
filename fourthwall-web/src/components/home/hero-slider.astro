@@ -1,0 +1,217 @@
+---
+import { contentFor } from "@/lib/sanity/content";
+const cms = contentFor(Astro.locals);
+const HERO_SLIDERS = cms.homePage.collections.HERO_SLIDERS;
+
+import { cn } from "@/utils";
+
+import { Image } from "astro:assets";
+
+---
+
+<div class="hero-slider z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]">
+  <div class="hero-track flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden">
+
+    {HERO_SLIDERS.map((item, index) => (
+      <div
+        class={cn(
+          "hero-track-item flex m-0 flex-none flex-col snap-start scatter-reveal scatter-reveal-rise cursor-none",
+        )}
+        style={{
+          "--stagger-index": index,
+          "--rise-distance": "56px",
+        }}
+        data-cursor-label={item.title}
+      >
+        <a
+          rel="nofollow"
+          href={item.url}
+          target="_blank"
+          aria-label={item.title}
+          class={cn(
+            "max-[992px]:w-[calc(74.9677vw)] max-[992px]:h-[83vw] aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline 2md:w-[calc(clamp(320px,35vw,960px)/1.10714)] 2md:h-[clamp(320px,35vw,960px)] cursor-none!",
+            item.type === "video" &&
+              "aspect-6/5 max-2md:w-[99.6vw]! 2md:w-[calc(1.2*clamp(320px,35vw,960px))]",
+          )}
+        >
+          {item.type === "video" ? (
+            <video
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="auto"
+              poster={item.poster}
+              class="object-cover size-full block"
+            >
+              <source src={item.src} />
+            </video>
+          ) : (
+            <Image
+              src={item.src}
+              loading="eager"
+              fetchpriority="high"
+              inferSize={true}
+              widths={[320, 480, 640, 800, 960]}
+              sizes="(min-width: 2743px) 867px, (min-width: 915px) 31.6129vw, 289px"
+              format="webp"
+              alt={item.title}
+              class="object-cover size-full block"
+            />
+          )}
+        </a>
+      </div>
+    ))}
+  </div>
+
+  <div
+    aria-hidden="true"
+    class="hero-cursor fixed top-0 left-0 z-30 pointer-events-none invisible opacity-0 whitespace-nowrap bg-white text-foreground rounded-full px-4 py-1.5 text-body-md font-medium"
+  ></div>
+</div>
+
+<script>
+  import { initCursorTracking } from "@/scripts/animations/cursor-tracking";
+
+  const sliderCleanups = new Map<HTMLElement, () => void>();
+  const initializeSliders = () => {
+    document.querySelectorAll<HTMLElement>(".hero-slider").forEach((root) => {
+      if (sliderCleanups.has(root)) return;
+      const events = new AbortController();
+      let observer: ResizeObserver | undefined;
+      const track = root.querySelector<HTMLElement>(".hero-track");
+      // Find controls in the parent hero.
+      const controlsRoot = root.closest<HTMLElement>(".hero-section") ?? root;
+      const prevButton =
+        controlsRoot.querySelector<HTMLButtonElement>(".carousel-prev");
+      const nextButton =
+        controlsRoot.querySelector<HTMLButtonElement>(".carousel-next");
+
+      if (track && prevButton && nextButton) {
+        const getGap = () => {
+          const styles = window.getComputedStyle(track);
+          return Number.parseFloat(styles.gap || "0") || 0;
+        };
+
+        const getStepSize = () => {
+          const firstItem =
+            track.querySelector<HTMLElement>(".hero-track-item");
+
+          if (!firstItem) return 0;
+
+          return firstItem.getBoundingClientRect().width + getGap();
+        };
+
+        const updateButtonState = (
+          button: HTMLButtonElement,
+          disabled: boolean,
+        ) => {
+          button.disabled = disabled;
+          button.setAttribute("aria-disabled", String(disabled));
+          button.classList.toggle("opacity-30", disabled);
+          button.classList.toggle("pointer-events-none", disabled);
+        };
+
+        const updateStates = () => {
+          const maxScrollLeft = Math.max(
+            track.scrollWidth - track.clientWidth,
+            0,
+          );
+          const atStart = track.scrollLeft <= 1;
+          const atEnd = track.scrollLeft >= maxScrollLeft - 1;
+
+          updateButtonState(prevButton, atStart);
+          updateButtonState(nextButton, atEnd);
+        };
+
+        const scrollByOneItem = (direction: number) => {
+          const stepSize = getStepSize();
+
+          if (!stepSize) return;
+
+          track.scrollBy({ left: direction * stepSize, behavior: "smooth" });
+          requestAnimationFrame(updateStates);
+        };
+
+        prevButton.addEventListener(
+          "click",
+          () => {
+            if (prevButton.disabled) return;
+            scrollByOneItem(-1);
+          },
+          { signal: events.signal },
+        );
+
+        nextButton.addEventListener(
+          "click",
+          () => {
+            if (nextButton.disabled) return;
+            scrollByOneItem(1);
+          },
+          { signal: events.signal },
+        );
+
+        track.addEventListener(
+          "scroll",
+          () => {
+            requestAnimationFrame(updateStates);
+          },
+          { passive: true, signal: events.signal },
+        );
+
+        if ("ResizeObserver" in window) {
+          observer = new ResizeObserver(() => {
+            requestAnimationFrame(updateStates);
+          });
+
+          observer.observe(track);
+        }
+
+        updateStates();
+      }
+      sliderCleanups.set(root, () => {
+        events.abort();
+        observer?.disconnect();
+      });
+    });
+  };
+  initializeSliders();
+  document.addEventListener("astro:page-load", initializeSliders);
+  document.addEventListener("astro:before-swap", () => {
+    sliderCleanups.forEach((dispose) => dispose());
+    sliderCleanups.clear();
+  });
+
+  const cursorCleanups = new WeakMap<HTMLElement, () => void>();
+
+  const initializeCursor = () => {
+    document.querySelectorAll<HTMLElement>(".hero-slider").forEach((root) => {
+      const cursor = root.querySelector<HTMLElement>(".hero-cursor");
+
+      if (!root || !cursor || cursorCleanups.has(root)) return;
+      cursorCleanups.set(
+        root,
+        initCursorTracking(
+          root,
+          ".hero-track-item",
+          cursor,
+          "data-cursor-label",
+        ),
+      );
+    });
+  };
+
+  const disposeCursor = () => {
+    document.querySelectorAll<HTMLElement>(".hero-slider").forEach((root) => {
+      const cleanup = cursorCleanups.get(root);
+      if (cleanup) {
+        cleanup();
+        cursorCleanups.delete(root);
+      }
+    });
+  };
+
+  document.addEventListener("astro:page-load", initializeCursor);
+  document.addEventListener("astro:before-swap", disposeCursor);
+  initializeCursor();
+</script>

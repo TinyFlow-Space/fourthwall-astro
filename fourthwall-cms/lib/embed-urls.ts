@@ -1,0 +1,45 @@
+export function httpsUrl(value?: string): string | undefined {
+  try {
+    const url = new URL(value ?? "");
+    return url.protocol === "https:" && !url.username && !url.password
+      ? url.href
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+export function videoUrl(value?: string): string | undefined {
+  const safe = httpsUrl(value);
+  if (!safe) return;
+  const url = new URL(safe);
+  const host = url.hostname.replace(/^www\./, "");
+  if (["youtube.com", "youtube-nocookie.com", "youtu.be"].includes(host)) {
+    const id =
+      host === "youtu.be"
+        ? url.pathname.slice(1)
+        : url.searchParams.get("v") ||
+          url.pathname.match(/^\/(?:embed|shorts)\/([^/]+)/)?.[1];
+    if (id && /^[\w-]{11}$/.test(id))
+      return `https://www.youtube-nocookie.com/embed/${id}`;
+  }
+  if (["vimeo.com", "player.vimeo.com"].includes(host)) {
+    const id = url.pathname.match(/^\/(?:video\/)?(\d+)(?:\/|$)/)?.[1];
+    if (id) return `https://player.vimeo.com/video/${id}`;
+  }
+}
+export function socialUrl(value?: string): string | undefined {
+  const safe = httpsUrl(value);
+  if (!safe) return;
+  const url = new URL(safe);
+  const host = url.hostname.replace(/^www\./, "");
+  if (host === "instagram.com") {
+    const path = url.pathname.match(/^\/(p|reel|tv)\/([\w-]+)\/?$/);
+    if (path) return `https://www.instagram.com/${path[1]}/${path[2]}/embed/`;
+  }
+  if (host === "open.spotify.com") {
+    const path = url.pathname.match(
+      /^\/(?:embed\/)?(track|album|playlist|episode|show)\/([a-zA-Z0-9]+)$/,
+    );
+    if (path) return `https://open.spotify.com/embed/${path[1]}/${path[2]}`;
+  }
+}

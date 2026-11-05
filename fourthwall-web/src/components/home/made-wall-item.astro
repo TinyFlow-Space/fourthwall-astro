@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import type { WALL_SHOPS } from "@/data/home/wall-shops";
 interface Props {
   shop: (typeof WALL_SHOPS)[number];
@@ -12,7 +13,7 @@ const { shop } = Astro.props;
   target="_blank"
   rel="noopener noreferrer"
   draggable="false"
-  data-name={shop.name}
+  data-name={stegaClean(shop.name)}
 >
   <div class="absolute inset-0 overflow-hidden bg-[#141414] transform-[scale(1)] origin-center transition-transform duration-350 ease-rise-in backface-hidden group-hover:transform-[scale(1.12)]">
     <img

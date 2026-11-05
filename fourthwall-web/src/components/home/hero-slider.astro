@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const HERO_SLIDERS = cms.homePage.collections.HERO_SLIDERS;
@@ -21,13 +22,13 @@ import { Image } from "astro:assets";
           "--stagger-index": index,
           "--rise-distance": "56px",
         }}
-        data-cursor-label={item.title}
+        data-cursor-label={stegaClean(item.title)}
       >
         <a
           rel="nofollow"
           href={item.url}
           target="_blank"
-          aria-label={item.title}
+          aria-label={stegaClean(item.title)}
           class={cn(
             "max-[992px]:w-[calc(74.9677vw)] max-[992px]:h-[83vw] aspect-1120/1240 bg-paper-soft overflow-hidden block flex-none max-w-full min-w-0 no-underline 2md:w-[calc(clamp(320px,35vw,960px)/1.10714)] 2md:h-[clamp(320px,35vw,960px)] cursor-none!",
             item.type === "video" &&

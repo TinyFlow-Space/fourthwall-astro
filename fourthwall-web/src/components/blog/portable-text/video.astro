@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.blogPage.sections.video;
@@ -22,7 +23,7 @@ const captions = httpsUrl(node.captions?.url);
       controls
       crossorigin="anonymous"
       preload="none"
-      aria-label={node.title || "Article video"}
+      aria-label={stegaClean(node.title || "Article video")}
       class="w-full h-auto"
     >
       <source src={file} />
@@ -40,7 +41,7 @@ const captions = httpsUrl(node.captions?.url);
   ) : src ? (
     <iframe
       src={src}
-      title={node.title || "Article video"}
+      title={stegaClean(node.title || "Article video")}
       loading="lazy"
       class="w-full aspect-video border-0"
       allow="fullscreen; picture-in-picture; encrypted-media"

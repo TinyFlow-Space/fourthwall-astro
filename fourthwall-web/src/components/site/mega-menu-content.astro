@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.navigation.sections.megaMenuContent;
@@ -16,7 +17,7 @@ const { kind } = Astro.props;
 
 ---
 
-{kind === "Features" ? (
+{stegaClean(kind) === "Features" ? (
   <div class="features-content">
     <div class="feature-columns">
       {FEATURE_GROUPS.map((group) => (

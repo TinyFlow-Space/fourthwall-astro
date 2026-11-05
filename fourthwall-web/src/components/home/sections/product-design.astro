@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.homePage.sections.productDesign;
@@ -48,7 +49,7 @@ const ACTIVE_DESIGN_KEY = "a";
           class="design-scroll-track contents max-[768px]:flex max-[768px]:flex-none max-[768px]:w-[calc(100%+40px)] max-[768px]:min-w-0 max-[768px]:gap-3 max-[768px]:overflow-x-auto max-[768px]:-mx-5 max-[768px]:px-5 max-[768px]:scroll-px-5 max-[768px]:snap-x max-[768px]:snap-proximity scrollbar-none"
           tabindex="0"
           role="region"
-          aria-label={content.ariaLabelProductDesignPreviewsScrollHorizontally}
+          aria-label={stegaClean(content.ariaLabelProductDesignPreviewsScrollHorizontally)}
         >
 
           <div
@@ -188,7 +189,7 @@ const ACTIVE_DESIGN_KEY = "a";
         </div>
 
         <div
-          aria-label={content.ariaLabelDesignSlides}
+          aria-label={stegaClean(content.ariaLabelDesignSlides)}
           role="group"
           class="flex justify-center gap-x-2 mt-16 flex-[0_0_100%]"
         >

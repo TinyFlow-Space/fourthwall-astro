@@ -1,5 +1,5 @@
 import { defineQuery } from "groq";
-// Every query excludes drafts and future publications, including related posts.
+// Only published posts whose publication date has arrived are displayed.
 const published = `_type == "post" && defined(slug.current) && defined(publishedAt) && dateTime(publishedAt) <= dateTime(now()) && !(_id in path("drafts.**"))`;
 // Group dereferenced arrays before filtering; otherwise GROQ filters each object
 // and produces null entries instead of filtering the array.

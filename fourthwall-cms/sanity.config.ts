@@ -2,6 +2,9 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./schemaTypes";
 import { singletonTypes } from "./schemaTypes/content";
+import { resolve } from "./lib/presentation";
+import { presentationTool } from "sanity/presentation";
+
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID;
 if (!projectId)
   throw new Error(
@@ -66,6 +69,11 @@ export default defineConfig({
               ),
           ]);
       },
+    }),
+
+    presentationTool({
+      resolve,
+      previewUrl: process.env.SANITY_STUDIO_PREVIEW_URL || "http://localhost:4321",
     }),
   ],
   schema: {

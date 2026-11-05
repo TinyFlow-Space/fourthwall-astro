@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.blogPage.sections.blogs;
@@ -58,7 +59,7 @@ const pages = Math.max(
 {(listing || posts.length > 0) && (
   <section
     data-blog-listing={listing && !resultsOnly ? "" : undefined}
-    aria-label={content.ariaLabelBlogList}
+    aria-label={stegaClean(content.ariaLabelBlogList)}
     class="bg-background py-[clamp(4rem,3.3835vw+3.207rem,6.25rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
   >
     <div class="container-lg">

@@ -1,4 +1,5 @@
 ---
+import { stegaClean, visualEditingEnabled } from "@/lib/sanity/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.homePage.sections.operations;
@@ -120,7 +121,7 @@ import { ChartIcon } from "@/components/icons";
 
               <div class="flex items-center gap-x-[2.6cqi] mt-[1.4cqi]">
                 <div class="font-display text-foreground font-medium tracking-[-.02em] text-[4.5cqi] leading-[100%]">
-                  $<span class="stat-counter" data-count={content.profitAmount}>{content.profitAmount}</span>
+                  $<span class:list={[{ "stat-counter": !visualEditingEnabled }]} data-count={stegaClean(content.profitAmount)}>{content.profitAmount}</span>
                 </div>
                 <div class="inline-flex gap-x-[.8cqi] font-display text-[#14d7a1] font-medium tracking-[-.01em] text-[2.5cqi]">
                   <svg
@@ -137,7 +138,7 @@ import { ChartIcon } from "@/components/icons";
                       stroke-linecap="round"
                     ></path>
                   </svg>
-                  <span class="stat-counter" data-count={content.growthPercent}>{content.growthPercent}</span>
+                  <span class:list={[{ "stat-counter": !visualEditingEnabled }]} data-count={stegaClean(content.growthPercent)}>{content.growthPercent}</span>
                   <span>%</span>
                 </div>
               </div>
@@ -178,7 +179,7 @@ import { ChartIcon } from "@/components/icons";
                     class="block h-auto w-[5cqi] rounded-[0.7cqi]"
                   />
                   <div class="font-display text-foreground leading-[100%] font-normal tracking-[-.02em] text-[2.9cqi]">
-                    $<span class="stat-counter" data-count={content.usSales}>{content.usSales}</span>
+                    $<span class:list={[{ "stat-counter": !visualEditingEnabled }]} data-count={stegaClean(content.usSales)}>{content.usSales}</span>
                   </div>
                 </div>
 
@@ -190,7 +191,7 @@ import { ChartIcon } from "@/components/icons";
                     class="block h-auto w-[5cqi] rounded-[0.7cqi]"
                   />
                   <div class="font-display text-foreground leading-[100%] font-normal tracking-[-.02em] text-[2.9cqi]">
-                    $<span class="stat-counter" data-count={content.ukSales}>{content.ukSales}</span>
+                    $<span class:list={[{ "stat-counter": !visualEditingEnabled }]} data-count={stegaClean(content.ukSales)}>{content.ukSales}</span>
                   </div>
                 </div>
               </div>

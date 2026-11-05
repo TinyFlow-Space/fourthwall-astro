@@ -1,3 +1,9 @@
+import {
+  cleanTechnicalContent,
+  encodeDraftEditLinks,
+  isTechnicalField,
+  visualEditingEnabled,
+} from "./stega";
 import { createClient } from "@sanity/client";
 import { getSecret } from "astro:env/server";
 import type { QueryParams } from "@sanity/client";
@@ -8,21 +14,45 @@ import { pageSize, type BlogParams } from "./params";
 import { normalizeCategory } from "./categories";
 
 export const postsPerPage = pageSize(import.meta.env.BLOG_POSTS_PER_PAGE);
-export async function query<T>(groq: string, params: QueryParams): Promise<T> {
+export function sanityClient() {
   if (!import.meta.env.PUBLIC_SANITY_PROJECT_ID)
     throw new Error("Sanity is not configured");
   const token = getSecret("SANITY_API_READ_TOKEN");
-  const client = createClient({
+  return createClient({
     projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
     dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
     apiVersion: "2026-03-01",
     token: token || undefined,
-    useCdn: !token,
+    useCdn: !visualEditingEnabled && !token,
     perspective: "published",
+    stega: {
+      enabled: visualEditingEnabled,
+      studioUrl:
+        import.meta.env.PUBLIC_SANITY_STUDIO_URL || "http://localhost:3333",
+      filter: (props) =>
+        !props.sourcePath.some(
+          (part) => typeof part === "string" && isTechnicalField(part),
+        ) && props.filterDefault(props),
+    },
     timeout: 10000,
     maxRetries: 1,
   });
-  return client.fetch<T>(groq, params);
+}
+export async function query<T>(groq: string, params: QueryParams): Promise<T> {
+  const client = sanityClient();
+  if (!visualEditingEnabled)
+    return cleanTechnicalContent(await client.fetch<T>(groq, params));
+  const { result, resultSourceMap } = await client.fetch<T>(groq, params, {
+    filterResponse: false,
+    resultSourceMap: "withKeyArraySelector",
+    stega: false,
+  });
+  return cleanTechnicalContent(
+    encodeDraftEditLinks(result, resultSourceMap, {
+      ...client.config().stega,
+      enabled: true,
+    }),
+  );
 }
 export async function getListing(
   params: BlogParams,

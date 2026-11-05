@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.homePage.sections.trustedBrands;
@@ -25,7 +26,7 @@ import { cn } from "@/utils";
             href={brand.url}
             target="_blank"
             rel="nofollow"
-            aria-label={brand.name}
+            aria-label={stegaClean(brand.name)}
             aria-hidden={index >= BRANDS.length ? "true" : undefined}
             tabindex={index >= BRANDS.length ? -1 : undefined}
             class:list={[

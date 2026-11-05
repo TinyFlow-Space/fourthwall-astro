@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.blogPage.sections.newsletter;
@@ -8,7 +9,7 @@ const content = cms.blogPage.sections.newsletter;
 ---
 
 <section
-  aria-label={content.ariaLabelCallToAction}
+  aria-label={stegaClean(content.ariaLabelCallToAction)}
   class="bg-background mt-0 pb-[clamp(3.5rem,6.8vw+1.9rem,7.5rem)] px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
 >
   <div class="container-lg">
@@ -29,7 +30,7 @@ const content = cms.blogPage.sections.newsletter;
           >
             <input
               type="email"
-              placeholder={content.placeholderYourEmailAddress}
+              placeholder={stegaClean(content.placeholderYourEmailAddress)}
               name="email"
               aria-required="true"
               autocomplete="email"

@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.blogPage.sections.blogDetailsAside;
@@ -25,7 +26,7 @@ const toc = headings.filter(({ depth }) => depth === 2 || depth === 3);
       <nav
         id="article-toc"
         data-toc
-        aria-label={content.ariaLabelTableOfContents}
+        aria-label={stegaClean(content.ariaLabelTableOfContents)}
         class="mb-[clamp(1.5rem,0.7519vw+1.3238rem,2rem)] flex max-h-none 2md:max-h-88 flex-col gap-2.5 2md:overflow-auto scrollbar-thin"
       >
         {toc.map(({ depth, slug, text }) => (

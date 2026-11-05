@@ -1,5 +1,6 @@
 ---
-import { Font } from "astro:assets";
+import VisualEditing from "@/components/site/visual-editing.astro";
+import { stegaClean } from "@sanity/client/stega";
 import "@/styles/global.css";
 import Header from "@/components/site/header.astro";
 import Footer from "@/components/site/footer.astro";
@@ -8,8 +9,9 @@ import Cta from "@/components/site/cta.astro";
 import { cn } from "@/utils";
 import BlogNavigationLoading from "@/components/blog/navigation-loading.astro";
 
-import {contentFor, type Seo} from "@/lib/sanity/content";
-import {resolveSeo} from "@/lib/sanity/seo";
+import { contentFor, type Seo } from "@/lib/sanity/content";
+import { resolveSeo } from "@/lib/sanity/seo";
+
 interface Props {
   seo?: Seo;
   title: string;
@@ -30,8 +32,18 @@ const {
   canonicalUrl: fallbackCanonical,
   seo,
 } = Astro.props;
-const cms=contentFor(Astro.locals);
-const {title,description,image,canonicalUrl,noindex}=resolveSeo(seo,cms.siteSettings.defaultSeo,{title:fallbackTitle,description:fallbackDescription,image:fallbackImage,canonicalUrl:fallbackCanonical,noindex:fallbackNoindex});
+const cms = contentFor(Astro.locals);
+const { title, description, image, canonicalUrl, noindex } = resolveSeo(
+  seo,
+  cms.siteSettings.defaultSeo,
+  {
+    title: fallbackTitle,
+    description: fallbackDescription,
+    image: fallbackImage,
+    canonicalUrl: fallbackCanonical,
+    noindex: fallbackNoindex,
+  },
+);
 const siteUrl = Astro.site ?? Astro.url;
 const canonical = new URL(canonicalUrl ?? Astro.url.pathname, siteUrl);
 const ld = {
@@ -49,7 +61,10 @@ const ld = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href={cms.siteSettings.favicon || "/favicon.svg"} />
-    {(!cms.siteSettings.favicon || cms.siteSettings.favicon === "/favicon.svg") && <link rel="icon" href="/favicon.ico" />}
+    {(!cms.siteSettings.favicon ||
+      cms.siteSettings.favicon === "/favicon.svg") && (
+      <link rel="icon" href="/favicon.ico" />
+    )}
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -63,11 +78,11 @@ const ld = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="theme-color" content="#0a0a0a" />
-    <Font cssVariable="--font-inter" />
+
     <script
       is:inline
       type="application/ld+json"
-      set:html={JSON.stringify(ld)}
+      set:html={JSON.stringify(stegaClean(ld))}
     />
   </head>
 
@@ -91,6 +106,7 @@ const ld = {
     </main>
     <Footer />
     <WordMark />
+    <VisualEditing />
 
     <script>
       import { initCardTilt } from "@/scripts/animations/card-tilt";

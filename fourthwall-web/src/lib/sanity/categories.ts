@@ -1,3 +1,4 @@
+import { stegaClean } from "@sanity/client/stega";
 import type { Taxonomy } from "./types";
 
 // Keep the existing tab labels/order; use actual CMS slugs when available.
@@ -13,7 +14,7 @@ export function categoryOptions(categories: Taxonomy[]) {
   const options = tabs.map((tab) => {
     if (!tab.value || tab.value === "featured") return tab;
     const category = categories.find(
-      (c) => c.title.toLowerCase() === tab.label.toLowerCase(),
+      (c) => stegaClean(c.title).toLowerCase() === tab.label.toLowerCase(),
     );
     return { ...tab, value: category?.slug ?? tab.value };
   });

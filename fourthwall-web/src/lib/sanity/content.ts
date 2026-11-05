@@ -1,3 +1,4 @@
+import { stegaClean } from "@sanity/client/stega";
 import defaults from "../../data/cms-defaults.json" with { type: "json" };
 import { imageUrl, safeHref } from "./presentation.ts";
 import type { SanityImage } from "./types";
@@ -53,7 +54,7 @@ export function normalizeContent(value: unknown, fieldName = ""): unknown {
         return `https://cdn.sanity.io/files/${import.meta.env?.PUBLIC_SANITY_PROJECT_ID}/${import.meta.env?.PUBLIC_SANITY_DATASET || "production"}/${match[1]}.${match[2]}`;
     }
     return typeof value.url === "string" && safeHref(value.url)
-      ? value.url
+      ? stegaClean(value.url)
       : undefined;
   }
   if ("plainText" in value && typeof value.plainText === "string")
@@ -136,7 +137,7 @@ export function mapSiteContent(raw: Record<string, unknown>): SiteContent {
       });
   }
   const groups = result.footer.collections.FOOTER_LINKS.filter(
-    (g) => g.title !== "Elsewhere",
+    (g) => stegaClean(g.title) !== "Elsewhere",
   );
   const socials = result.siteSettings.socialLinks
     .filter((l) => l.enabled !== false && safeHref(l.url))

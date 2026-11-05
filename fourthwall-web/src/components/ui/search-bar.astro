@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 const {
   placeholder = "Search posts",
   name = "filter",
@@ -33,10 +34,10 @@ const {
     class="min-h-0 h-auto mb-0 min-w-0 flex-1 border-0 bg-transparent p-0 border-none font-body text-foreground text-body-md leading-normal font-normal align-middle w-full block focus-within:border-none focus-within:outline-none"
     maxlength="256"
     name={name}
-    placeholder={placeholder}
+    placeholder={stegaClean(placeholder)}
     type="search"
     id={name}
     value={value}
-    aria-label={placeholder}
+    aria-label={stegaClean(placeholder)}
   />
 </div>

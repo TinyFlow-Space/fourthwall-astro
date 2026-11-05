@@ -1,3 +1,4 @@
+import { stegaClean } from "@sanity/client/stega";
 import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImage } from "./types";
 const builder = createImageUrlBuilder({
@@ -11,23 +12,24 @@ export function imageUrl(
 ): string | undefined {
   if (!image?.asset?._ref) return undefined;
   try {
-    let url = builder.image(image).width(width).auto("format").fit("crop");
+    let url = builder.image(stegaClean(image)).width(width).auto("format").fit("crop");
     if (height) url = url.height(height);
     return url.url();
   } catch {
     return undefined;
   }
 }
-export const postHref = (slug: string) => `/blog/${encodeURIComponent(slug)}`;
+export const postHref = (slug: string) => `/blog/${encodeURIComponent(stegaClean(slug))}`;
 export const formatDate = (date: string) =>
-  new Intl.DateTimeFormat("en", {
+  !date || Number.isNaN(new Date(stegaClean(date)).getTime()) ? "Unpublished" : new Intl.DateTimeFormat("en", {
     month: "short",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC",
-  }).format(new Date(date));
+  }).format(new Date(stegaClean(date)));
 export function safeHref(value?: string): string | undefined {
   if (!value) return undefined;
+  value = stegaClean(value);
   if (/^\/(?!\/)/.test(value) || value.startsWith("#")) return value;
   try {
     const url = new URL(value);

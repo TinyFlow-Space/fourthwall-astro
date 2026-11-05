@@ -1,3 +1,4 @@
+import { stegaClean } from "@sanity/client/stega";
 import type { Seo } from "./content";
 import { imageUrl, safeHref } from "./presentation.ts";
 export function resolveSeo(
@@ -12,7 +13,7 @@ export function resolveSeo(
   },
 ) {
   const og = page?.ogImage || site.ogImage;
-  return {
+  return stegaClean({
     title: page?.metaTitle || site.metaTitle || fallback.title,
     description:
       page?.metaDescription || site.metaDescription || fallback.description,
@@ -22,5 +23,5 @@ export function resolveSeo(
       "/og.png",
     canonicalUrl: safeHref(page?.canonicalUrl) || fallback.canonicalUrl,
     noindex: !!(page?.noIndex || site.noIndex || fallback.noindex),
-  };
+  });
 }

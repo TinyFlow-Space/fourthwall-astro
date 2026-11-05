@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { Image } from "astro:assets";
 import type { CatalogProduct } from "@/lib/sanity/content";
 interface Props {
@@ -39,7 +40,7 @@ const { product } = Astro.props;
       >
         {product.colors.map((color) => (
           <span
-            title={color.name}
+            title={stegaClean(color.name)}
             class="size-2.5 rounded-full border border-[#0a0a0a2e] shrink-0"
             style={{ background: color.hex }}
           />

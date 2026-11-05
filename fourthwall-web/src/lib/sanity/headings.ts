@@ -1,3 +1,4 @@
+import { stegaClean } from "@sanity/client/stega";
 import type { PortableTextBlock } from "@portabletext/types";
 import type { BodyBlock } from "./types";
 
@@ -14,7 +15,7 @@ export function headingText(
 }
 export function headingId(text: string): string {
   return (
-    text
+    stegaClean(text)
       .normalize("NFKD")
       .replace(/\p{M}/gu, "")
       .toLowerCase()

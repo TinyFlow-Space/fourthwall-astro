@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.footer.sections.footer;
@@ -24,7 +25,7 @@ import { cn } from "@/utils";
             <li class="mb-2.5">
               <a
                 href={item.url}
-                aria-label={item.name}
+                aria-label={stegaClean(item.name)}
                 class={cn(
                   "link-underline text-muted-foreground [transition:color_0.2s] after:-bottom-0.5 hover:text-white hover:decoration-white",
                 )}
@@ -47,7 +48,7 @@ import { cn } from "@/utils";
           href={app.href}
           target="_blank"
           rel="nofollow"
-          aria-label={app.label}
+          aria-label={stegaClean(app.label)}
           class="rounded-lg bg-[#ffffff1a] hover:bg-[#ffffff29] w-full max-w-37 no-underline block [transition:background-color_0.2s]"
         >
           <img

@@ -14,14 +14,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  fonts: [
-    {
-      provider: fontProviders.fontsource(),
-      name: "Inter",
-      cssVariable: "--font-inter",
-    },
-  ],
-
   image: {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io" },

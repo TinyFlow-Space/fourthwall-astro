@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.navigation.sections.header;
@@ -18,7 +19,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
     <a
       href={content.href}
       aria-current="page"
-      aria-label={cms.siteSettings.siteName}
+      aria-label={stegaClean(cms.siteSettings.siteName)}
       class="header-logo h-6 text-inherit inline-flex justify-self-start items-center max-w-full"
     >
       <Logo />
@@ -26,7 +27,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
   </div>
 
   <nav
-    aria-label={content.ariaLabelMainNavigation}
+    aria-label={stegaClean(content.ariaLabelMainNavigation)}
     class="desktop-nav flex w-auto justify-center my-0 gap-9 text-body-md font-medium"
   >
     {NAV_ITEMS.map((item) =>
@@ -36,14 +37,14 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
             type="button"
             class="desktop-menu-trigger link-underline py-1 text-inherit"
             aria-expanded="false"
-            aria-controls={`desktop-${item.label.toLowerCase()}`}
+            aria-controls={`desktop-${stegaClean(item.label).toLowerCase()}`}
           >
             {item.label}
             <ArrowDown />
           </button>
           <div
             class="desktop-mega"
-            id={`desktop-${item.label.toLowerCase()}`}
+            id={`desktop-${stegaClean(item.label).toLowerCase()}`}
             inert
           >
             <div class="desktop-mega-inner">
@@ -91,7 +92,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
   <button
     class="mobile-menu-toggle"
     type="button"
-    aria-label={content.ariaLabelOpenNavigation}
+    aria-label={stegaClean(content.ariaLabelOpenNavigation)}
     aria-expanded="false"
     aria-controls="mobile-navigation"
   >
@@ -101,7 +102,7 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
   <nav
     id="mobile-navigation"
     class="mobile-navigation"
-    aria-label={content.ariaLabelMobileNavigation}
+    aria-label={stegaClean(content.ariaLabelMobileNavigation)}
     inert
   >
     <div class="mobile-navigation-inner">
@@ -113,14 +114,14 @@ const lightAtTop = /^\/blog(?:\/|$)/.test(Astro.url.pathname);
                 class="mobile-submenu-toggle"
                 type="button"
                 aria-expanded="false"
-                aria-controls={`mobile-${item.label.toLowerCase()}`}
+                aria-controls={`mobile-${stegaClean(item.label).toLowerCase()}`}
               >
                 {item.label}
                 <ArrowDown />
               </button>
               <div
                 class="mobile-submenu"
-                id={`mobile-${item.label.toLowerCase()}`}
+                id={`mobile-${stegaClean(item.label).toLowerCase()}`}
                 inert
               >
                 <div class="mobile-submenu-clip">

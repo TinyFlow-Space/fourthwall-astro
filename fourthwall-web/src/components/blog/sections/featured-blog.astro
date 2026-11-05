@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.blogPage.sections.featuredBlog;
@@ -15,7 +16,7 @@ const image = imageUrl(post.mainImage, 1200, 720);
 ---
 
 <section
-  aria-label={content.ariaLabelFeatureBlog}
+  aria-label={stegaClean(content.ariaLabelFeatureBlog)}
   class="featured_blog-section bg-background px-[clamp(1rem,1.5038vw+.6476rem,2rem)]"
 >
   <div class="container-lg">

@@ -1,0 +1,59 @@
+---
+import { visualEditingEnabled } from "@/lib/sanity/stega";
+---
+
+{visualEditingEnabled && (
+  <fourthwall-visual-editing></fourthwall-visual-editing>
+)}
+<script>
+  // Do not use Sanity's own <sanity-visual-editing> name for this initializer.
+  class FourthwallVisualEditing extends HTMLElement {
+    private dispose?: () => void;
+    async connectedCallback() {
+      const { enableVisualEditing } = await import("@sanity/visual-editing");
+      if (!this.isConnected) return;
+      this.dispose = enableVisualEditing({
+        refresh: async () => {
+          window.location.reload();
+        },
+        history: {
+          subscribe: (navigate) => {
+            const sync = () =>
+              navigate({
+                type: "push",
+                title: document.title,
+                url: location.pathname + location.search + location.hash,
+              });
+            sync();
+            window.addEventListener("popstate", sync);
+            window.addEventListener("hashchange", sync);
+            return () => {
+              window.removeEventListener("popstate", sync);
+              window.removeEventListener("hashchange", sync);
+            };
+          },
+          update: ({ type, url }) => {
+            if (type === "pop") {
+              history.back();
+              return;
+            }
+            if (!url) return;
+            const target = new URL(url, location.origin);
+            if (
+              target.origin !== location.origin ||
+              target.href === location.href
+            )
+              return;
+            if (type === "replace") location.replace(target.href);
+            else location.assign(target.href);
+          },
+        },
+      });
+    }
+    disconnectedCallback() {
+      this.dispose?.();
+    }
+  }
+  if (!customElements.get("fourthwall-visual-editing"))
+    customElements.define("fourthwall-visual-editing", FourthwallVisualEditing);
+</script>

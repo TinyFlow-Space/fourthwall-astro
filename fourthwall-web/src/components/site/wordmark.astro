@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.footer.sections.wordmark;
@@ -48,7 +49,7 @@ import { cn } from "@/utils";
     {FOOTER_BOTTOM_LINKS.map((item) => (
       <a
         href={item.url}
-        aria-label={item.name}
+        aria-label={stegaClean(item.name)}
         class={cn(
           "link-underline text-inherit [transition:color_0.2s] after:-bottom-0.5 hover:text-white hover:decoration-white",
         )}
@@ -58,7 +59,7 @@ import { cn } from "@/utils";
     ))}
 
     <button
-      aria-label={content.ariaLabelBackToTop}
+      aria-label={stegaClean(content.ariaLabelBackToTop)}
       class="scroll-to-top cursor-pointer text-inherit bg-surface-dark inline-flex items-center p-0 no-underline transition-[color_.2s] hover:text-white"
     >
       <svg

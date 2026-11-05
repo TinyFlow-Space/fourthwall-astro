@@ -1,4 +1,5 @@
 ---
+import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
 const content = cms.homePage.sections.shippingGlobe;
@@ -7,7 +8,7 @@ const content = cms.homePage.sections.shippingGlobe;
 ---<div
   class="shipping-globe relative aspect-8/5 min-[992px]:aspect-auto overflow-hidden bg-black select-none touch-pan-y @container"
   role="img"
-  aria-label={content.ariaLabelWorldwideShippingGlobeDragHorizontallyOrU}
+  aria-label={stegaClean(content.ariaLabelWorldwideShippingGlobeDragHorizontallyOrU)}
 >
   <img
     src={content.srcShippingGlobeSvg}

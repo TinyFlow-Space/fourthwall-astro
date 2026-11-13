@@ -1,4 +1,5 @@
 import { stegaClean } from "@sanity/client/stega";
+import type { HeroVariantsConfig } from "../sections/hero";
 import defaults from "../../data/cms-defaults.json" with { type: "json" };
 import { imageUrl, safeHref } from "./presentation.ts";
 import type { SanityImage } from "./types";
@@ -19,6 +20,7 @@ export type CatalogProduct = (typeof CATALOG_PRODUCTS)[number] & {
 };
 export type SiteContent = Omit<typeof defaults, "homePage"> & {
   homePage: Omit<typeof defaults.homePage, "collections"> & {
+    heroVariants?: HeroVariantsConfig;
     collections: Omit<
       typeof defaults.homePage.collections,
       "FAQS" | "FEATURED_PRODUCTS" | "CATALOG_PRODUCTS"

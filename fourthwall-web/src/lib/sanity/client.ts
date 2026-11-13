@@ -23,7 +23,8 @@ export function sanityClient() {
     dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
     apiVersion: "2026-03-01",
     token: token || undefined,
-    useCdn: !visualEditingEnabled && !token,
+    // Server-rendered requests read the latest published configuration.
+    useCdn: false,
     perspective: "published",
     stega: {
       enabled: visualEditingEnabled,

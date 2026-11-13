@@ -1,0 +1,49 @@
+---
+import type { HeroCommon } from "@/lib/sections/hero";
+interface Props {
+  content: HeroCommon;
+}
+const { content } = Astro.props;
+---
+
+<div class="relative flex flex-col items-start text-left">
+  <h1 class="rise-in max-w-[28ch] font-display font-[420] text-heading-xl leading-flat text-balance normal-case my-0 p-0 tracking-[-0.02em] [animation-delay:100ms]">
+    {content.heading}{" "}
+    <span class="text-muted-foreground">{content.accent}</span>
+  </h1>
+
+  {content.description && (
+    <p class="text-muted-foreground text-body-md mt-6 max-w-[60ch]">
+      {content.description}
+    </p>
+  )}
+
+  <div class="rise-in [animation-delay:300ms] mt-[clamp(36px,1.8vw,56px)] flex items-center flex-wrap gap-6">
+    {content.button.enabled && content.button.url && (
+      <a
+        href={content.button.url}
+        class="link-underline inline-flex items-center gap-2.5 font-body text-body-md py-4.5 px-7 rounded-lg bg-background text-foreground max-w-full font-medium group"
+      >
+        <div class="h-[1.12em] leading-tight align-bottom inline-block overflow-hidden">
+          <span class="text-motion group-hover:-translate-y-full">
+            {content.button.label}
+          </span>
+          <span class="text-motion group-hover:-translate-y-full">
+            {content.button.label}
+          </span>
+        </div>
+      </a>
+    )}
+
+    {content.secondaryButton?.enabled && content.secondaryButton.url && (
+      <a
+        href={content.secondaryButton.url}
+        class="link-underline font-body text-body-md py-4.5"
+      >
+        {content.secondaryButton.label}
+      </a>
+    )}
+
+    <p class="text-muted-foreground text-body-md">{content.note}</p>
+  </div>
+</div>

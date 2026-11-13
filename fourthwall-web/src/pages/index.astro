@@ -1,5 +1,6 @@
 ---
 export const prerender = false;
+Astro.response.headers.set("Cache-Control", "no-store");
 import {contentFor} from "@/lib/sanity/content";
 const cms=contentFor(Astro.locals);
 import BaseLayout from "@/layouts/base-layout.astro";

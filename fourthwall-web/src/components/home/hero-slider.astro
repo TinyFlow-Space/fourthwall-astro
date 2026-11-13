@@ -2,7 +2,9 @@
 import { stegaClean } from "@sanity/client/stega";
 import { contentFor } from "@/lib/sanity/content";
 const cms = contentFor(Astro.locals);
-const HERO_SLIDERS = cms.homePage.collections.HERO_SLIDERS;
+import type { HeroSlide } from "@/lib/sections/hero";
+interface Props { slides?: HeroSlide[] }
+const HERO_SLIDERS = Astro.props.slides ?? cms.homePage.collections.HERO_SLIDERS;
 
 import { cn } from "@/utils";
 

@@ -1,4 +1,5 @@
 import { defineField, defineType, type FieldDefinition } from "sanity";
+import { heroVariantsField } from "./sections/hero";
 import specs from "./content-fields.json";
 interface Spec {
   name?: string;
@@ -164,7 +165,12 @@ export const contentTypes = Object.entries(specs).map(([name, fields]) =>
       blogPage: "Blog Page",
     }[name as keyof typeof specs],
     type: "document",
-    fields: (fields as Spec[]).map(field),
+    fields: [
+      ...(name === "homePage" ? [heroVariantsField(field(
+        (fields as Spec[]).find(spec => spec.name === "collections")!.fields!.find(spec => spec.name === "HERO_SLIDERS")!,
+      ))] : []),
+      ...(fields as Spec[]).map(field),
+    ],
   }),
 );
 export const seo = defineType({

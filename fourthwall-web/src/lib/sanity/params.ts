@@ -3,6 +3,8 @@ export interface BlogParams {
   category: string;
   tag: string;
   page: number;
+  /** Effective-date sort; `desc` (newest first) is the default. */
+  sort: "asc" | "desc";
 }
 export function parseBlogParams(params: URLSearchParams): BlogParams {
   const page = Number(params.get("page"));
@@ -11,6 +13,7 @@ export function parseBlogParams(params: URLSearchParams): BlogParams {
     category: (params.get("category") ?? "").slice(0, 96),
     tag: (params.get("tag") ?? "").slice(0, 96),
     page: Number.isSafeInteger(page) && page > 0 ? Math.min(page, 10000) : 1,
+    sort: params.get("sort") === "asc" ? "asc" : "desc",
   };
 }
 export function pageSize(value?: string): number {
@@ -22,6 +25,7 @@ export function blogHref(params: BlogParams, page = params.page): string {
   if (params.q) query.set("q", params.q);
   if (params.category) query.set("category", params.category);
   if (params.tag) query.set("tag", params.tag);
+  if (params.sort === "asc") query.set("sort", "asc");
   if (page > 1) query.set("page", String(page));
   return `/blog${query.size ? `?${query}` : ""}`;
 }

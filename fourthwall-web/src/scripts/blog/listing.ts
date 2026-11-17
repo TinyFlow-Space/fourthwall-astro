@@ -18,12 +18,14 @@ function initializeListing(root: HTMLElement) {
     if (copy.searchParams.get("page") === "1") copy.searchParams.delete("page");
     for (const name of ["q", "category", "tag"])
       if (!copy.searchParams.get(name)) copy.searchParams.delete(name);
+    if (copy.searchParams.get("sort") !== "asc")
+      copy.searchParams.delete("sort");
     copy.searchParams.sort();
     return copy.pathname + copy.search;
   };
   const responseUrl = (element: HTMLElement, fallback: URL) => {
     const url = new URL(fallback);
-    for (const name of ["q", "category", "tag", "page"]) {
+    for (const name of ["q", "category", "tag", "page", "sort"]) {
       const value = element.dataset[name];
       if (value === undefined) continue;
       if (value && !(name === "page" && value === "1"))
@@ -48,6 +50,7 @@ function initializeListing(root: HTMLElement) {
   function syncForm(url: URL) {
     for (const name of ["q", "category", "tag"])
       field(name).value = url.searchParams.get(name) ?? "";
+    field("sort").value = url.searchParams.get("sort") === "asc" ? "asc" : "";
     const category = field("category").value;
     // Update semantic state immediately even if the shared animation script loads later.
     filters?.querySelectorAll<HTMLElement>("[data-value]").forEach((button) => {

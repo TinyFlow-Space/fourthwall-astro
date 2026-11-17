@@ -8,7 +8,7 @@ import { createClient } from "@sanity/client";
 import { getSecret } from "astro:env/server";
 import type { QueryParams } from "@sanity/client";
 import type { Listing, Post, PostSummary } from "./types";
-import { listingQuery, postQuery, relatedQuery } from "./queries";
+import { listingQueries, postQuery, relatedQuery } from "./queries";
 import { pageSize, type BlogParams } from "./params";
 
 import { normalizeCategory } from "./categories";
@@ -60,7 +60,7 @@ export async function getListing(
 ): Promise<{ data: Listing; params: BlogParams }> {
   const perPage = pageSize(String(requestedPageSize));
   const fetchPage = (page: number) =>
-    query<Listing>(listingQuery, {
+    query<Listing>(listingQueries[params.sort], {
       q: params.q,
       category: params.category,
       tagSlug: params.tag,

@@ -43,6 +43,7 @@ const params = listing?.params ?? {
   category: "",
   tag: "",
   page: 1,
+  sort: "desc",
 };
 const filters = categoryOptions(listing?.categories ?? []).map((item) => ({
   ...item,
@@ -77,6 +78,11 @@ const pages = Math.max(
           />
           <input type="hidden" name="category" value={params.category} />
           <input type="hidden" name="tag" value={params.tag} />
+          <input
+            type="hidden"
+            name="sort"
+            value={params.sort === "asc" ? "asc" : ""}
+          />
           <SearchBar name={queryName} value={params.q} />
           <button type="submit" class="sr-only">
             {content.search}
@@ -124,6 +130,7 @@ const pages = Math.max(
           data-category={params.category}
           data-q={params.q}
           data-tag={params.tag}
+          data-sort={params.sort === "asc" ? "asc" : ""}
           data-error={listing?.error ? "true" : undefined}
         >
           {listing?.error ? (

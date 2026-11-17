@@ -25,6 +25,9 @@ export interface PostSummary {
   slug: string;
   excerpt: string;
   publishedAt: string;
+  updatedAt?: string | null;
+  /** `updatedAt` when later than `publishedAt`, otherwise `publishedAt`. */
+  effectiveDate: string;
   featured: boolean;
   mainImage?: SanityImage;
   author?: Author;

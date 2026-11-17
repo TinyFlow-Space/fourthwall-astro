@@ -42,7 +42,11 @@ const structured = post
       headline: post.title,
       description: post.excerpt,
       datePublished: post.publishedAt,
-      dateModified: post._updatedAt,
+      // Prefer the editorial update date when it is later than publication.
+      dateModified:
+        post.effectiveDate !== post.publishedAt
+          ? post.effectiveDate
+          : post._updatedAt,
       image: imageUrl(post.mainImage, 1200),
       author: post.author
         ? { "@type": "Person", name: post.author.name }

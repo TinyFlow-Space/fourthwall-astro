@@ -106,6 +106,23 @@ export const schemaTypes = [
         initialValue: () => new Date().toISOString(),
         validation: (rule) => rule.required(),
       }),
+      defineField({
+        name: "updatedAt",
+        title: "Updated at",
+        type: "datetime",
+        description:
+          "Set automatically each time a published post is republished. When later than the published date, it is shown on blog cards and used for sorting. Change it by hand to override.",
+        validation: (rule) =>
+          rule.custom((value, context) => {
+            const publishedAt = (context.document as { publishedAt?: string })
+              ?.publishedAt;
+            return !value ||
+              !publishedAt ||
+              new Date(value) >= new Date(publishedAt)
+              ? true
+              : "Updated date is earlier than the published date and will be ignored.";
+          }).warning(),
+      }),
       defineField({ name: "featured", type: "boolean", initialValue: false }),
       defineField({
         name: "categories",
@@ -213,6 +230,14 @@ export const schemaTypes = [
         title: "Publication date",
         name: "publishedAtDesc",
         by: [{ field: "publishedAt", direction: "desc" }],
+      },
+      {
+        title: "Last updated",
+        name: "updatedAtDesc",
+        by: [
+          { field: "updatedAt", direction: "desc" },
+          { field: "publishedAt", direction: "desc" },
+        ],
       },
     ],
   }),

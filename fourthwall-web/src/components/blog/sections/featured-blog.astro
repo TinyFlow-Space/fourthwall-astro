@@ -58,10 +58,10 @@ const image = imageUrl(post.mainImage, 1200, 720);
                 {post.author?.name}
               </p>
               <time
-                datetime={post.publishedAt}
+                datetime={post.effectiveDate}
                 class="mb-0 text-[0.875rem] leading-[1.4] tracking-[-0.1px] text-[#6e6e68]"
               >
-                {formatDate(post.publishedAt)}
+                {formatDate(post.effectiveDate)}
               </time>
             </div>
           </div>

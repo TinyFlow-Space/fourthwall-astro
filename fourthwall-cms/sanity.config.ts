@@ -3,6 +3,7 @@ import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./schemaTypes";
 import { singletonTypes } from "./schemaTypes/content";
 import { resolve } from "./lib/presentation";
+import { publishWithUpdatedAt } from "./lib/publish-with-updated-at";
 import { presentationTool } from "sanity/presentation";
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID;
@@ -88,7 +89,11 @@ export default defineConfig({
             (a) =>
               !["delete", "duplicate", "unpublish"].includes(a.action || ""),
           )
-        : actions,
+        : context.schemaType === "post"
+          ? actions.map((a) =>
+              a.action === "publish" ? publishWithUpdatedAt(a) : a,
+            )
+          : actions,
     newDocumentOptions: (options) =>
       options.filter((o) => !singletonTypes.includes(o.templateId)),
   },

@@ -43,15 +43,27 @@ const video =
         "@type": "VideoObject",
         name: post.video.title || post.title,
         description: post.video.description || post.excerpt,
-        thumbnailUrl:
+        thumbnailUrl: [
           imageUrl(post.video.thumbnail, 1280, 720) ??
-          `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+            `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+        ],
         uploadDate: post.video.uploadDate,
         duration: isoDuration(stegaClean(post.video.duration)),
-        embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}`,
+        embedUrl: `https://www.youtube.com/embed/${videoId}`,
         contentUrl: `https://www.youtube.com/watch?v=${videoId}`,
       }
     : undefined;
+const postUrl = post
+  ? new URL(postHref(post.slug), Astro.site ?? Astro.url).href
+  : undefined;
+// FAQ entries become Question/Answer pairs, matching the visible FAQ section.
+const faqEntities = post?.faqs
+  .filter((faq) => faq.question?.trim() && faq.answer?.trim())
+  .map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  }));
 const structured = post
   ? {
       "@context": "https://schema.org",
@@ -65,12 +77,20 @@ const structured = post
           ? post.effectiveDate
           : post._updatedAt,
       image: imageUrl(post.mainImage, 1200),
-      video,
-      author: post.author
-        ? { "@type": "Person", name: post.author.name }
+      url: postUrl,
+      author: post.author?.name
+        ? [
+            {
+              "@type": "Person",
+              name: post.author.name,
+              url: post.author.website || undefined,
+            },
+          ]
         : undefined,
-      mainEntityOfPage: new URL(postHref(post.slug), Astro.site ?? Astro.url)
-        .href,
+      video,
+      abstract: post.summary?.trim() || undefined,
+      mainEntity: faqEntities?.length ? faqEntities : undefined,
+      mainEntityOfPage: postUrl,
     }
   : null;
 ---

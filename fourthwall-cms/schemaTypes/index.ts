@@ -24,7 +24,13 @@ const imageFields = [
   }),
   defineField({ name: "caption", type: "string" }),
 ];
-const taxonomy = (name: "category" | "tag") =>
+// Video metadata fields are required only once a YouTube ID has been entered.
+const requiredWithVideo = (value: unknown, context: { parent?: unknown }) =>
+  !(context.parent as { id?: string } | undefined)?.id?.trim() ||
+  (typeof value === "string" ? value.trim() : value)
+    ? true
+    : "Required when a YouTube video ID is set.";
+const taxonomy =(name: "category" | "tag") =>
   defineType({
     name,
     title: name === "category" ? "Category" : "Tag",
@@ -93,6 +99,97 @@ export const schemaTypes = [
         options: { hotspot: true },
         fields: imageFields,
         validation: (rule) => rule.required().assetRequired(),
+      }),
+      defineField({
+        name: "video",
+        title: "Video Settings",
+        description:
+          "Required fields for showing YouTube video instead of featured image on blog details page",
+        type: "object",
+        options: { collapsible: true, collapsed: false },
+        fields: [
+          defineField({
+            name: "id",
+            title: "YouTube Video ID",
+            type: "string",
+            description:
+              "Only the ID, e.g. [ k_ABBzuH3ww ] from (https://www.youtube.com/watch?v=k_ABBzuH3ww). When set, the video replaces the main image on the post details page.",
+            validation: (rule) =>
+              rule.custom((value) =>
+                !value || /^[\w-]{11}$/.test(value.trim())
+                  ? true
+                  : "Enter only the 11-character video ID, e.g. k_ABBzuH3ww.",
+              ),
+          }),
+          defineField({
+            name: "title",
+            title: "YouTube Video Title",
+            type: "string",
+            description: "Title of the YouTube video. Required if a video is set.",
+            validation: (rule) => rule.custom(requiredWithVideo).max(150),
+          }),
+          defineField({
+            name: "description",
+            title: "YouTube Video Description",
+            type: "string",
+            description: "1–2 sentences about the video. Required if a video is set.",
+            validation: (rule) => rule.custom(requiredWithVideo).max(320),
+          }),
+          defineField({
+            name: "uploadDate",
+            title: "YouTube Video Upload Date",
+            type: "datetime",
+            description:
+              "The date the video was published on YouTube (not the blog date). Required if a video is set.",
+            validation: (rule) => rule.custom(requiredWithVideo),
+          }),
+          defineField({
+            name: "duration",
+            title: "YouTube Video Duration",
+            type: "string",
+            description:
+              "Video length as shown on YouTube, e.g. 4:13 or 1:02:45 . Required if a video is set.",
+            validation: (rule) =>
+              rule.custom((value, context) => {
+                const required = requiredWithVideo(value, context);
+                if (required !== true) return required;
+                return !value || /^(?:\d+:)?[0-5]?\d:[0-5]\d$/.test(value.trim())
+                  ? true
+                  : "Use m:ss or h:mm:ss, e.g. 4:13 or 1:02:45.";
+              }),
+          }),
+          defineField({
+            name: "thumbnail",
+            title: "YouTube Video Thumbnail",
+            type: "image",
+            description:
+              "YouTube video thumbnail. Aspect ratio must be (16:9). Required if a video is set.",
+            options: { hotspot: true },
+            fields: [
+              defineField({
+                name: "alt",
+                type: "string",
+                title: "Alternative text",
+              }),
+            ],
+            validation: (rule) => [
+              rule.custom((value: { asset?: { _ref?: string } } | undefined, context) =>
+                requiredWithVideo(value?.asset?._ref, context),
+              ),
+              // Asset IDs embed dimensions: image-<hash>-<w>x<h>-<ext>.
+              rule
+                .custom((value: { asset?: { _ref?: string } } | undefined) => {
+                  const size = value?.asset?._ref?.match(/-(\d+)x(\d+)-/);
+                  if (!size) return true;
+                  const ratio = Number(size[1]) / Number(size[2]);
+                  return Math.abs(ratio - 16 / 9) < 0.02
+                    ? true
+                    : "Image is not 16:9; it will be cropped to 16:9 around the hotspot.";
+                })
+                .warning(),
+            ],
+          }),
+        ],
       }),
       defineField({
         name: "author",

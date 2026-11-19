@@ -52,7 +52,16 @@ export interface RichContentBlock {
 }
 export type BodyBlock =
   RichContentBlock | PortableTextBlock | (SanityImage & { _key: string });
+export interface PostVideo {
+  id?: string;
+  title?: string;
+  description?: string;
+  uploadDate?: string;
+  duration?: string;
+  thumbnail?: SanityImage;
+}
 export interface Post extends PostSummary {
+  video?: PostVideo | null;
   seo?: import("./content").Seo;
   enableAudio?: boolean;
   audioUrl?: string;

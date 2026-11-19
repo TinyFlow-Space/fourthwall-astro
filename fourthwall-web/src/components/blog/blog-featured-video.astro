@@ -1,0 +1,86 @@
+---
+import { stegaClean } from "@sanity/client/stega";
+import { imageUrl } from "@/lib/sanity/presentation";
+import type { PostVideo, SanityImage } from "@/lib/sanity/types";
+interface Props {
+  videoId: string;
+  video: PostVideo;
+  /** Used when the video has no thumbnail of its own. */
+  fallbackImage?: SanityImage;
+  class?: string;
+}
+const { videoId, video, fallbackImage, class: className } = Astro.props;
+const title = stegaClean(video.title) || "Play video";
+const poster = video.thumbnail?.asset?._ref ? video.thumbnail : fallbackImage;
+const image =
+  imageUrl(poster, 1600, 900) ??
+  `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+const smallImage = imageUrl(poster, 800, 450);
+// Privacy-enhanced embed; autoplay is allowed because it starts from a click.
+const embed = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
+---
+
+<div
+  data-featured-video
+  data-embed={embed}
+  data-title={title}
+  class:list={["relative aspect-video overflow-hidden bg-black", className]}
+>
+  <a
+    href={`https://www.youtube.com/watch?v=${videoId}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={`Play video: ${title}`}
+    class="group absolute inset-0 block size-full cursor-pointer"
+  >
+    <img
+      src={image}
+      srcset={smallImage ? `${smallImage} 800w, ${image} 1600w` : undefined}
+      sizes="(max-width: 991px) 100vw, 800px"
+      width="1600"
+      height="900"
+      fetchpriority="high"
+      alt={stegaClean(video.thumbnail?.alt) ?? ""}
+      class="absolute inset-0 size-full object-cover"
+    />
+    <span
+      aria-hidden="true"
+      class="absolute inset-0 m-auto flex h-10 w-14 sm:h-12 sm:w-17 items-center justify-center rounded-[14px] bg-[#212121cc] transition-colors duration-200 group-hover:bg-[#f00] group-focus-visible:bg-[#f00]"
+    >
+      <svg viewBox="0 0 24 24" class="ml-0.5 size-[45%] fill-white">
+        <path d="M8 5.14v13.72a.5.5 0 0 0 .76.43l11.2-6.86a.5.5 0 0 0 0-.86L8.76 4.71A.5.5 0 0 0 8 5.14Z" />
+      </svg>
+    </span>
+  </a>
+</div>
+
+<script>
+  // Swap the preview for the YouTube player on click. Delegated so it keeps
+  // working after client-side navigation; without JS the link opens YouTube.
+  document.addEventListener("click", (event) => {
+    if (
+      event.button !== 0 ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    const link = (event.target as Element | null)?.closest?.(
+      "[data-featured-video] > a",
+    );
+    const root = link?.parentElement;
+    if (!root?.dataset.embed) return;
+    event.preventDefault();
+    const iframe = document.createElement("iframe");
+    iframe.src = root.dataset.embed;
+    iframe.title = root.dataset.title ?? "Video";
+    iframe.allow =
+      "autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write";
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.className = "absolute inset-0 size-full border-0";
+    link!.replaceWith(iframe);
+    iframe.focus();
+  });
+</script>

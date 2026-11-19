@@ -75,3 +75,22 @@ export function embedDocument(html: string, scriptUrl?: string): string {
   const policy = `default-src 'none'; img-src https: data:; media-src https:; frame-src https:; style-src 'unsafe-inline' https:; font-src https: data:; connect-src https:; script-src ${script ? new URL(script).origin : "'none'"}; base-uri 'none'; form-action 'none'`;
   return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta http-equiv="Content-Security-Policy" content="${escapeHtml(policy)}"><style>body{margin:0;font:16px/1.5 system-ui;overflow-wrap:anywhere}img,video,iframe{max-width:100%}*{box-sizing:border-box}</style></head><body>${html}${script ? `<script async src="${escapeHtml(script)}"></script>` : ""}</body></html>`;
 }
+/** Accept a bare 11-character YouTube ID, or recover it from a pasted URL. */
+export function youtubeId(value?: string): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) return;
+  if (/^[\w-]{11}$/.test(trimmed)) return trimmed;
+  return videoUrl(trimmed)?.match(
+    /^https:\/\/www\.youtube-nocookie\.com\/embed\/([\w-]{11})$/,
+  )?.[1];
+}
+/** Convert "4:13" or "1:02:45" into an ISO 8601 duration such as "PT1H2M45S". */
+export function isoDuration(value?: string): string | undefined {
+  const parts = value?.trim().match(/^(?:(\d+):)?(\d{1,2}):(\d{2})$/);
+  if (!parts) return;
+  const [hours, minutes, seconds] = [parts[1], parts[2], parts[3]].map(
+    (part) => Number(part ?? 0),
+  );
+  if (minutes > 59 || seconds > 59) return;
+  return `PT${hours ? `${hours}H` : ""}${minutes ? `${minutes}M` : ""}${seconds || (!hours && !minutes) ? `${seconds}S` : ""}`;
+}

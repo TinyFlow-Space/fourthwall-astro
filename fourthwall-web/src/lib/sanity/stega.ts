@@ -12,7 +12,7 @@ export const visualEditingEnabled =
   import.meta.env?.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
 // These strings drive behavior, URLs, or presentation rather than visible copy.
 export const isTechnicalField = (field: string) =>
-  /^(?:_.*|slug|href|url|src|.*Url|.*Href|.*Src|formAction|canonicalUrl|html|style|styles|type|menuKind|status|key|id|icon|className|class|size|variant|color|hex|background|gradient|position|category|publishedAt|updatedAt|effectiveDate|audioDuration|siteName|siteDescription|ariaLabel.*)$/i.test(
+  /^(?:_.*|slug|href|url|src|.*Url|.*Href|.*Src|formAction|canonicalUrl|html|style|styles|type|menuKind|status|key|id|icon|className|class|size|variant|color|hex|background|gradient|position|category|publishedAt|updatedAt|uploadDate|duration|effectiveDate|audioDuration|siteName|siteDescription|ariaLabel.*)$/i.test(
     field,
   );
 export function cleanTechnicalContent<T>(value: T, field = ""): T {

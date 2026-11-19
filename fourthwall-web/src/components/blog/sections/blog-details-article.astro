@@ -15,6 +15,8 @@ import {
   safeHref,
 } from "@/lib/sanity/presentation";
 import BlogTldrCard from "../blog-tldr-card.astro";
+import BlogFeaturedVideo from "../blog-featured-video.astro";
+import { youtubeId } from "@/lib/blog/embeds";
 import { cn } from "@/utils";
 interface Props {
   post: Post;
@@ -24,6 +26,8 @@ const { post, className } = Astro.props;
 const headings = getHeadings(post.body ?? []);
 const image = imageUrl(post.mainImage, 1200, 720);
 const avatar = imageUrl(post.author?.image, 92, 92);
+// A YouTube video, when set, replaces the featured image.
+const videoId = youtubeId(post.video?.id);
 
 
 ---
@@ -90,6 +94,14 @@ const avatar = imageUrl(post.author?.image, 92, 92);
             </p>
           </div>
 
+          {videoId && post.video ? (
+            <BlogFeaturedVideo
+              videoId={videoId}
+              video={post.video}
+              fallbackImage={post.mainImage}
+              class="mb-0 mt-[clamp(1rem,3.0075vw+.2951rem,3rem)]"
+            />
+          ) : (
           <figure class="overflow-hidden relative pt-[60%] mb-0 mt-[clamp(1rem,3.0075vw+.2951rem,3rem)]">
             {image && (
               <img
@@ -104,6 +116,7 @@ const avatar = imageUrl(post.author?.image, 92, 92);
               />
             )}
           </figure>
+          )}
         </div>
       </div>
     </div>

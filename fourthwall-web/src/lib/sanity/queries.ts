@@ -41,7 +41,7 @@ export const listingQueries: Record<SortDirection, string> = {
 };
 export const postQuery =
   defineQuery(`*[${published} && slug.current == $slug][0] {
-  ${summary}, _updatedAt, seo, enableAudio, audioUrl, audioDuration, "relatedPosts": (relatedPosts[]->)[${published} && _id != ^._id]{${summary}}, body[]{..., file{..., "url": asset->url}, captions{..., "url": asset->url}}, summary, "faqs": coalesce(faqs, [])
+  ${summary}, _updatedAt, seo, video{id, title, description, uploadDate, duration, thumbnail}, enableAudio, audioUrl, audioDuration, "relatedPosts": (relatedPosts[]->)[${published} && _id != ^._id]{${summary}}, body[]{..., file{..., "url": asset->url}, captions{..., "url": asset->url}}, summary, "faqs": coalesce(faqs, [])
 }`);
 // Require a shared category before sorting; never fill gaps with unrelated posts.
 export const relatedQuery = defineQuery(`*[${published} && _id != $id

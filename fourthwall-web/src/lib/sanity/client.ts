@@ -12,23 +12,21 @@ import { listingQueries, postQuery, relatedQuery } from "./queries";
 import { pageSize, type BlogParams } from "./params";
 
 import { normalizeCategory } from "./categories";
+import { sanityDataset, sanityProjectId, sanityStudioUrl } from "./config";
 
 export const postsPerPage = pageSize(import.meta.env.BLOG_POSTS_PER_PAGE);
 export function sanityClient() {
-  if (!import.meta.env.PUBLIC_SANITY_PROJECT_ID)
-    throw new Error("Sanity is not configured");
   const token = getSecret("SANITY_API_READ_TOKEN");
   return createClient({
-    projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
-    dataset: import.meta.env.PUBLIC_SANITY_DATASET || "production",
+    projectId: sanityProjectId,
+    dataset: sanityDataset,
     apiVersion: "2026-03-01",
     token: token || undefined,
     useCdn: !visualEditingEnabled && !token,
     perspective: "published",
     stega: {
       enabled: visualEditingEnabled,
-      studioUrl:
-        import.meta.env.PUBLIC_SANITY_STUDIO_URL || "http://localhost:3333",
+      studioUrl: sanityStudioUrl,
       filter: (props) =>
         !props.sourcePath.some(
           (part) => typeof part === "string" && isTechnicalField(part),

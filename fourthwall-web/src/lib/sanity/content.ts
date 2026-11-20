@@ -1,6 +1,7 @@
 import { stegaClean } from "@sanity/client/stega";
 import defaults from "../../data/cms-defaults.json" with { type: "json" };
 import { imageUrl, safeHref } from "./presentation.ts";
+import { sanityDataset, sanityProjectId } from "./config.ts";
 import type { SanityImage } from "./types";
 import type { FAQS } from "@/data/home/faqs";
 import type { FeaturedProduct } from "@/data/products/featured-products";
@@ -51,7 +52,7 @@ export function normalizeContent(value: unknown, fieldName = ""): unknown {
     if (file?.asset?._ref) {
       const match = /^file-(.+)-([a-z0-9]+)$/.exec(file.asset._ref);
       if (match)
-        return `https://cdn.sanity.io/files/${import.meta.env?.PUBLIC_SANITY_PROJECT_ID}/${import.meta.env?.PUBLIC_SANITY_DATASET || "production"}/${match[1]}.${match[2]}`;
+        return `https://cdn.sanity.io/files/${sanityProjectId}/${sanityDataset}/${match[1]}.${match[2]}`;
     }
     return typeof value.url === "string" && safeHref(value.url)
       ? stegaClean(value.url)

@@ -1,9 +1,10 @@
 import { stegaClean } from "@sanity/client/stega";
 import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImage } from "./types";
+import { sanityDataset, sanityProjectId } from "./config.ts";
 const builder = createImageUrlBuilder({
-  projectId: import.meta.env?.PUBLIC_SANITY_PROJECT_ID || "unconfigured",
-  dataset: import.meta.env?.PUBLIC_SANITY_DATASET || "production",
+  projectId: sanityProjectId,
+  dataset: sanityDataset,
 });
 export function imageUrl(
   image: SanityImage | undefined,

@@ -1846,6 +1846,38 @@
               "type": "text"
             }
           ]
+        },
+        {
+          "name": "articleCta",
+          "title": "Article CTA",
+          "type": "object",
+          "fields": [
+            {
+              "name": "enabled",
+              "title": "Show CTA in articles",
+              "type": "boolean"
+            },
+            {
+              "name": "title",
+              "title": "Title",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "title": "Description",
+              "type": "string"
+            },
+            {
+              "name": "buttonLabel",
+              "title": "Button label",
+              "type": "string"
+            },
+            {
+              "name": "hrefButton",
+              "title": "Button URL",
+              "type": "string"
+            }
+          ]
         }
       ]
     },

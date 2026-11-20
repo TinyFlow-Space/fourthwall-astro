@@ -8,32 +8,48 @@ import Link from "./link.astro";
 import Table from "./table.astro";
 import Video from "./video.astro";
 import Embed from "./embed.astro";
+import BlogArticleCta from "../blog-article-cta.astro";
 interface Props {
   value: BodyBlock[];
+  /** Body indices to render the article CTA before. */
+  ctaAt?: number[];
+  /** Post slug for the CTA's UTM campaign. */
+  slug?: string;
 }
-const { value } = Astro.props;
+const { value, ctaAt = [], slug = "" } = Astro.props;
+// Assign heading IDs over the whole body before splitting so they stay unique
+// and match the table of contents.
 const { blocks } = prepareHeadings(value);
+const cuts = [...new Set(ctaAt)]
+  .filter((index) => index > 0 && index <= blocks.length)
+  .sort((a, b) => a - b);
+const segments = [0, ...cuts].map((start, i) =>
+  blocks.slice(start, cuts[i] ?? blocks.length),
+);
+const components = {
+  block: {
+    h1: Heading,
+    h2: Heading,
+    h3: Heading,
+    h4: Heading,
+    h5: Heading,
+    h6: Heading,
+  },
+  type: {
+    image: Image,
+    table: Table,
+    videoEmbed: Video,
+    socialEmbed: Embed,
+    htmlEmbed: Embed,
+    scriptEmbed: Embed,
+  },
+  mark: { link: Link },
+};
 ---
 
-<PortableText
-  value={blocks}
-  components={{
-    block: {
-      h1: Heading,
-      h2: Heading,
-      h3: Heading,
-      h4: Heading,
-      h5: Heading,
-      h6: Heading,
-    },
-    type: {
-      image: Image,
-      table: Table,
-      videoEmbed: Video,
-      socialEmbed: Embed,
-      htmlEmbed: Embed,
-      scriptEmbed: Embed,
-    },
-    mark: { link: Link },
-  }}
-/>
+{segments.map((segment, i) => (
+  <>
+    {i > 0 && <BlogArticleCta slug={slug} />}
+    {segment.length > 0 && <PortableText value={segment} components={components} />}
+  </>
+))}

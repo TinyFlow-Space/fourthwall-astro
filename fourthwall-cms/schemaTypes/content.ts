@@ -54,6 +54,7 @@ const sectionLabels: Record<string, string> = {
   "homePage.WALL_SHOPS": "Made With Shops",
   "homePage.seo": "SEO",
   "blogPage.blogHero": "Hero Section",
+  "blogPage.articleCta": "Article CTA",
   "blogPage.featuredBlog": "Featured Post",
   "blogPage.blogs": "Blog Listing",
   "blogPage.blogDetailsArticle": "Article Details",
@@ -130,6 +131,12 @@ function field(spec: Spec, doc?: string, parents: string[] = []): FieldDefinitio
   if (doc && (named || isSection))
     definition.title = `${pageLabels[doc] ?? doc} – ${label}`;
   if (spec.name === "enabled") definition.initialValue = true;
+  if (key === "blogPage.articleCta")
+    definition.description =
+      "Shown inside every article: one CTA under 2,000 words, two at 2,000+ words, placed above section headings.";
+  if (parents.join(".") === "sections.articleCta" && spec.name === "hrefButton")
+    definition.description =
+      "Blog UTM parameters are added automatically (utm_source=blog, utm_medium=post, utm_campaign=<post slug>).";
   if (spec.name === "canonicalUrl") {
     definition.type = "url";
     definition.validation = (r: import("sanity").UrlRule) =>

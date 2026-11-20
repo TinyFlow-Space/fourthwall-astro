@@ -1,0 +1,32 @@
+---
+import { stegaClean } from "@sanity/client/stega";
+import { contentFor } from "@/lib/sanity/content";
+import { ctaHref } from "@/lib/blog/cta-href";
+interface Props {
+  /** Post slug, used as the UTM campaign. */
+  slug: string;
+}
+const { slug } = Astro.props;
+const content = contentFor(Astro.locals).blogPage.sections.articleCta;
+const href = ctaHref(stegaClean(content.hrefButton), stegaClean(slug));
+---
+
+<aside
+  aria-label={stegaClean(content.title) || "Call to action"}
+  class="my-[clamp(2.5rem,2.2556vw+1.9713rem,4rem)] bg-[#0a0a0a] px-6 py-[clamp(2.5rem,3vw+1.5rem,3.75rem)] text-center text-white"
+>
+  <p class="font-display mt-0! mb-0! text-[clamp(2rem,1.5038vw+1.6476rem,2.5rem)] leading-[1.1] font-normal tracking-[-0.02em] text-balance">
+    {content.title}
+  </p>
+  {content.description && (
+    <p class="mx-auto mt-[clamp(0.875rem,0.75vw+0.6rem,1.25rem)]! mb-0! max-w-[48ch] text-[clamp(1rem,0.3759vw+0.912rem,1.125rem)] leading-normal text-[#a3a3a3] text-wrap">
+      {content.description}
+    </p>
+  )}
+  <a
+    href={href}
+    class="mt-[clamp(1.5rem,1.5vw+1rem,2rem)] inline-block rounded-xl bg-white px-8 py-[1.125rem] text-lg leading-[1.1] font-medium text-[#0a0a0a] no-underline! transition-colors duration-200 hover:bg-[#e6e6e6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+  >
+    {content.buttonLabel}
+  </a>
+</aside>

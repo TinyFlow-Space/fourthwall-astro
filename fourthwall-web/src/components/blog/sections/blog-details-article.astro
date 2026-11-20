@@ -17,6 +17,11 @@ import {
 import BlogTldrCard from "../blog-tldr-card.astro";
 import BlogFeaturedVideo from "../blog-featured-video.astro";
 import { youtubeId } from "@/lib/blog/embeds";
+import {
+  ctaPositions,
+  removeLegacyCtas,
+  type PlacementBlock,
+} from "@/lib/blog/cta-placement";
 import { cn } from "@/utils";
 interface Props {
   post: Post;
@@ -28,6 +33,13 @@ const image = imageUrl(post.mainImage, 1200, 720);
 const avatar = imageUrl(post.author?.image, 92, 92);
 // A YouTube video, when set, replaces the featured image.
 const videoId = youtubeId(post.video?.id);
+// In-article CTAs (one or two, above section headings). Old CTA text from
+// imported posts is removed first so the CTA never appears twice.
+const ctaEnabled = cms.blogPage.sections.articleCta.enabled !== false;
+const body = ctaEnabled
+  ? (removeLegacyCtas((post.body ?? []) as PlacementBlock[]) as typeof post.body)
+  : (post.body ?? []);
+const ctaAt = ctaEnabled ? ctaPositions(body as PlacementBlock[]) : [];
 
 
 ---
@@ -132,7 +144,7 @@ const videoId = youtubeId(post.video?.id);
           {post.summary && <BlogTldrCard summary={post.summary} />}
 
           <div class="blog-richtext mb-13 text-base md:text-lg leading-relaxed wrap-break-word">
-            <RichText value={post.body ?? []} />
+            <RichText value={body} ctaAt={ctaAt} slug={post.slug} />
           </div>
           {post.faqs.length > 0 && <BlogFaqs items={post.faqs} />}
           {post.author && <BlogAuthorCard author={post.author} />}

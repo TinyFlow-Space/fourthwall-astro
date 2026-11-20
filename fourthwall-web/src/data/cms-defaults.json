@@ -1879,6 +1879,13 @@
         "the": "The",
         "drop": "Drop",
         "aSemiRegularGuideToMerch": "A semi-regular guide to merch strategy, creator commerce, product drops,\n        and building a better business around your audience."
+      },
+      "articleCta": {
+        "enabled": true,
+        "title": "Try Fourthwall for free",
+        "description": "Create and sell custom products. We handle the rest.",
+        "buttonLabel": "Start now",
+        "hrefButton": "https://fourthwall.com/get-started/"
       }
     },
     "collections": {

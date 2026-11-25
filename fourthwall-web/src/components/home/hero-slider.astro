@@ -5,13 +5,15 @@ const cms = contentFor(Astro.locals);
 const HERO_SLIDERS = cms.homePage.collections.HERO_SLIDERS;
 
 import { cn } from "@/utils";
+import { homeContext, listItem, listSlot } from "@/lib/canvas";
+const ctx = homeContext(Astro.locals);
 
 import { Image } from "astro:assets";
 
 ---
 
 <div class="hero-slider z-3 px-surface-x relative pb-0 pt-[clamp(24px,1.2vw,48px)]">
-  <div class="hero-track flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden">
+  <div class="hero-track flex gap-4 snap-x snap-mandatory scroll-pl-[max(40px,50vw-940px)] overflow-x-auto overflow-y-hidden px-[max(40px,50vw-940px)] -mx-[max(40px,900px-940px)] scrollbar-none [&::-webkit-scrollbar]:hidden" {...listSlot(ctx, "HERO_SLIDERS")}>
 
     {HERO_SLIDERS.map((item, index) => (
       <div
@@ -23,6 +25,7 @@ import { Image } from "astro:assets";
           "--rise-distance": "56px",
         }}
         data-cursor-label={stegaClean(item.title)}
+        {...listItem(ctx, "HERO_SLIDERS", item)}
       >
         <a
           rel="nofollow"

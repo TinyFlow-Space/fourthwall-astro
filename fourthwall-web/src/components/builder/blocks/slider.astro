@@ -1,0 +1,45 @@
+---
+import { blocks, num, type Block, type EditContext } from "@/lib/builder";
+import Blocks from "../blocks.astro";
+import { ACCEPTS, slotAttrs } from "@/lib/canvas";
+interface Props { block: Block; attrs?: Record<string, string | undefined>; path: string; ctx: EditContext }
+const { block, attrs, path, ctx } = Astro.props;
+const perView = (block.slidesPerView ?? {}) as Record<string, unknown>;
+const slides = blocks(block.slides);
+const showArrows = block.showArrows !== false && slides.length > 1;
+const showDots = block.showDots !== false && slides.length > 1;
+---
+
+<div
+  class="pb-slider"
+  data-pb-slider
+  data-loop={block.loop !== false ? "" : undefined}
+  style={{
+    "--pb-spv-m": num(perView.mobile, 1),
+    "--pb-spv-t": num(perView.tablet, 2),
+    "--pb-spv-d": num(perView.desktop, 3),
+    "--pb-slide-gap": `${num(block.gap, 24)}px`,
+  }}
+  {...attrs}
+>
+  <div class="pb-slider-track" data-pb-track role="region" aria-roledescription="carousel" aria-label="Slides" tabindex="0" {...slotAttrs(ctx, `${path}.slides`, ACCEPTS.slider)}>
+    <Blocks items={slides} path={`${path}.slides`} ctx={ctx} />
+  </div>
+  {(showArrows || showDots) && (
+    <div class="pb-slider-controls">
+      {showDots && (
+        <div class="pb-slider-dots">
+          {slides.map((_, index) => (
+            <button type="button" class="pb-slider-dot" data-pb-dot={index} aria-label={`Go to slide ${index + 1}`}></button>
+          ))}
+        </div>
+      )}
+      {showArrows && (
+        <div class="pb-slider-arrows">
+          <button type="button" class="pb-slider-arrow" data-pb-prev aria-label="Previous slide">←</button>
+          <button type="button" class="pb-slider-arrow" data-pb-next aria-label="Next slide">→</button>
+        </div>
+      )}
+    </div>
+  )}
+</div>

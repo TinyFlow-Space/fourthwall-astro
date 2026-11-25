@@ -15,7 +15,7 @@ let params = parseBlogParams(Astro.url.searchParams);
 let data: Listing | undefined;
 let error = false;
 try {
-  ({ data, params } = await getListing(params, postsPerPage));
+  ({ data, params } = await getListing(params, postsPerPage, Astro.locals.preview));
 } catch {
   error = true;
   Astro.response.status = 503;

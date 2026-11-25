@@ -1,0 +1,15 @@
+---
+import { alignClass, num, space, str, type Block } from "@/lib/builder";
+import RichText from "../rich-text.astro";
+interface Props { block: Block; attrs?: Record<string, string | undefined> }
+const { block, attrs } = Astro.props;
+const maxWidth = typeof block.maxWidth === "number" ? `${num(block.maxWidth, 60)}ch` : undefined;
+---
+
+<div
+  class:list={["pb-paragraph", `pb-paragraph-${str(block.size, "md")}`, `pb-color-${str(block.color, "muted")}`, alignClass(block.align)]}
+  style={{ maxWidth, marginBottom: space(block.marginBottom) }}
+  {...attrs}
+>
+  <RichText value={block.text} />
+</div>

@@ -1,0 +1,10 @@
+---
+import { alignClass, type Block } from "@/lib/builder";
+import ButtonLink from "../button-link.astro";
+interface Props { block: Block; attrs?: Record<string, string | undefined> }
+const { block, attrs } = Astro.props;
+---
+
+<div class:list={["pb-buttons", alignClass(block.align)]} {...attrs}>
+  <ButtonLink button={block} />
+</div>

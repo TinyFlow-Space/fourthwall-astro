@@ -1,0 +1,13 @@
+---
+import { alignClass, space, str, type Block } from "@/lib/builder";
+interface Props { block: Block; attrs?: Record<string, string | undefined> }
+const { block, attrs } = Astro.props;
+---
+
+<p
+  class:list={["pb-eyebrow", `pb-eyebrow-${str(block.size, "sm")}`, `pb-color-${str(block.color, "muted")}`, alignClass(block.align)]}
+  style={{ marginBottom: space(block.marginBottom) }}
+  {...attrs}
+>
+  {str(block.text)}
+</p>

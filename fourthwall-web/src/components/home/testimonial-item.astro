@@ -1,11 +1,12 @@
 ---
 import { cn } from "@/utils";
 
-const { className, testimonial } = Astro.props;
+const { className, testimonial, attrs } = Astro.props;
 ---
 
 <div
   role="listitem"
+  {...attrs}
   class={cn(
     "relative flex flex-col-reverse [grid-row-gap:0px] lg:not-first:will-change-transform lg:not-first:[--tgrid-row:clamp(36px,4.4vw,80px)] lg:nth-[2]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*2),0)] lg:nth-[3]:transform-[translate3d(0,calc((1-var(--tgrid-progress,1))*var(--tgrid-row)*-3),0)] group",
     className,

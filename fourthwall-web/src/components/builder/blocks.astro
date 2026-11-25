@@ -1,0 +1,80 @@
+---
+import { keyed, plainText, type Block, type EditContext } from "@/lib/builder";
+import { itemAttrs } from "@/lib/canvas";
+import Placeholder from "./placeholder.astro";
+import Eyebrow from "./blocks/eyebrow.astro";
+import Heading from "./blocks/heading.astro";
+import Paragraph from "./blocks/paragraph.astro";
+import Button from "./blocks/button.astro";
+import ButtonGroup from "./blocks/button-group.astro";
+import Image from "./blocks/image.astro";
+import Video from "./blocks/video.astro";
+import Card from "./blocks/card.astro";
+import Grid from "./blocks/grid.astro";
+import Slider from "./blocks/slider.astro";
+
+/**
+ * Renders an array of builder blocks. `path` is the array's path in the
+ * document (e.g. `pageBuilder[_key=="a"].content`); each block's root element
+ * gets a `data-sanity` target for click-to-edit, drag reorder and the
+ * insert/duplicate/remove menu in Presentation.
+ */
+interface Props {
+  items: Block[];
+  path: string;
+  ctx: EditContext;
+}
+const { items, path, ctx } = Astro.props;
+
+const titles: Record<string, string> = {
+  eyebrow: "Eyebrow",
+  heading: "Heading",
+  paragraph: "Paragraph",
+  button: "Button",
+  buttonGroup: "Button Group",
+  imageBlock: "Image",
+  loopingVideo: "Looping Video",
+  card: "Card",
+  grid: "Grid",
+  slider: "Slider",
+};
+const isEmpty = (block: Block) => {
+  switch (block._type) {
+    case "eyebrow": return !block.text;
+    case "heading":
+    case "paragraph": return !plainText(block.text);
+    case "button": return !block.label;
+    case "buttonGroup": return !Array.isArray(block.buttons) || !block.buttons.length;
+    case "imageBlock": return !(block.image as { asset?: unknown } | undefined)?.asset;
+    case "loopingVideo": return !block.videoFile && !block.externalUrl;
+    case "card": return !Array.isArray(block.content) || !block.content.length;
+    case "grid": return !Array.isArray(block.items) || !block.items.length;
+    case "slider": return !Array.isArray(block.slides) || !block.slides.length;
+    default: return true;
+  }
+};
+---
+
+{items.map((block) => {
+  const blockPath = keyed(path, block._key);
+  const attrs = itemAttrs(ctx, path, block._key, block._type);
+  // Blocks inserted on the canvas start empty; keep them visible while editing.
+  if (isEmpty(block))
+    return ctx.editing ? (
+      <Placeholder attrs={attrs} label={`${titles[block._type] ?? "Block"} — click to add content`} />
+    ) : null;
+  const props = { block, attrs, path: blockPath, ctx };
+  switch (block._type) {
+    case "eyebrow": return <Eyebrow {...props} />;
+    case "heading": return <Heading {...props} />;
+    case "paragraph": return <Paragraph {...props} />;
+    case "button": return <Button {...props} />;
+    case "buttonGroup": return <ButtonGroup {...props} />;
+    case "imageBlock": return <Image {...props} />;
+    case "loopingVideo": return <Video {...props} />;
+    case "card": return <Card {...props} />;
+    case "grid": return <Grid {...props} />;
+    case "slider": return <Slider {...props} />;
+    default: return null;
+  }
+})}

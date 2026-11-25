@@ -17,14 +17,14 @@ let failed = false;
 
 if (slug && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
   try {
-    post = await getPost(slug);
+    post = await getPost(slug, Astro.locals.preview);
   } catch {
     failed = true;
   }
 }
 if (post) {
   try {
-    relatedBlogs = await getRelated(post);
+    relatedBlogs = await getRelated(post, Astro.locals.preview);
   } catch {
     /* The article remains usable if recommendations fail. */
   }

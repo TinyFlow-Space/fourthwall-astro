@@ -1,0 +1,18 @@
+---
+import { PortableText } from "@portabletext/astro";
+import RichLink from "./rich-link.astro";
+import RichLine from "./rich-line.astro";
+interface Props {
+  value: unknown;
+  /** Inline: render lines inside an existing element (headings). */
+  inline?: boolean;
+}
+const { value, inline = false } = Astro.props;
+const blocks = Array.isArray(value) ? value : [];
+const components = {
+  mark: { link: RichLink },
+  ...(inline ? { block: { normal: RichLine } } : {}),
+};
+---
+
+<PortableText value={blocks} components={components} />

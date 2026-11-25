@@ -1,0 +1,409 @@
+---
+import { blocks, focalPoint, num, str, type BuilderImage, type EditContext } from "@/lib/builder";
+import type { PageSection } from "@/lib/sanity/content";
+import { imageUrl } from "@/lib/sanity/presentation";
+import Blocks from "./blocks.astro";
+import { ACCEPTS, slotAttrs } from "@/lib/canvas";
+
+/**
+ * A page-builder Section: theme (light/dark/brand) cascades through CSS custom
+ * properties to every nested block; spacing, layout and background come from
+ * the section's Styles fields.
+ */
+interface Props {
+  section: PageSection;
+  /** Path of this section in the document, e.g. `pageBuilder[_key=="a"]`. */
+  path: string;
+  ctx: EditContext;
+}
+const { section, path, ctx } = Astro.props;
+const theme = ["dark", "brand"].includes(str(section.theme)) ? str(section.theme) : "light";
+const align = ["center", "end"].includes(str(section.contentAlign)) ? str(section.contentAlign) : "start";
+const background = section.backgroundImage as BuilderImage | undefined;
+const backgroundSrc = imageUrl(background, 2400);
+const content = blocks(section.content);
+---
+
+<section
+  class:list={["pb-section", `pb-theme-${theme}`, `pb-section-${align}`, section.fullHeight === true && "pb-section-full"]}
+  style={{
+    "--pb-pt": `${num(section.paddingTop, 96)}px`,
+    "--pb-pb": `${num(section.paddingBottom, 96)}px`,
+    "--pb-gap": `${num(section.gap, 16)}px`,
+    "--pb-max": `${num(section.maxWidth, 1240)}px`,
+    justifyContent: section.fullHeight === true ? str(section.verticalAlign, "center") : undefined,
+  }}
+>
+  {backgroundSrc && (
+    <div class="pb-section-bg" aria-hidden="true">
+      <img src={backgroundSrc} alt="" loading="lazy" style={{ objectPosition: focalPoint(background) }} />
+      <div class="pb-section-overlay" style={{ opacity: num(section.overlayOpacity, 40) / 100 }}></div>
+    </div>
+  )}
+  <div class="pb-section-inner" {...slotAttrs(ctx, `${path}.content`, ACCEPTS.section)}>
+    {content.length ? (
+      <Blocks items={content} path={`${path}.content`} ctx={ctx} />
+    ) : (
+      ctx.editing && <div class="pb-placeholder">Empty section — hover here and press + to add a block.</div>
+    )}
+  </div>
+</section>
+
+<style is:global>
+  /* ---- Themes: every block reads these, so they restyle together ---- */
+  .pb-theme-light {
+    --pb-bg: var(--background);
+    --pb-fg: #0a0a0a;
+    --pb-muted: #0a0a0a99;
+    --pb-brand: #c2185b;
+    --pb-surface: #f6f6f6;
+    --pb-border: #0a0a0a1f;
+    --pb-btn-bg: #0a0a0a;
+    --pb-btn-fg: #fff;
+    --pb-btn2-bg: #0a0a0a0f;
+  }
+  .pb-theme-dark {
+    --pb-bg: var(--surface-dark);
+    --pb-fg: #fff;
+    --pb-muted: #ffffffa6;
+    --pb-brand: #f48fb1;
+    --pb-surface: #1a1a1a;
+    --pb-border: #ffffff24;
+    --pb-btn-bg: #fff;
+    --pb-btn-fg: #0a0a0a;
+    --pb-btn2-bg: #ffffff1a;
+  }
+  .pb-theme-brand {
+    --pb-bg: #96003a;
+    --pb-fg: #fff;
+    --pb-muted: #ffffffc2;
+    --pb-brand: #ffc7dc;
+    --pb-surface: #ffffff17;
+    --pb-border: #ffffff3d;
+    --pb-btn-bg: #fff;
+    --pb-btn-fg: #96003a;
+    --pb-btn2-bg: #ffffff26;
+  }
+
+  /* ---- Section ---- */
+  .pb-section {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    background: var(--pb-bg);
+    color: var(--pb-fg);
+    padding: var(--pb-pt) clamp(1rem, 1.5038vw + 0.6476rem, 2rem) var(--pb-pb);
+    /* Default alignment inherited by blocks set to "Auto". */
+    --pb-ms: 0;
+    --pb-me: auto;
+    --pb-justify: flex-start;
+    text-align: left;
+  }
+  .pb-section-center {
+    --pb-ms: auto;
+    --pb-me: auto;
+    --pb-justify: center;
+    text-align: center;
+  }
+  .pb-section-end {
+    --pb-ms: auto;
+    --pb-me: 0;
+    --pb-justify: flex-end;
+    text-align: right;
+  }
+  .pb-section-full {
+    min-height: 100svh;
+  }
+  .pb-section-inner {
+    position: relative;
+    width: 100%;
+    max-width: var(--pb-max);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pb-gap);
+  }
+  .pb-section-bg,
+  .pb-section-bg img,
+  .pb-section-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .pb-section-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pb-section-overlay {
+    background: #000;
+  }
+
+  /* ---- Alignment (explicit per block; "Auto" inherits the vars above) ---- */
+  .pb-align-left { --pb-ms: 0; --pb-me: auto; --pb-justify: flex-start; text-align: left; }
+  .pb-align-center { --pb-ms: auto; --pb-me: auto; --pb-justify: center; text-align: center; }
+  .pb-align-right { --pb-ms: auto; --pb-me: 0; --pb-justify: flex-end; text-align: right; }
+  .pb-heading,
+  .pb-paragraph,
+  .pb-eyebrow,
+  .pb-media {
+    margin-inline: var(--pb-ms) var(--pb-me);
+  }
+
+  /* ---- Colors ---- */
+  .pb-color-default { color: var(--pb-fg); }
+  .pb-color-muted { color: var(--pb-muted); }
+  .pb-color-brand { color: var(--pb-brand); }
+
+  /* ---- Text blocks ---- */
+  .pb-eyebrow {
+    margin-top: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+  }
+  .pb-eyebrow-xs { font-size: 0.6875rem; }
+  .pb-eyebrow-sm { font-size: 0.75rem; }
+  .pb-eyebrow-md { font-size: 0.875rem; }
+  .pb-heading {
+    margin-top: 0;
+    font-family: var(--font-display);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .pb-heading-sm { font-size: 1.25rem; line-height: 1.3; letter-spacing: -0.01em; }
+  .pb-heading-md { font-size: clamp(1.375rem, 0.75vw + 1.2rem, 1.75rem); line-height: 1.2; }
+  .pb-heading-lg { font-size: clamp(1.75rem, 1.5vw + 1.3rem, 2.25rem); }
+  .pb-heading-xl { font-size: clamp(2rem, 2.2556vw + 1.4713rem, 3rem); }
+  .pb-heading-2xl { font-size: clamp(2.5rem, 3vw + 1.6rem, 4rem); }
+  .pb-heading-3xl { font-size: clamp(3rem, 4.5vw + 1.6rem, 5.25rem); line-height: 1.02; }
+  .pb-heading-4xl { font-size: clamp(3.5rem, 6.5vw + 1.4rem, 7rem); line-height: 0.98; letter-spacing: -0.035em; }
+  .pb-weight-light { font-weight: 300; }
+  .pb-weight-regular { font-weight: 400; }
+  .pb-weight-medium { font-weight: 500; }
+  .pb-line { display: block; }
+  .pb-paragraph { text-wrap: pretty; }
+  .pb-paragraph > p { margin: 0; }
+  .pb-paragraph > p + p { margin-top: 0.85em; }
+  .pb-paragraph-sm { font-size: var(--text-body-sm); line-height: 1.55; }
+  .pb-paragraph-md { font-size: var(--text-body-md); line-height: 1.55; }
+  .pb-paragraph-lg { font-size: var(--text-body-lg); line-height: 1.5; }
+  .pb-paragraph-xl { font-size: clamp(1.25rem, 1vw + 1rem, 1.75rem); line-height: 1.45; }
+  .pb-link { text-decoration: underline; text-underline-offset: 0.15em; }
+
+  /* ---- Buttons ---- */
+  .pb-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: var(--pb-justify);
+  }
+  .pb-buttons-column { flex-direction: column; align-items: var(--pb-justify); }
+  .pb-buttons-nowrap { flex-wrap: nowrap; }
+  .pb-btn {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, opacity 0.2s;
+  }
+  .pb-btn-sm { padding: 0.625rem 1rem; font-size: 0.875rem; }
+  .pb-btn-md { padding: 0.875rem 1.5rem; font-size: 1rem; }
+  .pb-btn-lg { padding: 1.0625rem 1.875rem; font-size: 1.125rem; }
+  .pb-btn-xl { padding: 1.25rem 2.25rem; font-size: 1.25rem; }
+  .pb-btn-full { width: 100%; }
+  .pb-btn-primary { background: var(--pb-btn-bg); color: var(--pb-btn-fg); }
+  .pb-btn-primary:hover { opacity: 0.85; }
+  .pb-btn-secondary { background: var(--pb-btn2-bg); color: var(--pb-fg); }
+  .pb-btn-secondary:hover { background: var(--pb-border); }
+  .pb-btn-outline { border-color: var(--pb-fg); color: var(--pb-fg); }
+  .pb-btn-outline:hover { background: var(--pb-btn2-bg); }
+  .pb-btn-ghost { color: var(--pb-fg); }
+  .pb-btn-ghost:hover { background: var(--pb-btn2-bg); }
+  .pb-btn-link { padding-inline: 0; color: var(--pb-fg); text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* ---- Media ---- */
+  .pb-media {
+    position: relative;
+    width: 100%;
+    margin-block: 0;
+    overflow: hidden;
+  }
+  .pb-media img,
+  .pb-media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .pb-media:not([style*="aspect-ratio"]) img,
+  .pb-media:not([style*="aspect-ratio"]) video {
+    height: auto;
+  }
+
+  /* ---- Card ---- */
+  .pb-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pb-gap);
+    padding: var(--pb-card-pad);
+    color: var(--pb-fg);
+    overflow: hidden;
+  }
+  .pb-card-surface { background: var(--pb-surface); }
+  .pb-card-elevated { background: var(--pb-bg); box-shadow: 0 1px 2px #0000000f, 0 12px 32px -12px #0000002e; }
+  .pb-card-outline { border: 1px solid var(--pb-border); }
+  .pb-card-ghost { background: transparent; }
+  .pb-card-brand { background: var(--pb-bg); }
+  .pb-card-link { position: absolute; inset: 0; z-index: 1; }
+  .pb-card-linked { transition: transform 0.2s; }
+  .pb-card-linked:hover { transform: translateY(-2px); }
+
+  /* ---- Grid ---- */
+  .pb-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pb-cols-m), minmax(0, 1fr));
+  }
+  @media (min-width: 768px) {
+    .pb-grid { grid-template-columns: repeat(var(--pb-cols-t), minmax(0, 1fr)); }
+  }
+  @media (min-width: 992px) {
+    .pb-grid { grid-template-columns: repeat(var(--pb-cols-d), minmax(0, 1fr)); }
+  }
+
+  /* ---- Slider ---- */
+  .pb-slider { --pb-spv: var(--pb-spv-m); min-width: 0; }
+  @media (min-width: 768px) { .pb-slider { --pb-spv: var(--pb-spv-t); } }
+  @media (min-width: 992px) { .pb-slider { --pb-spv: var(--pb-spv-d); } }
+  .pb-slider-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - (var(--pb-spv) - 1) * var(--pb-slide-gap)) / var(--pb-spv));
+    gap: var(--pb-slide-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    text-align: left;
+  }
+  .pb-slider-track::-webkit-scrollbar { display: none; }
+  .pb-slider-track > * { scroll-snap-align: start; }
+  .pb-slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .pb-slider-dots { display: flex; gap: 6px; }
+  .pb-slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--pb-border);
+    transition: width 0.3s, background-color 0.3s;
+  }
+  .pb-slider-dot[aria-current="true"] { width: 22px; background: var(--pb-fg); }
+  .pb-slider-arrows { display: flex; gap: 8px; margin-left: auto; }
+  .pb-slider-arrow {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--pb-btn2-bg);
+    color: var(--pb-fg);
+    font-size: 1.1rem;
+  }
+  .pb-slider-arrow:hover { background: var(--pb-border); }
+  .pb-slider-arrow:disabled { opacity: 0.35; }
+
+  /* ---- Editing placeholders (Presentation only) ---- */
+  .pb-placeholder {
+    padding: 1.25rem;
+    border: 1px dashed currentColor;
+    border-radius: 10px;
+    opacity: 0.55;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  .pb-btn:focus-visible,
+  .pb-slider-arrow:focus-visible,
+  .pb-slider-dot:focus-visible,
+  .pb-card-link:focus-visible {
+    outline: 2px solid var(--pb-brand);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pb-slider-track { scroll-behavior: auto; }
+    .pb-card-linked:hover { transform: none; }
+  }
+</style>
+
+<script>
+  // Slider arrows, dots and looping over a CSS scroll-snap track; respects
+  // reduced motion for autoplaying videos.
+  function initSlider(root: HTMLElement) {
+    if (root.dataset.pbReady) return;
+    root.dataset.pbReady = "";
+    const track = root.querySelector<HTMLElement>("[data-pb-track]")!;
+    const slides = () => [...track.children] as HTMLElement[];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-pb-dot]")];
+    const prev = root.querySelector<HTMLButtonElement>("[data-pb-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-pb-next]");
+    const loop = root.hasAttribute("data-loop");
+    const current = () => {
+      const left = track.scrollLeft;
+      let best = 0;
+      slides().forEach((slide, i) => {
+        if (Math.abs(slide.offsetLeft - track.offsetLeft - left) < Math.abs(slides()[best].offsetLeft - track.offsetLeft - left)) best = i;
+      });
+      return best;
+    };
+    const atEnd = () => track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    const go = (index: number) => {
+      const list = slides();
+      const target = list[Math.max(0, Math.min(index, list.length - 1))];
+      if (target) track.scrollTo({ left: target.offsetLeft - track.offsetLeft });
+    };
+    const update = () => {
+      const index = current();
+      dots.forEach((dot, i) => dot.setAttribute("aria-current", String(i === index)));
+      if (!loop) {
+        if (prev) prev.disabled = track.scrollLeft <= 2;
+        if (next) next.disabled = atEnd();
+      }
+    };
+    prev?.addEventListener("click", () => {
+      const index = current();
+      go(index === 0 && loop ? slides().length - 1 : index - 1);
+    });
+    next?.addEventListener("click", () => {
+      go(atEnd() && loop ? 0 : current() + 1);
+    });
+    dots.forEach((dot) => dot.addEventListener("click", () => go(Number(dot.dataset.pbDot))));
+    track.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
+    track.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") { event.preventDefault(); next?.click(); }
+      if (event.key === "ArrowLeft") { event.preventDefault(); prev?.click(); }
+    });
+    update();
+  }
+  function init() {
+    document.querySelectorAll<HTMLElement>("[data-pb-slider]").forEach(initSlider);
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches)
+      document.querySelectorAll<HTMLVideoElement>("[data-pb-video]").forEach((video) => {
+        video.pause();
+        video.controls = true;
+      });
+  }
+  init();
+  document.addEventListener("astro:page-load", init);
+</script>

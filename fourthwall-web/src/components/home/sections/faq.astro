@@ -6,12 +6,15 @@ const FAQS = cms.homePage.collections.FAQS;
 
 import Accordion from "@/components/ui/accordion.astro";
 import AccordionItem from "@/components/ui/accordion-item.astro";
+import { homeContext, listItem, listSlot } from "@/lib/canvas";
+const ctx = homeContext(Astro.locals);
 
 
 ---
 
 <section
   id="learn"
+  {...listSlot(ctx, "FAQS")}
 
   class="accordion-section py-surface-y-lg px-surface-x bg-background"
 >
@@ -24,7 +27,7 @@ import AccordionItem from "@/components/ui/accordion-item.astro";
 
     <Accordion class="max-w-[clamp(800px,720px,1040px)] mx-auto reveal">
       {FAQS.map((faq) => (
-        <AccordionItem id={faq.id} title={faq.question}>
+        <AccordionItem id={faq.id} title={faq.question} attrs={listItem(ctx, "FAQS", faq)}>
           {faq.answer.map((block) =>
             block.type === "paragraph" ? (
               <p class="not-last:mb-3.5 text-wrap">

@@ -16,11 +16,13 @@ interface ProductDocument extends Partial<CatalogProduct> {
   hoverSrc?: string;
   featuredHref?: string;
 }
-export async function getSiteContent(home: boolean) {
+export async function getSiteContent(home: boolean, preview = false) {
   try {
-    const raw = await query<Record<string, unknown>>(siteContentQuery, {
-      home,
-    });
+    const raw = await query<Record<string, unknown>>(
+      siteContentQuery,
+      { home },
+      preview,
+    );
     const result = mapSiteContent(raw);
     if (home && Array.isArray(raw.products) && raw.products.length) {
       const products = normalizeContent(raw.products) as ProductDocument[];

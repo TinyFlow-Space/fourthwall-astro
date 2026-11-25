@@ -1,0 +1,24 @@
+---
+import { blocks, num, str, type Block, type EditContext } from "@/lib/builder";
+import Blocks from "../blocks.astro";
+import { ACCEPTS, slotAttrs } from "@/lib/canvas";
+interface Props { block: Block; attrs?: Record<string, string | undefined>; path: string; ctx: EditContext }
+const { block, attrs, path, ctx } = Astro.props;
+const columns = (block.columns ?? {}) as Record<string, unknown>;
+---
+
+<div
+  class="pb-grid"
+  style={{
+    "--pb-cols-m": num(columns.mobile, 1),
+    "--pb-cols-t": num(columns.tablet, 2),
+    "--pb-cols-d": num(columns.desktop, 3),
+    columnGap: `${num(block.columnGap, 24)}px`,
+    rowGap: `${num(block.rowGap, 24)}px`,
+    alignItems: str(block.alignItems, "stretch"),
+  }}
+  {...attrs}
+  {...slotAttrs(ctx, `${path}.items`, ACCEPTS.grid)}
+>
+  <Blocks items={blocks(block.items)} path={`${path}.items`} ctx={ctx} />
+</div>

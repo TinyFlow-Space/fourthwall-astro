@@ -1,21 +1,35 @@
 ---
 import { visualEditingEnabled } from "@/lib/sanity/stega";
+// Local development, an opted-in environment, or a verified Studio preview.
+const enabled = visualEditingEnabled || Astro.locals.preview;
 ---
 
-{visualEditingEnabled && (
+{enabled && (
   <fourthwall-visual-editing></fourthwall-visual-editing>
 )}
 <script>
   // Do not use Sanity's own <sanity-visual-editing> name for this initializer.
   class FourthwallVisualEditing extends HTMLElement {
     private dispose?: () => void;
+    private disposeCanvas?: () => void;
     async connectedCallback() {
       const { enableVisualEditing } = await import("@sanity/visual-editing");
       if (!this.isConnected) return;
+      let timer: ReturnType<typeof setTimeout> | undefined;
       this.dispose = enableVisualEditing({
-        refresh: async () => {
-          window.location.reload();
-        },
+        // Server-rendered pages re-fetch drafts on reload. Batch bursts of
+        // mutations (typing, drag-and-drop saves) into a single reload.
+        refresh: (payload) =>
+          new Promise<void>((resolve) => {
+            clearTimeout(timer);
+            timer = setTimeout(
+              () => {
+                window.location.reload();
+                resolve();
+              },
+              payload.source === "mutation" ? 600 : 0,
+            );
+          }),
         history: {
           subscribe: (navigate) => {
             const sync = () =>
@@ -49,9 +63,16 @@ import { visualEditingEnabled } from "@/lib/sanity/stega";
           },
         },
       });
+      // Drag, move and "+" insert tools — only inside the Studio's Presentation
+      // iframe, where edits can be saved through its document store.
+      if (window.self !== window.top) {
+        const { initCanvas } = await import("@/scripts/builder/canvas");
+        if (this.isConnected) this.disposeCanvas = initCanvas();
+      }
     }
     disconnectedCallback() {
       this.dispose?.();
+      this.disposeCanvas?.();
     }
   }
   if (!customElements.get("fourthwall-visual-editing"))

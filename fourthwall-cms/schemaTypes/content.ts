@@ -1,5 +1,6 @@
 import { defineField, defineType, type FieldDefinition } from "sanity";
 import specs from "./content-fields.json";
+import { pageBuilderField } from "./pageBuilder";
 interface Spec {
   name?: string;
   title?: string;
@@ -264,7 +265,10 @@ export const contentTypes = Object.entries(specs).map(([name, fields]) =>
       blogPage: "Blog Page",
     }[name as keyof typeof specs],
     type: "document",
-    fields: (fields as Spec[]).map((spec) => field(spec, name)),
+    fields: [
+      ...(name === "homePage" ? [pageBuilderField] : []),
+      ...(fields as Spec[]).map((spec) => field(spec, name)),
+    ],
     // Singletons have no title field; without this, Studio and the Visual
     // Editor fall back to a serialized dump of the first object field.
     preview: {

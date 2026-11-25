@@ -1,6 +1,8 @@
 ---
 export const prerender = false;
-import {contentFor} from "@/lib/sanity/content";
+import { contentFor, type PageSection } from "@/lib/sanity/content";
+import { keyed, str } from "@/lib/builder";
+import { ACCEPTS, homeContext, itemAttrs, slotAttrs } from "@/lib/canvas";
 const cms=contentFor(Astro.locals);
 import BaseLayout from "@/layouts/base-layout.astro";
 import Hero from "@/components/home/sections/hero.astro";
@@ -14,6 +16,61 @@ import Operations from "@/components/home/sections/operations.astro";
 import MadeWith from "@/components/home/sections/made-with.astro";
 import ProductDesign from "@/components/home/sections/product-design.astro";
 import BrandShowcase from "@/components/home/sections/brand-showcase.astro";
+import BuilderSection from "@/components/builder/section.astro";
+
+// Page builder `_type` -> component. Order comes from "Page sections" in the CMS.
+const builtIn = {
+  homeHero: Hero,
+  homeFeaturedProducts: FeaturedProducts,
+  homeTrustedBrands: TrustedBrands,
+  homeBrandShowcase: BrandShowcase,
+  homeProductDesign: ProductDesign,
+  homeOperations: Operations,
+  homeTestimonials: Testimonials,
+  homeProducts: Products,
+  homeCreators: Creators,
+  homeMadeWith: MadeWith,
+  homeFaq: Accordion,
+} as const;
+type BuiltIn = keyof typeof builtIn;
+const titles: Record<string, string> = {
+  homeHero: "Hero",
+  homeFeaturedProducts: "Featured Products",
+  homeTrustedBrands: "Trusted Brands",
+  homeBrandShowcase: "Brand Showcase",
+  homeProductDesign: "Product Design",
+  homeOperations: "Operations",
+  homeTestimonials: "Testimonials",
+  homeProducts: "Products",
+  homeCreators: "Creators",
+  homeMadeWith: "Made With Fourthwall",
+  homeFaq: "FAQ",
+};
+const isBuiltIn = (type: string): type is BuiltIn => type in builtIn;
+
+// Until "Page sections" is filled in, keep the original order.
+const sections: PageSection[] = cms.homePage.pageBuilder.length
+  ? cms.homePage.pageBuilder
+  : (Object.keys(builtIn) as BuiltIn[]).map((type) => ({ _type: type, _key: "" }));
+const seen = new Set<string>();
+const visible = sections.filter((section) => {
+  if (section.hidden) return false;
+  if (section._type === "section") return true;
+  // Built-in sections share one set of content, so render each only once.
+  if (!isBuiltIn(section._type) || seen.has(section._type)) return false;
+  seen.add(section._type);
+  return true;
+});
+
+// Canvas editing: each section (and each block inside builder sections) is a
+// click/drag/context-menu target.
+const ctx = homeContext(Astro.locals);
+// While editing, the section list is a drop target ("slot"); `display: contents`
+// keeps the layout identical. Public pages render the sections directly.
+const SectionList = ctx.editing ? "div" : Fragment;
+const sectionListProps = ctx.editing
+  ? { style: "display: contents", ...slotAttrs(ctx, "pageBuilder", ACCEPTS.pageBuilder) }
+  : {};
 ---
 
 <BaseLayout
@@ -21,18 +78,62 @@ import BrandShowcase from "@/components/home/sections/brand-showcase.astro";
   title="Fourthwall | One platform for custom products and branded shops"
   description="Launch your online shop with Fourthwall. Create and sell custom products, offer memberships, and build a fully branded website with ease."
 >
-  <Hero />
-  <FeaturedProducts />
-  <TrustedBrands />
-  <BrandShowcase />
-  <ProductDesign />
-  <Operations />
-  <Testimonials />
-  <Products />
-  <Creators />
-  <MadeWith />
-  <Accordion />
+  <SectionList {...sectionListProps}>
+  {visible.map((section) => {
+    const Component = isBuiltIn(section._type) ? builtIn[section._type] : undefined;
+    const path = keyed("pageBuilder", section._key);
+    const rendered = Component ? (
+      <Component />
+    ) : (
+      <BuilderSection section={section} path={path} ctx={ctx} />
+    );
+    const attrs = itemAttrs(ctx, "pageBuilder", section._key, section._type);
+    const label =
+      section._type === "section"
+        ? str(section.name, "Section")
+        : titles[section._type] ?? "Section";
+    // Almost every element inside a section is itself editable text, so the
+    // strip gives the section a grab area for drag/right-click on the canvas.
+    return attrs["data-sanity"] ? (
+      <div {...attrs} data-page-section={section._type} class="relative">
+        <div class="page-section-handle" title="Drag to reorder · right-click for more">
+          <span>⠿ {label}</span>
+        </div>
+        {rendered}
+      </div>
+    ) : (
+      rendered
+    );
+  })}
+  </SectionList>
 </BaseLayout>
+
+<style is:global>
+  /* Canvas-editing only: rendered just in Presentation / local dev. */
+  .page-section-handle {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2.25rem;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+  }
+  .page-section-handle span {
+    opacity: 0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: #556bfc;
+    color: #fff;
+    font: 500 0.75rem/1.2 system-ui, sans-serif;
+    transition: opacity 0.15s;
+    pointer-events: none;
+  }
+  .page-section-handle:hover span {
+    opacity: 1;
+  }
+</style>
 
 <script>
   import { initReveal } from "@/scripts/animations/reveal";

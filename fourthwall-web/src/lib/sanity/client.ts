@@ -5,7 +5,6 @@ import {
   visualEditingEnabled,
 } from "./stega";
 import { createClient } from "@sanity/client";
-import { getSecret } from "astro:env/server";
 import type { QueryParams } from "@sanity/client";
 import type { Listing, Post, PostSummary } from "./types";
 import { listingQueries, postQuery, relatedQuery } from "./queries";
@@ -13,19 +12,26 @@ import { pageSize, type BlogParams } from "./params";
 
 import { normalizeCategory } from "./categories";
 import { sanityDataset, sanityProjectId, sanityStudioUrl } from "./config";
+import { readToken } from "./preview";
 
 export const postsPerPage = pageSize(import.meta.env.BLOG_POSTS_PER_PAGE);
-export function sanityClient() {
-  const token = getSecret("SANITY_API_READ_TOKEN");
+/**
+ * `preview` is set for verified Presentation sessions (see ./preview.ts):
+ * drafts are read with the token, and stega powers click-to-edit overlays.
+ */
+export function sanityClient(preview = false) {
+  const token = readToken();
+  const drafts = preview && !!token;
+  const editable = drafts || visualEditingEnabled;
   return createClient({
     projectId: sanityProjectId,
     dataset: sanityDataset,
     apiVersion: "2026-03-01",
     token: token || undefined,
-    useCdn: !visualEditingEnabled && !token,
-    perspective: "published",
+    useCdn: !editable && !token,
+    perspective: drafts ? "drafts" : "published",
     stega: {
-      enabled: visualEditingEnabled,
+      enabled: editable,
       studioUrl: sanityStudioUrl,
       filter: (props) =>
         !props.sourcePath.some(
@@ -36,9 +42,13 @@ export function sanityClient() {
     maxRetries: 1,
   });
 }
-export async function query<T>(groq: string, params: QueryParams): Promise<T> {
-  const client = sanityClient();
-  if (!visualEditingEnabled)
+export async function query<T>(
+  groq: string,
+  params: QueryParams,
+  preview = false,
+): Promise<T> {
+  const client = sanityClient(preview);
+  if (!client.config().stega.enabled)
     return cleanTechnicalContent(await client.fetch<T>(groq, params));
   const { result, resultSourceMap } = await client.fetch<T>(groq, params, {
     filterResponse: false,
@@ -55,6 +65,7 @@ export async function query<T>(groq: string, params: QueryParams): Promise<T> {
 export async function getListing(
   params: BlogParams,
   requestedPageSize = postsPerPage,
+  preview = false,
 ): Promise<{ data: Listing; params: BlogParams }> {
   const perPage = pageSize(String(requestedPageSize));
   const fetchPage = (page: number) =>
@@ -71,7 +82,7 @@ export async function getListing(
         .map((word) => `${word}*`),
       start: (page - 1) * perPage,
       end: page * perPage,
-    });
+    }, preview);
   let data = await fetchPage(params.page);
   const category = normalizeCategory(params.category, data.categories);
   if (category !== params.category) {
@@ -85,11 +96,18 @@ export async function getListing(
   if (page !== params.page) data = await fetchPage(page);
   return { data, params: { ...params, page } };
 }
-export const getPost = (slug: string) =>
-  query<Post | null>(postQuery, { slug });
-export const getRelated = (post: Post): Promise<PostSummary[]> => {
+export const getPost = (slug: string, preview = false) =>
+  query<Post | null>(postQuery, { slug }, preview);
+export const getRelated = (
+  post: Post,
+  preview = false,
+): Promise<PostSummary[]> => {
   if (post.relatedPosts?.length) return Promise.resolve(post.relatedPosts);
   const categories = post.categories.map((category) => category._id);
   if (!categories.length) return Promise.resolve([]);
-  return query<PostSummary[]>(relatedQuery, { id: post._id, categories });
+  return query<PostSummary[]>(
+    relatedQuery,
+    { id: post._id, categories },
+    preview,
+  );
 };

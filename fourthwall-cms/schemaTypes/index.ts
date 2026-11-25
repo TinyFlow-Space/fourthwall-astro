@@ -1,6 +1,7 @@
 import { contentTypes, managedMedia, seo } from "./content";
 import { product, productCategory } from "./product";
 import { richContent } from "./richContent";
+import { pageBuilderTypes } from "./pageBuilder";
 import { defineArrayMember, defineField, defineType } from "sanity";
 const slug = defineField({
   name: "slug",
@@ -45,7 +46,7 @@ const taxonomy =(name: "category" | "tag") =>
     ],
   });
 export const schemaTypes = [
-  ...contentTypes, managedMedia, seo, product, productCategory,
+  ...contentTypes, ...pageBuilderTypes, managedMedia, seo, product, productCategory,
   taxonomy("category"),
   taxonomy("tag"),
   defineType({

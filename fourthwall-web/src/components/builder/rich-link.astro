@@ -1,0 +1,20 @@
+---
+import type { MarkProps } from "@portabletext/astro/types";
+import { safeHref } from "@/lib/sanity/presentation";
+type Props = MarkProps<{ href?: string; newTab?: boolean }>;
+const href = safeHref(Astro.props.node.markDef?.href);
+const newTab = Astro.props.node.markDef?.newTab === true;
+---
+
+{href ? (
+  <a
+    href={href}
+    class="pb-link"
+    target={newTab ? "_blank" : undefined}
+    rel={newTab || href.startsWith("http") ? "noopener noreferrer" : undefined}
+  >
+    <slot />
+  </a>
+) : (
+  <slot />
+)}

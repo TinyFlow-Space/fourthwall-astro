@@ -8,13 +8,16 @@ interface Props {
   triggerClass?: string;
   panelClass?: string;
   contentClass?: string;
+  /** Canvas-editing markers (empty outside Presentation). */
+  attrs?: Record<string, string | undefined>;
 }
 
-const { title, id, class: className, triggerClass, panelClass, contentClass } = Astro.props;
+const { title, id, class: className, triggerClass, panelClass, contentClass, attrs } = Astro.props;
 ---
 
 <div
   class={cn("accordion-item bg-paper-soft [transition:background_0.2s] hover:bg-[#efeff0]", className)}
+  {...attrs}
 
   data-open="false"
 >

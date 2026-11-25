@@ -1,0 +1,24 @@
+---
+import { safeHref } from "@/lib/sanity/presentation";
+import { str, type Block } from "@/lib/builder";
+interface Props {
+  button: Partial<Block>;
+  attrs?: Record<string, string | undefined>;
+}
+const { button, attrs } = Astro.props;
+const href = safeHref(str(button.href)) ?? undefined;
+const newTab = button.newTab === true;
+const style = str(button.style, "primary");
+const size = str(button.size, "md");
+const Tag = href ? "a" : "span";
+---
+
+<Tag
+  href={href}
+  target={href && newTab ? "_blank" : undefined}
+  rel={href && (newTab || href.startsWith("http")) ? "noopener noreferrer" : undefined}
+  class:list={["pb-btn", `pb-btn-${style}`, `pb-btn-${size}`, button.fullWidth === true && "pb-btn-full"]}
+  {...attrs}
+>
+  {str(button.label, "Button")}
+</Tag>

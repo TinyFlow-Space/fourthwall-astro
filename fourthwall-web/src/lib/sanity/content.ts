@@ -18,8 +18,21 @@ export type CatalogProduct = (typeof CATALOG_PRODUCTS)[number] & {
   bestseller?: boolean;
   _id?: string;
 };
+/**
+ * One item of the Homepage "Page sections" array (render order): a built-in
+ * section marker, or a builder "section" with nested blocks (raw CMS data;
+ * see components/builder).
+ */
+export interface PageSection {
+  _key: string;
+  _type: string;
+  hidden?: boolean;
+  [field: string]: unknown;
+}
 export type SiteContent = Omit<typeof defaults, "homePage"> & {
   homePage: Omit<typeof defaults.homePage, "collections"> & {
+    /** Empty until sections are added in the CMS; the default order is used then. */
+    pageBuilder: PageSection[];
     collections: Omit<
       typeof defaults.homePage.collections,
       "FAQS" | "FEATURED_PRODUCTS" | "CATALOG_PRODUCTS"
@@ -63,7 +76,8 @@ export function normalizeContent(value: unknown, fieldName = ""): unknown {
   if ("listItems" in value) return normalizeContent(value.listItems);
   return Object.fromEntries(
     Object.entries(value)
-      .filter(([k]) => !k.startsWith("_"))
+      // `_key` is kept so list items can be canvas-editing targets.
+      .filter(([k]) => k === "_key" || !k.startsWith("_"))
       .map(([k, v]) => [k, normalizeContent(v, k)]),
   );
 }
@@ -99,6 +113,7 @@ const initialCategories = [
 export function fallbackContent(): SiteContent {
   const result = structuredClone(defaults) as unknown as SiteContent;
   result.productCategories = initialCategories;
+  result.homePage.pageBuilder = [];
   result.homePage.collections.CATALOG_PRODUCTS =
     result.homePage.collections.CATALOG_PRODUCTS.map((p) => ({
       ...p,
@@ -111,8 +126,34 @@ export function fallbackContent(): SiteContent {
     }));
   return result;
 }
+/** Keep `_key`/`_type` (dropped by normalizeContent) for canvas editing. */
+function pageSections(value: unknown): PageSection[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter(
+      (item): item is Record<string, unknown> & { _key: string; _type: string } =>
+        record(item) &&
+        typeof item._key === "string" &&
+        typeof item._type === "string",
+    )
+    .map((item) =>
+      // Builder sections keep their raw shape: nested `_key`s drive canvas
+      // editing and `asset._ref`s drive images. Stega is stripped so each block
+      // gets one block-level overlay instead of one per word.
+      item._type === "section"
+        ? (stegaClean(item) as PageSection)
+        : {
+            _key: stegaClean(item._key),
+            _type: stegaClean(item._type),
+            hidden: item.hidden === true,
+          },
+    );
+}
 export function mapSiteContent(raw: Record<string, unknown>): SiteContent {
   const result = mergeContent(fallbackContent(), normalizeContent(raw));
+  result.homePage.pageBuilder = pageSections(
+    record(raw.homePage) ? raw.homePage.pageBuilder : undefined,
+  );
   // Keep decorative motion geometry and brand size tokens in frontend code.
   result.homePage.collections.HERO_SLIDERS =
     result.homePage.collections.HERO_SLIDERS.filter(

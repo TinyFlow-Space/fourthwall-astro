@@ -1,0 +1,16 @@
+diff --git a/node_modules/sanity/lib/PostMessageSchema-i-WahG-W.js b/node_modules/sanity/lib/PostMessageSchema-i-WahG-W.js
+index a5974db..c5ed807 100644
+--- a/node_modules/sanity/lib/PostMessageSchema-i-WahG-W.js
++++ b/node_modules/sanity/lib/PostMessageSchema-i-WahG-W.js
+@@ -400,7 +400,10 @@ function _temp2(item) {
+ 	return item !== null;
+ }
+ function _temp(path, i) {
+-	return `"${i}": ${path}[0]._type`;
++	// Patched (see fourthwall-cms/patches/README.md): a nested path such as
++	// a[_key=="x"].b[_key=="y"] needs [0] after every key filter, or GROQ
++	// returns arrays and nested blocks never resolve their type.
++	return `"${i}": ${path.replace(/(\[_key=="[^"]*"\])(?=.)/g, "$1[0]")}[0]._type`;
+ }
+ var PostMessageSchema_default = memo(PostMessageSchema);
+ export { PostMessageSchema_default as default };

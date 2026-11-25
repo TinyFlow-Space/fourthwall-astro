@@ -1,0 +1,19 @@
+---
+import { alignClass, blocks, num, space, str, type Block, type EditContext } from "@/lib/builder";
+import { ACCEPTS, itemAttrs, slotAttrs } from "@/lib/canvas";
+import ButtonLink from "../button-link.astro";
+interface Props { block: Block; attrs?: Record<string, string | undefined>; path: string; ctx: EditContext }
+const { block, attrs, path, ctx } = Astro.props;
+const buttons = blocks(block.buttons);
+---
+
+<div
+  class:list={["pb-buttons", alignClass(block.align), str(block.direction) === "column" && "pb-buttons-column", block.wrap === false && "pb-buttons-nowrap"]}
+  style={{ gap: `${num(block.gap, 12)}px`, marginBottom: space(block.marginBottom) }}
+  {...attrs}
+  {...slotAttrs(ctx, `${path}.buttons`, ACCEPTS.buttonGroup)}
+>
+  {buttons.map((button) => (
+    <ButtonLink button={button} attrs={itemAttrs(ctx, `${path}.buttons`, button._key, "groupButton")} />
+  ))}
+</div>

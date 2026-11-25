@@ -4,21 +4,25 @@
   "type": "module",
   "version": "1.0.0",
   "dependencies": {
-    "sanity": "^6.20.0",
+    "@sanity/client": "^8.12.0",
+    "@sanity/icons": "^5.4.0",
+    "@sanity/ui": "^4.4.10",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "styled-components": "^6.6.0",
-    "@sanity/client": "^8.12.0"
+    "sanity": "^6.20.0",
+    "styled-components": "^6.6.0"
   },
   "scripts": {
     "dev": "sanity dev",
     "build": "sanity build",
     "check": "tsc --noEmit",
     "seed": "node --env-file-if-exists=.env --experimental-strip-types scripts/seed.ts",
-    "seed:login": "sanity exec scripts/seed.ts --with-user-token -- --cli"
+    "seed:login": "sanity exec scripts/seed.ts --with-user-token -- --cli",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
-    "typescript": "^6.0.3",
-    "@types/node": "^26.6.5"
+    "@types/node": "^26.6.5",
+    "patch-package": "^8.0.1",
+    "typescript": "^6.0.3"
   }
 }

@@ -1,0 +1,9 @@
+---
+interface Props {
+  attrs?: Record<string, string | undefined>;
+  label: string;
+}
+const { attrs, label } = Astro.props;
+---
+
+<div class="pb-placeholder" {...attrs}>{label}</div>

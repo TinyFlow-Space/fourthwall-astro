@@ -1,0 +1,35 @@
+---
+import { blocks, num, plainText, str, type Block, type EditContext } from "@/lib/builder";
+import { safeHref } from "@/lib/sanity/presentation";
+import Blocks from "../blocks.astro";
+import { ACCEPTS, slotAttrs } from "@/lib/canvas";
+interface Props { block: Block; attrs?: Record<string, string | undefined>; path: string; ctx: EditContext }
+const { block, attrs, path, ctx } = Astro.props;
+const variant = str(block.variant, "surface");
+const content = blocks(block.content);
+const href = safeHref(str(block.href)) ?? undefined;
+const newTab = block.newTab === true;
+const label = plainText(content.find((b) => b._type === "heading")?.text) || "Open";
+---
+
+<div
+  class:list={["pb-card", `pb-card-${variant}`, variant === "brand" && "pb-theme-brand", href && "pb-card-linked"]}
+  style={{
+    "--pb-card-pad": `${num(block.padding, 28)}px`,
+    "--pb-gap": `${num(block.gap, 12)}px`,
+    borderRadius: `${num(block.radius, 14)}px`,
+  }}
+  {...attrs}
+  {...slotAttrs(ctx, `${path}.content`, ACCEPTS.card)}
+>
+  <Blocks items={content} path={`${path}.content`} ctx={ctx} />
+  {href && (
+    <a
+      class="pb-card-link"
+      href={href}
+      aria-label={label}
+      target={newTab ? "_blank" : undefined}
+      rel={newTab || href.startsWith("http") ? "noopener noreferrer" : undefined}
+    ></a>
+  )}
+</div>

@@ -11,6 +11,11 @@ if (!projectId)
   throw new Error(
     "Set SANITY_STUDIO_PROJECT_ID in fourthwall-cms/.env before starting Studio.",
   );
+const localPreviewUrl =
+  process.env.SANITY_STUDIO_LOCAL_PREVIEW_URL || "http://localhost:4321";
+const deployedPreviewUrl =
+  process.env.SANITY_STUDIO_PREVIEW_URL || localPreviewUrl;
+
 export default defineConfig({
   name: "fourthwall",
   title: "Fourthwall CMS",
@@ -74,7 +79,15 @@ export default defineConfig({
 
     presentationTool({
       resolve,
-      previewUrl: process.env.SANITY_STUDIO_PREVIEW_URL || "http://localhost:4321",
+      // Both the local and the deployed site can be previewed (switch in the URL bar).
+      allowOrigins: [...new Set([localPreviewUrl, deployedPreviewUrl])],
+      previewUrl: {
+        // `sanity dev` previews the local site; the deployed Studio, the deployed site.
+        initial:
+          process.env.NODE_ENV === "development" ? localPreviewUrl : deployedPreviewUrl,
+        // Validates Presentation's secret and turns on draft previews.
+        previewMode: { enable: "/api/draft-mode/enable" },
+      },
     }),
   ],
   schema: {

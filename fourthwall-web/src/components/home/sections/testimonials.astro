@@ -5,6 +5,8 @@ const content = cms.homePage.sections.testimonials;
 const TESTIMONIALS = cms.homePage.collections.TESTIMONIALS;
 
 import TestimonialItem from "@/components/home/testimonial-item.astro";
+import { homeContext, listItem, listSlot } from "@/lib/canvas";
+const ctx = homeContext(Astro.locals);
 
 
 const CLASSES = [
@@ -27,9 +29,9 @@ const CLASSES = [
       </h2>
     </div>
 
-    <div role="list" class="contents [align-items:start] reveal">
+    <div role="list" class="contents [align-items:start] reveal" {...listSlot(ctx, "TESTIMONIALS")}>
       {TESTIMONIALS.map((testimonial, index) => (
-        <TestimonialItem className={CLASSES[index]} testimonial={testimonial} />
+        <TestimonialItem className={CLASSES[index]} testimonial={testimonial} attrs={listItem(ctx, "TESTIMONIALS", testimonial)} />
       ))}
     </div>
   </div>

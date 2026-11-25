@@ -1,0 +1,33 @@
+---
+import { fileUrl, focalPoint, num, ratio, str, type Block, type BuilderImage } from "@/lib/builder";
+import { imageUrl } from "@/lib/sanity/presentation";
+interface Props { block: Block; attrs?: Record<string, string | undefined> }
+const { block, attrs } = Astro.props;
+const external = str(block.externalUrl);
+const src = fileUrl(block.videoFile) ?? (external.startsWith("https://") ? external : undefined);
+const aspect = ratio(block.aspectRatio);
+const poster = imageUrl(block.poster as BuilderImage | undefined, 1600, aspect ? Math.round(1600 / aspect) : undefined);
+const autoplay = block.autoplay !== false;
+const maxWidth = typeof block.maxWidth === "number" ? `${num(block.maxWidth, 1200)}px` : undefined;
+---
+
+{src && (
+  <figure
+    class="pb-media"
+    style={{ maxWidth, aspectRatio: aspect ? String(aspect) : undefined, borderRadius: `${num(block.radius, 12)}px` }}
+    {...attrs}
+  >
+    <video
+      src={src}
+      poster={poster}
+      autoplay={autoplay}
+      muted
+      loop
+      playsinline
+      controls={!autoplay}
+      preload={autoplay ? "auto" : "metadata"}
+      data-pb-video={autoplay ? "" : undefined}
+      style={{ objectFit: aspect ? (str(block.objectFit, "cover") as "cover") : undefined, objectPosition: focalPoint(block.poster as BuilderImage | undefined) }}
+    ></video>
+  </figure>
+)}

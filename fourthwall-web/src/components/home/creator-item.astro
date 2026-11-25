@@ -1,8 +1,8 @@
 ---
-const { creator } = Astro.props;
+const { creator, attrs } = Astro.props;
 ---
 
-<div class="creator-item flex items-center gap-[clamp(24px,11.7px+15.444px,33.6px)] shrink-0 cursor-auto text-inherit max-w-full">
+<div {...attrs} class="creator-item flex items-center gap-[clamp(24px,11.7px+15.444px,33.6px)] shrink-0 cursor-auto text-inherit max-w-full">
   <span class="creator-blob bg-paper-soft relative overflow-hidden shrink-0 size-[clamp(80px,39px+2.86vw,112px)] rounded-[clamp(20px,9.75px+.715vw,28px)]">
     <img
       src={creator.avatarUrl}

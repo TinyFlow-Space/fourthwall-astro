@@ -1,0 +1,135 @@
+/* Canvas tools (Presentation preview only). Sits above Sanity's overlays. */
+.fw-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  font: 500 13px/1.2 system-ui, -apple-system, sans-serif;
+}
+.fw-canvas > * {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+}
+.fw-canvas [hidden] {
+  display: none !important;
+}
+.fw-canvas button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.fw-canvas-grip,
+.fw-canvas-plus,
+.fw-canvas-empty {
+  display: grid;
+  place-items: center;
+  background: #556bfc;
+  color: #fff;
+  box-shadow: 0 2px 8px #0003;
+}
+.fw-canvas-grip {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  font-size: 15px;
+  cursor: grab !important;
+  touch-action: none;
+}
+.fw-canvas-plus {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform 0.12s;
+}
+.fw-canvas-plus:hover,
+.fw-canvas-empty:hover {
+  transform-origin: center;
+  filter: brightness(1.1);
+}
+.fw-canvas-empty {
+  width: 80px;
+  height: 32px;
+  border-radius: 999px;
+}
+.fw-canvas-line {
+  background: #556bfc;
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px #556bfc40;
+  pointer-events: none !important;
+}
+.fw-canvas-ghost {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #0a0a0a;
+  color: #fff;
+  pointer-events: none !important;
+  white-space: nowrap;
+}
+.fw-canvas-menu {
+  display: grid;
+  gap: 2px;
+  width: max-content;
+  min-width: 210px;
+  max-width: min(320px, calc(100vw - 16px));
+  max-height: min(440px, calc(100vh - 16px));
+  overflow: auto;
+  padding: 6px;
+  border-radius: 10px;
+  background: #fff;
+  color: #0a0a0a;
+  box-shadow: 0 8px 28px #0003, 0 0 0 1px #0000000f;
+}
+.fw-canvas-option {
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.fw-canvas-option:hover,
+.fw-canvas-option:focus-visible {
+  background: #556bfc1a;
+  outline: none;
+}
+.fw-canvas-toast {
+  top: auto !important;
+  bottom: 20px;
+  left: 50% !important;
+  translate: -50% 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #0a0a0a;
+  color: #fff;
+}
+.fw-canvas-dragging {
+  opacity: 0.35;
+}
+.fw-canvas-busy,
+.fw-canvas-busy * {
+  cursor: grabbing !important;
+  user-select: none !important;
+}
+/* Hold animated lists still while editing so items can be grabbed. */
+html[data-fw-editing] [data-fw-slot] {
+  animation-play-state: paused !important;
+}
+.fw-canvas-option {
+  white-space: nowrap;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.fw-canvas-option small {
+  color: #6e6e68;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.fw-canvas-option:disabled {
+  cursor: default;
+  opacity: 0.5;
+}

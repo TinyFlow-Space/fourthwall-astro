@@ -1,0 +1,17 @@
+---
+import { alignClass, num, space, str, type Block } from "@/lib/builder";
+import RichText from "../rich-text.astro";
+interface Props { block: Block; attrs?: Record<string, string | undefined> }
+const { block, attrs } = Astro.props;
+const level = /^h[1-6]$/.test(str(block.level)) ? str(block.level) : "h2";
+const Tag = level as "h2";
+const maxWidth = typeof block.maxWidth === "number" ? `${num(block.maxWidth, 30)}ch` : undefined;
+---
+
+<Tag
+  class:list={["pb-heading", `pb-heading-${str(block.size, "xl")}`, `pb-weight-${str(block.weight, "regular")}`, `pb-color-${str(block.color, "default")}`, alignClass(block.align)]}
+  style={{ maxWidth, marginBottom: space(block.marginBottom) }}
+  {...attrs}
+>
+  <RichText value={block.text} inline />
+</Tag>
